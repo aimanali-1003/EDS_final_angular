@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClientPopupComponent } from './client-popup.component';
+import { TableDataComponent } from './table-data.component';
 
-describe('ClientPopupComponent', () => {
-  let component: ClientPopupComponent;
-  let fixture: ComponentFixture<ClientPopupComponent>;
+describe('TableDataComponent', () => {
+  let component: TableDataComponent;
+  let fixture: ComponentFixture<TableDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ClientPopupComponent ]
+      declarations: [ TableDataComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ClientPopupComponent);
+    fixture = TestBed.createComponent(TableDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

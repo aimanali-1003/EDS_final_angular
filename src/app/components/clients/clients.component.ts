@@ -3,7 +3,9 @@ import { ClientService } from 'src/app/services/client.service';
 import { Router } from '@angular/router';
 import { ClientDialogService } from 'src/app/services/client-dialog.service';
 import { SharedService } from 'src/service/shared.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { PopupComponent } from '../popup/popup.component';
+import { CLIENT } from '../constants/table-headers.constants';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -21,19 +23,71 @@ export class ClientsComponent implements OnInit {
   selectedClient: any = {};
   dataRecipients: any[] = [];
   notificationRecipients: any[] = [];
+  headers = CLIENT;
 
   
 
   constructor(
     private clientService: ClientService,
     private router: Router,
-    private clientDialogService: ClientDialogService,
-    private sharedService: SharedService
+    private clientDialogService : ClientDialogService,
+    private sharedService: SharedService,
+    private dialog: MatDialog
   ) { }
+
+  openClientPopup(client?: any): void {
+    const isEditing = !!client; // Check if you are editing an existing client
+
+    const dialogRef = this.dialog.open(PopupComponent, {
+      data: {
+        title: isEditing ? 'Edits Client' : 'Create New Client',
+        content: isEditing ? 'Update the client details:' : 'Enter client details:',
+        inputPlaceholder: 'Client Name',
+        cancelText: 'Cancel',
+        createText: isEditing ? 'Update' : 'Create', // Use different labels for create and update
+        updateText: isEditing ? 'Update' : 'Create',
+        isUpdate: isEditing, // Set to true for editing, false for creating
+        input: isEditing ? client.ClientName : '', // Initialize with client name if editing
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        if (isEditing) {
+          // Handle the update operation here
+          this.updateClient(client, result);
+        } else {
+          // Handle the create operation here
+          this.createNewClient(result);
+        }
+      }
+    });
+  }
+
+  updateClient(client: any, updatedValue: string): void {
+    // Implement your updateClient logic here
+  }
+
+  createNewClient(clientName: string): void {
+    // Implement your createNewClient logic here
+  }
+
   
 
   ngOnInit(): void {
     this.fetchClients();
+    // this.clientService.getClients().subscribe((data: any[]) => {
+    //   Format the API response data into the required array of arrays format
+    //   this.displayedClients = data.map((client) => [
+    //     client.ClientName,
+    //     client.id,
+    //     client.CreatedAt,
+    //     client.CreatedBy,
+    //     client.UpdatedAt,
+    //     client.UpdatedBy,
+    //     client.Active,
+    //   ]);
+    // });
   }
 
   private updateDisplayedClients(pageNumber: number) {
@@ -62,23 +116,23 @@ export class ClientsComponent implements OnInit {
   }
    
 
-  createClient() {
-    this.isEditing = false;
-    this.clientIdToEdit = null;
-    this.clientName = '';
-    this.showClientForm = true;
+  // createClient() {
+  //   this.isEditing = false;
+  //   this.clientIdToEdit = null;
+  //   this.clientName = '';
+  //   this.showClientForm = true;
 
-    // Open the create client popup
-    this.clientDialogService.openCreateClientPopup().subscribe(newClientName => {
-      if (newClientName) {
-        this.clientName = newClientName;
-        this.saveClient(); // Save the new client
-      } else {
-        this.showClientForm = false;
-      }
-    });
-    this.sharedService.createClient(); 
-  }
+  //   // Open the create client popup
+  //   this.clientDialogService.openCreateClientPopup().subscribe(newClientName => {
+  //     if (newClientName) {
+  //       this.clientName = newClientName;
+  //       this.saveClient(); // Save the new client
+  //     } else {
+  //       this.showClientForm = false;
+  //     }
+  //   });
+  //   this.sharedService.createClient(); 
+  // }
   
 
   onPageChange(pageNumber: number) {
@@ -100,17 +154,24 @@ export class ClientsComponent implements OnInit {
   
 
   editClient(client: any) {
-    this.isEditing = true;
-    this.clientIdToEdit = client.id;
-    this.clientName = client.name;
+    const dialogRef = this.dialog.open(PopupComponent, {
+      data: {
+        title: 'Edits Client',
+        content: 'Update the client details:',
+        inputPlaceholder: 'Client Name',
+        cancelText: 'Cancel',
+        createText: 'Update', // Use 'Update' for editing
+        updateText: 'Update', // Use 'Update' for editing
+        isUpdate: true, // Set to true for editing
+        input: client.name, // Initialize with client name for editing
+      },
+    });
 
-    // Open the edit client popup
-    this.clientDialogService.openEditClientPopup(this.clientName).subscribe(updatedClientName => {
+    dialogRef.afterClosed().subscribe((updatedClientName) => {
       if (updatedClientName) {
-        this.clientName = updatedClientName;
-        this.saveClient(); // Save the updated client
-      } else {
-        this.showClientForm = false;
+        // Handle the client update here (you may need to update your data structure)
+        client.name = updatedClientName;
+        // You can then save the updated client or perform other actions as needed.
       }
     });
   }

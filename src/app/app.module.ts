@@ -16,7 +16,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button'; // Import Material button module
 import { MatDialogModule } from '@angular/material/dialog';
-import { ClientPopupComponent } from './components/client-popup/client-popup.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,18 +30,23 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatOptionModule } from '@angular/material/core';
 import { OrgManagementComponent } from './org-management/org-management.component';
+import { PopupComponent } from './components/popup/popup.component';
+import { TableHeaderComponent } from './components/table-header/table-header.component';
+import { TableDataComponent } from './components/table-data/table-data.component';
 @NgModule({
   declarations: [
     AppComponent,
     TemplateListComponent,
     DataTemplateComponent,
     ClientsComponent,
-    ClientPopupComponent,
     NavbarComponent,
     PaginationComponent,
     FilterComponent,
     JobComponent,
     OrgManagementComponent,
+    PopupComponent,
+    TableHeaderComponent,
+    TableDataComponent,
   ],
   imports: [
     BrowserModule,
