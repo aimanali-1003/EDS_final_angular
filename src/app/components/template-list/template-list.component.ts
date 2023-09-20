@@ -1,6 +1,6 @@
 // template-list.component.ts
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-template-list',

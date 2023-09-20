@@ -3,7 +3,9 @@
     <mat-nav-list>
       <mat-list-item>
         <mat-icon>dashboard</mat-icon>
-        <a matLine routerLink="/clients">Clients</a>
+        <a matLine routerLink="/clients">
+          Clients 
+        </a>
       </mat-list-item>
       <mat-list-item>
         <mat-icon>person</mat-icon>
@@ -20,14 +22,17 @@
       <button mat-icon-button (click)="toggleSidebar()">
         <mat-icon>{{ isSidebarOpen ? 'chevron_left' : 'chevron_right' }}</mat-icon>
       </button>
-      <span>Entegra Data Staging</span>
+      <span class="toolbar-content">
+        {{ pageTitle }}
+        <button mat-icon-button *ngIf="isClientsPage()"  class="add-button">
+          <mat-icon class="add-icon">add</mat-icon>
+        </button>
+      </span>
     </mat-toolbar>
+    
+    
+    
     <!-- Your main content goes here -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-
-
-
-

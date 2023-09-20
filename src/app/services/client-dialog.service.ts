@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { ClientPopupComponent } from './client-popup/client-popup.component';
+import { ClientPopupComponent } from '../components/client-popup/client-popup.component';
 
 @Injectable({
   providedIn: 'root',

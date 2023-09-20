@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LoggingService } from '../logging.service'; // Import your logging service
-import { JobLog } from '../model/job-log.model';
+import { LoggingService } from 'src/app/services/logging.service';
+import { JobLog } from 'src/app/model/job-log.model';
 
 @Component({
   selector: 'app-job-log',

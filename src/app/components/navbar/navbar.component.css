@@ -34,3 +34,18 @@ mat-icon {
   color: #333; /* Change to your desired text color */
 }
 
+.toolbar-content {
+  display: flex;
+  align-items: center;
+}
+
+.add-button {
+  margin-left: 116px; /* Adjust the margin as needed for spacing */
+  border-radius: 10px;
+  background-color: aliceblue;
+
+}
+ 
+
+
+

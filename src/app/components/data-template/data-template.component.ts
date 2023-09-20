@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service'; // Import your data service
+import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router'; // Import Router for navigation
-import { DataTemplate } from '../model/data-template.model';
+import { DataTemplate } from 'src/app/model/data-template.model';
 @Component({
   selector: 'app-data-template',
   templateUrl: './data-template.component.html',

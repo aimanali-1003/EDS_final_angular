@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ClientService } from '../client.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { ClientService } from 'src/app/services/client.service';
 import { Router } from '@angular/router';
-import { ClientDialogService } from '../client-dialog.service';
+import { ClientDialogService } from 'src/app/services/client-dialog.service';
+import { SharedService } from 'src/service/shared.service';
 
 @Component({
   selector: 'app-clients',
@@ -9,9 +10,9 @@ import { ClientDialogService } from '../client-dialog.service';
   styleUrls: ['./clients.component.css']
 })
 export class ClientsComponent implements OnInit {
+  showClientForm: boolean = false;
   clients: any[] = [];
-  displayedClients: any[] = [];
-  showClientForm = false;
+  displayedClients: any[] = []; 
   isEditing = false;
   clientIdToEdit: string | null = null;
   clientName: string = '';
@@ -21,10 +22,13 @@ export class ClientsComponent implements OnInit {
   dataRecipients: any[] = [];
   notificationRecipients: any[] = [];
 
+  
+
   constructor(
     private clientService: ClientService,
     private router: Router,
-    private clientDialogService: ClientDialogService
+    private clientDialogService: ClientDialogService,
+    private sharedService: SharedService
   ) { }
   
 
@@ -52,20 +56,29 @@ export class ClientsComponent implements OnInit {
       );
     } else {
       // Handle the case when the "Clear Search" button is clicked
-      this.searchTerm = ''; // Clear the search term
-      
-      // Trigger your search logic with an empty searchTerm or reset the displayedClients
+      this.searchTerm = ''; // Clear the search term 
     }
     
   }
-  
-  // onSearchChange() {
-  //   const searchTerm = this.searchTerm.toLowerCase();
-  //   //const searchTerm = event.target.value;
-    
-  // }
+   
 
-  
+  createClient() {
+    this.isEditing = false;
+    this.clientIdToEdit = null;
+    this.clientName = '';
+    this.showClientForm = true;
+
+    // Open the create client popup
+    this.clientDialogService.openCreateClientPopup().subscribe(newClientName => {
+      if (newClientName) {
+        this.clientName = newClientName;
+        this.saveClient(); // Save the new client
+      } else {
+        this.showClientForm = false;
+      }
+    });
+    this.sharedService.createClient(); 
+  }
   
 
   onPageChange(pageNumber: number) {
@@ -84,22 +97,7 @@ export class ClientsComponent implements OnInit {
     });
   }
 
-  createNewClient() {
-    this.isEditing = false;
-    this.clientIdToEdit = null;
-    this.clientName = '';
-    this.showClientForm = true;
-
-    // Open the create client popup
-    this.clientDialogService.openCreateClientPopup().subscribe(newClientName => {
-      if (newClientName) {
-        this.clientName = newClientName;
-        this.saveClient(); // Save the new client
-      } else {
-        this.showClientForm = false;
-      }
-    });
-  }
+  
 
   editClient(client: any) {
     this.isEditing = true;
@@ -145,3 +143,4 @@ export class ClientsComponent implements OnInit {
 
   
 }
+ 
