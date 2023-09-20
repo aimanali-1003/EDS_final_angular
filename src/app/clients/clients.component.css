@@ -22,7 +22,7 @@
   }
   
   .title-container button:hover {
-    background-color: #0056b3; /* Darker blue background color on hover */
+    background-color: #ebe6df; /* Darker blue background color on hover */
   }
   
   .client-table {
@@ -47,7 +47,7 @@
   }
   
   .client-item:hover {
-    background-color: cornflowerblue; /* Light orange color on hover */
+    background-color: #ebe6df; /* Light orange color on hover */
   }
   
   .action-cell {

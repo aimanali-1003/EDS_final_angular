@@ -9,21 +9,24 @@ import { MatSidenav } from '@angular/material/sidenav';
 export class NavbarComponent implements OnInit {
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
-  isSidebarOpen = true;
+  isExpanded = true;
+  showSubmenu: boolean = false;
+  isShowing = false;
+  showSubSubMenu: boolean = false;
 
-  toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
-    this.sidenav.toggle();
+  mouseenter() {
+    if (!this.isExpanded) {
+      this.isShowing = true;
+    }
   }
 
-  ngAfterViewInit() {
-    // This method will be called after the view is initialized.
-    // You can access and manipulate the DOM or child components here.
-    // For example, you can use this.sidenav to access the MatSidenav instance.
+  mouseleave() {
+    if (!this.isExpanded) {
+      this.isShowing = false;
+    }
   }
-  constructor() { }
 
-  ngOnInit(): void {
-  }
+   ngOnInit(): void {
+   }
 
 }

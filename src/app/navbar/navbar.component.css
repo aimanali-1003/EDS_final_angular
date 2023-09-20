@@ -1,36 +1,40 @@
-/* Add or update this CSS rule for the mat-toolbar and button */
-mat-toolbar {
-  position: relative;
+.example-container {
+
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
-button {
-  position: absolute;
-  left: 0;
+.example-toolbar{
+  background-color: #eb9e5b;
+  /* color: black; */
 }
 
-/* Additional styles for the toolbar title */
-span {
-  margin-left: 16px;
-  font-size: 20px;
-  font-weight: bold;
+.example-sidenav-content {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
-
-.sidenav {
-  width: 300px; /* Adjust the width as needed */
-  position: fixed;
+.example-sidenav {
+   user-select: none;
+   background-color: #ebe6df
 }
-
-/* Change the icon color */
-mat-icon {
-  color: #FF5733; /* Change to your desired color */
+.full-width {
+  width: 100%;
+  color: #5d5a58;
 }
-
-/* Change the font text */
-.mat-list-item-content a {
-  font-family: Arial, sans-serif; /* Change to your desired font */
-  font-size: 16px; /* Change to your desired font size */
-  font-weight: bold; /* Change to your desired font weight */
-  text-transform: uppercase; /* Change to your desired text transformation */
-  color: #333; /* Change to your desired text color */
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
 }
-
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: top;
+  padding-left: 30px;
+}
+.submenu.expanded {
+  transform: scaleY(1);
+}

@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { JobComponent } from './job/job.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatOptionModule } from '@angular/material/core'; // Make sure to import MatOptionModule as well
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,7 @@ import { MatListModule } from '@angular/material/list';
     NavbarComponent,
     PaginationComponent,
     FilterComponent,
-    JobComponent
+    JobComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +61,8 @@ import { MatListModule } from '@angular/material/list';
     MatTableModule,
     MatCardModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatOptionModule
   ],
   providers: [DataService, ClientService],
   bootstrap: [AppComponent]
