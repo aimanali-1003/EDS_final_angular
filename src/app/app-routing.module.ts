@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'job-logs', component: JobLogComponent, data: { title: 'Job Logs' } },
   { path: 'dataTemplate', component: DataTemplateComponent},
   { path: 'joblog', component: JobLogComponent },
-  // Add more routes as needed
+
+  // Add more routes as needed 
 ];
 
 @NgModule({

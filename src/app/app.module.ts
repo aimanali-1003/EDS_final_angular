@@ -28,7 +28,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { JobComponent } from './components/job/job.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';  
+import { MatListModule } from '@angular/material/list';
+import { MatOptionModule } from '@angular/material/core';
+import { OrgManagementComponent } from './org-management/org-management.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +41,8 @@ import { MatListModule } from '@angular/material/list';
     NavbarComponent,
     PaginationComponent,
     FilterComponent,
-    JobComponent
+    JobComponent,
+    OrgManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { MatListModule } from '@angular/material/list';
     MatTableModule,
     MatCardModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatOptionModule
   ],
   providers: [DataService, ClientService],
   bootstrap: [AppComponent]
