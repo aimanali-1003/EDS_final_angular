@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientsComponent } from './clients/clients.component';
 import { JobComponent } from './job/job.component';
 import { JobLogComponent } from './job-log/job-log.component';
-import { DataTemplateComponent } from './data-template/data-template.component';
+import { DataTemplateComponent } from './data-template/data-template.component'; 
 
 const routes: Routes = [
   { path: '', redirectTo: '/clients', pathMatch: 'full' }, // Default route
@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'job-logs', component: JobLogComponent },
   { path: 'dataTemplate', component: DataTemplateComponent},
   { path: 'joblog', component: JobLogComponent },
-  // Add more routes as needed
+
+  // Add more routes as needed 
 ];
 
 @NgModule({

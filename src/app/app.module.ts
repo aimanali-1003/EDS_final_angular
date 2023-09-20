@@ -29,7 +29,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { JobComponent } from './job/job.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { MatOptionModule } from '@angular/material/core'; // Make sure to import MatOptionModule as well
+import { MatOptionModule } from '@angular/material/core';
+import { OrgManagementComponent } from './org-management/org-management.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +42,7 @@ import { MatOptionModule } from '@angular/material/core'; // Make sure to import
     PaginationComponent,
     FilterComponent,
     JobComponent,
+    OrgManagementComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,38 @@
+/* src/app/org-management/org-management.component.css */
+.custom-header {
+    color: orange;
+  }
+  
+  .custom-label {
+    color: grey;
+  }
+  
+  .custom-input {
+    border: 1px solid grey;
+  }
+  
+  .custom-btn {
+    color: white;
+  }
+  
+  .custom-btn-create {
+    background-color: orange;
+  }
+  
+  .custom-btn-update {
+    background-color: black;
+  }
+  
+  .custom-btn-delete {
+    background-color: grey;
+  }
+  
+  .custom-table {
+    border: 1px solid grey;
+  }
+  
+  .custom-table-header {
+    background-color: grey;
+    color: white;
+  }
+  
