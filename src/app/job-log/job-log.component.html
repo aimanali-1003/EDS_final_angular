@@ -1,0 +1,26 @@
+<div class="job-log">
+    <h2>Job Log Management</h2>
+  
+    <!-- Display a list of job logs -->
+    <ul>
+      <li *ngFor="let log of jobLogs">
+        <p>Job ID: {{ log.jobId }}</p>
+        <p>Status: {{ log.status }}</p>
+        <p>Run Date/Time: {{ log.runDateTime }}</p>
+      </li>
+    </ul>
+  </div>
+  <!-- job-log.component.html -->
+<div class="job-logs">
+  <h2>Completed Job Logs</h2>
+  <ul>
+    <li *ngFor="let log of completedJobLogs">{{ log.description }}</li>
+  </ul>
+
+  <h2>Ongoing Job Logs</h2>
+  <ul>
+    <li *ngFor="let log of ongoingJobLogs">{{ log.description }}</li>
+  </ul>
+</div>
+
+  

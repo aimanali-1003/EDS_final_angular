@@ -1,0 +1,86 @@
+ 
+  <div class="clients">
+    <div class="title-container">
+    <h2 class="title">Clients Management</h2>
+    <button mat-raised-button color="primary" class="create-button" (click)="createNewClient()">Create New Client</button>
+</div>
+
+<mat-form-field class="search-box">
+  <mat-label>Search</mat-label>
+  <input
+    matInput
+    type="text"
+    id="searchInput"
+    name="searchInput"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchChange($event)"
+    placeholder="Search"
+  >
+  
+  <button matSuffix mat-button>
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>
+    
+    <!-- Table for displaying clients -->
+    <table class="client-table">
+      <thead>
+        <tr>
+          <th>Client Name</th>
+          <th>ID</th>
+          <th>Created At</th>
+          <th>Created By</th>
+          <th>Updated At</th>
+          <th>Updated By</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of displayedClients" class="client-item">
+          <td>{{ client.ClientName }}</td>
+          <td>{{ client.id }}</td>
+          <td>{{ client.CreatedAt | date:'medium' }}</td>
+          <td>{{ client.CreatedBy }}</td>
+          <td>{{ client.UpdatedAt | date:'medium' }}</td>
+          <td>{{ client.UpdatedBy }}</td>
+          <td>{{ client.Active ? 'Yes' : 'No' }}</td>
+          <td class="action-cell">
+            <button mat-icon-button color="primary" (click)="editClient(client)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteClient(client)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Form for creating/editing a client -->
+    <div *ngIf="showClientForm" class="client-form">
+      <h3>{{ isEditing ? 'Edit Client' : 'Create New Client' }}</h3>
+      <form (ngSubmit)="saveClient()">
+        <mat-form-field class="full-width">
+          <input matInput id="clientName" name="clientName" placeholder="Client Name" [(ngModel)]="clientName" required>
+        </mat-form-field>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create' }}</button>
+          <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
+        </div>
+      </form>
+    </div>
+    <app-pagination
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    [pageSize]="pageSize"
+    [length]="clients.length"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination>
+  </div>
+
+
+
+
+  
+  
+  
+  

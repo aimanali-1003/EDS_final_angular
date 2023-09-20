@@ -1,0 +1,73 @@
+  <div class="data-template">
+    <h2>Data Template Management</h2>
+  
+    <!-- Display a list of data templates using a Material UI table -->
+    <table mat-table [dataSource]="dataTemplates">
+      <!-- Define the columns -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let template">{{ template.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let template">
+          <button mat-icon-button color="primary" (click)="editTemplate(template)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteTemplate(template)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <!-- Define the table rows -->
+      <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name', 'actions']"></tr>
+    </table>
+  
+    <!-- Add a button to create a new data template -->
+    <button mat-raised-button color="primary" (click)="createNewTemplate()">Create New Template</button>
+  
+    <!-- Form for creating or editing data templates (optional) -->
+    <div class="template-form" *ngIf="showForm">
+      <h3>{{ editingTemplate ? 'Edit Template' : 'Create New Template' }}</h3>
+      <form (ngSubmit)="saveTemplate()">
+        <mat-form-field>
+          <input matInput id="templateName" name="name" placeholder="Name" [(ngModel)]="templateData.name" required>
+        </mat-form-field>
+        <!-- Add more form fields for template properties (e.g., columns) as needed -->
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">{{ editingTemplate ? 'Save' : 'Create' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- data-templates.component.html -->
+  <div class="data-templates">
+    <h2>Data Templates Management</h2>
+  
+    <!-- Data Templates Form -->
+    <form (ngSubmit)="saveTemplate()">
+      <mat-form-field>
+        <label for="templateName">Template Name:</label>
+        <input matInput type="text" id="templateName" name="templateName" [(ngModel)]="template.name" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <label for="category">Category:</label>
+        <input matInput type="text" id="category" name="category" [(ngModel)]="template.category" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <label for="columns">Columns:</label>
+        <mat-select id="columns" name="columns" [(ngModel)]="selectedColumns" multiple>
+          <mat-option *ngFor="let column of availableColumns" [value]="column">{{ column }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <button mat-raised-button type="submit">Save Template</button>
+    </form>
+  </div>
+  
+  
+   

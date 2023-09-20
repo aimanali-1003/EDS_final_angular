@@ -1,0 +1,14 @@
+/* Add this to your component's CSS or global CSS file */
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .spacer {
+    flex-grow: 1;
+    /* This pushes the close button to the right */
+  }
+
+  
+  

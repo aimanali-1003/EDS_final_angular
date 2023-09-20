@@ -1,0 +1,36 @@
+/* Add or update this CSS rule for the mat-toolbar and button */
+mat-toolbar {
+  position: relative;
+}
+
+button {
+  position: absolute;
+  left: 0;
+}
+
+/* Additional styles for the toolbar title */
+span {
+  margin-left: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.sidenav {
+  width: 300px; /* Adjust the width as needed */
+  position: fixed;
+}
+
+/* Change the icon color */
+mat-icon {
+  color: #FF5733; /* Change to your desired color */
+}
+
+/* Change the font text */
+.mat-list-item-content a {
+  font-family: Arial, sans-serif; /* Change to your desired font */
+  font-size: 16px; /* Change to your desired font size */
+  font-weight: bold; /* Change to your desired font weight */
+  text-transform: uppercase; /* Change to your desired text transformation */
+  color: #333; /* Change to your desired text color */
+}
+

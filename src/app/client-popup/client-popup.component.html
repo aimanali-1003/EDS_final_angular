@@ -1,0 +1,22 @@
+
+<mat-dialog-content class="custom-dialog-content">
+    <div class="dialog-header">
+      <h2>{{ data.title }}</h2>
+      <div class="spacer"></div>
+      <button mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <p>{{ data.content }}</p>
+    <mat-form-field>
+      <input matInput [(ngModel)]="data.input" placeholder="Enter your input">
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="closeDialog()">Close</button>
+    <button mat-button [mat-dialog-close]="data.input" color="primary">Save</button>
+  </mat-dialog-actions>
+  
+  
+
+  
