@@ -1,32 +1,28 @@
 <!-- client.component.html -->
 <div class="clients">
   <div class="title-container">
-    <h2 class="title">Clients Management</h2>
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Clients Management</h2>
+
   </div>
-  
+
   <!-- Button to open the generic popup -->
   <button mat-button (click)="openClientPopup()">Open Client Popup</button>
 
-  <mat-form-field class="search-box">
-    <mat-label>Search</mat-label>
-    <input
-      matInput
-      type="text"
-      id="searchInput"
-      name="searchInput"
-      [(ngModel)]="searchTerm"
-      (input)="onSearchChange($event)"
-      placeholder="Search"
-    >
-    <button matSuffix mat-button>
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
+  <!-- Add the filter icon -->
+<div class="form-outline search-box mb-4">
+  <input type="search" class="form-control" id="datatable-search-input" style="height: 50px; border-radius: 30px;" placeholder="Search Clients by Name ID & Status">
+  <!-- <button mat-button class="filter-icon" >
+    <mat-icon>filter_list</mat-icon>
+  </button> -->
+  <app-client-filter></app-client-filter>
+</div>
+
+  
 
   <!-- Table for displaying clients -->
 
-  
-  <table class="client-table">
+
+  <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
     <!-- <app-table-header [headers]="headers"></app-table-header> -->
     <thead>
       <tr>
@@ -36,13 +32,13 @@
         <th>Created By</th>
         <th>Updated At</th>
         <th>Updated By</th>
-        <th>Active</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <!-- clients.component.html -->
-<!-- <app-table-data [rowData]="displayedClients"></app-table-data> -->
+      <!-- <app-table-data [rowData]="displayedClients"></app-table-data> -->
 
       <tr *ngFor="let client of displayedClients" class="client-item">
         <td>{{ client.ClientName }}</td>
@@ -51,16 +47,24 @@
         <td>{{ client.CreatedBy }}</td>
         <td>{{ client.UpdatedAt | date:'medium' }}</td>
         <td>{{ client.UpdatedBy }}</td>
-        <td>{{ client.Active ? 'Yes' : 'No' }}</td>
+        <td [style.color]="client.Active ? '#4cf0a1;' : 'red'">
+          <ng-container *ngIf="client.Active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+          <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
+        </td>
+        
         <td class="action-cell">
-          <button mat-icon-button color="primary" (click)="editClient(client)">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="editClient(client)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="deleteClient(client)">
+          <button mat-icon-button [style.color]="'#D84315'" (click)="deleteClient(client)">
             <mat-icon>delete</mat-icon>
           </button>
+          
         </td>
+        
       </tr>
+      
+
     </tbody>
   </table>
 
@@ -72,16 +76,13 @@
         <input matInput id="clientName" name="clientName" placeholder="Client Name" [(ngModel)]="clientName" required>
       </mat-form-field>
       <div class="button-container">
-        <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create' }}</button>
+        <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
+          }}</button>
         <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
       </div>
     </form>
   </div>
 
-  <app-pagination
-    [pageSizeOptions]="[10, 25, 50, 100]"
-    [pageSize]="pageSize"
-    [length]="clients.length"
-    (pageChange)="onPageChange($event)"
-  ></app-pagination>
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="clients.length"
+    (pageChange)="onPageChange($event)"></app-pagination>
 </div>

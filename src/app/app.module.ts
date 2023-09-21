@@ -33,6 +33,7 @@ import { OrgManagementComponent } from './org-management/org-management.componen
 import { PopupComponent } from './components/popup/popup.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { TableDataComponent } from './components/table-data/table-data.component';
+import { ClientFilterComponent } from './components/client-filter/client-filter.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import { TableDataComponent } from './components/table-data/table-data.component
     PopupComponent,
     TableHeaderComponent,
     TableDataComponent,
+    ClientFilterComponent,
   ],
   imports: [
     BrowserModule,
