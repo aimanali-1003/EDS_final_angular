@@ -43,6 +43,7 @@
   .client-table th {
     background-color: #f2f2f2;
   }
+
   
   .client-item {
     transition: background-color 0.3s; /* Add a smooth transition effect */
@@ -58,17 +59,46 @@
   
   /* Rest of your styles */
 
-.title-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  /* Styles for the title container */
+
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+/* Styles for the title */
+.title {
+  font-size: 20.667px;
+  font-weight: bold;
+  font-family: 'Quicksand', sans-serif;
+  margin: 0; /* Remove default margin */
 }
 
-.title {
-  font-size: 24px;
-  margin: 0;
+.title-container .create-button-container .custom-button{
+  margin: 0px;
 }
+
+.create-button-container {
+  /* Optional: Add some margin to separate the button from the title */
+  margin-right: 10px; /* Adjust as needed */
+  display: flex;
+  /* Push the button to the right */
+  align-items: center;
+}
+
+/* Styles for the custom button */
+.custom-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
 
 .title-container button {
   margin-right: 70%;
@@ -175,4 +205,82 @@ mat-input {
   font-weight: bold;
   padding: 5px;
   font-size: 14px;
+}
+
+.created-info-cell {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+/* Style the creation date */
+.created-at {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px; /* Add spacing as needed */
+}
+
+/* Style the "Created By" label */
+.created-by-label {
+  color: #999; /* Light grey color for the label */
+  font-size: 12px;
+  text-align: right;
+}
+
+/* Style the creator's name */
+.created-by-cell {
+  font-size: 16px; /* Adjust font size as needed */
+  font-weight: bold;
+  text-align: right;
+}
+
+.search-input {
+  flex-grow: 1;
+  font-size: 16px;
+  outline: none;
+  color: #333; /* Text color */
+}
+
+.created-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-input::placeholder {
+  color: #999; /* Light grey color for the placeholder text */
+}
+
+.created-by-cell {
+  color: #999; /* Light grey color */
+  font-size: 14px; /* Adjust font size as needed */
+}
+
+/* Style the filter button */
+.filter-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  outline: none;
+}
+
+/* Add a hover effect to the search box container */
+
+.updated-at {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px; /* Add spacing as needed */
+}
+
+/* Style the "Updated By" label */
+.updated-by-label {
+  color: #999; /* Light grey color for the label */
+  font-size: 12px;
+}
+
+/* Style the "Updated By" name */
+.updated-by-cell {
+  color: #999; /* Light grey color */
+  font-size: 14px; /* Adjust font size as needed */
+  font-weight: bold;
 }

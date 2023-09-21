@@ -5,7 +5,9 @@ import { ClientDialogService } from 'src/app/services/client-dialog.service';
 import { SharedService } from 'src/service/shared.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component';
+import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { CLIENT } from '../constants/table-headers.constants';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -30,8 +32,35 @@ export class ClientsComponent implements OnInit {
     private router: Router,
     private clientDialogService : ClientDialogService,
     private sharedService: SharedService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) { }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent,{
+      data:{
+        message: 'Are you sure want to delete?',
+        buttonText: {
+          ok: 'Save',
+          cancel: 'No'
+        }
+      }
+    });
+    const snack = this.snackBar.open('Snack bar open before dialog');
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        snack.dismiss();
+        const a = document.createElement('a');
+        a.click();
+        a.remove();
+        snack.dismiss();
+        this.snackBar.open('Closing snack bar in a few seconds', 'Fechar', {
+          duration: 2000,
+        });
+      }
+    });
+  }
   
 
   openClientPopup(client?: any): void {

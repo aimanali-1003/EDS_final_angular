@@ -34,7 +34,8 @@ import { PopupComponent } from './components/popup/popup.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { TableDataComponent } from './components/table-data/table-data.component';
 import { ClientFilterComponent } from './components/client-filter/client-filter.component';
-
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ClientFilterComponent } from './components/client-filter/client-filter.
     TableHeaderComponent,
     TableDataComponent,
     ClientFilterComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,7 +74,8 @@ import { ClientFilterComponent } from './components/client-filter/client-filter.
     MatCardModule,
     MatSidenavModule,
     MatListModule,
-    MatOptionModule
+    MatOptionModule,
+    MatSnackBarModule
   ],
   providers: [DataService, ClientService],
   bootstrap: [AppComponent]

@@ -49,3 +49,22 @@
 .flexible-space {
   flex: 1; /* This makes the space flexible and pushes icons to the right */
 }
+
+.avatar-username-container {
+  display: flex;
+  align-items: center;
+  margin-right: 16px; /* Adjust the margin as needed for spacing */
+}
+
+/* Style the avatar button */
+.avatar-username-container button.mat-icon-button {
+  margin-right: 8px; /* Adjust the margin as needed for spacing */
+}
+
+/* Style the username */
+.username {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 20px; /* Adjust the font size as needed */
+  color: white; /* Set the color as needed */
+}

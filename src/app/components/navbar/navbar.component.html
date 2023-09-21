@@ -1,6 +1,10 @@
 <mat-toolbar color="primary" class="example-toolbar">
-	<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
-	<h1 class="example-app-name" style="font-family: 'Quicksand', sans-serif; font-weight:bold;">Entegra Data Staging</h1>
+	<button mat-icon-button (click)="isExpanded = !isExpanded">
+	  <mat-icon>menu</mat-icon>
+	</button>
+	<h1 class="example-app-name" style="font-family: 'Quicksand', sans-serif; font-weight:bold;">
+	  Entegra Data Staging
+	</h1>
   
 	<!-- This div creates a flexible space to push icons to the right -->
 	<div class="flexible-space"></div>
@@ -10,11 +14,15 @@
 	  <mat-icon>notifications</mat-icon>
 	</button>
   
-	<!-- Avatar -->
-	<button mat-icon-button>
-	  <mat-icon>account_circle</mat-icon>
-	</button>
+	<!-- Avatar and Username -->
+	<div class="avatar-username-container">
+	  <button mat-icon-button>
+		<mat-icon>account_circle</mat-icon>
+	  </button>
+	  <span class="username">John Doe</span>
+	</div>
   </mat-toolbar>
+  
   
 <mat-sidenav-container class="example-container" autosize>
 	<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">

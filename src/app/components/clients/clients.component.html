@@ -2,10 +2,13 @@
 <div class="clients">
   <div class="title-container">
     <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Clients Management</h2>
-    <button mat-fab class="custom-fab-button" (click)="openClientPopup()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="create-button-container">
+      <button class="custom-button" (click)="openClientPopup()">+ Create</button>
+    </div>
   </div>
+  <!-- <p>
+    <button mat-button (click)="openDialog()">Confirm Delete</button>
+  </p> -->
   
   
   
@@ -13,13 +16,11 @@
   <!-- <button mat-button (click)="openClientPopup()">Open Client Popup</button> -->
 
   <!-- Add the filter icon -->
-<div class="form-outline search-box mb-4">
-  <input type="search" class="form-control" id="datatable-search-input" style="height: 50px; border-radius: 30px;" placeholder="Search Clients by Name ID & Status">
-  <!-- <button mat-button class="filter-icon" >
-    <mat-icon>filter_list</mat-icon>
-  </button> -->
-  <app-client-filter></app-client-filter>
-</div>
+  <div class="form-outline search-box mb-4">
+    <input type="search" class="form-control search-input" id="datatable-search-input" placeholder="Search Clients by Name ID & Status">
+    <app-client-filter></app-client-filter>
+  </div>
+  
 
   
   <!-- <mat-form-field class="search-box">
@@ -41,52 +42,54 @@
   <!-- Table for displaying clients -->
 
 
+
   <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
-    <!-- <app-table-header [headers]="headers"></app-table-header> -->
+    
     <thead>
       <tr>
         <th>Client Name</th>
         <th>ID</th>
         <th>Created At</th>
-        <th>Created By</th>
         <th>Updated At</th>
-        <th>Updated By</th>
         <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <!-- clients.component.html -->
-      <!-- <app-table-data [rowData]="displayedClients"></app-table-data> -->
-
       <tr *ngFor="let client of displayedClients" class="client-item">
         <td>{{ client.ClientName }}</td>
         <td>{{ client.id }}</td>
-        <td>{{ client.CreatedAt | date:'medium' }}</td>
-        <td>{{ client.CreatedBy }}</td>
-        <td>{{ client.UpdatedAt | date:'medium' }}</td>
-        <td>{{ client.UpdatedBy }}</td>
+        <td class="created-info-cell">
+          <div class="created-at">{{ client.CreatedAt | date:'medium' }}</div>
+          <div class="created-by">
+            <span class="created-by-label">Created By: </span>
+            <span class="created-by-cell">{{ client.CreatedBy }}</span>
+          </div>
+        </td>
+        
+        <td class="updated-info-cell">
+          <div class="updated-at">{{ client.UpdatedAt | date:'medium' }}</div>
+          <div class="updated-by">
+            <span class="updated-by-label">Updated By:</span>
+            <span class="updated-by-cell">{{ client.UpdatedBy }}</span>
+          </div>
+        </td>
         <td [style.color]="client.Active ? '#4cf0a1;' : 'red'">
           <ng-container *ngIf="client.Active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
           <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
         </td>
-        
         <td class="action-cell">
           <button mat-icon-button [style.color]="'#0091EA'" (click)="editClient(client)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [style.color]="'#D84315'" (click)="deleteClient(client)">
+          <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
             <mat-icon>delete</mat-icon>
           </button>
-          
         </td>
-        
       </tr>
-      
-
     </tbody>
   </table>
-
+ 
   <!-- Form for creating/editing a client -->
   <div *ngIf="showClientForm" class="client-form">
     <h3>{{ isEditing ? 'Edit Client' : 'Create New Client' }}</h3>
