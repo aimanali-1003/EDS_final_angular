@@ -2,11 +2,15 @@
 <div class="clients">
   <div class="title-container">
     <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Clients Management</h2>
-
+    <button mat-fab class="custom-fab-button" (click)="openClientPopup()">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
-
+  
+  
+  
   <!-- Button to open the generic popup -->
-  <button mat-button (click)="openClientPopup()">Open Client Popup</button>
+  <!-- <button mat-button (click)="openClientPopup()">Open Client Popup</button> -->
 
   <!-- Add the filter icon -->
 <div class="form-outline search-box mb-4">
@@ -18,6 +22,21 @@
 </div>
 
   
+  <!-- <mat-form-field class="search-box">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      type="text"
+      id="searchInput"
+      name="searchInput"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange($event)"
+      placeholder="Search"
+    >
+    <button matSuffix mat-button>
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field> -->
 
   <!-- Table for displaying clients -->
 
