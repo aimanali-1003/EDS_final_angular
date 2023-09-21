@@ -2,9 +2,13 @@
 <div class="clients">
   <div class="title-container">
     <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Clients Management</h2>
-    <div class="create-button-container">
-      <button class="custom-button" (click)="openClientPopup()">+ Create</button>
+    <div class="form-outline search-box mb-4">
+      <!-- Button with "+" symbol and "Create" text -->
+      <button class="custom-button">
+        <span class="circle">+</span> Create
+      </button>
     </div>
+    
   </div>
   <!-- <p>
     <button mat-button (click)="openDialog()">Confirm Delete</button>
@@ -17,9 +21,12 @@
 
   <!-- Add the filter icon -->
   <div class="form-outline search-box mb-4">
+    <mat-icon class="search-icon">search</mat-icon>
     <input type="search" class="form-control search-input" id="datatable-search-input" placeholder="Search Clients by Name ID & Status">
     <app-client-filter></app-client-filter>
   </div>
+  
+  
   
 
   

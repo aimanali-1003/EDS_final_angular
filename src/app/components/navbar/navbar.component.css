@@ -20,15 +20,22 @@
    background-color: #ebe6df
 }
 .full-width {
-  width: 100%;
-  color: #5d5a58;
+    width: 100%;
+    color: #5d5a58;
+    font-size: 17px;
+    margin-top: 3.2px;
+  
 }
 .menu-button {
   transition: 300ms ease-in-out;
   transform: rotate(0deg);
+  padding: 3px 0 0 3px;
+  color: #676262;
 }
 .menu-button.rotated {
   transform: rotate(180deg);
+  padding: 0 6px 5px 0;
+  color: #676262;
 }
 .submenu {
   overflow-y: hidden;
@@ -67,4 +74,15 @@
   font-weight: bold;
   font-size: 20px; /* Adjust the font size as needed */
   color: white; /* Set the color as needed */
+}
+
+.mat-list-base .mat-list-item .mat-list-icon, .mat-list-base .mat-list-option .mat-list-icon {
+  flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    box-sizing: content-box;
+    border-radius: 50%;
+    padding: 12px;
+    color: #676262;
 }

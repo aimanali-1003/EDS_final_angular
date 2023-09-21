@@ -36,6 +36,7 @@ import { TableDataComponent } from './components/table-data/table-data.component
 import { ClientFilterComponent } from './components/client-filter/client-filter.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CategoryComponent } from './components/category/category.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TableDataComponent,
     ClientFilterComponent,
     DeleteDialogComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
