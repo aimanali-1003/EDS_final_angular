@@ -8,31 +8,52 @@
     </div>
   
     <div class="custom-dropdown" [ngClass]="{ 'open': isPopupVisible }">
-        <div class="popup-content">
-          <div class="popup-header">
-            <h2>Filter Options</h2>
-            <button class="close-button" (click)="togglePopup()">&times;</button>
+      <div class="popup-content">
+        <div class="popup-header">
+          <h2 style="font-weight: lighter;">Filter Options</h2>
+          <button class="close-button" (click)="togglePopup()">&times;</button>
+        </div>
+        <div class="filter-fields">
+          <h3>Filter by Fields</h3>
+          <div class="filter-row">
+            <mat-form-field class="filter-dropdown">
+              <mat-label>Client Name</mat-label>
+              <mat-select [(ngModel)]="selectedFields.ClientName">
+                <mat-option value="enabled">Enabled</mat-option>
+                <mat-option value="disabled">Disabled</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="filter-dropdown">
+              <mat-label>ID</mat-label>
+              <mat-select [(ngModel)]="selectedFields.id">
+                <mat-option value="enabled">Enabled</mat-option>
+                <mat-option value="disabled">Disabled</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-          <div class="filter-fields">
-            <h3>Filter by Fields</h3>
-            <div class="filter-row">
-              <mat-checkbox class="filter-checkbox" [(ngModel)]="selectedFields.ClientName">Client Name</mat-checkbox>
-              <mat-checkbox class="filter-checkbox" [(ngModel)]="selectedFields.id">ID</mat-checkbox>
-            </div>
-            <div class="filter-row">
-              <mat-checkbox class="filter-checkbox" [(ngModel)]="selectedFields.CreatedAt">Created At</mat-checkbox>
-              <mat-checkbox class="filter-checkbox" [(ngModel)]="selectedFields.CreatedBy">Created By</mat-checkbox>
-            </div>
-            <div class="filter-row">
-              <mat-checkbox class="filter-checkbox" [(ngModel)]="selectedFields.UpdatedAt">Updated At</mat-checkbox>
-              <mat-checkbox class="filter-checkbox" [(ngModel)]="selectedFields.UpdatedBy">Updated By</mat-checkbox>
-            </div>
-            <div class="filter-row">
-              <mat-checkbox class="filter-checkbox" [(ngModel)]="selectedFields.Status">Status</mat-checkbox>
-            </div>
+          <!-- Add other filter rows here -->
+          <div class="filter-row">
+            <mat-form-field class="filter-dropdown">
+              <mat-label>Status</mat-label>
+              <mat-select [(ngModel)]="selectedFields.Status">
+                <mat-option value="enabled">Enabled</mat-option>
+                <mat-option value="disabled">Disabled</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
+          <!-- Apply and Cancel Buttons -->
+          <div class="filter-buttons">
+            <button class="cancel-button" >
+                <span class="icon">&#10006;</span> Cancel
+              </button>
+            <button class="apply-button" >
+              <span class="icon">&#10004;</span> Apply
+            </button>
+            
+          </div>
+          
         </div>
       </div>
-      
+    </div>
   </div>
   

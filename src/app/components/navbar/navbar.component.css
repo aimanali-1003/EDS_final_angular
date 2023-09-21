@@ -38,3 +38,12 @@
 .submenu.expanded {
   transform: scaleY(1);
 }
+ 
+.example-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexible-space {
+  flex: 1; /* This makes the space flexible and pushes icons to the right */
+}

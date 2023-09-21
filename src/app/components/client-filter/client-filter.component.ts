@@ -36,7 +36,7 @@ export class ClientFilterComponent implements OnInit {
 
   togglePopup() {
     this.isPopupVisible = !this.isPopupVisible;
-  } 
+  }
 
   toggleDropdown() {
     // Toggle the dropdown's visibility

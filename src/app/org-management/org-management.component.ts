@@ -1,5 +1,4 @@
-// src/app/org-management/org-management.component.ts
-
+ 
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Organization } from '../org.model';
@@ -10,6 +9,7 @@ import { Organization } from '../org.model';
   styleUrls: ['./org-management.component.css']
 })
 export class OrgManagementComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'OrgName', 'OrgCode', 'actions'];
   orgs: Organization[] = [];
   newOrg: Organization = {
     id: '',
@@ -63,4 +63,7 @@ export class OrgManagementComponent implements OnInit {
       this.loadOrgs(); // Refresh the organization list
     });
   }
+
+  
+
 }

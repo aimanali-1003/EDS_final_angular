@@ -1,38 +1,57 @@
-/* src/app/org-management/org-management.component.css */
+body {
+  font-family: 'Quicksand', sans-serif;
+}
+
 .custom-header {
-    color: orange;
-  }
-  
-  .custom-label {
-    color: grey;
-  }
-  
-  .custom-input {
-    border: 1px solid grey;
-  }
-  
-  .custom-btn {
-    color: white;
-  }
-  
-  .custom-btn-create {
-    background-color: orange;
-  }
-  
-  .custom-btn-update {
-    background-color: black;
-  }
-  
-  .custom-btn-delete {
-    background-color: grey;
-  }
-  
-  .custom-table {
-    border: 1px solid grey;
-  }
-  
-  .custom-table-header {
-    background-color: grey;
-    color: white;
-  }
-  
+  color: orange;
+}
+
+.custom-label {
+  color: grey;
+}
+
+.custom-input {
+  border: 1px solid grey;
+}
+
+.custom-btn {
+  color: white;
+}
+
+.custom-btn-create {
+  background-color: orange;
+}
+
+.custom-btn-update {
+  background-color: rgb(63, 58, 58);
+  margin-right: 8px;
+}
+
+.custom-btn-delete {
+  background-color: grey;
+}
+
+.custom-table {
+  width: 100%;
+  border: 1px solid grey;
+  table-layout: fixed;  
+}
+
+.custom-table-header {
+  background-color: grey;
+  color: white;
+  text-align: center;  
+  width: 25%;  
+  font-size: 15px;
+}
+
+.mat-cell {
+  text-align: center;
+  padding: 8px;  
+}
+ 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

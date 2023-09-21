@@ -1,75 +1,52 @@
-<!-- src/app/org-management/org-management.component.html -->
-<div class="organization-management">
-    <h2 class="custom-header">Manage Organizations</h2>
-  
-    <div class="create-organization">
-      <mat-form-field class="form-group">
-        <mat-label class="custom-label">Organization Name</mat-label>
-        <input
-          matInput
-          [(ngModel)]="newOrg.OrgName"
-          placeholder="Enter organization name"
-          class="custom-input"
-        />
-      </mat-form-field>
-  
-      <mat-form-field class="form-group">
-        <mat-label class="custom-label">Organization Code</mat-label>
-        <input
-          matInput
-          [(ngModel)]="newOrg.OrgCode"
-          placeholder="Enter organization code"
-          class="custom-input"
-        />
-      </mat-form-field>
-  
-      <!-- Add other Material-UI form fields as needed -->
-  
-      <button
-        mat-raised-button
-        (click)="createOrg()"
-        class="custom-btn custom-btn-create"
-      >
-        Create
+<div class="organization-management custom-font">
+  <mat-card class="custom-card">
+    <div class="header">
+      <h2 class="custom-header" style="font-family: 'Quicksand', sans-serif;">Manage Organizations</h2>
+      <button mat-raised-button (click)="createOrg()" class="custom-btn custom-btn-create"
+        style="font-weight: lighter; border-radius: 10px;">
+        <span style="margin-right: 5px; font-size: 25px;">+</span> Create
       </button>
+
     </div>
-  
     <div class="organization-list">
-      <table class="custom-table">
-        <thead>
-          <tr>
-            <th class="custom-table-header">ID</th>
-            <th class="custom-table-header">Name</th>
-            <th class="custom-table-header">Code</th>
-            <!-- Add other table headers for fields -->
-            <th class="custom-table-header">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let org of orgs">
-            <td>{{ org.id }}</td>
-            <td>{{ org.OrgName }}</td>
-            <td>{{ org.OrgCode }}</td>
-            <!-- Add other table columns for fields -->
-            <td>
-              <button
-                mat-raised-button
-                (click)="updateOrg(org)"
-                class="custom-btn custom-btn-update"
-              >
-                Update
-              </button>
-              <button
-                mat-raised-button
-                (click)="deleteOrg(org.id)"
-                class="custom-btn custom-btn-delete"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
+      <table mat-table [dataSource]="orgs" class="custom-table">
+        <ng-container matColumnDef="id">
+          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
+            style="font-family: 'Quicksand', sans-serif;">ID</th>
+          <td mat-cell *matCellDef="let org" style="font-family: 'Quicksand', sans-serif;">{{ org.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="OrgName">
+          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
+            style="font-family: 'Quicksand', sans-serif;">Name</th>
+          <td mat-cell *matCellDef="let org" style="font-family: 'Quicksand', sans-serif;">{{ org.OrgName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="OrgCode">
+          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
+            style="font-family: 'Quicksand', sans-serif;">Code</th>
+          <td mat-cell *matCellDef="let org" style="font-family: 'Quicksand', sans-serif;">{{ org.OrgCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
+            style="font-family: 'Quicksand', sans-serif;">Actions</th>
+          <td mat-cell *matCellDef="let org">
+            <button style="font-family: 'Quicksand', sans-serif;" mat-raised-button (click)="updateOrg(org)"
+              class="custom-btn custom-btn-update">
+              Update
+            </button>
+            <button style="font-family: 'Quicksand', sans-serif;" mat-raised-button (click)="deleteOrg(org.id)"
+              class="custom-btn custom-btn-delete">
+              Delete
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
-  </div>
-  
+  </mat-card>
+
+</div>
