@@ -5,6 +5,7 @@
 
 .example-toolbar{
   background-color: #eb9e5b;
+  height: 56px;
   /* color: black; */
 }
 
@@ -13,6 +14,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .example-sidenav {
    user-select: none;
    background-color: #ebe6df

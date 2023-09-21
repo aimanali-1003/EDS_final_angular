@@ -1,0 +1,95 @@
+/* Styles for the popup container */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 20px;
+    width: 500px; /* Adjust the width as needed */
+    height: auto;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Styles for the popup header */
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eb9e5b;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  /* Styles for the close button */
+  .popup-header button {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Styles for the popup content */
+  .popup-content {
+    margin-top: 10px;
+    flex-grow: 1;
+  }
+  
+  /* Styles for the text fields */
+  .popup-content label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .popup-content input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  /* Styles for the buttons container */
+  .buttons {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin-top: 15px;
+  }
+  
+  /* Styles for the buttons */
+  .component1 button,
+  .component2 button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  /* Save button style */
+  .component1 button {
+    background-color: #ccc;
+    color: #fff;
+    margin-right: 10px;
+  }
+  
+  /* Cancel button style */
+  .component2 button {
+    background-color: #eb9e5b;
+    color: #615c5c;
+  }
+  
+  /* Hover effect for buttons */
+  .component1 button:hover,
+  .component2 button:hover {
+    opacity: 0.8;
+  }
+  

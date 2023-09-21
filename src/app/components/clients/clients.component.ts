@@ -25,8 +25,6 @@ export class ClientsComponent implements OnInit {
   notificationRecipients: any[] = [];
   headers = CLIENT;
 
-  
-
   constructor(
     private clientService: ClientService,
     private router: Router,
@@ -34,6 +32,7 @@ export class ClientsComponent implements OnInit {
     private sharedService: SharedService,
     private dialog: MatDialog
   ) { }
+  
 
   openClientPopup(client?: any): void {
     const isEditing = !!client; // Check if you are editing an existing client

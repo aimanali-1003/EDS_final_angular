@@ -1,8 +1,62 @@
+
 .clients {
-  padding: 20px;
-  text-align: center;
-  /* Center-align the content within the container */
-}
+    padding: 20px;
+    text-align: center; /* Center-align the content within the container */
+  }
+  
+  .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+  }
+  
+  .title {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .title-container button {
+    margin-right: 70%;
+    background-color: #dfceb5;
+    transition: background-color 0.3s, color 0.3s; /* Add smooth transition effects */
+  }
+  
+  .title-container button:hover {
+    background-color: #ebe6df; /* Darker blue background color on hover */
+  }
+  
+  .client-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto; /* Center the table horizontally */
+  }
+  
+  .client-table th,
+  .client-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .client-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .client-item {
+    transition: background-color 0.3s; /* Add a smooth transition effect */
+  }
+  
+  .client-item:hover {
+    background-color: #dfceb5; /* Light orange color on hover */
+  }
+  
+  .action-cell {
+    text-align: center; /* Center-align the action buttons */
+  }
+  
+  /* Rest of your styles */
 
 .title-container {
   display: flex;
@@ -36,6 +90,7 @@
   text-align: center;
   /* Center align the table content */
 }
+
 
 .client-table th,
 .client-table td {
@@ -90,6 +145,21 @@ mat-input {
 .form-outline input:focus {
   outline: none;
 }
+
+.custom-fab-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebe6df;
+}
+
+.custom-fab-button mat-icon {
+  font-size: 20px; /* Adjust the font size as needed */
+}
+
+
 
 
 .making-active-attractive {

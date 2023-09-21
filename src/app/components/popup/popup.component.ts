@@ -26,4 +26,10 @@ export class PopupComponent<T> {
   closeDialog(): void {
     this.dialogRef.close(this.data.isUpdate ? this.data.updatedValue : this.data.input);
   }
+
+  saveDialog(): void {
+    // You can emit the selected value here
+    const selectedValue = this.data.isUpdate ? this.data.updatedValue : this.data.input;
+    this.dialogRef.close(selectedValue);
+  }
 }
