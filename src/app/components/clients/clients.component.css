@@ -218,15 +218,13 @@ mat-input {
 .created-by-label {
   color: #999;  
   font-size: 12px;
-  text-align: right;
 }
 
  
 .created-by-cell {
-  font-size: 14px; /* Adjust font size as needed */
-  font-weight: bold;
-  text-align: right;
-  
+  font-size: 12px !important;  
+  font-weight: lighter;
+  font-family: sans-serif; 
 }
 
 .search-input {
@@ -275,10 +273,10 @@ mat-input {
 }
  
 .updated-by-cell {
-  color: #999; /* Light grey color */
-  font-size: 12px; /* Adjust font size as needed */
-  font-weight: bold;
-  font-family: 'Times New Roman', Times, serif;
+  color: #999; 
+  font-size: 12px;  
+  font-weight: lighter;
+  font-family: sans-serif; 
 }
 
 .search-input::placeholder {

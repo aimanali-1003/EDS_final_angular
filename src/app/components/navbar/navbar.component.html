@@ -26,26 +26,51 @@
   
 <mat-sidenav-container class="example-container" autosize>
 	<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
-		<mat-nav-list>
+		<mat-nav-list class="nav-list-margin">
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
-				<span class="full-width" *ngIf="isExpanded || isShowing">Manage Master Data</span>
-
-				<mat-icon mat-list-icon>work</mat-icon>
+				<mat-icon class="heading-icon">assignment_ind</mat-icon>
+				<span class="heading-text" *ngIf="isExpanded || isShowing">Manage Master Data</span>
 				<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
 			</mat-list-item>
+
 			<div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
-				<a mat-list-item href="...">Client Management</a>
-				<a mat-list-item href="...">Oragnization Management</a>
-				<a mat-list-item href="...">Category Management</a>
-				<mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
-					<span class="full-width" *ngIf="isExpanded || isShowing">Nested Menu</span>
-					<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
+				<mat-list-item class="menu-item">
+					<mat-icon class="sub-heading-icon">supervisor_account</mat-icon>
+					<a class="sub-heading" mat-list-item href="...">Client Management</a>
 				</mat-list-item>
-				<div class="submenu" [ngClass]="{'expanded' : showSubSubMenu}" *ngIf="isShowing || isExpanded">
-					<mat-list-item>SubSubmenu Item 1</mat-list-item>
-					<mat-list-item>SubSubmenu Item 2</mat-list-item>
-				</div>
+				<mat-list-item class="menu-item">
+					<mat-icon class="sub-heading-icon"> business</mat-icon>
+					<a class="sub-heading" mat-list-item href="...">Oragnization Management</a>
+				</mat-list-item>
+				<mat-list-item class="menu-item">
+					<mat-icon class="sub-heading-icon">device_hub</mat-icon>
+					<a class="sub-heading" mat-list-item href="...">Category Management</a>
+				</mat-list-item>
+				<mat-list-item class="menu-item">
+					<mat-icon class="sub-heading-icon">work</mat-icon>
+					<a class="sub-heading" mat-list-item href="...">Job Management</a>
+				</mat-list-item>
 			</div>
+
+			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+				<mat-icon class="heading-icon">history</mat-icon>
+				<span class="heading-text" *ngIf="isExpanded || isShowing">Template</span>
+			</mat-list-item>
+			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+				<mat-icon class="heading-icon">speaker_notes</mat-icon>
+				<span class="heading-text" *ngIf="isExpanded || isShowing">Job Logs</span>
+			</mat-list-item>
+
+			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+				<mat-icon class="heading-icon">settings</mat-icon>
+				<span class="heading-text" *ngIf="isExpanded || isShowing">Settings</span>
+			</mat-list-item>
+
+			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+				<mat-icon class="heading-icon">arrow_back</mat-icon>
+				<span class="heading-text" *ngIf="isExpanded || isShowing">Logout</span>
+			</mat-list-item>
+
 		</mat-nav-list>
     <mat-nav-list>
 </mat-nav-list>
