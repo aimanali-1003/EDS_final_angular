@@ -6,15 +6,17 @@
   
   .title-container {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
 
   }
   
   .title {
-    font-size: 24px;
-    margin: 0;
+    font-size: 20.667px;
+  font-weight: bold;
+  font-family: 'Quicksand', sans-serif;
+  display: inline-block;
+  margin-right: auto;
   }
   
   .title-container button {
@@ -58,24 +60,22 @@
   }
    
 
-  .title-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
- 
+/* Styles for the title */
 .title {
   font-size: 20.667px;
   font-weight: bold;
   font-family: 'Quicksand', sans-serif;
-  margin: 0;  
+  margin: 0;
 }
 
 .title-container .create-button-container .custom-button{
   margin: 0px;
 }
 
+.button-container{
+  display: flex;
+  align-items: center;
+}
 
 .create-button-container { 
   margin-right: 10px;  
@@ -84,30 +84,14 @@
 }
 
 .custom-button {
-  background-color: #eb9e5b !important;
-  color: rgb(255, 255, 255);
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;  
-  font-size: 14px;
-  border-radius: 5%;
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
+  font-weight: bold;
 }
 
 .circle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  color: #eb9e5b !important;
-  background-color: #ffffff;  
-  border-radius: 50%; 
-  margin-right: 10px;  
-  font-size: 20px;  
-  font-weight: bold; 
+  font-size: 24px;
+  margin-right: 8px;
 }
 
 .button-text {
@@ -116,13 +100,18 @@
 
 
 .title-container button {
-  margin-right: 70%;
-  background-color: #908f8f;
-  transition: background-color 0.3s, color 0.3s; 
+  margin-right: 0px;
+  background-color: #eb9e5b;
+  transition: background-color 0.3s, color 0.3s;
+  margin-top: 20px;
+  margin-right: 20px;
+  /* Add smooth transition effects */
 }
 
 .title-container button:hover {
-  background-color: #ebe6df; 
+  background-color: #ebe6df;
+  color: black;
+  /* Darker blue background color on hover */
 }
  
 .client-table {
@@ -234,10 +223,10 @@ mat-input {
 
  
 .created-by-cell {
-  font-size: 16px;  
-  font-weight: lighter;
+  font-size: 14px; /* Adjust font size as needed */
+  font-weight: bold;
   text-align: right;
-  font-family: sans-serif; 
+  
 }
 
 .search-input {
@@ -260,8 +249,9 @@ mat-input {
 }
 
 .created-by-cell {
-  color: #999;  
-  font-size: 14px; 
+  font-family: 'Times New Roman', Times, serif;
+  color: #999; /* Light grey color */
+  font-size: 12px; /* Adjust font size as needed */
 }
  
 .filter-icon {
@@ -285,10 +275,10 @@ mat-input {
 }
  
 .updated-by-cell {
-  color: #999; 
-  font-size: 14px;  
-  font-weight: lighter;
-  font-family: sans-serif; 
+  color: #999; /* Light grey color */
+  font-size: 12px; /* Adjust font size as needed */
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .search-input::placeholder {

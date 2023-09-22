@@ -41,21 +41,18 @@ export class ClientsComponent implements OnInit {
       data:{
         message: 'Are you sure want to delete?',
         buttonText: {
-          ok: 'Save',
-          cancel: 'No'
+          ok: 'Delete',
+          cancel: 'Cancel'
         }
       }
     });
-    const snack = this.snackBar.open('Snack bar open before dialog');
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        snack.dismiss();
         const a = document.createElement('a');
         a.click();
         a.remove();
-        snack.dismiss();
-        this.snackBar.open('Closing snack bar in a few seconds', 'Fechar', {
+        this.snackBar.open('Successfully Deleted', 'Cancel', {
           duration: 2000,
         });
       }

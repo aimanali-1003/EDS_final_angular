@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA , MatDialogRef} from '@angular/material/dialog';
 })
 export class DeleteDialogComponent {
 
-  message: string = "Are you sure?"
+  message: string = "Are you sure you want to delete?"
   confirmButtonText = "Yes"
   cancelButtonText = "Cancel"
   constructor(
