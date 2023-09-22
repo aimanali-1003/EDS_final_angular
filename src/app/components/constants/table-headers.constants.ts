@@ -31,7 +31,7 @@ export const CATEGORY = [
   ];
   
   export const JOBLOG = [
-    'JobLogID', 'JobRunDateTime', 'JobRunDuration', 'ExtractSuccess', 'NotificationRecipientSuccess', 'ExtractedRecordCount', 'JobID', 'Created At', 'Created By', 'Updated At', 'Updated By', 'Active',
+    'JobLogID', 'JobRunDateTime', 'JobRunDuration', 'ExtractSuccess', 'NotificationRecipientSuccess', 'ExtractedRecordCount', 'JobID', 'Active',
   ];
   
   export const LOOKUP = [

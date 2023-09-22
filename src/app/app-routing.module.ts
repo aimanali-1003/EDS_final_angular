@@ -4,7 +4,7 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { JobComponent } from './components/job/job.component';
 import { JobLogComponent } from './components/job-log/job-log.component';
 import { DataTemplateComponent } from './components/data-template/data-template.component';
-import { OrgManagementComponent } from './org-management/org-management.component';
+import { OrgManagementComponent } from './components/org-management/org-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/clients', pathMatch: 'full' }, // Default route

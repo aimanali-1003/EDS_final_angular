@@ -1,7 +1,7 @@
  
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Organization } from '../org.model';
+import { Organization } from '../../org.model';
 
 @Component({
   selector: 'app-org-management',

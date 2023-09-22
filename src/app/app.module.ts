@@ -29,7 +29,7 @@ import { JobComponent } from './components/job/job.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatOptionModule } from '@angular/material/core';
-import { OrgManagementComponent } from './org-management/org-management.component';
+import { OrgManagementComponent } from './components/org-management/org-management.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { TableDataComponent } from './components/table-data/table-data.component';
