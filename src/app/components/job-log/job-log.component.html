@@ -1,26 +1,42 @@
-<div class="job-log">
-    <h2>Job Log Management</h2>
-  
-    <!-- Display a list of job logs -->
-    <ul>
-      <li *ngFor="let log of jobLogs">
-        <p>Job ID: {{ log.jobId }}</p>
-        <p>Status: {{ log.status }}</p>
-        <p>Run Date/Time: {{ log.runDateTime }}</p>
-      </li>
-    </ul>
+<div class="clients">
+  <div class="title-container">
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Joblogs Management</h2>
+     
+    
   </div>
-  <!-- job-log.component.html -->
-<div class="job-logs">
-  <h2>Completed Job Logs</h2>
-  <ul>
-    <li *ngFor="let log of completedJobLogs">{{ log.description }}</li>
-  </ul>
-
-  <h2>Ongoing Job Logs</h2>
-  <ul>
-    <li *ngFor="let log of ongoingJobLogs">{{ log.description }}</li>
-  </ul>
-</div>
-
+  <!-- Display a list of job logs -->
+  <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
+    <thead>
+      <tr>
+        <th class="client-name">Job ID</th>
+        <th class="id">Run Date/Time</th>
+        <th class="created-at">Run Duration</th>
+        <th class="updated-at">Extract Success</th>
+        <th class="status">Recipient Success</th>
+        <th class="actions">Extracted Record Count</th>
+        <th class="actions">Active</th>
+        <th class="actions">Job Log ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of jobLogs" class="client-item">
+        <td class="client-name">{{ log.JobID }}</td>
+        <td class="id">{{ formatDate(log.JobRunDateTime) }}</td>
+        <td class="created-at">{{ log.JobRunDuration }}</td>
+        <td class="updated-at">{{ log.ExtractSuccess }}</td>
+        <td class="status">{{ log.NotificationRecipeintSuccess }}</td>
+        <td class="actions">{{ log.ExtractedRecordCount }}</td>
+        <td class="actions" [style.color]="log.Active ? '#4cf0a1' : 'red'">
+          <ng-container *ngIf="log.Active; else inactive">
+            <span class="making-active-attractive">Active</span>
+          </ng-container>
+          <ng-template #inactive>
+            <span class="making-inactive-attractive">Inactive</span>
+          </ng-template>
+        </td>
+        <td class="actions">{{ log.JobLodId }}</td>
+      </tr>
+    </tbody>
+  </table>
   
+   

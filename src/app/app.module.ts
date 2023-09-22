@@ -37,6 +37,11 @@ import { ClientFilterComponent } from './components/client-filter/client-filter.
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CategoryComponent } from './components/category/category.component';
+import { DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { JobLogComponent } from './components/job-log/job-log.component';
+import { MatSortModule } from '@angular/material/sort'; 
+
 
 @NgModule({
   declarations: [
@@ -55,6 +60,7 @@ import { CategoryComponent } from './components/category/category.component';
     ClientFilterComponent,
     DeleteDialogComponent,
     CategoryComponent,
+    JobLogComponent, // Removed MatSortModule and MatTableModule from declarations
   ],
   imports: [
     BrowserModule,
@@ -64,7 +70,7 @@ import { CategoryComponent } from './components/category/category.component';
     RouterModule,
     NgbModule,
     BrowserAnimationsModule,
-    MatButtonModule, // Add Material button module here
+    MatButtonModule,
     MatDialogModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -72,14 +78,16 @@ import { CategoryComponent } from './components/category/category.component';
     MatIconModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatTableModule,
+    MatTableModule, // Moved MatTableModule here
     MatCardModule,
     MatSidenavModule,
     MatListModule,
     MatOptionModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CommonModule,
+    MatSortModule, // Moved MatSortModule here
   ],
-  providers: [DataService, ClientService],
-  bootstrap: [AppComponent]
+  providers: [DataService, ClientService, DatePipe],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

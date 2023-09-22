@@ -54,8 +54,9 @@
     
     <thead>
       <tr>
-        <th>Client Name</th>
         <th>ID</th>
+        <th>Client Name</th>
+        
         <th>Created At</th>
         <th>Updated At</th>
         <th>Status</th>
@@ -64,8 +65,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let client of displayedClients" class="client-item">
-        <td>{{ client.ClientName }}</td>
         <td>{{ client.id }}</td>
+        <td>{{ client.ClientName }}</td>
+        
         <td class="created-info-cell">
           <div class="created-at">{{ client.CreatedAt | date:'medium' }}</div>
           <div class="created-by">

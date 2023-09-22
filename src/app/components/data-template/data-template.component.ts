@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router'; // Import Router for navigation
 import { DataTemplate } from 'src/app/model/data-template.model';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-data-template',
   templateUrl: './data-template.component.html',
@@ -16,13 +17,29 @@ export class DataTemplateComponent implements OnInit {
   availableColumns: string[] = ['Column1', 'Column2', 'Column3']; // Replace with actual column names
   selectedColumns: string[] = [];
 
-  constructor(private dataService: DataService, private router: Router) { }
+  selectedCategory: string[] = []; // Replace string with the appropriate data type if needed
+  availableCategories: string[] = [];
+
+  constructor(private dataService: DataService, private router: Router, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     // Fetch data templates from the service
     this.dataService.getDataTemplates().subscribe((templates: any[]) => {
       this.dataTemplates = templates;
     });
+
+
+
+    this.httpClient.get<any[]>('https://lr7rg.wiremockapi.cloud/category').subscribe(
+      (categories: any[]) => {
+        // Assuming categories is an array of objects with a 'Name' property
+        this.availableCategories = categories.map(category => category.Name);
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+        // Handle error here
+      }
+    );
   }
 
   createNewTemplate() {

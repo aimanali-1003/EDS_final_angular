@@ -319,7 +319,4 @@ mat-input {
   color: #999; /* Light grey color for the placeholder text */
 }
 
-/* Add a hover effect to the search box container */
-.search-box:hover {
-  border: 1px solid #007bff; /* Change the border color on hover */
-}
+ 

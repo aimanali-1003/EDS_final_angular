@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoggingService } from 'src/app/services/logging.service';
 import { JobLog } from 'src/app/model/job-log.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-job-log',
@@ -27,8 +28,14 @@ export class JobLogComponent implements OnInit {
   loadJobLogs() {
     // Load completed job logs
     this.completedJobLogs = this.loggingService.getCompletedJobLogs();
+    console.log(this.completedJobLogs);
 
     // Load ongoing job logs
     this.ongoingJobLogs = this.loggingService.getOngoingJobLogs();
+  }
+
+  formatDate(date: number): string {
+    const formattedDate = new Date(date * 1000); // Convert Unix timestamp to milliseconds
+    return formattedDate.toLocaleString(); // Adjust formatting as needed
   }
 }

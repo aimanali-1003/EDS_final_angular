@@ -42,4 +42,17 @@ export class ClientFilterComponent implements OnInit {
     // Toggle the dropdown's visibility
     this.isDropdownVisible = !this.isDropdownVisible;
   }
+
+  isFilterVisible: boolean = false; // Initial state of the filter sidebar
+
+  toggleFilter(): void {
+    // This method toggles the visibility of the filter sidebar
+    this.isFilterVisible = !this.isFilterVisible;
+  }
+
+  applyFilters(): void {
+    // This method should contain logic to apply the selected filters
+    // You can access filter values and apply them to your data here
+    // For example, emit an event or update a service with filter values
+  }
 }

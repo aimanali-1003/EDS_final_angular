@@ -1,29 +1,62 @@
-  <div class="data-template">
-    <h2>Data Template Management</h2>
+<div class="clients">
+  <div class="title-container">
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">DataTemplates</h2>
+    <div class="form-outline search-box mb-4">
+      <!-- Button with "+" symbol and "Create" text -->
+      <button class="custom-button">
+        <span class="circle">+</span> Create
+      </button>
+    </div>
+    
+  </div>
   
     <!-- Display a list of data templates using a Material UI table -->
-    <table mat-table [dataSource]="dataTemplates">
-      <!-- Define the columns -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let template">{{ template.name }}</td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let template">
-          <button mat-icon-button color="primary" (click)="editTemplate(template)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="deleteTemplate(template)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  
-      <!-- Define the table rows -->
-      <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['name', 'actions']"></tr>
+    <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
+      <thead>
+        <tr>
+          <th>Template Name</th>
+          <th>ID</th>
+          <th>Created At</th>
+          <th>Updated At</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let template of dataTemplates" class="template-item">
+          <td>{{ template.TemplateName }}</td>
+          <td>{{ template.id }}</td>
+          <td class="created-info-cell">
+            <div class="created-at">{{ template.CreatedAt | date:'medium' }}</div>
+            <div class="created-by">
+              <span class="created-by-label">Created By: </span>
+              <span class="created-by-cell">{{ template.CreatedBy }}</span>
+            </div>
+          </td>
+          <td class="updated-info-cell">
+            <div class="updated-at">{{ template.UpdatedAt | date:'medium' }}</div>
+            <div class="updated-by">
+              <span class="updated-by-label">Updated By:</span>
+              <span class="updated-by-cell">{{ template.UpdatedBy }}</span>
+            </div>
+          </td>
+          <td [style.color]="template.Active ? '#4cf0a1' : 'red'">
+            <ng-container *ngIf="template.Active; else inactive"><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+            <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
+          </td>
+          <td class="action-cell">
+            <button mat-icon-button [style.color]="'#0091EA'" (click)="editTemplate(template)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button [style.color]="'#D84315'" (click)="deleteTemplate(template)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
     </table>
+    
+    
   
     <!-- Add a button to create a new data template -->
     <button mat-raised-button color="primary" (click)="createNewTemplate()">Create New Template</button>
@@ -54,20 +87,23 @@
       </mat-form-field>
   
       <mat-form-field>
-        <label for="category">Category:</label>
-        <input matInput type="text" id="category" name="category" [(ngModel)]="template.category" required>
-      </mat-form-field>
-  
-      <mat-form-field>
         <label for="columns">Columns:</label>
         <mat-select id="columns" name="columns" [(ngModel)]="selectedColumns" multiple>
           <mat-option *ngFor="let column of availableColumns" [value]="column">{{ column }}</mat-option>
         </mat-select>
       </mat-form-field>
   
+      <mat-form-field>
+        <label for="category">Category</label>
+        <mat-select id="category" name="category" [(ngModel)]="selectedCategory" multiple>
+          <mat-option *ngFor="let category of availableCategories" [value]="category">{{ category }}</mat-option>
+        </mat-select>
+      </mat-form-field> 
+  
       <button mat-raised-button type="submit">Save Template</button>
     </form>
   </div>
+  
   
   
    
