@@ -17,25 +17,20 @@ export class JobLogComponent implements OnInit {
   constructor(private loggingService: LoggingService) { }
 
   ngOnInit(): void {
-    this.loadJobLogs();
-    // Fetch job log data from the service
+    this.loadJobLogs(); 
     this.loggingService.getJobLogs().subscribe((logs: any[]) => {
       this.jobLogs = logs;
     });
     
   }
 
-  loadJobLogs() {
-    // Load completed job logs
-    this.completedJobLogs = this.loggingService.getCompletedJobLogs();
-    console.log(this.completedJobLogs);
-
-    // Load ongoing job logs
+  loadJobLogs() { 
+    this.completedJobLogs = this.loggingService.getCompletedJobLogs(); 
     this.ongoingJobLogs = this.loggingService.getOngoingJobLogs();
   }
 
   formatDate(date: number): string {
-    const formattedDate = new Date(date * 1000); // Convert Unix timestamp to milliseconds
-    return formattedDate.toLocaleString(); // Adjust formatting as needed
+    const formattedDate = new Date(date * 1000);  
+    return formattedDate.toLocaleString();  
   }
 }

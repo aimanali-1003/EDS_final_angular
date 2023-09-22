@@ -1,21 +1,23 @@
 <div class="clients">
   <div class="title-container">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">DataTemplates</h2>
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Data Templates</h2>
     <div class="form-outline search-box mb-4">
       <!-- Button with "+" symbol and "Create" text -->
-      <button class="custom-button">
+      <button class="custom-button" (click)="createNewTemplate()">
         <span class="circle">+</span> Create
       </button>
     </div>
-    
   </div>
-  
+
+  <!-- Container for both the table and dialog -->
+  <div class="table-container">
     <!-- Display a list of data templates using a Material UI table -->
     <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
       <thead>
         <tr>
           <th>Template Name</th>
           <th>ID</th>
+          <th>Category ID</th>
           <th>Created At</th>
           <th>Updated At</th>
           <th>Status</th>
@@ -26,6 +28,7 @@
         <tr *ngFor="let template of dataTemplates" class="template-item">
           <td>{{ template.TemplateName }}</td>
           <td>{{ template.id }}</td>
+          <td>{{ template.CategoryId }}</td>
           <td class="created-info-cell">
             <div class="created-at">{{ template.CreatedAt | date:'medium' }}</div>
             <div class="created-by">
@@ -55,55 +58,23 @@
         </tr>
       </tbody>
     </table>
-    
-    
-  
-    <!-- Add a button to create a new data template -->
-    <button mat-raised-button color="primary" (click)="createNewTemplate()">Create New Template</button>
-  
-    <!-- Form for creating or editing data templates (optional) -->
-    <div class="template-form" *ngIf="showForm">
-      <h3>{{ editingTemplate ? 'Edit Template' : 'Create New Template' }}</h3>
+
+    <!--create template popup-->
+    <div class="data-templates" *ngIf="showForm">
+      <!-- Data Templates Form -->
       <form (ngSubmit)="saveTemplate()">
         <mat-form-field>
-          <input matInput id="templateName" name="name" placeholder="Name" [(ngModel)]="templateData.name" required>
+          <label for="templateName"></label>
+          <input matInput type="text" id="templateName" name="name" placeholder="TemplateName" [(ngModel)]="templateData.name" required>
         </mat-form-field>
+
         <!-- Add more form fields for template properties (e.g., columns) as needed -->
+
         <div class="button-container">
           <button mat-raised-button color="primary" type="submit">{{ editingTemplate ? 'Save' : 'Create' }}</button>
+          <button mat-raised-button type="button" (click)="cancelCreateTemplate()">Cancel</button>
         </div>
       </form>
     </div>
   </div>
-  <!-- data-templates.component.html -->
-  <div class="data-templates">
-    <h2>Data Templates Management</h2>
-  
-    <!-- Data Templates Form -->
-    <form (ngSubmit)="saveTemplate()">
-      <mat-form-field>
-        <label for="templateName">Template Name:</label>
-        <input matInput type="text" id="templateName" name="templateName" [(ngModel)]="template.name" required>
-      </mat-form-field>
-  
-      <mat-form-field>
-        <label for="columns">Columns:</label>
-        <mat-select id="columns" name="columns" [(ngModel)]="selectedColumns" multiple>
-          <mat-option *ngFor="let column of availableColumns" [value]="column">{{ column }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-  
-      <mat-form-field>
-        <label for="category">Category</label>
-        <mat-select id="category" name="category" [(ngModel)]="selectedCategory" multiple>
-          <mat-option *ngFor="let category of availableCategories" [value]="category">{{ category }}</mat-option>
-        </mat-select>
-      </mat-form-field> 
-  
-      <button mat-raised-button type="submit">Save Template</button>
-    </form>
-  </div>
-  
-  
-  
-   
+</div>

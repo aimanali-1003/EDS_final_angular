@@ -40,7 +40,8 @@ import { CategoryComponent } from './components/category/category.component';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { JobLogComponent } from './components/job-log/job-log.component';
-import { MatSortModule } from '@angular/material/sort'; 
+import { MatSortModule } from '@angular/material/sort';
+import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component'; 
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { MatSortModule } from '@angular/material/sort';
     ClientFilterComponent,
     DeleteDialogComponent,
     CategoryComponent,
-    JobLogComponent, // Removed MatSortModule and MatTableModule from declarations
+    JobLogComponent,
+    DataTemplateDialogComponent,  
   ],
   imports: [
     BrowserModule,

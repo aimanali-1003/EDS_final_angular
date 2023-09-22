@@ -1,80 +1,98 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DataTemplateDialogComponent } from '../data-template-dialog/data-template-dialog.component'; 
 import { DataService } from 'src/app/services/data.service';
-import { Router } from '@angular/router'; // Import Router for navigation
+import { Router } from '@angular/router';
 import { DataTemplate } from 'src/app/model/data-template.model';
 import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-data-template',
   templateUrl: './data-template.component.html',
-  styleUrls: ['./data-template.component.css']
+  styleUrls: ['./data-template.component.css'],
 })
 export class DataTemplateComponent implements OnInit {
   dataTemplates: any[] = [];
-  showForm = false; // Variable to control the form's visibility
-  templateData: any = {}; // Object to store template data
-  editingTemplate = false; // Flag to indicate whether we're editing a template
+  showForm = false;
+  templateData: any = {};
+  editingTemplate = false;
   template: DataTemplate = { name: '', category: '', columns: [] };
-  availableColumns: string[] = ['Column1', 'Column2', 'Column3']; // Replace with actual column names
+  availableColumns: string[] = ['Column1', 'Column2', 'Column3'];
   selectedColumns: string[] = [];
 
-  selectedCategory: string[] = []; // Replace string with the appropriate data type if needed
+  selectedCategory: string[] = [];
   availableCategories: string[] = [];
 
-  constructor(private dataService: DataService, private router: Router, private httpClient: HttpClient) { }
+  isDialogOpen = false;
+
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private httpClient: HttpClient,
+    public dialog: MatDialog // Inject MatDialog for opening the dialog
+  ) {}
 
   ngOnInit(): void {
-    // Fetch data templates from the service
     this.dataService.getDataTemplates().subscribe((templates: any[]) => {
       this.dataTemplates = templates;
     });
-
-
-
-    this.httpClient.get<any[]>('https://lr7rg.wiremockapi.cloud/category').subscribe(
-      (categories: any[]) => {
-        // Assuming categories is an array of objects with a 'Name' property
-        this.availableCategories = categories.map(category => category.Name);
-      },
-      (error) => {
-        console.error('Error fetching categories:', error);
-        // Handle error here
-      }
-    );
-  }
-
-  createNewTemplate() {
-    // Show the form for creating a new template
-    this.showForm = true;
-    this.templateData = {}; // Clear any existing template data
-    this.editingTemplate = false; // Set editing flag to false
-  }
+  } 
 
   editTemplate(template: any) {
-    // Show the form for editing a template
     this.showForm = true;
-    this.templateData = { ...template }; // Copy template data for editing
-    this.editingTemplate = true; // Set editing flag to true
+    this.templateData = { ...template };
+    this.editingTemplate = true;
   }
 
   saveTemplate() {
     if (this.editingTemplate) {
-      // Handle editing logic here using this.templateData
-      // Call the service to update the template
+      // Implement the logic for editing a template
     } else {
-      // Handle creation logic here using this.templateData
-      // Call the service to create a new template
+      // Implement the logic for creating a template
     }
-
-    // After saving or creating, hide the form and refresh the template list
     this.showForm = false;
-    this.templateData = {}; // Clear the template data
+    this.templateData = {};
   }
 
   deleteTemplate(template: any) {
-    // Delete the template using the data service (implement this method in the service)
     this.dataService.deleteDataTemplate(template.id).subscribe(() => {
-      // Remove the template from the local list
-      this.dataTemplates = this.dataTemplates.filter(t => t.id !== template.id);
+      this.dataTemplates = this.dataTemplates.filter((t) => t.id !== template.id);
     });
   }
+ 
+
+  createNewTemplate() {
+    setTimeout(() => {
+      this.showForm = true;
+      this.templateData = {};
+      this.editingTemplate = false;
+    }, 500);
+  }
+
+  // Existing methods...
+
+  cancelCreateTemplate(): void {
+    this.showForm = false;
+    this.templateData = {};
+  }
+  // Open the create template dialog
+openCreateTemplateDialog(): void {
+  // Prevent opening multiple dialogs
+  if (!this.isDialogOpen) {
+    const dialogRef = this.dialog.open(DataTemplateDialogComponent, {
+      width: '400px', // Adjust the width as needed
+      data: { template: this.template }, // Pass data to the dialog if needed
+      disableClose: true, // Prevent closing by clicking outside
+      autoFocus: false, // Prevent autofocus on input fields
+    });
+
+    this.isDialogOpen = true;
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.isDialogOpen = false;
+      // Handle dialog close event here, if needed
+    });
+  }
+}
+
 }

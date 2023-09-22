@@ -1,7 +1,7 @@
 
 .clients {
     padding: 20px;
-    text-align: center; /* Center-align the content within the container */
+    text-align: center; 
   }
   
   .title-container {
@@ -20,17 +20,17 @@
   .title-container button {
     margin-right: 70%;
     background-color: #dfceb5;
-    transition: background-color 0.3s, color 0.3s; /* Add smooth transition effects */
+    transition: background-color 0.3s, color 0.3s;  
   }
   
   .title-container button:hover {
-    background-color: #ebe6df; /* Darker blue background color on hover */
+    background-color: #ebe6df;  
   }
   
   .client-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px auto; /* Center the table horizontally */
+    margin: 20px auto;  
   }
   
   .client-table th,
@@ -46,20 +46,17 @@
 
   
   .client-item {
-    transition: background-color 0.3s; /* Add a smooth transition effect */
+    transition: background-color 0.3s; 
   }
   
   .client-item:hover {
-    background-color: #dfceb5; /* Light orange color on hover */
+    background-color: #dfceb5;  
   }
   
   .action-cell {
-    text-align: center; /* Center-align the action buttons */
+    text-align: center;  
   }
-  
-  /* Rest of your styles */
-
-  /* Styles for the title container */
+   
 
   .title-container {
     display: flex;
@@ -67,13 +64,12 @@
     align-items: center;
     padding: 10px;
   }
-
-/* Styles for the title */
+ 
 .title {
   font-size: 20.667px;
   font-weight: bold;
   font-family: 'Quicksand', sans-serif;
-  margin: 0; /* Remove default margin */
+  margin: 0;  
 }
 
 .title-container .create-button-container .custom-button{
@@ -81,11 +77,9 @@
 }
 
 
-.create-button-container {
-  /* Optional: Add some margin to separate the button from the title */
-  margin-right: 10px; /* Adjust as needed */
-  display: flex;
-  /* Push the button to the right */
+.create-button-container { 
+  margin-right: 10px;  
+  display: flex; 
   align-items: center;
 }
 
@@ -97,7 +91,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   display: flex;
-  align-items: center; /* Center the content vertically */
+  align-items: center; 
   font-size: 14px;
   border-radius: 5%;
 }
@@ -109,44 +103,39 @@
   width: 30px;
   height: 30px;
   color: #eb9e5b !important;
-  background-color: #ffffff; /* Background color for the circle */
-  border-radius: 50%; /* Make it a circle */
-  margin-right: 10px; /* Add spacing between the symbol and text */
-  font-size: 20px; /* Adjust the font size as needed */
-  font-weight: bold; /* Make the "+" symbol bold */
+  background-color: #ffffff;  
+  border-radius: 50%; 
+  margin-right: 10px; 
+  font-size: 20px; 
+  font-weight: bold;  
 }
 
 .button-text {
-  font-size: 16px; /* Adjust the font size as needed */
+  font-size: 16px;  
 }
 
 
 .title-container button {
   margin-right: 70%;
   background-color: #908f8f;
-  transition: background-color 0.3s, color 0.3s;
-  /* Add smooth transition effects */
+  transition: background-color 0.3s, color 0.3s; 
 }
 
 .title-container button:hover {
-  background-color: #ebe6df;
-  /* Darker blue background color on hover */
+  background-color: #ebe6df; 
 }
-
-/* Center align table cells and their container */
+ 
 .client-table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px auto;
-  text-align: center;
-  /* Center align the table content */
+  text-align: center; 
 }
 
 
 .client-table th,
 .client-table td {
-  text-align: center;
-  /* Center align table cells */
+  text-align: center; 
   padding: 8px;
   border-bottom: 1px solid #ddd;
 }
@@ -157,48 +146,26 @@
 
 
 .client-item {
-  transition: background-color 0.3s;
-  /* Add a smooth transition effect */
+  transition: background-color 0.3s; 
 }
 
 .client-item:hover {
-  background-color: #ebe6df;
-  /* Light orange color on hover */
+  background-color: #ebe6df; 
 }
 
 .action-cell {
-  text-align: center;
-  /* Center-align the action buttons */
+  text-align: center; 
 }
 
 
-.search-box {
-  /* Add margin as needed */
-  display: flex;
-  align-items: center;
-  position: relative;
-  /* justify-content: flex-start; */
-  /* Align the box to the left */
-}
+ 
 
-.search-icon {
-  position: absolute;
-  left: 10px; /* Adjust the icon's left position as needed */
-  right: 20px; /* Add space to the right of the icon */
-  color: #999;
-  cursor: pointer;
-}
-
-
-/* Style the input field */
+ 
 mat-input {
-  font-size: 16px;
-  /* Adjust the font size */
-  width: 100%;
-  /* Expand the input field to fill the available space */
+  font-size: 16px; 
+  width: 100%; 
 }
-
-/* Prevent blue outline on input focus */
+ 
 .form-outline input:focus {
   outline: none;
 }
@@ -213,7 +180,7 @@ mat-input {
 }
 
 .custom-fab-button mat-icon {
-  font-size: 20px; /* Adjust the font size as needed */
+  font-size: 20px;  
 }
 
 
@@ -239,35 +206,32 @@ mat-input {
   flex-direction: column;
   text-align: left;
 }
-
-/* Style the creation date */
+ 
 .created-at {
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 5px; /* Add spacing as needed */
+  margin-bottom: 5px;  
 }
-
-/* Style the "Created By" label */
+ 
 .created-by-label {
-  color: #999; /* Light grey color for the label */
+  color: #999;  
   font-size: 12px;
   text-align: right;
 }
-
-/* Style the creator's name */
+ 
 .created-by-cell {
-  font-size: 16px; /* Adjust font size as needed */
+  font-size: 16px; 
   font-weight: bold;
   text-align: right;
 }
 
 .search-input {
-  flex-grow: 1; /* Expand the input field to fill available space */
+  flex-grow: 1;  
   font-size: 16px;
-  padding-left: 40px; /* Leave space for the icon on the left */
+  padding-left: 40px;  
   outline: none;
-  color: #333; /* Text color */
-  border: 1px solid #ccc; /* Add a border for visual separation */
+  color: #333;  
+  border: 1px solid #ccc; 
   border-radius: 5px;
 }
 
@@ -277,15 +241,14 @@ mat-input {
 }
 
 .search-input::placeholder {
-  color: #999; /* Light grey color for the placeholder text */
+  color: #999; 
 }
 
 .created-by-cell {
-  color: #999; /* Light grey color */
-  font-size: 14px; /* Adjust font size as needed */
+  color: #999;  
+  font-size: 14px;  
 }
-
-/* Style the filter button */
+ 
 .filter-icon {
   background: none;
   border: none;
@@ -293,36 +256,26 @@ mat-input {
   padding: 10px;
   outline: none;
 }
-
-/* Add a hover effect to the search box container */
+ 
 
 .updated-at {
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 5px; /* Add spacing as needed */
+  margin-bottom: 5px;  
 }
-
-/* Style the "Updated By" label */
+ 
 .updated-by-label {
-  color: #999; /* Light grey color for the label */
+  color: #999;  
   font-size: 12px;
 }
-
-/* Style the "Updated By" name */
+ 
 .updated-by-cell {
-  color: #999; /* Light grey color */
-  font-size: 14px; /* Adjust font size as needed */
+  color: #999;  
+  font-size: 14px;  
   font-weight: bold;
-}
+} 
 
-.search-input::placeholder {
-  color: #999; /* Light grey color for the placeholder text */
-}
-
-/* Add a hover effect to the search box container */
-.search-box:hover {
-  border: 1px solid #007bff; /* Change the border color on hover */
-}
+ 
 
 .data-templates {
     display: flex;
@@ -336,4 +289,23 @@ mat-input {
   form {
     margin-top: 20px;
   }
+  
+ 
+   
+.table-container {
+    position: relative; /* Set the container to a relative position */
+  }
+  
+  .data-templates {
+    width: 400px;  
+    position: absolute; /* Position the dialog absolutely within the container */
+    top: 50%; /* Position the dialog vertically in the middle of the container */
+    left: 50%; /* Position the dialog horizontally in the middle of the container */
+    transform: translate(-50%, -50%); /* Center the dialog both horizontally and vertically within the container */
+    background-color: white; /* Background color of the dialog */
+    padding: 24px;  
+    border-radius: 8px;  
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);   
+  }
+  
   

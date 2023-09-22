@@ -15,16 +15,11 @@ export class LoggingService {
     return this.http.get<any[]>(`${this.apiUrl}/joblog`);
   }
 
-  getCompletedJobLogs() {
-    // Implement logic to fetch completed job logs
-    // You can store them in this.jobLogs or fetch from an API
+  getCompletedJobLogs() { 
     return this.jobLogs;
   }
-
-  // Method to retrieve ongoing job logs
-  getOngoingJobLogs() {
-    // Implement logic to fetch ongoing job logs
-    // You can store them in this.jobLogs or fetch from an API
+ 
+  getOngoingJobLogs() { 
     return this.jobLogs;
   }
 }
