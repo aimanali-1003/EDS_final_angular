@@ -89,76 +89,35 @@ export class ClientsComponent implements OnInit {
     });
   }
 
-  updateClient(client: any, updatedValue: string): void {
-    // Implement your updateClient logic here
+  updateClient(client: any, updatedValue: string): void { 
   }
 
-  createNewClient(clientName: string): void {
-    // Implement your createNewClient logic here
+  createNewClient(clientName: string): void { 
   }
 
   
 
   ngOnInit(): void {
     this.fetchClients();
-    // this.clientService.getClients().subscribe((data: any[]) => {
-    //   Format the API response data into the required array of arrays format
-    //   this.displayedClients = data.map((client) => [
-    //     client.ClientName,
-    //     client.id,
-    //     client.CreatedAt,
-    //     client.CreatedBy,
-    //     client.UpdatedAt,
-    //     client.UpdatedBy,
-    //     client.Active,
-    //   ]);
-    // });
+    
   }
-
-  private updateDisplayedClients(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedClients = this.clients.slice(startIndex, endIndex);
-  }
-
+ 
   clearSearch() {
-    this.searchTerm = ''; // Clear the search term
-    this.onSearchChange(); // Trigger the search change event
+    this.searchTerm = '';  
+    this.onSearchChange();  
   }
   
   onSearchChange(event?: Event) {
     if (event) {
-      const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
-      // Your search logic here, using searchTerm
+      const searchTerm = (event.target as HTMLInputElement).value.toLowerCase(); 
       this.displayedClients = this.clients.filter(client =>
         client.ClientName.toLowerCase().includes(searchTerm.toLowerCase())
       );
-    } else {
-      // Handle the case when the "Clear Search" button is clicked
-      this.searchTerm = ''; // Clear the search term 
+    } else {   
+      this.searchTerm = '';  
     }
     
-  }
-   
-
-  // createClient() {
-  //   this.isEditing = false;
-  //   this.clientIdToEdit = null;
-  //   this.clientName = '';
-  //   this.showClientForm = true;
-
-  //   // Open the create client popup
-  //   this.clientDialogService.openCreateClientPopup().subscribe(newClientName => {
-  //     if (newClientName) {
-  //       this.clientName = newClientName;
-  //       this.saveClient(); // Save the new client
-  //     } else {
-  //       this.showClientForm = false;
-  //     }
-  //   });
-  //   this.sharedService.createClient(); 
-  // }
-  
+  } 
 
   onPageChange(pageNumber: number) {
     this.updateDisplayedClients(pageNumber);
@@ -166,17 +125,10 @@ export class ClientsComponent implements OnInit {
 
   onPageSizeChange(event: any) {
     this.pageSize = event.target.value;
-    this.updateDisplayedClients(1); // Reset to the first page when page size changes
+    this.updateDisplayedClients(1);  
   }
 
-  fetchClients() {
-    this.clientService.getClients().subscribe((clients: any[]) => {
-      this.clients = clients;
-      this.updateDisplayedClients(1); // Initialize displayedClients when data is fetched
-    });
-  }
-
-  
+   
 
   editClient(client: any) {
     const dialogRef = this.dialog.open(PopupComponent, {
@@ -193,23 +145,19 @@ export class ClientsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((updatedClientName) => {
-      if (updatedClientName) {
-        // Handle the client update here (you may need to update your data structure)
-        client.name = updatedClientName;
-        // You can then save the updated client or perform other actions as needed.
+      if (updatedClientName) { 
+        client.name = updatedClientName; 
       }
     });
   }
 
   saveClient() {
-    if (this.isEditing && this.clientIdToEdit) {
-      // Edit client
+    if (this.isEditing && this.clientIdToEdit) { 
       this.clientService.updateClient(this.clientIdToEdit, { name: this.clientName }).subscribe(() => {
         this.showClientForm = false;
         this.fetchClients();
       });
-    } else {
-      // Create new client
+    } else { 
       this.clientService.createClient({ name: this.clientName }).subscribe(() => {
         this.showClientForm = false;
         this.fetchClients();
@@ -226,7 +174,22 @@ export class ClientsComponent implements OnInit {
       this.clients = this.clients.filter(c => c.id !== client.id);
     });
   }
-
+  fetchClients() {
+    this.clientService.getClients().subscribe((clients: any[]) => {
+      this.clients = clients;
+      console.log('Clients:', this.clients); // Log the clients array
+      this.updateDisplayedClients(1);
+    });
+  }
+  
+  
+  
+  private updateDisplayedClients(pageNumber: number) {
+    const startIndex = (pageNumber - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedClients = this.clients.slice(startIndex, endIndex);
+  }
+  
   
 }
  

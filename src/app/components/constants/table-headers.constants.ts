@@ -27,7 +27,7 @@ export const CATEGORY = [
   ];
   
   export const JOB = [
-    'Job ID', 'Send Notification', 'MinRecordCountAlarm', 'MaxRecordCountAlarm', 'MinRunDurationAlarm', 'MaxRunDurationAlarm', 'Client ID', 'Criteria ID', 'TemplateID', 'FrequencyID', 'Lookup ID', 'Created At', 'Created By', 'Updated At', 'Updated By', 'Active',
+    'Job ID', 'Frequency ID','Send Notification','Delivery Method', 'MinRecordCountAlarm', 'MaxRecordCountAlarm', 'MinRunDurationAlarm', 'MaxRunDurationAlarm', 'Active',
   ];
   
   export const JOBLOG = [

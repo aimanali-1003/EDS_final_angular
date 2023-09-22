@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from 'src/app/services/job.service';
 import { Router } from '@angular/router'; // Import Router for navigation
+import { JOB } from '../constants/table-headers.constants';
 
 @Component({
   selector: 'app-job',
@@ -12,6 +13,7 @@ export class JobComponent implements OnInit {
   jobName: string = '';
   extractionFrequency: string = 'daily';
   deliveryMethod: string = 'email';
+  headers = JOB;
 
   constructor(private jobService: JobService, private router: Router) { }
 

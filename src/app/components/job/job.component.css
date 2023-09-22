@@ -1,0 +1,31 @@
+.job-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    text-align: center; 
+  }
+  
+  
+  .job-table th,
+  .job-table td {
+    text-align: center; 
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .job-table th {
+    background-color: #f2f2f2;
+  }
+  
+  
+  .job-item {
+    transition: background-color 0.3s; 
+  }
+  
+  .job-item:hover {
+    background-color: #ebe6df; 
+  }
+  
+  .action-cell {
+    text-align: center; 
+  }
