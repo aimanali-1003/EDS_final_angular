@@ -6,6 +6,7 @@ import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.compo
 import { CATEGORY, CLIENT } from '../constants/table-headers.constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalComponent } from '../modal/modal.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-job',
   templateUrl: './job.component.html',
@@ -29,6 +30,7 @@ export class JobComponent implements OnInit {
     private categoryService: CategoryService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   openModalForCreate(): void {
@@ -53,6 +55,10 @@ export class JobComponent implements OnInit {
         // Perform create logic with newData
       }
     });
+  }
+
+  CreateJobs(){
+    this.router.navigate(['/createJob']);
   }
   
 

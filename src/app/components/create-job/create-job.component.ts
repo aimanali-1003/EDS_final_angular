@@ -16,6 +16,11 @@ export class CreateJobComponent implements OnInit {
   jobName: string = '';
   deliveryMethod: string = 'email';
   showTimeInput: boolean = false;
+  startDate!: Date;
+endDate!: Date;
+clientName!: string; // Declare the clientName property
+  organizationName!: string;
+
 
   constructor(private jobService: JobService, private router: Router) { }
 
@@ -25,6 +30,17 @@ export class CreateJobComponent implements OnInit {
       this.jobs = jobs;
     });
   }
+
+  goToJobLog(){
+
+  }
+
+  goToNextComponent() {
+    // Assuming you have configured a route for the "Job" component in your app-routing.module.ts
+    this.router.navigate(['/joblog']);
+  }
+
+  
 
   createJob() {
     const jobConfig = {

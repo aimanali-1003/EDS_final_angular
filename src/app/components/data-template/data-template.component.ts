@@ -102,11 +102,7 @@ export class DataTemplateComponent implements OnInit {
  
 
   createNewTemplate() {
-    setTimeout(() => {
-      this.showForm = true;
-      this.templateData = {};
-      this.editingTemplate = false;
-    }, 500);
+    this.router.navigate(['/createTemplate']);
   }
 
   // Existing methods...

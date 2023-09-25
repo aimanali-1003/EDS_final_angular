@@ -1,13 +1,12 @@
 <div class="clients">
-  <div class="title-container">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Data Templates</h2>
-    <div class="form-outline search-box mb-4">
-      <!-- Button with "+" symbol and "Create" text -->
-      <button class="custom-button" (click)="openCreateTemplateModal()">
-        <span class="circle">+</span> Create
-      </button>
+    <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
+      <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Template Management</h2>
+      <div class="form-outline search-box mb-4">
+        <button mat-raised-button class="custom-button" (click)="createNewTemplate()">
+          <span class="circle">+</span> Create Template
+        </button>
+      </div>
     </div>
-  </div>
 
   <!-- Container for both the table and dialog -->
   <div class="table-container">

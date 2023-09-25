@@ -48,17 +48,17 @@
 				</mat-list-item>
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon">work</mat-icon>
-					<a class="sub-heading" mat-list-item href="/jobs">Job Management</a>
+					<a class="sub-heading" mat-list-item href="/joblog">Job Log Management</a>
 				</mat-list-item>
 			</div>
 
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
 				<mat-icon class="heading-icon">history</mat-icon>
-				<a class="heading-text" *ngIf="isExpanded || isShowing">Template</a>
+				<a class="heading-text" *ngIf="isExpanded || isShowing" href="dataTemplate">Template</a>
 			</mat-list-item>
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
 				<mat-icon class="heading-icon">speaker_notes</mat-icon>
-				<span class="heading-text" *ngIf="isExpanded || isShowing">Job Logs</span>
+				<a class="heading-text" *ngIf="isExpanded || isShowing" href="jobs">Jobs</a>
 			</mat-list-item>
 
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">

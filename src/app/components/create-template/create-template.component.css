@@ -49,7 +49,7 @@
 
 /* Style the "Next" button */
 .next-button {
-  background-color: #007bff;
+  background-color: #eb9e5b;
   color: #fff;
   border-radius: 5px;
   padding: 10px 20px;
@@ -61,5 +61,7 @@
 
 /* Style the "Next" button on hover */
 .next-button:hover {
-  background-color: #0056b3;
+  background-color: #eb9e5b
 }
+
+

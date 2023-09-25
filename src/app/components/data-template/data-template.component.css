@@ -1,141 +1,43 @@
 
 .clients {
-    padding: 20px;
-    text-align: center; 
-  }
-  
-  .title-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  padding: 20px;
+  text-align: center;  
+}
 
-  }
-  
-  .title {
-    font-size: 24px;
-    margin: 0;
-  }
-  
-  .title-container button {
-    margin-right: 70%;
-    background-color: #dfceb5;
-    transition: background-color 0.3s, color 0.3s;  
-  }
-  
-  .title-container button:hover {
-    background-color: #ebe6df;  
-  }
-  
-  .client-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px auto;  
-  }
-  
-  .client-table th,
-  .client-table td {
-    text-align: left;
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .client-table th {
-    background-color: #f2f2f2;
-  }
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-  
-  .client-item {
-    transition: background-color 0.3s; 
-  }
-  
-  .client-item:hover {
-    background-color: #dfceb5;  
-  }
-  
-  .action-cell {
-    text-align: center;  
-  }
-   
+}
 
-  .title-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
- 
 .title {
   font-size: 20.667px;
-  font-weight: bold;
-  font-family: 'Quicksand', sans-serif;
-  margin: 0;  
+font-weight: bold;
+font-family: 'Quicksand', sans-serif;
+display: inline-block;
+margin-right: auto;
 }
-
-.title-container .create-button-container .custom-button{
-  margin: 0px;
-}
-
-
-.create-button-container { 
-  margin-right: 10px;  
-  display: flex; 
-  align-items: center;
-}
-
-.custom-button {
-  background-color: #eb9e5b !important;
-  color: rgb(255, 255, 255);
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center; 
-  font-size: 14px;
-  border-radius: 5%;
-}
-
-.circle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  color: #eb9e5b !important;
-  background-color: #ffffff;  
-  border-radius: 50%; 
-  margin-right: 10px; 
-  font-size: 20px; 
-  font-weight: bold;  
-}
-
-.button-text {
-  font-size: 16px;  
-}
-
 
 .title-container button {
   margin-right: 70%;
-  background-color: #908f8f;
+  background-color: #dfceb5;
   transition: background-color 0.3s, color 0.3s; 
 }
 
 .title-container button:hover {
-  background-color: #ebe6df; 
+  background-color: #ebe6df;  
 }
- 
+
 .client-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px auto;
-  text-align: center; 
+  margin: 20px auto; 
 }
-
 
 .client-table th,
 .client-table td {
-  text-align: center; 
+  text-align: left;
   padding: 8px;
   border-bottom: 1px solid #ddd;
 }
@@ -150,162 +52,234 @@
 }
 
 .client-item:hover {
-  background-color: #ebe6df; 
+  background-color: #dfceb5;  
 }
 
 .action-cell {
   text-align: center; 
 }
-
-
  
 
- 
-mat-input {
-  font-size: 16px; 
-  width: 100%; 
+/* Styles for the title */
+.title {
+font-size: 20.667px;
+font-weight: bold;
+font-family: 'Quicksand', sans-serif;
+margin: 0;
 }
- 
+
+.title-container .create-button-container .custom-button{
+margin: 0px;
+}
+
+.button-container{
+display: flex;
+align-items: center;
+}
+
+.create-button-container { 
+margin-right: 10px;  
+display: flex; 
+align-items: center;
+}
+
+.custom-button {
+background-color: #007bff; /* Button background color */
+color: #fff; /* Button text color */
+font-weight: bold;
+}
+
+.circle {
+font-size: 24px;
+margin-right: 8px;
+}
+
+.button-text {
+font-size: 16px; 
+}
+
+
+.title-container button {
+margin-right: 0px;
+background-color: #eb9e5b;
+transition: background-color 0.3s, color 0.3s;
+margin-top: 20px;
+margin-right: 20px;
+/* Add smooth transition effects */
+}
+
+.title-container button:hover {
+background-color: #ebe6df;
+color: black;
+/* Darker blue background color on hover */
+}
+
+.client-table {
+width: 100%;
+border-collapse: collapse;
+margin: 20px auto;
+text-align: center; 
+}
+
+
+.client-table th,
+.client-table td {
+text-align: center; 
+padding: 8px;
+border-bottom: 1px solid #ddd;
+}
+
+.client-table th {
+background-color: #f2f2f2;
+}
+
+
+.client-item {
+transition: background-color 0.3s; 
+}
+
+.client-item:hover {
+background-color: #ebe6df; 
+}
+
+.action-cell {
+text-align: center; 
+}
+
+
+.search-box { 
+display: flex;
+align-items: center;
+position: relative; 
+}
+
+.search-icon {
+position: absolute;
+left: 10px;  
+right: 20px;  
+color: #999;
+cursor: pointer;
+}
+
+
+mat-input {
+font-size: 16px; 
+width: 100%; 
+}
+
 .form-outline input:focus {
-  outline: none;
+outline: none;
 }
 
 .custom-fab-button {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ebe6df;
+width: 32px;
+height: 32px;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: #ebe6df;
 }
 
 .custom-fab-button mat-icon {
-  font-size: 20px;  
+font-size: 20px;  
 }
 
 
 
 
 .making-active-attractive {
-  border-radius: 5px;
-  color: #4CAF50;
-  font-weight: bold;
-  font-size: 14px;
+border-radius: 5px;
+color: #4CAF50;
+font-weight: bold;
+font-size: 14px;
 }
 
 .making-inactive-attractive {
-  border-radius: 5px;
-  color: #F44336;
-  font-weight: bold;
-  padding: 5px;
-  font-size: 14px;
+border-radius: 5px;
+color: #F44336;
+font-weight: bold;
+padding: 5px;
+font-size: 14px;
 }
 
 .created-info-cell {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+display: flex;
+flex-direction: column;
+text-align: left;
 }
- 
+
 .created-at {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 5px;  
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 5px;  
 }
- 
+
+
 .created-by-label {
-  color: #999;  
-  font-size: 12px;
-  text-align: right;
+color: #999;  
+font-size: 12px;
 }
- 
+
+
 .created-by-cell {
-  font-size: 16px; 
-  font-weight: bold;
-  text-align: right;
+font-size: 12px !important;  
+font-weight: lighter;
+font-family: sans-serif; 
 }
 
 .search-input {
-  flex-grow: 1;  
-  font-size: 16px;
-  padding-left: 40px;  
-  outline: none;
-  color: #333;  
-  border: 1px solid #ccc; 
-  border-radius: 5px;
+flex-grow: 1;  
+font-size: 16px;
+padding-left: 40px; 
+outline: none;
+color: #333;  
+border: 1px solid #ccc;  
+border-radius: 5px;
 }
 
 .created-info {
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 }
 
 .search-input::placeholder {
-  color: #999; 
+color: #999; 
 }
 
 .created-by-cell {
-  color: #999;  
-  font-size: 14px;  
+font-family: 'Times New Roman', Times, serif;
+color: #999; /* Light grey color */
+font-size: 12px; /* Adjust font size as needed */
 }
- 
+
 .filter-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  outline: none;
+background: none;
+border: none;
+cursor: pointer;
+padding: 10px;
+outline: none;
 }
- 
+
 
 .updated-at {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 5px;  
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 5px;  
 }
- 
+
 .updated-by-label {
-  color: #999;  
-  font-size: 12px;
+color: #999;  
+font-size: 12px;
 }
- 
+
 .updated-by-cell {
-  color: #999;  
-  font-size: 14px;  
-  font-weight: bold;
-} 
+color: #999; 
+font-size: 12px;  
+font-weight: lighter;
+font-family: sans-serif; 
+}
 
- 
+.search-input::placeholder {
+color: #999; 
+}
 
-.data-templates {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 50px;
-  }
-  
-  /* Optional: Add some margin to the form for better spacing */
-  form {
-    margin-top: 20px;
-  }
-  
- 
-   
-.table-container {
-    position: relative; /* Set the container to a relative position */
-  }
-  
-  .data-templates {
-    width: 400px;  
-    position: absolute; /* Position the dialog absolutely within the container */
-    top: 50%; /* Position the dialog vertically in the middle of the container */
-    left: 50%; /* Position the dialog horizontally in the middle of the container */
-    transform: translate(-50%, -50%); /* Center the dialog both horizontally and vertically within the container */
-    background-color: white; /* Background color of the dialog */
-    padding: 24px;  
-    border-radius: 8px;  
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);   
-  }
-  
-  

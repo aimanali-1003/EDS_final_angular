@@ -34,4 +34,8 @@ export class JobLogComponent implements OnInit {
     const formattedDate = new Date(date * 1000);
     return formattedDate.toLocaleString();
   }
+
+  CreateNewJob(){
+
+  }
 }

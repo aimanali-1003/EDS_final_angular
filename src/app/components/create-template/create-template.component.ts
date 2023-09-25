@@ -28,5 +28,9 @@ export class CreateTemplateComponent {
     // Assuming you have configured a route for the "Job" component in your app-routing.module.ts
     this.router.navigate(['/createJob']);
   }
+
+  SaveTemplate(){
+    
+  }
 }
 

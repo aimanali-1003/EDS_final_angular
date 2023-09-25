@@ -1,13 +1,14 @@
 <div class="job">
-    <div class="jobs">
-      <h2>Jobs Management</h2>
-  
-      <form (ngSubmit)="createJob()">
-        <mat-form-field>
+  <div class="jobs">
+    <h2>Jobs Management</h2>
+
+    <form (ngSubmit)="createJob()" class="form-grid">
+      <div class="form-row">
+        <mat-form-field class="form-item">
           <input matInput placeholder="Job Name" [(ngModel)]="jobName" name="jobName" required>
         </mat-form-field>
-  
-        <mat-form-field>
+
+        <mat-form-field class="form-item">
           <mat-label>Extraction Frequency</mat-label>
           <mat-select [(ngModel)]="extractionFrequency" name="extractionFrequency" required (change)="onExtractionFrequencyChange()">
             <mat-option value="weekly">Weekly</mat-option>
@@ -16,24 +17,41 @@
             <mat-option value="daily">Daily</mat-option>
           </mat-select>
         </mat-form-field>
-  
-        <!-- Conditional Time Input -->
-        <mat-form-field *ngIf="showTimeInput">
-          <input matInput type="time" placeholder="Extraction Time" [(ngModel)]="extractionTime" name="extractionTime" required>
+      </div>
+
+      <!-- More form fields go here... -->
+
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <input matInput placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
         </mat-form-field>
-  
-        <mat-form-field>
-          <mat-label>Delivery Method</mat-label>
-          <mat-select [(ngModel)]="deliveryMethod" name="deliveryMethod" required>
-            <mat-option value="email">Email</mat-option>
-            <mat-option value="ftp">FTP</mat-option>
-          </mat-select>
+
+        <mat-form-field class="form-item">
+          <input matInput placeholder="Client Name" [(ngModel)]="clientName" name="clientName" required>
         </mat-form-field>
-  
-        <!-- Add more job configuration fields as needed -->
-  
-        <button mat-raised-button color="primary" type="submit">Create Job</button>
-      </form>
-    </div>
+      </div>
+
+      <!-- Start Date and End Date side by side -->
+      <div class="date-row">
+        <mat-form-field class="date-item">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" name="startDate" required>
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="date-item">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" name="endDate" required>
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <!-- Create Job button -->
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" (click)="goToNextComponent()">Create Job</button>
+      </div>
+    </form>
   </div>
-  
+</div>
