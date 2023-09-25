@@ -8,6 +8,7 @@ import { PopupComponent } from '../popup/popup.component';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { CLIENT } from '../constants/table-headers.constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ModalComponent } from '../modal/modal.component';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -35,6 +36,64 @@ export class ClientsComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
   ) { }
+
+  openClientModalForCreate(): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '400px',
+      data: {
+        title: 'Create Client',
+        fields: [
+          { label: 'Client Name', key: 'clientName', required: true },
+          { label: 'Client ID', key: 'clientId', required: true },
+          { label: 'Organization Name', key: 'organizationName', required: false },
+          // Add more fields as needed
+        ],
+        isEditing: false // Explicitly set it to false for a create operation
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the created client data here
+        const newData = result.data; // New data
+        // Perform create logic with newData
+      }
+    });
+  }
+  
+
+  openClientModalForEdit(clientData?: any): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '400px',
+      data: {
+        title: 'Edit Client Details',
+        fields: [
+          { label: 'Client Name', key: 'clientName', required: true },
+          { label: 'Client ID', key: 'clientId', required: true },
+          { label: 'Organization Name', key: 'organizationName', required: false },
+          // Add more fields as needed
+        ],
+        data: clientData || {}, // Pass client data or an empty object
+        isEditing: true // Set the editing flag to true
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the updated client data here
+        if (result.isEditing) {
+          // This means it's an update operation
+          const updatedData = result.data; // Updated data
+          // Perform update logic with updatedData
+        } else {
+          // This means it's a create operation
+          const newData = result.data; // New data
+          // Perform create logic with newData
+        }
+      }
+    });
+  }
+  
 
   openDialog() {
     const dialogRef = this.dialog.open(DeleteDialogComponent,{

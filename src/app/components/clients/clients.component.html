@@ -3,7 +3,7 @@
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
     <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Clients Management</h2>
     <div class="form-outline search-box mb-4">
-      <button mat-raised-button class="custom-button">
+      <button mat-raised-button class="custom-button" (click)="openClientModalForCreate()">
         <span class="circle">+</span> Create Client
       </button>
     </div>
@@ -63,7 +63,7 @@
           <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
         </td>
         <td class="action-cell">
-          <button mat-icon-button [style.color]="'#0091EA'" (click)="editClient(client)">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openClientModalForEdit()">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">

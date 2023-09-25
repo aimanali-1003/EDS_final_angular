@@ -36,12 +36,15 @@ import { TableDataComponent } from './components/table-data/table-data.component
 import { ClientFilterComponent } from './components/client-filter/client-filter.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CategoryComponent } from './components/category/category.component';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { JobLogComponent } from './components/job-log/job-log.component';
 import { MatSortModule } from '@angular/material/sort';
 import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component';
+import { ModalComponent } from './components/modal/modal.component'; 
+import { OrgService } from './services/org.service';
+import { CategoryComponent } from './components/category/category.component';
+
 import { CreateTemplateComponent } from './components/create-template/create-template.component';
 import { CreateJobComponent } from './components/create-job/create-job.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -66,8 +69,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     TableDataComponent,
     ClientFilterComponent,
     DeleteDialogComponent,
-    CategoryComponent,
     JobLogComponent,
+    ModalComponent,
+    CategoryComponent,  
     DataTemplateDialogComponent,
     CreateTemplateComponent,
     CreateJobComponent, 
@@ -104,7 +108,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatCheckboxModule
 
   ],
-  providers: [DataService, ClientService, DatePipe],
+  providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

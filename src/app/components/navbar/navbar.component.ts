@@ -72,7 +72,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 export class NavbarComponent implements OnInit {
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
-  isExpanded = true;
+  isExpanded = false;
   showSubmenu: boolean = false;
   isShowing = false;
   showSubSubMenu: boolean = false;

@@ -1,52 +1,68 @@
-<div class="organization-management custom-font">
-  <mat-card class="custom-card">
-    <div class="header">
-      <h2 class="custom-header" style="font-family: 'Quicksand', sans-serif;">Manage Organizations</h2>
-      <button mat-raised-button (click)="createOrg()" class="custom-btn custom-btn-create"
-        style="font-weight: lighter; border-radius: 10px;">
-        <span style="margin-right: 5px; font-size: 25px;">+</span> Create
+
+<!-- client.component.html -->
+<div class="clients">
+  <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Organization Management</h2>
+    <div class="form-outline search-box mb-4">
+      <button mat-raised-button class="custom-button" (click)="openModalForCreate()">
+        <span class="circle">+</span> Create Client
       </button>
-
     </div>
-    <div class="organization-list">
-      <table mat-table [dataSource]="orgs" class="custom-table">
-        <ng-container matColumnDef="id">
-          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
-            style="font-family: 'Quicksand', sans-serif;">ID</th>
-          <td mat-cell *matCellDef="let org" style="font-family: 'Quicksand', sans-serif;">{{ org.id }}</td>
-        </ng-container>
+  </div>
 
-        <ng-container matColumnDef="OrgName">
-          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
-            style="font-family: 'Quicksand', sans-serif;">Name</th>
-          <td mat-cell *matCellDef="let org" style="font-family: 'Quicksand', sans-serif;">{{ org.OrgName }}</td>
-        </ng-container>
+  <!-- Add the filter icon -->
+  <div class="form-outline search-box mb-4">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input type="search" class="form-control search-input" id="datatable-search-input" placeholder="Search Organization by Name ID & Status">
+    <app-client-filter></app-client-filter>
+  </div> 
 
-        <ng-container matColumnDef="OrgCode">
-          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
-            style="font-family: 'Quicksand', sans-serif;">Code</th>
-          <td mat-cell *matCellDef="let org" style="font-family: 'Quicksand', sans-serif;">{{ org.OrgCode }}</td>
-        </ng-container>
+  <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
+    
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Organization Name</th> 
+        <th>Actions</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let org of displayedOrganization" class="client-item">
+        <td>{{ org.id  }}</td>
+        <td>{{ org.OrgName }}</td>
+       
+        <td class="action-cell">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-        <ng-container matColumnDef="actions">
-          <th class="custom-table-header" mat-header-cell *matHeaderCellDef
-            style="font-family: 'Quicksand', sans-serif;">Actions</th>
-          <td mat-cell *matCellDef="let org">
-            <button style="font-family: 'Quicksand', sans-serif;" mat-raised-button (click)="updateOrg(org)"
-              class="custom-btn custom-btn-update">
-              Update
-            </button>
-            <button style="font-family: 'Quicksand', sans-serif;" mat-raised-button (click)="deleteOrg(org.id)"
-              class="custom-btn custom-btn-delete">
-              Delete
-            </button>
-          </td>
-        </ng-container>
+  <div *ngIf="!displayedOrganization.length" class="no-data-message">
+    No data found.
+  </div>
+ 
+  <!-- Form for creating/editing a client -->
+  <div *ngIf="showOrgForm" class="client-form">
+    <h3>{{ isEditing ? 'Edit Organization' : 'Create New Organization' }}</h3>
+    <form (ngSubmit)="saveOrg()">
+      <mat-form-field class="full-width">
+        <input matInput id="OrgName" name="OrgName" placeholder="Org Name" [(ngModel)]="OrgName" required>
+      </mat-form-field>
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
+          }}</button>
+        <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
+      </div>
+    </form>
+  </div>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </div>
-  </mat-card>
-
+  <!-- <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="clients.length"
+    (pageChange)="onPageChange($event)"></app-pagination> -->
 </div>
