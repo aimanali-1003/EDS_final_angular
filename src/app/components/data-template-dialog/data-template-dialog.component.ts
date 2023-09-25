@@ -1,22 +1,44 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-template-dialog',
   templateUrl: './data-template-dialog.component.html',
 })
 export class DataTemplateDialogComponent {
-  constructor(public dialogRef: MatDialogRef<DataTemplateDialogComponent>) {}
+  templateName: string = '';
+  columns: any[] = [];
+  selectedColumns: any[] = [];
+  selectedCategory: number | null = null;
+  categories: any[] = []; // Define the categories property
+  availableColumns: string[] = ['Column1', 'Column2', 'Column3']; // Replace with actual column names
+  availableCategories: string[] = ['Column1', 'Column2', 'Column3']; 
 
-  // Define methods and properties for your dialog here
 
-  onCancelClick(): void {
-    this.dialogRef.close(); // Close the dialog when "Cancel" is clicked
+  constructor(private dataService: DataService) { }
+
+  onSubmit() {
+    // Add your form submission logic here
+    console.log('Form submitted with templateName:', this.templateName);
+
+    // Optionally, you can close the dialog here if it's supposed to close on submission
+    // this.dialogRef.close(this.templateName);
   }
 
-  onSaveClick(): void {
-    // Handle save logic here if needed
-    this.dialogRef.close();
+  ngOnInit(): void {
+    // Fetch column names from your DataService
+    this.dataService.getColumns().subscribe(columns => {
+      this.columns = columns;
+    });
+  }
+
+  toggleSelection(column: any) {
+    column.checked = !column.checked;
+    this.selectedColumns = this.columns.filter(c => c.checked);
+  }
+
+  isSelected(column: any): boolean {
+    return column.checked;
   }
 }
 

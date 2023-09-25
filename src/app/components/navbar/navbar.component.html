@@ -33,7 +33,7 @@
 				<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
 			</mat-list-item>
 
-			<div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
+			<div class="submenu" [ngClass]="{expanded: showSubmenu, 'not-expanded': !showSubmenu }" *ngIf="isShowing || isExpanded">
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon">supervisor_account</mat-icon>
 					<a class="sub-heading" mat-list-item href="...">Client Management</a>

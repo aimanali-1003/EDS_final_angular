@@ -20,6 +20,8 @@ export class PopupComponent<T> {
       createText: string; // Text for the create button
       updateText: string; // Text for the update button
       isUpdate: boolean; // Flag to indicate whether it's an update
+      width: '400px',
+      panelClass: 'custom-dialog-container'
     }
   ) {}
 
@@ -32,4 +34,5 @@ export class PopupComponent<T> {
     const selectedValue = this.data.isUpdate ? this.data.updatedValue : this.data.input;
     this.dialogRef.close(selectedValue);
   }
+
 }

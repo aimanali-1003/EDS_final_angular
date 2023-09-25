@@ -3,7 +3,7 @@
     <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Data Templates</h2>
     <div class="form-outline search-box mb-4">
       <!-- Button with "+" symbol and "Create" text -->
-      <button class="custom-button" (click)="createNewTemplate()">
+      <button class="custom-button" (click)="openCreateTemplateModal()">
         <span class="circle">+</span> Create
       </button>
     </div>
@@ -67,7 +67,7 @@
           <label for="templateName"></label>
           <input matInput type="text" id="templateName" name="name" placeholder="TemplateName" [(ngModel)]="templateData.name" required>
         </mat-form-field>
- 
+        <!-- Add more form fields for template properties (e.g., columns) as needed -->
 
         <div class="button-container">
           <button mat-raised-button color="primary" type="submit">{{ editingTemplate ? 'Save' : 'Create' }}</button>
@@ -76,4 +76,7 @@
       </form>
     </div>
   </div>
+
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="dataTemplates.length"
+    (pageChange)="onPageChange($event)"></app-pagination>
 </div>

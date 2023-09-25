@@ -7,9 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DataService {
+  
   private apiUrl = 'https://lr7rg.wiremockapi.cloud';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    
+  }
 
   getTemplates(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/template`);
@@ -17,6 +20,10 @@ export class DataService {
 
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/category`);
+  }
+
+  getColumns(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/columns`);
   }
 
   getClients(): Observable<any[]> {

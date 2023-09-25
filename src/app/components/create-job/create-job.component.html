@@ -1,0 +1,39 @@
+<div class="job">
+    <div class="jobs">
+      <h2>Jobs Management</h2>
+  
+      <form (ngSubmit)="createJob()">
+        <mat-form-field>
+          <input matInput placeholder="Job Name" [(ngModel)]="jobName" name="jobName" required>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Extraction Frequency</mat-label>
+          <mat-select [(ngModel)]="extractionFrequency" name="extractionFrequency" required (change)="onExtractionFrequencyChange()">
+            <mat-option value="weekly">Weekly</mat-option>
+            <mat-option value="monthly">Monthly</mat-option>
+            <mat-option value="Once">Once</mat-option>
+            <mat-option value="daily">Daily</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <!-- Conditional Time Input -->
+        <mat-form-field *ngIf="showTimeInput">
+          <input matInput type="time" placeholder="Extraction Time" [(ngModel)]="extractionTime" name="extractionTime" required>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Delivery Method</mat-label>
+          <mat-select [(ngModel)]="deliveryMethod" name="deliveryMethod" required>
+            <mat-option value="email">Email</mat-option>
+            <mat-option value="ftp">FTP</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <!-- Add more job configuration fields as needed -->
+  
+        <button mat-raised-button color="primary" type="submit">Create Job</button>
+      </form>
+    </div>
+  </div>
+  

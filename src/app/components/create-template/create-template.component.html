@@ -1,0 +1,77 @@
+<mat-card class="luxury-card">
+    <mat-card-header>
+      <mat-card-title>Create New Template</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="content">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Template Name" [(ngModel)]="templateName" class="input-field">
+      </mat-form-field>
+  
+      <div class="half-width">
+        <!-- Dropdown for Organization Name -->
+        <!-- <mat-form-field>
+          <mat-label>Organization Name</mat-label>
+          <mat-select [(ngModel)]="selectedOrganization">
+            <mat-option *ngFor="let organization of organizations" [value]="organization">
+              {{ organization }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+  
+        <!-- Dropdown for Client Name -->
+        <!-- <mat-form-field>
+          <mat-label>Client Name</mat-label>
+          <mat-select [(ngModel)]="selectedClient">
+            <mat-option *ngFor="let client of clients" [value]="client">
+              {{ client }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+  
+      <div class="half-width">
+
+        <mat-form-field>
+            <mat-label>Select Category</mat-label>
+            <mat-select [(ngModel)]="selectedCategories" multiple>
+              <mat-option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+        <!-- Dropdown for Select Column -->
+        <mat-form-field>
+          <mat-label>Select Column</mat-label>
+          <mat-select [(ngModel)]="selectedColumns" multiple>
+            <mat-option *ngFor="let column of columns" [value]="column">
+              {{ column }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <!-- Dropdown for Select Category -->
+       
+      </div>
+  
+      <!-- Start Date -->
+      <div class="date-picker-container">
+        <!-- <mat-form-field class="date-picker">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field> -->
+  
+        <!-- <mat-form-field class="date-picker">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate">
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field> -->
+      </div>
+    </mat-card-content>
+    <mat-card-actions class="center-button">
+      <button mat-raised-button color="primary" (click)="goToNextComponent()" class="next-button">Next</button>
+    </mat-card-actions>
+  </mat-card>

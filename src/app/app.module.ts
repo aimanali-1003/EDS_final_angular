@@ -41,8 +41,14 @@ import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { JobLogComponent } from './components/job-log/job-log.component';
 import { MatSortModule } from '@angular/material/sort';
-import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component'; 
-
+import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component';
+import { CreateTemplateComponent } from './components/create-template/create-template.component';
+import { CreateJobComponent } from './components/create-job/create-job.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -62,7 +68,10 @@ import { DataTemplateDialogComponent } from './components/data-template-dialog/d
     DeleteDialogComponent,
     CategoryComponent,
     JobLogComponent,
-    DataTemplateDialogComponent,  
+    DataTemplateDialogComponent,
+    CreateTemplateComponent,
+    CreateJobComponent, 
+    
   ],
   imports: [
     BrowserModule,
@@ -88,6 +97,12 @@ import { DataTemplateDialogComponent } from './components/data-template-dialog/d
     MatSnackBarModule,
     CommonModule,
     MatSortModule, // Moved MatSortModule here
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatCheckboxModule
+
   ],
   providers: [DataService, ClientService, DatePipe],
   bootstrap: [AppComponent],

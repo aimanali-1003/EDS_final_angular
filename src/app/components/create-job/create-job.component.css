@@ -1,0 +1,38 @@
+/* Apply a luxury card styling to the job management container */
+.job {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px; /* Add margin to the container */
+    padding: 20px; /* Add padding to the container */
+    width: 600px; /* Set a fixed width for the container */
+  }
+  
+  /* Style the heading */
+  .jobs h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style the form fields */
+  .mat-form-field {
+    width: 100%; /* Set fields to 100% width */
+    margin-bottom: 15px;
+  }
+  
+  /* Style the submit button */
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    width: auto; /* Reset button width */
+  }
+  
+  /* Style the submit button on hover */
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  

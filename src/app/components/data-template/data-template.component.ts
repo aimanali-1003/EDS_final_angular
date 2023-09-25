@@ -13,18 +13,58 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DataTemplateComponent implements OnInit {
   dataTemplates: any[] = [];
+  category: string[] = [];
   showForm = false;
   templateData: any = {};
   editingTemplate = false;
   template: DataTemplate = { name: '', category: '', columns: [] };
   availableColumns: string[] = ['Column1', 'Column2', 'Column3'];
   selectedColumns: string[] = [];
+  displayedCategory: any[] = []; 
+
+
+  pageSize: number = 10; // Adjust as needed
+  searchTerm: string = '';
+  selectedClient: any = {};
+  dataRecipients: any[] = [];
+  notificationRecipients: any[] = [];
+
 
   selectedCategory: string[] = [];
   availableCategories: string[] = [];
 
   isDialogOpen = false;
 
+  private updateDisplayedCategory(pageNumber: number) {
+    const startIndex = (pageNumber - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedCategory = this.category.slice(startIndex, endIndex);
+  }
+
+  onPageChange(pageNumber: number) {
+    this.updateDisplayedCategory(pageNumber);
+  }
+
+  onPageSizeChange(event: any) {
+    this.pageSize = event.target.value;
+    this.updateDisplayedCategory(1); // Reset to the first page when page size changes
+  }
+
+  fetchClients() {
+    this.dataService.getDataTemplates().subscribe((category: any[]) => {
+      this.category = category;
+      this.updateDisplayedCategory(1); // Initialize displayedClients when data is fetched
+    });
+  }
+  openCreateTemplateModal() {
+    const dialogRef = this.dialog.open(DataTemplateDialogComponent, {
+      width: '400px', // Adjust the width as needed
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle modal close if needed
+    });
+  }
   constructor(
     private dataService: DataService,
     private router: Router,
