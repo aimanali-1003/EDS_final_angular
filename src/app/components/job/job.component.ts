@@ -66,10 +66,10 @@ export class JobComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '400px',
       data: {
-        title: 'Edit Client Details',
+        title: 'Edit Job Details',
         fields: [
-          { label: 'Client Name', key: 'clientName', required: true },
-          { label: 'Client ID', key: 'clientId', required: true },
+          { label: 'Job Name', key: 'jobName', required: true },
+          { label: 'Job ID', key: 'jobId', required: true },
           { label: 'Organization Name', key: 'organizationName', required: false },
           // Add more fields as needed
         ],

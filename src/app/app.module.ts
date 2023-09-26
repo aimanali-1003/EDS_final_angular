@@ -10,11 +10,12 @@ import { DataTemplateComponent } from './components/data-template/data-template.
 import { FormsModule } from '@angular/forms';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ClientService } from './services/client.service';
-import { MatSelectModule } from '@angular/material/select'; // Add 
+import { MatSelectModule } from '@angular/material/select';  
 import { RouterModule } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button'; // Import Material button module
+import { MatButtonModule } from '@angular/material/button'; 
 import { MatDialogModule } from '@angular/material/dialog';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -43,7 +44,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component';
 import { ModalComponent } from './components/modal/modal.component'; 
 import { OrgService } from './services/org.service';
-import { CategoryComponent } from './components/category/category.component';
+import { CategoryComponent } from './components/category/category.component'; 
 
 import { CreateTemplateComponent } from './components/create-template/create-template.component';
 import { CreateJobComponent } from './components/create-job/create-job.component';
@@ -93,20 +94,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatIconModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatTableModule, // Moved MatTableModule here
+    MatTableModule,  
     MatCardModule,
     MatSidenavModule,
     MatListModule,
     MatOptionModule,
     MatSnackBarModule,
     CommonModule,
-    MatSortModule, // Moved MatSortModule here
+    MatSortModule,  
     MatDatepickerModule,
     MatNativeDateModule,
     MatStepperModule,
     ReactiveFormsModule,
-    MatCheckboxModule
-
+    MatCheckboxModule,
+    MatDividerModule
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent],

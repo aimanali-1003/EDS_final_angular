@@ -63,10 +63,10 @@ export class CategoryComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '400px',
       data: {
-        title: 'Edit Client Details',
+        title: 'Edit Category Details',
         fields: [
-          { label: 'Client Name', key: 'clientName', required: true },
-          { label: 'Client ID', key: 'clientId', required: true },
+          { label: 'Category Name', key: 'categoryName', required: true },
+          { label: 'Category ID', key: 'categoryId', required: true },
           { label: 'Organization Name', key: 'organizationName', required: false },
           // Add more fields as needed
         ],

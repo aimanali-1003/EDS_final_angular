@@ -8,7 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ec742a; /* Add your desired background color here */ 
+    background-color: #ffffff; /* Add your desired background color here */ 
     padding: 16px 24px;
     border-bottom: 1px solid #ccc;
     
@@ -16,9 +16,9 @@
   
   .luxury-modal-title {
     font-size: 24px;
-    color: #fff; /* Change text color to contrast with the background */
+    color: #000000; /* Change text color to contrast with the background */
     margin: 0;
-    font-size: medium;
+    font-size: 20px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
   

@@ -3,15 +3,14 @@
   background-color: #f8f8f8;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  margin-left: 20px; /* Add left margin */
+  margin: 0 auto; /* Center horizontally */
+  margin-top: 10%; /* Adjust vertical position as needed */
   padding: 20px; /* Add padding to the card */
-  width: 800px; /* Increase the width of the card to 800px or adjust as needed */
-}
-
-/* Style the content within the card */
-.content {
+  width: 60%; /* Increase the width of the card to 60% or adjust as needed */
+  position: relative; /* Use relative positioning */
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center horizontally within the card */ 
 }
 
 /* Style input fields */
@@ -21,47 +20,45 @@
   border-radius: 5px;
   padding: 10px;
   font-size: 16px;
-  width: 100%; /* Set fields to 100% width */
-}
-
-/* Style two lines of fields side by side */
-.half-width {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px; /* Add spacing between fields */
-  width: 100%; /* Make it take up the full width of the card */
-}
-
-/* Style select fields */
-.mat-form-field {
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
   width: 48%; /* Set fields to approximately 48% width to accommodate gap */
 }
 
-/* Center the "Next" button */
-.center-button {
+/* Style the row containing "Template Name" and "Select Columns" */
+.row { 
+  justify-content: space-between; 
+}
+
+/* Center the "Select Category" field */
+.center-row {
   display: flex;
   justify-content: center;
 }
 
-/* Style the "Next" button */
-.next-button {
-  background-color: #eb9e5b;
-  color: #fff;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  width: auto; /* Reset button width */
-  margin-right: 0; /* Remove right margin */
+/* Style the button container and align buttons to the right */
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 20px;
+  gap: 10px; /* Add spacing between buttons */
+  /* border-top: 1px solid lightgrey; */
 }
 
-/* Style the "Next" button on hover */
-.next-button:hover {
-  background-color: #eb9e5b
+.create-job-button {
+  background-color: #4CAF50;
+  color: #fcfbfa;
+  font-weight: medium;
+  box-shadow: none;
 }
 
+.create-job-button:hover {
+  background-color: #75b777;
+  color: #f3eeeb;
+  font-weight: medium;
+}
 
+/* Add hover effect for cancel button */
+.luxury-modal-button-cancel {
+  color: #ee958d;
+  background-color: rgb(243, 227, 227);
+  box-shadow: none;
+}

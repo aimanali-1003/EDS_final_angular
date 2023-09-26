@@ -9,19 +9,23 @@ import { Router } from '@angular/router';
 })
 export class CreateJobComponent implements OnInit {
 
-  extractionTime: string = ''; // Property for the time input
-
+  extractionTime: string = '';
   extractionFrequency: string = '';
   jobs: any[] = [];
   jobName: string = '';
   deliveryMethod: string = 'email';
   showTimeInput: boolean = false;
   startDate!: Date;
-endDate!: Date;
-clientName!: string; // Declare the clientName property
+  endDate!: Date;
+  clientName!: string;
   organizationName!: string;
-
-
+  selectedDayOfWeek: string = '';
+  daysOfWeek: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // Define days of the week
+  selectedDays: { [key: string]: boolean } = {}; // Initialize selectedDays object
+  daysOfMonth: number[] = Array.from({ length: 31 }, (_, i) => i + 1); // Days 1 to 31
+  selectedDayOfMonth: number = 1; // Default value, you can set it to any initial value
+  
+  
   constructor(private jobService: JobService, private router: Router) { }
 
   ngOnInit(): void {
@@ -31,7 +35,7 @@ clientName!: string; // Declare the clientName property
     });
   }
 
-  goToJobLog(){
+  goToJobLog() {
 
   }
 
@@ -40,13 +44,12 @@ clientName!: string; // Declare the clientName property
     this.router.navigate(['/joblog']);
   }
 
-  
-
   createJob() {
     const jobConfig = {
       name: this.jobName,
       frequency: this.extractionFrequency,
-      method: this.deliveryMethod
+      method: this.deliveryMethod,
+      extractionTime: this.extractionTime // Add extraction time to job configuration
       // Add more job configuration properties here
     };
 
@@ -57,27 +60,11 @@ clientName!: string; // Declare the clientName property
     });
   }
 
-  // createNewJob() {
-  //   // Navigate to the page for creating a new job
-  //   this.router.navigate(['/jobs/create']);
-  // }
-
-  // editJob(job: any) {
-  //   // Navigate to the page for editing a job, passing the job ID as a parameter
-  //   this.router.navigate(['/jobs/edit', job.id]);
-  // }
-
-  // deleteJob(job: any) {
-  //   // Delete the job using the job service (implement this method in the service)
-  //   this.jobService.deleteJob(job.id).subscribe(() => {
-  //     // Remove the job from the local list
-  //     this.jobs = this.jobs.filter(j => j.id !== job.id);
-  //   });
-  // }
-
   onExtractionFrequencyChange() {
-    // Set showTimeInput to true if "Daily" is selected, false otherwise
     this.showTimeInput = this.extractionFrequency === 'daily';
-  }
 
+    // Clear selectedDays when the frequency changes
+    this.selectedDays = {};
+  }
+  
 }
