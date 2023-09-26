@@ -29,14 +29,14 @@
 		<mat-nav-list class="nav-list-margin">
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
 				<mat-icon class="heading-icon">assignment_ind</mat-icon>
-				<span class="heading-text" *ngIf="isExpanded || isShowing">Manage Master Data</span>
+				<span class="heading-text" style="font-family:'Quicksand', sans-serif ;" *ngIf="isExpanded || isShowing">Manage Master Data</span>
 				<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
 			</mat-list-item>
 
 			<div class="submenu" [ngClass]="{expanded: showSubmenu, 'not-expanded': !showSubmenu }" *ngIf="isShowing || isExpanded">
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon">supervisor_account</mat-icon>
-					<a class="sub-heading" mat-list-item href="/clients">Client Management</a>
+					<a class="sub-heading" mat-list-item href="/clients" >Client Management</a>
 				</mat-list-item>
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon"> business</mat-icon>

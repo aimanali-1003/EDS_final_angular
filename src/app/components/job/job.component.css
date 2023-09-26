@@ -21,7 +21,7 @@ margin-right: auto;
 
 .title-container button {
   margin-right: 70%;
-  background-color: #dfceb5;
+  background-color: #F06105;
   transition: background-color 0.3s, color 0.3s; 
 }
 
@@ -100,8 +100,7 @@ font-size: 16px;
 
 
 .title-container button {
-margin-right: 0px;
-background-color: #eb9e5b;
+margin-right: 0px; 
 transition: background-color 0.3s, color 0.3s;
 margin-top: 20px;
 margin-right: 20px;

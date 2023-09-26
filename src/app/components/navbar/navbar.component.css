@@ -1,12 +1,12 @@
 .example-container {
-  border: 0.2px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 0.1px solid rgba(204, 201, 201, 0.5);
+   
 }
 
 .example-toolbar{
-  background-color: #eb9e5b;
+  background-color: #ffffff;
   height: 56px;
-  /* color: black; */
+color:#F06105;
 }
 
 .example-sidenav-content {
@@ -82,7 +82,7 @@
   font-family: 'Quicksand', sans-serif;
   font-weight: bold;
   font-size: 20px; /* Adjust the font size as needed */
-  color: white; /* Set the color as needed */
+  color: #F06105; /* Set the color as needed */
 }
 
 .mat-list-base .mat-list-item .mat-list-icon, .mat-list-base .mat-list-option .mat-list-icon {
@@ -121,6 +121,7 @@
 
 .heading-text{
   margin-left: 20px;
+  font-family:'Quicksand', sans-serif ;
 }
 
 .heading-icon{
@@ -128,42 +129,31 @@
     color: #fefefe !important;
 
     font-size: 18px !important;
-    background: #eb9e5b;
+    background: #F06105;
 
     width: 30px;
     height: 30px ; 
     text-align: center; 
     line-height: 30px ; 
-    border-radius: 5px;
-  
-  
+    border-radius: 5px; 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.sub-heading-icon {
-  /* color: #43403f; */
-  color: #fefefe;
-
+.sub-heading-icon { 
+  color: #fefefe; 
   font-size: 22px;
-  background: #eb9e5b;
-
- 
-
+  background: #F06105; 
   width: 35px;
   height: 30px ; 
   text-align: center; 
   line-height: 30px ; 
-  border-radius: 5px;
-
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-
+  border-radius: 5px; 
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
 }
 
-.sub-heading {
-  /* color: #43403f; */
-  color: #000000;
-
+.sub-heading { 
+  color: #000000; 
   font-size: 15px;
   font-weight: 2px;
+  font-family:'Quicksand', sans-serif ;
 }
