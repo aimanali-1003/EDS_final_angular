@@ -31,32 +31,7 @@ export class JobComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router
-  ) { }
-
-  openModalForCreate(): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '400px',
-      data: {
-        title: 'Create Client',
-        fields: [
-          { label: 'Client Name', key: 'clientName', required: true },
-          { label: 'Client ID', key: 'clientId', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          // Add more fields as needed
-        ],
-        isEditing: false // Explicitly set it to false for a create operation
-      }
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the created client data here
-        const newData = result.data; // New data
-        // Perform create logic with newData
-      }
-    });
-  }
-
+  ) { } 
   CreateJobs(){
     this.router.navigate(['/createJob']);
   }

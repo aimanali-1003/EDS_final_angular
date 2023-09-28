@@ -8,6 +8,9 @@ import { OrgManagementComponent } from './components/org-management/org-manageme
 import { CreateTemplateComponent } from './components/create-template/create-template.component';
 import { CreateJobComponent } from './components/create-job/create-job.component';
 import { CategoryComponent } from './components/category/category.component';
+import { CreateClientComponent } from './components/create-client/create-client.component';
+import { CreateCategoryComponent } from './components/create-category/create-category.component';
+import { CreateOrgComponent } from './components/create-org/create-org.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/clients', pathMatch: 'full' }, // Default route
@@ -21,7 +24,10 @@ const routes: Routes = [
   { path: 'createTemplate', component: CreateTemplateComponent },
   { path: 'createJob', component: CreateJobComponent },
   { path: 'category', component: CategoryComponent },
+  {path:'createClient',component:CreateClientComponent},
+  {path:'createOrg',component:CreateOrgComponent},
 
+{path:'createCategory',component:CreateCategoryComponent},
   // Add more routes as needed 
 ];
 

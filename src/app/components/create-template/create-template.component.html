@@ -18,14 +18,20 @@
   </div>
   <div class="roww" *ngIf="selectedCategories.length > 0">
     <mat-label>Select Columns</mat-label>
-    <mat-form-field>
-      <input matInput placeholder="Search Columns" [(ngModel)]="columnSearch" (input)="updateFilteredColumns()">
-    </mat-form-field>
+    <div class="search-container">
+      <mat-form-field>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput placeholder="Search Columns" [(ngModel)]="columnSearch" (input)="updateFilteredColumns()">
+      </mat-form-field>
+    </div>
+    
     <div class="scrollable-column">
       <div class="column-checkbox" *ngFor="let column of columns">
-        <mat-checkbox [(ngModel)]="selectedColumns[column]">{{ column }}</mat-checkbox>
+        <mat-checkbox [(ngModel)]="selectedColumns[column]"  [ngClass]="{'checked-checkbox': selectedColumns[column]}">{{ column }}</mat-checkbox>
       </div>
     </div>
+    
+    
   </div>
    
   <mat-card-actions class="button-container">

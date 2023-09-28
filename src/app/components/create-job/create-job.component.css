@@ -6,9 +6,8 @@
   width: 60%; 
   margin: 0 auto;
   position: absolute;
-  top: 35%;
-  left: 4%; /* Adjust the left value to control the position from the left side */
-  transform: translateY(-50%);
+  top: 7%;
+  left: 4%; /* Adjust the left value to control the position from the left side */ 
 }
 
 

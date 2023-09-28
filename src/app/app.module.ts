@@ -52,6 +52,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EditFullScreenComponent } from './components/edit-full-screen/edit-full-screen.component';
+import { CreateClientComponent } from './components/create-client/create-client.component';
+import { CreateCategoryComponent } from './components/create-category/create-category.component';
+import { CreateOrgComponent } from './components/create-org/create-org.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +78,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CategoryComponent,  
     DataTemplateDialogComponent,
     CreateTemplateComponent,
-    CreateJobComponent, 
+    CreateJobComponent,
+    EditFullScreenComponent,
+    CreateClientComponent,
+    CreateCategoryComponent,
+    CreateOrgComponent, 
     
   ],
   imports: [
@@ -106,7 +114,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatStepperModule,
     ReactiveFormsModule,
     MatCheckboxModule,
-    MatDividerModule
+    MatDividerModule, 
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent],

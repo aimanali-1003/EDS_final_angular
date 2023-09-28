@@ -54,7 +54,7 @@
 }
 
 .scrollable-column {
-  max-height: 200px; /* Set the maximum height for the scrollable column */
+  max-height: 270px; /* Set the maximum height for the scrollable column */
   overflow-y: scroll; /* Enable vertical scrolling */
   border: 1px solid #ccc; /* Add a border for better separation */
   padding: 10px; /* Add padding for better appearance */
@@ -75,5 +75,24 @@ mat-form-field {
   margin-bottom: 10px; /* Add spacing below the input fields */
 }
 
+/* Add this CSS to your component's stylesheet */
+.search-container {
+  display: flex;
+  align-items: center; /* Vertically align items */
+}
 
+/* Optional: Add spacing between icon and input */
+mat-icon {
+  margin-right: 8px; /* Adjust as needed */
+}
+
+/* Style for the search input field */
+mat-form-field {
+  flex: 1; /* Allow the input field to take available space */
+}
+ 
+/* Add this CSS to your component's stylesheet or a global stylesheet */
+/* ::ng-deep .mat-checkbox-checked .checked-checkbox .mat-checkbox-background .mat-checkbox-frame {
+  border-color: DodgerBlue;  
+} */
 

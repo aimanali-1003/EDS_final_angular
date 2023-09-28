@@ -1,21 +1,19 @@
- 
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Organization } from '../../org.model';
-import { ModalComponent } from '../modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DataService } from 'src/app/services/data.service';
+import { Organization } from '../../org.model';
 import { OrgService } from 'src/app/services/org.service';
+import { ModalComponent } from '../modal/modal.component';
+import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-org-management',
   templateUrl: './org-management.component.html',
-  styleUrls: ['./org-management.component.css']
+  styleUrls: ['./org-management.component.css'],
 })
 export class OrgManagementComponent implements OnInit {
-  displayedOrganization: any[] = []; 
+  displayedOrganization: Organization[] = [];
   displayedColumns: string[] = ['id', 'OrgName', 'OrgCode', 'actions'];
   orgs: Organization[] = [];
   showOrgForm: boolean = false;
@@ -31,90 +29,66 @@ export class OrgManagementComponent implements OnInit {
     CreatedBy: '',
     UpdatedAt: 0,
     UpdatedBy: '',
-    Active: false
+    Active: false,
   };
 
-  cancelEdit() {
-    this.showOrgForm = false;
-  }
-
-  constructor(private http: HttpClient,
+  constructor(
     private org: OrgService,
-    private data: DataService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,) {}
+    private snackBar: MatSnackBar,
+    
+    private router: Router,
+  ) {}
 
   ngOnInit() {
-    // this.loadOrgs();
     this.fetchOrgs();
   }
 
-  saveOrg() {
-    
-  }
-
-  // loadOrgs() {
-  //   this.http.get<Organization[]>('https://lr7rg.wiremockapi.cloud/orgs').subscribe(orgs => {
-  //     this.orgs = orgs;
-  //   });
-  // }
-
   fetchOrgs() {
-    this.org.getOrgs().subscribe((orgs: any[]) => {
+    this.org.getOrgs().subscribe((orgs: Organization[]) => {
       this.orgs = orgs;
-      console.log('Organization:', this.orgs); // Log the clients array
-      // this.updateDisplayedClients(1);
+      this.displayedOrganization = orgs;
     });
   }
 
-  openModalForEdit(clientData?: any): void {
+  openModalForEdit(orgData?: Organization): void {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '400px',
       data: {
-        title: 'Edit Client Details',
+        title: 'Edit Organization Details',
         fields: [
-          { label: 'Client Name', key: 'clientName', required: true },
-          { label: 'Client ID', key: 'clientId', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          // Add more fields as needed
+          { label: 'Organization Name', key: 'OrgName', required: true },
+          { label: 'Organization Code', key: 'OrgCode', required: true },
         ],
-        data: clientData || {}, // Pass client data or an empty object
-        isEditing: true // Set the editing flag to true
-      }
+        data: orgData || {},
+        isEditing: true,
+      },
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Handle the updated client data here
         if (result.isEditing) {
-          // This means it's an update operation
-          const updatedData = result.data; // Updated data
+          const updatedData = result.data;
           // Perform update logic with updatedData
-        } else {
-          // This means it's a create operation
-          const newData = result.data; // New data
-          // Perform create logic with newData
         }
       }
     });
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DeleteDialogComponent,{
-      data:{
-        message: 'Are you sure want to delete?',
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete?',
         buttonText: {
           ok: 'Delete',
-          cancel: 'Cancel'
-        }
-      }
+          cancel: 'Cancel',
+        },
+      },
     });
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        const a = document.createElement('a');
-        a.click();
-        a.remove();
+        // Perform delete logic
         this.snackBar.open('Successfully Deleted', 'Cancel', {
           duration: 2000,
         });
@@ -122,59 +96,44 @@ export class OrgManagementComponent implements OnInit {
     });
   }
 
-  // createOrg() {
-  //   this.http.post('https://lr7rg.wiremockapi.cloud/orgs', this.newOrg).subscribe(() => {
-  //     this.loadOrgs(); // Refresh the organization list
-  //     this.newOrg = {  // Clear the form fields
-  //       id: '',
-  //       OrgName: '',
-  //       OrgCode: '',
-  //       ClientID: 0,
-  //       CreatedAt: 0,
-  //       CreatedBy: '',
-  //       UpdatedAt: 0,
-  //       UpdatedBy: '',
-  //       Active: false
-  //     };
-  //   });
-  // }
-
-  // updateOrg(org: Organization) {
-  //   this.http.put(`https://lr7rg.wiremockapi.cloud/orgs/${org.id}`, org).subscribe(() => {
-  //     this.loadOrgs(); // Refresh the organization list
-  //   });
-  // }
-
-  // deleteOrg(id: string) {
-  //   this.http.delete(`https://lr7rg.wiremockapi.cloud/orgs/${id}`).subscribe(() => {
-  //     this.loadOrgs(); // Refresh the organization list
-  //   });
-  // }
-
   openModalForCreate(): void {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '400px',
       data: {
-        title: 'Create Client',
+        title: 'Create Organization',
         fields: [
-          { label: 'Client Name', key: 'clientName', required: true },
-          { label: 'Client ID', key: 'clientId', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          // Add more fields as needed
+          { label: 'Organization Name', key: 'OrgName', required: true },
+          { label: 'Organization Code', key: 'OrgCode', required: true },
         ],
-        isEditing: false // Explicitly set it to false for a create operation
-      }
+        isEditing: false, // Explicitly set it to false for a create operation
+      },
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Handle the created client data here
-        const newData = result.data; // New data
-        // Perform create logic with newData
+        const newOrgData = result.data;
+        // Perform create logic with newOrgData
       }
     });
   }
 
-  
+  // Add the saveOrg method to handle organization creation/update
+  saveOrg(): void {
+    // Add logic to create/update the organization here
+    if (this.isEditing) {
+      // Update organization logic
+    } else {
+      // Create organization logic
+    }
+  }
 
+  // Add the cancelEdit method to cancel organization editing
+  cancelEdit(): void {
+    this.isEditing = false;
+    // Reset any form fields or variables used for editing
+  }
+
+  CreateOrg(){
+    this.router.navigate(['/createOrg']);
+  }
 }

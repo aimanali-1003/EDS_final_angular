@@ -60,6 +60,9 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
+  CreateClients(){
+    this.router.navigate(['/createClient']);
+  }
   
 
   openClientModalForEdit(clientData?: any): void {

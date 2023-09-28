@@ -1,11 +1,9 @@
-
-<!-- client.component.html -->
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
     <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Organization Management</h2>
     <div class="form-outline search-box mb-4">
-      <button mat-raised-button class="custom-button" (click)="openModalForCreate()">
-        <span class="circle">+</span> Create Client
+      <button mat-raised-button class="custom-button" (click)="CreateOrg()">
+        <span class="circle">+</span> Create Organization
       </button>
     </div>
   </div>
@@ -48,7 +46,7 @@
     No data found.
   </div>
  
-  <!-- Form for creating/editing a client -->
+  <!-- Form for creating/editing an organization -->
   <div *ngIf="showOrgForm" class="client-form">
     <h3>{{ isEditing ? 'Edit Organization' : 'Create New Organization' }}</h3>
     <form (ngSubmit)="saveOrg()">
