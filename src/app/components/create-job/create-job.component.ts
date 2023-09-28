@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-job.component.css']
 })
 export class CreateJobComponent implements OnInit {
-
+  extractionDate!: Date;
   extractionTime: string = '';
   extractionFrequency: string = '';
   jobs: any[] = [];
@@ -36,7 +36,7 @@ export class CreateJobComponent implements OnInit {
   }
 
   goToJobLog() {
-
+    // Add your logic here
   }
 
   goToNextComponent() {
@@ -65,6 +65,10 @@ export class CreateJobComponent implements OnInit {
 
     // Clear selectedDays when the frequency changes
     this.selectedDays = {};
+
+    // Set extractionDate to null when the frequency is not "once"
+    if (this.extractionFrequency !== 'once') {
+      this.extractionDate = null as any;
+    }
   }
-  
 }
