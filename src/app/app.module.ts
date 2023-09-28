@@ -44,8 +44,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component';
 import { ModalComponent } from './components/modal/modal.component'; 
 import { OrgService } from './services/org.service';
-import { CategoryComponent } from './components/category/category.component'; 
-
+import { CategoryComponent } from './components/category/category.component';
 import { CreateTemplateComponent } from './components/create-template/create-template.component';
 import { CreateJobComponent } from './components/create-job/create-job.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';

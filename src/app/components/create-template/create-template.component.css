@@ -3,44 +3,24 @@
   background-color: #f8f8f8;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  margin: 0 auto; /* Center horizontally */
-  margin-top: 10%; /* Adjust vertical position as needed */
-  padding: 20px; /* Add padding to the card */
-  width: 60%; /* Increase the width of the card to 60% or adjust as needed */
-  position: relative; /* Use relative positioning */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center horizontally within the card */ 
+  padding: 20px;
+  width: 60%;
+  margin: 0 auto;
+  position: absolute;
+  top: 6.5%;
+  left: 4%;
 }
 
-/* Style input fields */
-.input-field {
-  margin-bottom: 15px;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  width: 48%; /* Set fields to approximately 48% width to accommodate gap */
+.flexible-field {
+  flex: 1; /* Allow fields to flex and take available space evenly */
+  margin-right: 10px; /* Add spacing between fields */
 }
 
-/* Style the row containing "Template Name" and "Select Columns" */
-.row { 
-  justify-content: space-between; 
-}
-
-/* Center the "Select Category" field */
-.center-row {
-  display: flex;
-  justify-content: center;
-}
-
-/* Style the button container and align buttons to the right */
 .button-container {
   display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
+  justify-content: flex-end; 
   margin-top: 20px;
-  gap: 10px; /* Add spacing between buttons */
-  /* border-top: 1px solid lightgrey; */
+  gap: 10px;   
 }
 
 .create-job-button {
@@ -56,9 +36,44 @@
   font-weight: medium;
 }
 
-/* Add hover effect for cancel button */
 .luxury-modal-button-cancel {
   color: #ee958d;
   background-color: rgb(243, 227, 227);
   box-shadow: none;
 }
+
+.roww {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start of the column */
+  margin-top: 10px; /* Add spacing between the label and checkboxes */
+}
+
+.column-checkboxes {
+  margin-top: 5px; /* Add spacing between checkboxes */
+}
+
+.scrollable-column {
+  max-height: 200px; /* Set the maximum height for the scrollable column */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Add a border for better separation */
+  padding: 10px; /* Add padding for better appearance */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribute columns evenly */
+}
+
+.column-checkbox {
+  flex-basis: calc(33.33% - 10px); /* Display 3 columns per row with some spacing */
+  margin-bottom: 10px; /* Add spacing between rows */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+/* Style for the search input field */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 10px; /* Add spacing below the input fields */
+}
+
+
+
