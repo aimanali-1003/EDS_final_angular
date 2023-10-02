@@ -10,11 +10,11 @@
     </div>
       
   
-    <div class="form-outline search-box mb-4">
-      <mat-icon class="search-icon">search</mat-icon>
-      <input type="search" class="form-control search-input" id="datatable-search-input" placeholder="Search Category by Name ID & Status">
-      <app-client-filter></app-client-filter>
-    </div> 
+    <app-search [placeholderText]="'Search Category by Name ID & Status'"
+                  (searchQueryChanged)="performClientSearch($event)"
+                  (filterChanged)="applyClientFilter($event)">
+    </app-search>
+
   
     <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
       

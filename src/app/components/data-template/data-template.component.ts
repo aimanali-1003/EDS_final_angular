@@ -111,6 +111,16 @@ export class DataTemplateComponent implements OnInit {
     this.showForm = false;
     this.templateData = {};
   }
+
+  performClientSearch(query: string) {
+    // Implement the search logic specific to the 'clients' component
+    // Update your displayedCategory based on the query
+  }
+  
+  applyClientFilter(filterData: any) {
+    // Implement the filter logic specific to the 'clients' component
+    // Update your displayedCategory based on the filter data
+  }
   // Open the create template dialog
 openCreateTemplateDialog(): void {
   // Prevent opening multiple dialogs

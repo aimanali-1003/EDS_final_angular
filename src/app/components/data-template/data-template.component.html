@@ -8,6 +8,11 @@
       </div>
     </div>
 
+    <app-search [placeholderText]="'Search Template by Name ID & Status'"
+                  (searchQueryChanged)="performClientSearch($event)"
+                  (filterChanged)="applyClientFilter($event)">
+  </app-search>
+
   <!-- Container for both the table and dialog -->
   <div class="table-container">
     <!-- Display a list of data templates using a Material UI table -->

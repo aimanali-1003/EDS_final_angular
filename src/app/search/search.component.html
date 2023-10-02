@@ -1,0 +1,6 @@
+<div class="form-outline search-box mb-4">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input type="search" class="form-control search-input" [(ngModel)]="searchQuery" placeholder="{{ placeholderText }}">
+    <app-client-filter (filterChanged)="applyFilter($event)"></app-client-filter>
+  </div>
+  

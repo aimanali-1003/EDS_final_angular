@@ -4,6 +4,12 @@
      
     
   </div>
+
+  <app-search [placeholderText]="'Search Job Log by Name ID & Status'"
+                  (searchQueryChanged)="performClientSearch($event)"
+                  (filterChanged)="applyClientFilter($event)">
+  </app-search>
+  
   <!-- Display a list of job logs -->
   <table class="client-table" style="font-family: 'Quicksand', sans-serif;"> 
     <thead>

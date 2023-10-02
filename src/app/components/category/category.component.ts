@@ -251,6 +251,18 @@ export class CategoryComponent implements OnInit {
       this.updateDisplayedClients(1);
     });
   }
+
+  performClientSearch(query: string) {
+    // Implement the search logic specific to the 'clients' component
+    // Update your displayedCategory based on the query
+  }
+  
+  applyClientFilter(filterData: any) {
+    // Implement the filter logic specific to the 'clients' component
+    // Update your displayedCategory based on the filter data
+  }
+  
+  
   
   
   

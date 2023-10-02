@@ -56,6 +56,7 @@ import { EditFullScreenComponent } from './components/edit-full-screen/edit-full
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component';
 import { CreateOrgComponent } from './components/create-org/create-org.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { CreateOrgComponent } from './components/create-org/create-org.component
     EditFullScreenComponent,
     CreateClientComponent,
     CreateCategoryComponent,
-    CreateOrgComponent, 
+    CreateOrgComponent,
+    SearchComponent, 
     
   ],
   imports: [

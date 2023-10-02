@@ -68,6 +68,16 @@ export class JobComponent implements OnInit {
       }
     });
   }
+
+  performClientSearch(query: string) {
+    // Implement the search logic specific to the 'clients' component
+    // Update your displayedCategory based on the query
+  }
+  
+  applyClientFilter(filterData: any) {
+    // Implement the filter logic specific to the 'clients' component
+    // Update your displayedCategory based on the filter data
+  }
   
 
   openDialog() {
