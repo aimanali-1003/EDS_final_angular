@@ -1,30 +1,27 @@
 <div class="client">
-    <div class="client-content">
-      <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New client</h2>
-  
-      <form (ngSubmit)="createclient()" class="form-grid">
-        <div class="form-row">
-          <mat-form-field class="form-item">
-            <input matInput placeholder="Client Name" [(ngModel)]="clientName" name="clientName" required>
-          </mat-form-field>
-        </div>   
-  
-        <div class="form-row">
-          <mat-form-field class="form-item">
-            <input matInput placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
-          </mat-form-field> 
-        </div>
-   
-        <div class="form-row">
-            <mat-form-field class="form-item">
-              <input matInput placeholder="Client ID" [(ngModel)]="clientName" name="clientName" required>
-            </mat-form-field>
-          </div>  
-        <div class="button-container" style="padding-top: 10px;">
-          <button mat-button class="luxury-modal-button-cancel"  > <span class="icon">&#10006;</span> Cancel</button>
-          <button mat-raised-button class="create-client-button" type="submit" (click)="goToNextComponent()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Client</button>
-        </div>
-      </form>
-    </div>
+  <div class="client-content">
+    <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New client</h2>
+
+    <form (ngSubmit)="createclient()" class="form-grid">
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <input matInput placeholder="Client Name" [(ngModel)]="clientName" name="clientName" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <!-- Add a dropdown for Organization Name -->
+          <mat-select placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
+            <mat-option *ngFor="let org of orgs" [value]="org.OrgName">{{ org.OrgName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="button-container" style="padding-top: 10px;">
+        <button mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()"> <span class="icon">&#10006;</span> Cancel</button>
+        <button mat-raised-button class="create-client-button" type="submit" (click)="createclient()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Client</button>
+      </div>
+    </form>
   </div>
-  
+</div>

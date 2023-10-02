@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ClientService } from 'src/app/services/client.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
 
 @Component({
   selector: 'app-create-client',
@@ -9,40 +9,36 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-client.component.css']
 })
 export class CreateClientComponent implements OnInit {
-  extractionDate!: Date;
-  extractionTime: string = '';
-  extractionFrequency: string = '';
   clients: any[] = [];
-  clientName: string = ''; 
-  organizationName!: string; 
-  
-  constructor(private clientService: ClientService, private router: Router) { }
+  clientName: string = '';
+  organizationName!: string;
+  orgs: any[] = [];
 
-  ngOnInit(): void {
-    // Fetch client data from the service
-    this.clientService.getClients().subscribe((clients: any[]) => {
-      this.clients = clients;
+  constructor(
+    private clientService: ClientService,
+    private router: Router,
+    private snackBar: MatSnackBar  
+  ) {}
+
+  ngOnInit(): void { 
+    this.clientService.getOrgs().subscribe((orgs: any[]) => {
+      this.orgs = orgs;
     });
   }
 
-  goToclientLog() {
-    // Add your logic here
-  }
-
-  goToNextComponent() { 
+  goToClientScreen() { 
+    this.router.navigate(['/clients']);
   }
 
   createclient() {
     const clientConfig = {
       name: this.clientName,
-      frequency: this.extractionFrequency, 
-      extractionTime: this.extractionTime  
-    };
-
-    // Call the client service to create and schedule the client
-    this.clientService.createClient(clientConfig).subscribe((response) => {
-      console.log('client created:', response); 
-    });
+      organization: this.organizationName
+    }; 
+      console.log('Client created:'); 
+      this.snackBar.open('Client created successfully', 'Close', {
+        duration: 5000, 
+      }); 
+      this.goToClientScreen(); 
   }
- 
 }

@@ -9,10 +9,16 @@ import { environment } from 'src/environments/environment';
 export class ClientService {
   private apiUrl = environment.baseApiUrl;
 
+  private apiOrg = 'https://lr7rg.wiremockapi.cloud';
+
   constructor(private http: HttpClient) { }
 
   getClients(): Observable<ClientService[]> {
     return this.http.get<ClientService[]>(`${this.apiUrl}/api/client`);
+  }
+
+  getOrgs(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/orgs`);
   }
 
   createClient(clientData: any): Observable<any> {
