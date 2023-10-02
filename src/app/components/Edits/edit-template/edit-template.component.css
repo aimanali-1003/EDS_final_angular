@@ -1,0 +1,99 @@
+/* Apply a luxury card styling with padding and increased width */
+.luxury-card {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 60%;
+    margin: 0 auto;
+    position: absolute;
+    top: 6.5%;
+    left: 4%;
+  }
+  
+  .flexible-field {
+    flex: 1; /* Allow fields to flex and take available space evenly */
+    margin-right: 10px; /* Add spacing between fields */
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 20px;
+    gap: 10px;   
+  }
+  
+  .create-job-button {
+    background-color: #4CAF50;
+    color: #fcfbfa;
+    font-weight: medium;
+    box-shadow: none;
+  }
+  
+  .create-job-button:hover {
+    background-color: #75b777;
+    color: #f3eeeb;
+    font-weight: medium;
+  }
+  
+  .luxury-modal-button-cancel {
+    color: #ee958d;
+    background-color: rgb(243, 227, 227);
+    box-shadow: none;
+  }
+  
+  .roww {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start of the column */
+    margin-top: 10px; /* Add spacing between the label and checkboxes */
+  }
+  
+  .column-checkboxes {
+    margin-top: 5px; /* Add spacing between checkboxes */
+  }
+  
+  .scrollable-column {
+    max-height: 270px; /* Set the maximum height for the scrollable column */
+    overflow-y: scroll; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Add a border for better separation */
+    padding: 10px; /* Add padding for better appearance */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Distribute columns evenly */
+  }
+  
+  .column-checkbox {
+    flex-basis: calc(33.33% - 10px); /* Display 3 columns per row with some spacing */
+    margin-bottom: 10px; /* Add spacing between rows */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+  }
+  
+  /* Style for the search input field */
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 10px; /* Add spacing below the input fields */
+  }
+  
+  /* Add this CSS to your component's stylesheet */
+  .search-container {
+    display: flex;
+    align-items: center; /* Vertically align items */
+  }
+  
+  /* Optional: Add spacing between icon and input */
+  mat-icon {
+    margin-right: 8px; /* Adjust as needed */
+  }
+  
+  /* Style for the search input field */
+  mat-form-field {
+    flex: 1; /* Allow the input field to take available space */
+  }
+   
+  /* Add this CSS to your component's stylesheet or a global stylesheet */
+  /* ::ng-deep .mat-checkbox-checked .checked-checkbox .mat-checkbox-background .mat-checkbox-frame {
+    border-color: DodgerBlue;  
+  } */
+  
+  

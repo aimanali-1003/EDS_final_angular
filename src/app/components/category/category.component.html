@@ -27,8 +27,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let category of displayedCategory" class="client-item">
-          <td>{{ category.categoryId }}</td>
-          <td>{{ category.categoryName }}</td>
+          <td>{{ category.CategoryID }}</td>
+          <td>{{ category.Name }}</td>
         
           <td class="action-cell">
             <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">

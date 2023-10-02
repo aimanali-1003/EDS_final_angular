@@ -8,11 +8,13 @@ import { environment } from 'src/environments/environment';
 })
 export class CategoryService {
   private apiUrl = environment.baseApiUrl;
+  
+  private apicategory = 'https://lr7rg.wiremockapi.cloud';
 
   constructor(private http: HttpClient) { }
 
   getCategory(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/Categories`);
+    return this.http.get<any[]>(`${this.apicategory}/category`);
   }
 
   createCategory(categoryData: any): Observable<any> {

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 export class DataService {
   
   private apiUrl = environment.baseApiUrl;
+  private apifortesting = 'https://lr7rg.wiremockapi.cloud';
 
   constructor(private http: HttpClient) { 
     
@@ -32,7 +33,7 @@ export class DataService {
   }
 
   getDataTemplates(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/template`);
+    return this.http.get<any[]>(`${this.apifortesting}/template`);
   }
 
   createDataTemplate(templateData: any): Observable<any> {

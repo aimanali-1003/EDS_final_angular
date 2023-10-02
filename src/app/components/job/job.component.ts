@@ -38,35 +38,30 @@ export class JobComponent implements OnInit {
   
 
   openModalForEdit(catrgoryData?: any): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '400px',
-      data: {
-        title: 'Edit Job Details',
-        fields: [
-          { label: 'Job Name', key: 'jobName', required: true },
-          { label: 'Job ID', key: 'jobId', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          // Add more fields as needed
-        ],
-        data: catrgoryData || {}, // Pass client data or an empty object
-        isEditing: true // Set the editing flag to true
-      }
-    });
+    // const dialogRef = this.dialog.open(ModalComponent, {
+    //   width: '400px',
+    //   data: {
+    //     title: 'Edit Job Details',
+    //     fields: [
+    //       { label: 'Job Name', key: 'jobName', required: true },
+    //       { label: 'Job ID', key: 'jobId', required: true },
+    //       { label: 'Organization Name', key: 'organizationName', required: false }, 
+    //     ],
+    //     data: catrgoryData || {},  
+    //     isEditing: true  
+    //   }
+    // });
   
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the updated client data here
-        if (result.isEditing) {
-          // This means it's an update operation
-          const updatedData = result.data; // Updated data
-          // Perform update logic with updatedData
-        } else {
-          // This means it's a create operation
-          const newData = result.data; // New data
-          // Perform create logic with newData
-        }
-      }
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) { 
+    //     if (result.isEditing) { 
+    //       const updatedData = result.data;  
+    //     } else { 
+    //       const newData = result.data;  
+    //     }
+    //   }
+    // });
+    this.router.navigate(['/editJob']);
   }
 
   performClientSearch(query: string) {

@@ -62,30 +62,30 @@ export class CategoryComponent implements OnInit {
   
 
   openModalForEdit(catrgoryData?: any): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '400px',
-      data: {
-        title: 'Edit Category Details',
-        fields: [
-          { label: 'Category Name', key: 'categoryName', required: true },
-          { label: 'Category ID', key: 'categoryId', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          // Add more fields as needed
-        ],
-        data: catrgoryData || {}, // Pass client data or an empty object
-        isEditing: true // Set the editing flag to true
-      }
-    });
+    // const dialogRef = this.dialog.open(ModalComponent, {
+    //   width: '400px',
+    //   data: {
+    //     title: 'Edit Category Details',
+    //     fields: [
+    //       { label: 'Category Name', key: 'categoryName', required: true },
+    //       { label: 'Category ID', key: 'categoryId', required: true },
+    //       { label: 'Organization Name', key: 'organizationName', required: false }, 
+    //     ],
+    //     data: catrgoryData || {},  
+    //     isEditing: true  
+    //   }
+    // });
   
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) { 
-        if (result.isEditing) { 
-          const updatedData = result.data;  
-        } else { 
-          const newData = result.data;  
-        }
-      }
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) { 
+    //     if (result.isEditing) { 
+    //       const updatedData = result.data;  
+    //     } else { 
+    //       const newData = result.data;  
+    //     }
+    //   }
+    // });
+    this.router.navigate(['/editCategory']);
   }
   
 
@@ -162,7 +162,14 @@ export class CategoryComponent implements OnInit {
       this.category = category;
     });
   }
- 
+  fetchClients() {
+    this.categoryService.getCategory().subscribe((category: any[]) => {
+      this.category = category;
+      this.displayedCategory=category;
+      console.log('Category:', this.category); // Log the clients array
+      this.updateDisplayedClients(1);
+    });
+  }
 
   CreateCategory(){
     this.router.navigate(['/createCategory']);
@@ -239,13 +246,7 @@ export class CategoryComponent implements OnInit {
       this.category = this.category.filter(c => c.CategoryID !== this.category);
     });
   }
-  fetchClients() {
-    this.categoryService.getCategory().subscribe((category: any[]) => {
-      this.category = category;
-      console.log('Category:', this.category); // Log the clients array
-      this.updateDisplayedClients(1);
-    });
-  }
+  
 
   performClientSearch(query: string) {
     // Implement the search logic specific to the 'clients' component

@@ -79,9 +79,7 @@ export class DataTemplateComponent implements OnInit {
   } 
 
   editTemplate(template: any) {
-    this.showForm = true;
-    this.templateData = { ...template };
-    this.editingTemplate = true;
+    this.router.navigate(['/editTemplate']);
   }
 
   saveTemplate() {

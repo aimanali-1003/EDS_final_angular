@@ -57,6 +57,12 @@ import { CreateClientComponent } from './components/create-client/create-client.
 import { CreateCategoryComponent } from './components/create-category/create-category.component';
 import { CreateOrgComponent } from './components/create-org/create-org.component';
 import { SearchComponent } from './search/search.component';
+import { ClientEditComponent } from './components/Edits/client-edit/client-edit.component';
+import { EditCategoryComponent } from './components/Edits/edit-category/edit-category.component';
+import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
+import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
+import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
+import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +90,13 @@ import { SearchComponent } from './search/search.component';
     CreateClientComponent,
     CreateCategoryComponent,
     CreateOrgComponent,
-    SearchComponent, 
+    SearchComponent,
+    ClientEditComponent,
+    EditCategoryComponent,
+    EditOrgComponent,
+    EditJoblogComponent,
+    EditTemplateComponent,
+    EditJobComponent, 
     
   ],
   imports: [

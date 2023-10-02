@@ -66,29 +66,30 @@ export class ClientsComponent implements OnInit {
   
 
   openClientModalForEdit(clientData?: any): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '400px',
-      data: {
-        title: 'Edit Client Details',
-        fields: [
-          { label: 'Client Name', key: 'clientName', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          // Add more fields as needed
-        ],
-        data: clientData || {}, // Pass client data or an empty object
-        isEditing: true // Set the editing flag to true
-      }
-    });
+    // const dialogRef = this.dialog.open(ModalComponent, {
+    //   width: '400px',
+    //   data: {
+    //     title: 'Edit Client Details',
+    //     fields: [
+    //       { label: 'Client Name', key: 'clientName', required: true },
+    //       { label: 'Organization Name', key: 'organizationName', required: false }, 
+    //     ],
+    //     data: clientData || {},  
+    //     isEditing: true  
+    //   }
+    // });
   
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) { 
-        if (result.isEditing) { 
-          const updatedData = result.data;  
-        } else { 
-          const newData = result.data; 
-        }
-      }
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) { 
+    //     if (result.isEditing) { 
+    //       const updatedData = result.data;  
+    //     } else { 
+    //       const newData = result.data; 
+    //     }
+    //   }
+    // });
+
+    this.router.navigate(['/editClient']);
   }
   
 
@@ -193,10 +194,10 @@ export class ClientsComponent implements OnInit {
         content: 'Update the client details:',
         inputPlaceholder: 'Client Name',
         cancelText: 'Cancel',
-        createText: 'Update', // Use 'Update' for editing
-        updateText: 'Update', // Use 'Update' for editing
-        isUpdate: true, // Set to true for editing
-        input: client.name, // Initialize with client name for editing
+        createText: 'Update',  
+        updateText: 'Update',  
+        isUpdate: true,  
+        input: client.name,  
       },
     });
 

@@ -54,27 +54,27 @@ export class OrgManagementComponent implements OnInit {
   }
 
   openModalForEdit(orgData?: Organization): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '400px',
-      data: {
-        title: 'Edit Organization Details',
-        fields: [
-          { label: 'Organization Name', key: 'OrgName', required: true },
-          { label: 'Organization Code', key: 'OrgCode', required: true },
-        ],
-        data: orgData || {},
-        isEditing: true,
-      },
-    });
+    // const dialogRef = this.dialog.open(ModalComponent, {
+    //   width: '400px',
+    //   data: {
+    //     title: 'Edit Organization Details',
+    //     fields: [
+    //       { label: 'Organization Name', key: 'OrgName', required: true },
+    //       { label: 'Organization Code', key: 'OrgCode', required: true },
+    //     ],
+    //     data: orgData || {},
+    //     isEditing: true,
+    //   },
+    // });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.isEditing) {
-          const updatedData = result.data;
-          // Perform update logic with updatedData
-        }
-      }
-    });
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   if (result) {
+    //     if (result.isEditing) {
+    //       const updatedData = result.data; 
+    //     }
+    //   }
+    // });
+    this.router.navigate(['/editOrg']);
   }
 
   openDialog() {

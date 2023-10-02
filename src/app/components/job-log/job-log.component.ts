@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalComponent } from '../modal/modal.component';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-log',
@@ -21,7 +22,8 @@ export class JobLogComponent implements OnInit {
   constructor(
     private loggingService: LoggingService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -41,39 +43,35 @@ export class JobLogComponent implements OnInit {
   }
 
   openModalForEdit(categoryData?: any): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '400px',
-      data: {
-        title: 'Edit Job Log Details',
-        fields: [
-          { label: 'Job log Name', key: 'categoryName', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          { label: 'Job Duration', key: 'JobRunDuration', required: true },
-          { label: 'Extract Success', key: 'ExtractSuccess', required: true },
-          { label: 'Notification Recipient Success', key: 'NotificationRecipientSuccess', required: true },
-          { label: 'Extracted Record Count', key: 'ExtractedRecordCount', required: true },
-          { label: 'Active', key: 'Active', required: true },
-          // Add more fields as needed
-        ],
-        data: categoryData || {}, // Pass job log data or an empty object
-        isEditing: true // Set the editing flag to true
-      }
-    });
+    // const dialogRef = this.dialog.open(ModalComponent, {
+    //   width: '400px',
+    //   data: {
+    //     title: 'Edit Job Log Details',
+    //     fields: [
+    //       { label: 'Job log Name', key: 'categoryName', required: true },
+    //       { label: 'Organization Name', key: 'organizationName', required: false },
+    //       { label: 'Job Duration', key: 'JobRunDuration', required: true },
+    //       { label: 'Extract Success', key: 'ExtractSuccess', required: true },
+    //       { label: 'Notification Recipient Success', key: 'NotificationRecipientSuccess', required: true },
+    //       { label: 'Extracted Record Count', key: 'ExtractedRecordCount', required: true },
+    //       { label: 'Active', key: 'Active', required: true },
+    //       // Add more fields as needed
+    //     ],
+    //     data: categoryData || {},  
+    //     isEditing: true  
+    //   }
+    // });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the updated job log data here
-        if (result.isEditing) {
-          // This means it's an update operation
-          const updatedData = result.data; // Updated data
-          // Perform update logic with updatedData
-        } else {
-          // This means it's a create operation
-          const newData = result.data; // New data
-          // Perform create logic with newData
-        }
-      }
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) { 
+    //     if (result.isEditing) { 
+    //       const updatedData = result.data;  
+    //     } else { 
+    //       const newData = result.data;  
+    //     }
+    //   }
+    // });
+    this.router.navigate(['/editJoblog']);
   }
 
   openDialog() {
