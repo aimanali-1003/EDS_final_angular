@@ -78,16 +78,11 @@ export class CategoryComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the updated client data here
-        if (result.isEditing) {
-          // This means it's an update operation
-          const updatedData = result.data; // Updated data
-          // Perform update logic with updatedData
-        } else {
-          // This means it's a create operation
-          const newData = result.data; // New data
-          // Perform create logic with newData
+      if (result) { 
+        if (result.isEditing) { 
+          const updatedData = result.data;  
+        } else { 
+          const newData = result.data;  
         }
       }
     });

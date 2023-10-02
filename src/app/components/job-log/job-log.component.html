@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let log of jobLogs" class="client-item">
+      <tr *ngFor="let log of logs" class="client-item">
         <td class="client-name">{{ log.JobID }}</td>
         <td class="id">{{ formatDate(log.JobRunDateTime) }}</td>
         <td class="created-at">{{ log.JobRunDuration }}</td>
@@ -46,7 +46,7 @@
     </tbody>
   </table>
 
-  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="jobLogs.length"
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="logs.length"
     (pageChange)="onPageChange($event)"></app-pagination>
 
 </div>

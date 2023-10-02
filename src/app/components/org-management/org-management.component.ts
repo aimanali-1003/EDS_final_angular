@@ -154,5 +154,15 @@ export class OrgManagementComponent implements OnInit {
     const endIndex = startIndex + this.pageSize;
     this.displayedOrganization = this.orgs.slice(startIndex, endIndex);
   }
+
+  performClientSearch(query: string) {
+    // Implement the search logic specific to the 'clients' component
+    // Update your displayedCategory based on the query
+  }
+  
+  applyClientFilter(filterData: any) {
+    // Implement the filter logic specific to the 'clients' component
+    // Update your displayedCategory based on the filter data
+  }
   
 }

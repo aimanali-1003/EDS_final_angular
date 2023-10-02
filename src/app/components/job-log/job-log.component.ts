@@ -12,7 +12,7 @@ import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.compo
   styleUrls: ['./job-log.component.css']
 })
 export class JobLogComponent implements OnInit {
-  jobLogs: any[] = [];
+  logs: any[] = [];
   pageSize: number = 10;
   headers = JOBLOG;
   displayedJobLog: any[] = [];
@@ -30,8 +30,8 @@ export class JobLogComponent implements OnInit {
 
   loadJobLogs() {
     this.loggingService.getJobLogs().subscribe((logs: any[]) => {
-      this.jobLogs = logs;
-      this.updateDisplayedJoblogs(this.currentPage); // Initial display
+      this.logs = logs; 
+      this.updateDisplayedJoblogs(1); // Initial display
     });
   }
 
@@ -48,6 +48,11 @@ export class JobLogComponent implements OnInit {
         fields: [
           { label: 'Job log Name', key: 'categoryName', required: true },
           { label: 'Organization Name', key: 'organizationName', required: false },
+          { label: 'Job Duration', key: 'JobRunDuration', required: true },
+          { label: 'Extract Success', key: 'ExtractSuccess', required: true },
+          { label: 'Notification Recipient Success', key: 'NotificationRecipientSuccess', required: true },
+          { label: 'Extracted Record Count', key: 'ExtractedRecordCount', required: true },
+          { label: 'Active', key: 'Active', required: true },
           // Add more fields as needed
         ],
         data: categoryData || {}, // Pass job log data or an empty object
@@ -94,9 +99,8 @@ export class JobLogComponent implements OnInit {
     });
   }
 
-  onPageChange(pageNumber: number) {
-    this.currentPage = pageNumber;
-    this.updateDisplayedJoblogs(this.currentPage);
+  onPageChange(pageNumber: number) { 
+    this.updateDisplayedJoblogs(pageNumber);
   }
 
   onPageSizeChange(event: any) {
@@ -107,7 +111,7 @@ export class JobLogComponent implements OnInit {
   private updateDisplayedJoblogs(currentPage: number) {
     const startIndex = (currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.displayedJobLog = this.jobLogs.slice(startIndex, endIndex);
+    this.displayedJobLog = this.logs.slice(startIndex, endIndex);
   }
 
   performClientSearch(query: string) {
