@@ -1,0 +1,52 @@
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+/* Styles for the title */
+.title {
+    font-size: 20.667px;
+    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    /* Remove default margin */
+}
+
+.client-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    text-align: center;
+    /* Center align the table content */
+}
+
+
+.client-table th,
+.client-table td {
+    text-align: center;
+    /* Center align table cells */
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.client-table th {
+    background-color: #f2f2f2;
+}
+
+
+.client-item {
+    transition: background-color 0.3s;
+    /* Add a smooth transition effect */
+}
+
+.client-item:hover {
+    background-color: #ebe6df;
+    /* Light orange color on hover */
+}
+
+.action-cell {
+    text-align: center;
+    /* Center-align the action buttons */
+}

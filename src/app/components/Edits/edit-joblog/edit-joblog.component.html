@@ -1,0 +1,49 @@
+<div class="client">
+    <div class="client-content">
+        <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Edit Job Log</h2>
+
+        <form (ngSubmit)="saveJoblog()" class="form-grid">
+
+            <!-- Add fields for Job Duration, Extract Success, NotificationRecipientSuccess, ExtractedRecordCount, and Active here -->
+            
+            <div class="form-row">
+                <mat-form-field class="form-item">
+                    <input matInput placeholder="Job Duration" [(ngModel)]="jobDuration" name="jobDuration" required>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field class="form-item">
+                    <input matInput placeholder="Extract Success" [(ngModel)]="extractSuccess" name="extractSuccess" required>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field class="form-item">
+                    <input matInput placeholder="Notification Recipient Success" [(ngModel)]="notificationRecipientSuccess" name="notificationRecipientSuccess" required>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field class="form-item">
+                    <input matInput placeholder="Extracted Record Count" [(ngModel)]="extractedRecordCount" name="extractedRecordCount" required>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field class="form-item">
+                    <input matInput placeholder="Active" [(ngModel)]="active" name="active" required>
+                </mat-form-field>
+            </div>
+
+            <!-- End of added fields -->
+
+            <div class="button-container" style="padding-top: 10px;">
+                <button mat-button class="luxury-modal-button-cancel" (click)="goToJoblogScreen()"> <span
+                        class="icon">&#10006;</span> Cancel</button>
+                <button mat-raised-button class="create-client-button" type="submit"
+                    (click)="saveJoblog()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>

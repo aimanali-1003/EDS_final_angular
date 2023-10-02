@@ -1,0 +1,65 @@
+<div class="clients">
+  <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Organization Management</h2>
+    <div class="form-outline search-box mb-4">
+      <button mat-raised-button class="custom-button" (click)="CreateOrg()">
+        <span class="circle">+</span> Create Organization
+      </button>
+    </div>
+  </div> 
+
+  <app-search [placeholderText]="'Search organization by Name ID & Status'"
+                  (searchQueryChanged)="performClientSearch($event)"
+                  (filterChanged)="applyClientFilter($event)">
+  </app-search>
+
+
+  <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
+    
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Organization Name</th> 
+        <th>Actions</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let org of displayedOrganization" class="client-item">
+        <td>{{ org.id  }}</td>
+        <td>{{ org.OrgName }}</td>
+       
+        <td class="action-cell">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!displayedOrganization.length" class="no-data-message">
+    No data found.
+  </div>
+ 
+  <!-- Form for creating/editing an organization -->
+  <div *ngIf="showOrgForm" class="client-form">
+    <h3>{{ isEditing ? 'Edit Organization' : 'Create New Organization' }}</h3>
+    <form (ngSubmit)="saveOrg()">
+      <mat-form-field class="full-width">
+        <input matInput id="OrgName" name="OrgName" placeholder="Org Name" [(ngModel)]="OrgName" required>
+      </mat-form-field>
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
+          }}</button>
+        <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="orgs.length"
+    (pageChange)="onPageChange($event)"></app-pagination>
+</div>

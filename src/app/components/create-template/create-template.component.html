@@ -1,0 +1,41 @@
+<mat-card class="luxury-card">
+  <mat-card-header>
+    <mat-card-title style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New Template</mat-card-title>
+  </mat-card-header> 
+  <div class="row">
+    <mat-form-field class="flexible-field">
+      <input matInput placeholder="Template Name" [(ngModel)]="templateName">
+    </mat-form-field>
+      
+    <mat-form-field class="flexible-field">
+      <mat-label>Select Category</mat-label>
+      <mat-select [(ngModel)]="selectedCategories">
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="roww" *ngIf="selectedCategories.length > 0">
+    <mat-label>Select Columns</mat-label>
+    <div class="search-container">
+      <mat-form-field>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput placeholder="Search Columns" [(ngModel)]="columnSearch" (input)="updateFilteredColumns()">
+      </mat-form-field>
+    </div>
+    
+    <div class="scrollable-column">
+      <div class="column-checkbox" *ngFor="let column of columns">
+        <mat-checkbox [(ngModel)]="selectedColumns[column]"  [ngClass]="{'checked-checkbox': selectedColumns[column]}">{{ column }}</mat-checkbox>
+      </div>
+    </div>
+    
+    
+  </div>
+   
+  <mat-card-actions class="button-container">
+    <button mat-raised-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()"> <span class="icon">&#10006;</span> Cancel</button>
+    <button mat-raised-button (click)="SaveTemplate()" class="create-job-button"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Template</button>
+  </mat-card-actions> 
+</mat-card>

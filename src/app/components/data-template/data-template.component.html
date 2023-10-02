@@ -1,0 +1,90 @@
+<div class="clients">
+    <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
+      <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Template Management</h2>
+      <div class="form-outline search-box mb-4">
+        <button mat-raised-button class="custom-button" (click)="createNewTemplate()">
+          <span class="circle">+</span> Create Template
+        </button>
+      </div>
+    </div>
+
+    <app-search [placeholderText]="'Search Template by Name ID & Status'"
+                  (searchQueryChanged)="performClientSearch($event)"
+                  (filterChanged)="applyClientFilter($event)">
+  </app-search>
+
+  <!-- Container for both the table and dialog -->
+  <div class="table-container">
+    <!-- Display a list of data templates using a Material UI table -->
+    <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
+      <thead>
+        <tr>
+          <th>Template Name</th>
+          <th>ID</th>
+          <th>Category ID</th>
+          <th>Created At</th>
+          <th>Updated At</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let template of dataTemplates" class="template-item">
+          <td>{{ template.TemplateName }}</td>
+          <td>{{ template.id }}</td>
+          <td>{{ template.CategoryId }}</td>
+          <td class="created-info-cell">
+            <div class="created-at">{{ template.CreatedAt | date:'medium' }}</div>
+            <div class="created-by">
+              <span class="created-by-label">Created By: </span>
+              <span class="created-by-cell">{{ template.CreatedBy }}</span>
+            </div>
+          </td>
+          <td class="updated-info-cell">
+            <div class="updated-at">{{ template.UpdatedAt | date:'medium' }}</div>
+            <div class="updated-by">
+              <span class="updated-by-label">Updated By:</span>
+              <span class="updated-by-cell">{{ template.UpdatedBy }}</span>
+            </div>
+          </td>
+          <td [style.color]="template.Active ? '#4cf0a1' : 'red'">
+            <ng-container *ngIf="template.Active; else inactive"><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+            <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
+          </td>
+          <td class="action-cell">
+            <button mat-icon-button [style.color]="'#0091EA'" (click)="editTemplate(template)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button [style.color]="'#D84315'" (click)="deleteTemplate(template)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <div *ngIf="dataTemplates.length === 0" class="no-data-message">
+      No data found.
+    </div>
+    <!--create template popup-->
+    <div class="data-templates" *ngIf="showForm">
+      <!-- Data Templates Form -->
+      <form (ngSubmit)="saveTemplate()">
+        <mat-form-field>
+          <label for="templateName"></label>
+          <input matInput type="text" id="templateName" name="name" placeholder="TemplateName" [(ngModel)]="templateData.name" required>
+        </mat-form-field>
+        <!-- Add more form fields for template properties (e.g., columns) as needed -->
+
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">{{ editingTemplate ? 'Save' : 'Create' }}</button>
+          <button mat-raised-button type="button" (click)="cancelCreateTemplate()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="dataTemplates.length"
+    (pageChange)="onPageChange($event)"></app-pagination>
+</div>

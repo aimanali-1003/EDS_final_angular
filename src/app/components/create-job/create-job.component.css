@@ -1,0 +1,68 @@
+.job {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 60%; 
+  margin: 0 auto;
+  position: absolute;
+  top: 7%;
+  left: 4%; /* Adjust the left value to control the position from the left side */ 
+}
+
+
+.job-content {
+  text-align: center;
+}
+
+.job-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.date-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-item,
+.date-item {
+  flex-basis: calc(50% - 10px);
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 20px;
+  gap: 10px; /* Add spacing between buttons */
+  /* border-top: 1px solid lightgrey; */
+}
+
+.create-job-button {
+  background-color: #4CAF50;
+  color:#fcfbfa;
+  font-weight: medium;
+  box-shadow: none;
+}
+
+.create-job-button:hover {
+  background-color: #75b777;
+  color:#f3eeeb;
+  font-weight: medium;
+}
+
+/* Add hover effect for cancel button */
+.luxury-modal-button-cancel {
+  color: #ee958d;
+  background-color: rgb(243, 227, 227);
+} 

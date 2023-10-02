@@ -1,0 +1,52 @@
+<div class="clients">
+  <div class="title-container">
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif; margin-top: 30px; margin-left: 10px; margin-bottom: 10px;">Job logs
+      Management</h2>
+  </div>
+
+  <app-search [placeholderText]="'Search Job Log by Name ID & Status'"
+                  (searchQueryChanged)="performClientSearch($event)"
+                  (filterChanged)="applyClientFilter($event)">
+  </app-search>
+  
+  <!-- Display a list of job logs -->
+  <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
+    <thead>
+      <tr>
+        <th *ngFor="let header of headers">{{ header }}</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of logs" class="client-item">
+        <td class="client-name">{{ log.JobID }}</td>
+        <td class="id">{{ formatDate(log.JobRunDateTime) }}</td>
+        <td class="created-at">{{ log.JobRunDuration }}</td>
+        <td class="updated-at">{{ log.ExtractSuccess }}</td>
+        <td class="status">{{ log.NotificationRecipeintSuccess }}</td>
+        <td class="actions">{{ log.ExtractedRecordCount }}</td>
+        <td class="actions">{{ log.JobLodId }}</td>
+        <td class="actions" [style.color]="log.Active ? '#4cf0a1' : 'red'">
+          <ng-container *ngIf="log.Active; else inactive">
+            <span class="making-active-attractive">Active</span>
+          </ng-container>
+          <ng-template #inactive>
+            <span class="making-inactive-attractive">Inactive</span>
+          </ng-template>
+        </td>
+        <td class="action-cell">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="logs.length"
+    (pageChange)="onPageChange($event)"></app-pagination>
+
+</div>

@@ -1,0 +1,108 @@
+<div class="job">
+  <div class="job-content">
+    <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New Job</h2>
+
+    <form (ngSubmit)="createJob()" class="form-grid">
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <input matInput placeholder="Job Name" [(ngModel)]="jobName" name="jobName" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <mat-label>Extraction Frequency</mat-label>
+          <mat-select [(ngModel)]="extractionFrequency" name="extractionFrequency" required (change)="onExtractionFrequencyChange()">
+            <mat-option value="once">Once</mat-option>
+            <mat-option value="daily">Daily</mat-option>
+            <mat-option value="weekly">Weekly</mat-option>
+            <mat-option value="monthly">Monthly</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="extractionFrequency === 'weekly'" class="form-row">
+        <div *ngFor="let day of daysOfWeek" class="checkbox-item">
+          <mat-checkbox [(ngModel)]="selectedDays[day]" name="selectedDays[day]">{{ day }}</mat-checkbox> 
+        </div>
+        <mat-form-field class="form-item" style="margin-top: 10px;">
+          <mat-label>Extraction Time</mat-label>
+          <input matInput type="time" [(ngModel)]="extractionTime" name="extractionTime" required>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="extractionFrequency === 'daily'" class="form-row">
+        <mat-form-field class="date-item">
+          <mat-label>Extraction Time</mat-label>
+          <input matInput type="time" [(ngModel)]="extractionTime" name="extractionTime" required> 
+        </mat-form-field>
+      </div>
+      <div *ngIf="extractionFrequency === 'monthly'" class="form-row">
+        <mat-form-field class="date-item">
+          <mat-label>Day of the Month</mat-label>
+          <mat-select [(ngModel)]="selectedDayOfMonth" name="selectedDayOfMonth" required>
+            <mat-option *ngFor="let day of daysOfMonth" [value]="day">{{ day }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="form-item">
+          <mat-label>Extraction Time</mat-label>
+          <input matInput type="time" [(ngModel)]="extractionTime" name="extractionTime" required>
+        </mat-form-field>
+      </div>
+      
+
+
+      <div class="form-row" *ngIf="extractionFrequency === 'once'">
+        <mat-form-field class="date-item">
+          <mat-label>Extraction Date</mat-label>
+          <input matInput [matDatepicker]="extractionDatePicker" [(ngModel)]="extractionDate" name="extractionDate" required>
+          <mat-datepicker-toggle matSuffix [for]="extractionDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #extractionDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="form-item">
+          <mat-label>Extraction Time</mat-label>
+          <input matInput type="time" [(ngModel)]="extractionTime" name="extractionTime" required>
+        </mat-form-field>
+      </div> 
+
+      <div *ngIf="showTimeInput" class="form-row">
+        <mat-form-field class="form-item">
+          <mat-label>Extraction Time</mat-label>
+          <input matInput type="time" [(ngModel)]="extractionTime" name="extractionTime" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <input matInput placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
+        </mat-form-field>
+
+        <mat-form-field class="form-item">
+          <input matInput placeholder="Client Name" [(ngModel)]="clientName" name="clientName" required>
+        </mat-form-field>
+      </div>
+
+      <div class="date-row">
+        <mat-form-field class="date-item">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" name="startDate" required>
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="date-item">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" name="endDate" required>
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      
+      <div class="button-container" style="padding-top: 10px;">
+        <button mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()" > <span class="icon">&#10006;</span> Cancel</button>
+        <button mat-raised-button class="create-job-button" type="submit" (click)="createJob()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Job</button>
+      </div>
+    </form>
+  </div>
+</div>

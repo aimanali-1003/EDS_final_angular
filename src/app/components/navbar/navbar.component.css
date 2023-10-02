@@ -1,0 +1,171 @@
+.example-container {
+  border: 0.1px solid rgba(204, 201, 201, 0.5);
+
+}
+
+.example-toolbar {
+  background-color: #ffffff;
+  height: 56px;
+  color: #F06105;
+}
+
+.example-sidenav-content {
+  height: 92vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  user-select: none;
+  /* background-color: #ebe6df */
+  background-color: #ffffff;
+}
+
+.full-width {
+  width: 100%;
+  /* color: #43403f; */
+  color: #000000;
+  font-size: 16px;
+  font-weight: 2px;
+
+
+}
+
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+
+  color: #676262;
+  margin-left: 40px;
+}
+
+.menu-button.rotated {
+  transform: rotate(180deg);
+  padding: 0 6px 5px 0;
+  color: #676262;
+}
+
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: top;
+  padding-left: 30px;
+}
+
+.submenu.expanded {
+  transform: scaleY(1);
+}
+
+.submenu.not-expanded {
+  visibility: hidden;
+  display: none;
+}
+
+.example-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexible-space {
+  flex: 1;
+  /* This makes the space flexible and pushes icons to the right */
+}
+
+.avatar-username-container {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  /* Adjust the margin as needed for spacing */
+}
+
+/* Style the avatar button */
+.avatar-username-container button.mat-icon-button {
+  margin-right: 8px;
+  /* Adjust the margin as needed for spacing */
+}
+
+/* Style the username */
+.username {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  /* Adjust the font size as needed */
+  color: #F06105;
+  /* Set the color as needed */
+}
+
+.mat-list-base .mat-list-item .mat-list-icon,
+.mat-list-base .mat-list-option .mat-list-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  box-sizing: content-box;
+  border-radius: 50%;
+  padding: 12px;
+  color: #676262;
+}
+
+
+
+.mat-list-item a.mat-list-item:hover {
+  text-decoration: none;
+  color: inherit;
+  background-color: transparent;
+
+}
+
+.mat-list-item:hover {
+  background-color: #ebe6df;
+}
+
+.nav-list-margin {
+  padding: 10px;
+}
+
+.menu-item {
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.heading-text {
+  margin-left: 20px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.heading-icon {
+  /* color: #43403f; */
+  color: #fefefe !important;
+
+  font-size: 18px !important;
+  background: #F06105;
+
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.sub-heading-icon {
+  color: #fefefe;
+  font-size: 22px;
+  background: #F06105;
+  width: 35px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.sub-heading {
+  color: #000000;
+  font-size: 15px;
+  font-weight: 2px;
+  font-family: 'Quicksand', sans-serif;
+}
+ 

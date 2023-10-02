@@ -3,43 +3,101 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TemplateListComponent } from './template-list/template-list.component';
-import { DataService } from './data.service';
+import { TemplateListComponent } from './components/template-list/template-list.component';
+import { DataService } from './services/data.service';
 import { MatSidenavModule } from '@angular/material/sidenav'; 
-import { DataTemplateComponent } from './data-template/data-template.component';
+import { DataTemplateComponent } from './components/data-template/data-template.component';
 import { FormsModule } from '@angular/forms';
-import { ClientsComponent } from './clients/clients.component'; 
-import { ClientService } from './client.service'; 
-import { MatSelectModule } from '@angular/material/select'; // Add 
+import { ClientsComponent } from './components/clients/clients.component';
+import { ClientService } from './services/client.service';
+import { MatSelectModule } from '@angular/material/select';  
 import { RouterModule } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button'; // Import Material button module
+import { MatButtonModule } from '@angular/material/button'; 
 import { MatDialogModule } from '@angular/material/dialog';
-import { ClientPopupComponent } from './client-popup/client-popup.component';
-import { NavbarComponent } from './navbar/navbar.component'; // Import Material dialog module
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { PaginationComponent } from './pagination/pagination.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { FilterComponent } from './filter/filter.component';
+import { FilterComponent } from './components/filter/filter.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { JobComponent } from './job/job.component';
+import { JobComponent } from './components/job/job.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatOptionModule } from '@angular/material/core';
+import { OrgManagementComponent } from './components/org-management/org-management.component';
+import { PopupComponent } from './components/popup/popup.component';
+import { TableHeaderComponent } from './components/table-header/table-header.component';
+import { TableDataComponent } from './components/table-data/table-data.component';
+import { ClientFilterComponent } from './components/client-filter/client-filter.component';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { JobLogComponent } from './components/job-log/job-log.component';
+import { MatSortModule } from '@angular/material/sort';
+import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component';
+import { ModalComponent } from './components/modal/modal.component'; 
+import { OrgService } from './services/org.service';
+import { CategoryComponent } from './components/category/category.component';
+import { CreateTemplateComponent } from './components/create-template/create-template.component';
+import { CreateJobComponent } from './components/create-job/create-job.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EditFullScreenComponent } from './components/edit-full-screen/edit-full-screen.component';
+import { CreateClientComponent } from './components/create-client/create-client.component';
+import { CreateCategoryComponent } from './components/create-category/create-category.component';
+import { CreateOrgComponent } from './components/create-org/create-org.component';
+import { SearchComponent } from './search/search.component';
+import { ClientEditComponent } from './components/Edits/client-edit/client-edit.component';
+import { EditCategoryComponent } from './components/Edits/edit-category/edit-category.component';
+import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
+import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
+import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
+import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     TemplateListComponent,
     DataTemplateComponent,
     ClientsComponent,
-    ClientPopupComponent,
     NavbarComponent,
     PaginationComponent,
     FilterComponent,
-    JobComponent
+    JobComponent,
+    OrgManagementComponent,
+    PopupComponent,
+    TableHeaderComponent,
+    TableDataComponent,
+    ClientFilterComponent,
+    DeleteDialogComponent,
+    JobLogComponent,
+    ModalComponent,
+    CategoryComponent,  
+    DataTemplateDialogComponent,
+    CreateTemplateComponent,
+    CreateJobComponent,
+    EditFullScreenComponent,
+    CreateClientComponent,
+    CreateCategoryComponent,
+    CreateOrgComponent,
+    SearchComponent,
+    ClientEditComponent,
+    EditCategoryComponent,
+    EditOrgComponent,
+    EditJoblogComponent,
+    EditTemplateComponent,
+    EditJobComponent, 
+    
   ],
   imports: [
     BrowserModule,
@@ -49,7 +107,7 @@ import { MatListModule } from '@angular/material/list';
     RouterModule,
     NgbModule,
     BrowserAnimationsModule,
-    MatButtonModule, // Add Material button module here
+    MatButtonModule,
     MatDialogModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -57,12 +115,22 @@ import { MatListModule } from '@angular/material/list';
     MatIconModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatTableModule,
+    MatTableModule,  
     MatCardModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatOptionModule,
+    MatSnackBarModule,
+    CommonModule,
+    MatSortModule,  
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatDividerModule, 
   ],
-  providers: [DataService, ClientService],
-  bootstrap: [AppComponent]
+  providers: [DataService, ClientService, DatePipe, OrgService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
