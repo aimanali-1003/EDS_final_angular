@@ -47,7 +47,7 @@ export class OrgManagementComponent implements OnInit {
   fetchOrgs() {
     this.org.getOrgs().subscribe((orgs: Organization[]) => {
       this.orgs = orgs;
-      this.displayedOrganization = orgs;
+      this.displayedOrganization = orgs; 
     });
   }
 

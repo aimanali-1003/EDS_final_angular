@@ -8,10 +8,16 @@ import { Observable } from 'rxjs';
 export class ClientService {
   private apiUrl = 'https://lr7rg.wiremockapi.cloud';
 
+  private apiOrg = 'https://lr7rg.wiremockapi.cloud';
+
   constructor(private http: HttpClient) { }
 
   getClients(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/client`);
+  }
+
+  getOrgs(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/orgs`);
   }
 
   createClient(clientData: any): Observable<any> {
