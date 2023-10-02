@@ -1,8 +1,7 @@
 <div class="clients">
   <div class="title-container">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Job logs Management</h2>
-     
-    
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif; margin-top: 30px; margin-left: 10px; margin-bottom: 10px;">Job logs
+      Management</h2>
   </div>
 
   <app-search [placeholderText]="'Search Job Log by Name ID & Status'"
@@ -11,7 +10,7 @@
   </app-search>
   
   <!-- Display a list of job logs -->
-  <table class="client-table" style="font-family: 'Quicksand', sans-serif;"> 
+  <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
     <thead>
       <tr>
         <th *ngFor="let header of headers">{{ header }}</th>
@@ -46,5 +45,8 @@
       </tr>
     </tbody>
   </table>
-  
-   
+
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="jobLogs.length"
+    (pageChange)="onPageChange($event)"></app-pagination>
+
+</div>

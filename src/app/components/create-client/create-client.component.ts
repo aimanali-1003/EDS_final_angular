@@ -31,13 +31,20 @@ export class CreateClientComponent implements OnInit {
   }
 
   createclient() {
+
+    if (!this.clientName || !this.organizationName) {
+      this.snackBar.open('Client Name and Organization Name are required.', 'Close', {
+        duration: 3000,
+      });
+      return; // Prevent further execution if fields are empty
+    }
     const clientConfig = {
       name: this.clientName,
       organization: this.organizationName
     }; 
       console.log('Client created:'); 
       this.snackBar.open('Client created successfully', 'Close', {
-        duration: 5000, 
+        duration: 3000, 
       }); 
       this.goToClientScreen(); 
   }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-template-dialog',
@@ -25,20 +26,34 @@ export class CreateTemplateComponent {
     'Column 15', 'Column 16', 'Column 17', 'Column 18'
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+    private snackBar: MatSnackBar  ) {}
 
   updateFilteredColumns() {
     const searchText = this.columnSearch.toLowerCase();
     this.filteredColumns = this.columns.filter(column => column.toLowerCase().includes(searchText));
   }
 
-  goToNextComponent() {
-    this.router.navigate(['/createJob']);
+  goToTemplateScreen() {
+    this.router.navigate(['/dataTemplate']);
   }
 
   SaveTemplate() {
     const selectedColumnsArray = Object.keys(this.selectedColumns).filter(column => this.selectedColumns[column]);
-    console.log('Selected Columns:', selectedColumnsArray);
-    // Your logic to save the template
-  }
+    console.log('Selected Columns:', selectedColumnsArray); 
+
+    if (!this.templateName || !this.selectedCategories || !this.selectedColumns) {
+      this.snackBar.open('Template Name, categories and Columns are required.', 'Close', {
+        duration: 3000,
+      });
+      return; // Prevent further execution if fields are empty
+    }
+    this.snackBar.open('Organization created successfully', 'Close', {
+      duration: 3000, 
+    }); 
+    this.goToTemplateScreen(); 
+  } 
+ 
+ 
+    
 }

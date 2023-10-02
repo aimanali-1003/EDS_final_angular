@@ -14,15 +14,15 @@ export class ClientService {
   constructor(private http: HttpClient) { }
 
   getClients(): Observable<ClientService[]> {
-    return this.http.get<ClientService[]>(`${this.apiUrl}/api/client`);
+    return this.http.get<ClientService[]>(`${this.apiUrl}/client`);
   }
 
   getOrgs(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/orgs`);
+    return this.http.get<any[]>(`${this.apiOrg}/orgs`);
   }
 
   createClient(clientData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/api/client`, clientData);
+    return this.http.post<any>(`${this.apiUrl}/client`, clientData);
   }
 
   updateClient(clientId: string, clientData: any): Observable<any> {

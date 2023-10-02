@@ -1,48 +1,47 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ClientService } from 'src/app/services/client.service';
+import { CategoryService } from 'src/app/services/category.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-category',
-  templateUrl: './create-category.component.html', // Make sure the path is correct
-  styleUrls: ['./create-category.component.css'], // Optional: Style file path
+  templateUrl: './create-category.component.html',
+  styleUrls: ['./create-category.component.css'],
 })
 export class CreateCategoryComponent implements OnInit {
-  extractionDate!: Date;
-  extractionTime: string = '';
-  extractionFrequency: string = '';
-  clients: any[] = [];
-  clientName: string = ''; 
-  organizationName!: string; 
-  
-  constructor(private clientService: ClientService, private router: Router) { }
+  categoryName: string = '';
+  categoryCode: string = '';
 
-  ngOnInit(): void {
-    // Fetch client data from the service
-    this.clientService.getClients().subscribe((clients: any[]) => {
-      this.clients = clients;
-    });
+  constructor(
+    private categoryService: CategoryService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {}
+
+  goToCategoryScreen() {
+    this.router.navigate(['/category']);
   }
 
-  goToclientLog() {
-    // Add your logic here
-  }
+  CreateCategory() {
+    if (!this.categoryName || !this.categoryCode) {
+      this.snackBar.open('Category Name and Code are required.', 'Close', {
+        duration: 3000,
+      });
+      return; // Prevent further execution if fields are empty
+    }
 
-  goToNextComponent() { 
-  }
-
-  createclient() {
-    const clientConfig = {
-      name: this.clientName,
-      frequency: this.extractionFrequency, 
-      extractionTime: this.extractionTime  
+    const categoryData = {
+      name: this.categoryName,
+      id: this.categoryCode,
     };
 
-    // Call the client service to create and schedule the client
-    this.clientService.createClient(clientConfig).subscribe((response) => {
-      console.log('client created:', response); 
-    });
+    console.log('Category created successfully:');
+    this.snackBar.open('Category created successfully', 'Close', {
+      duration: 3000,
+    }); 
+    // Redirect to the category list screen
+    this.goToCategoryScreen();
   }
- 
 }

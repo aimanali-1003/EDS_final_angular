@@ -20,6 +20,7 @@ export class OrgManagementComponent implements OnInit {
   isEditing = false;
   orgIdToEdit: string | null = null;
   OrgName: string = '';
+  pageSize: number = 10;
   newOrg: Organization = {
     id: '',
     OrgName: '',
@@ -33,7 +34,7 @@ export class OrgManagementComponent implements OnInit {
   };
 
   constructor(
-    private org: OrgService,
+    private orgService: OrgService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     
@@ -41,13 +42,14 @@ export class OrgManagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fetchOrgs();
+    this.fetchOrgs(); 
+    
   }
 
   fetchOrgs() {
-    this.org.getOrgs().subscribe((orgs: Organization[]) => {
-      this.orgs = orgs;
-      this.displayedOrganization = orgs; 
+    this.orgService.getOrgs().subscribe((orgs: Organization[]) => {
+      this.orgs = orgs; 
+      this.updateDisplayedOrgs(1);
     });
   }
 
@@ -136,4 +138,21 @@ export class OrgManagementComponent implements OnInit {
   CreateOrg(){
     this.router.navigate(['/createOrg']);
   }
+
+  onPageChange(pageNumber: number) {
+    this.updateDisplayedOrgs(pageNumber);
+  }
+  
+  onPageSizeChange(event: any) {
+    this.pageSize = event.target.value;
+    this.updateDisplayedOrgs(1);  
+  }
+
+  
+  private updateDisplayedOrgs(pageNumber: number) {
+    const startIndex = (pageNumber - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedOrganization = this.orgs.slice(startIndex, endIndex);
+  }
+  
 }

@@ -1,47 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { ClientService } from 'src/app/services/client.service';
+import { Component, OnInit } from '@angular/core'; 
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-org',
   templateUrl: './create-org.component.html',
   styleUrls: ['./create-org.component.css']
 })
-export class CreateOrgComponent implements OnInit {
-
-  extractionDate!: Date;
-  extractionTime: string = '';
-  extractionFrequency: string = '';
-  clients: any[] = [];
-  clientName: string = ''; 
+export class CreateOrgComponent implements OnInit {  
   organizationName!: string; 
+  organizationCode!: string; 
   
-  constructor(private clientService: ClientService, private router: Router) { }
+  constructor(  private router: Router,private snackBar: MatSnackBar  ) { }
 
-  ngOnInit(): void {
-    // Fetch client data from the service
-    this.clientService.getClients().subscribe((clients: any[]) => {
-      this.clients = clients;
-    });
+  ngOnInit(): void { 
+  }
+ 
+
+  goToOrgScreen(){
+    this.router.navigate(['/orgs']);
   }
 
-  goToclientLog() {
-    // Add your logic here
-  }
+  CreateOrg() { 
 
-  goToNextComponent() { 
-  }
-
-  createclient() {
-    const clientConfig = {
-      name: this.clientName,
-      frequency: this.extractionFrequency, 
-      extractionTime: this.extractionTime  
-    };
-
-    // Call the client service to create and schedule the client
-    this.clientService.createClient(clientConfig).subscribe((response) => {
-      console.log('client created:', response); 
-    });
+    if (!this.organizationCode || !this.organizationName) {
+      this.snackBar.open('Organization Name and Code are required.', 'Close', {
+        duration: 3000,
+      });
+      return; // Prevent further execution if fields are empty
+    }
+    this.snackBar.open('Organization created successfully', 'Close', {
+      duration: 3000, 
+    }); 
+    this.goToOrgScreen(); 
   }
 }

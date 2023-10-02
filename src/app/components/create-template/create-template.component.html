@@ -35,7 +35,7 @@
   </div>
    
   <mat-card-actions class="button-container">
-    <button mat-raised-button class="luxury-modal-button-cancel"> <span class="icon">&#10006;</span> Cancel</button>
+    <button mat-raised-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()"> <span class="icon">&#10006;</span> Cancel</button>
     <button mat-raised-button (click)="SaveTemplate()" class="create-job-button"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Template</button>
   </mat-card-actions> 
 </mat-card>

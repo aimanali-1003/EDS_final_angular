@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from 'src/app/services/job.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-job',
@@ -26,7 +27,8 @@ export class CreateJobComponent implements OnInit {
   selectedDayOfMonth: number = 1; // Default value, you can set it to any initial value
   
   
-  constructor(private jobService: JobService, private router: Router) { }
+  constructor(private jobService: JobService, private router: Router,
+    private snackBar: MatSnackBar ) { }
 
   ngOnInit(): void {
     // Fetch job data from the service
@@ -39,12 +41,20 @@ export class CreateJobComponent implements OnInit {
     // Add your logic here
   }
 
-  goToNextComponent() {
-    // Assuming you have configured a route for the "Job" component in your app-routing.module.ts
-    this.router.navigate(['/joblog']);
+  
+
+  goToJobScreen() { 
+    this.router.navigate(['/jobs']);
   }
 
   createJob() {
+
+    if (!this.jobName || !this.extractionFrequency || !this.organizationName || !this.clientName) {
+      this.snackBar.open('Job Name, Extraction Frequency, Org Name and client Name are required.', 'Close', {
+        duration: 3000,
+      });
+      return; // Prevent further execution if fields are empty
+    } 
     const jobConfig = {
       name: this.jobName,
       frequency: this.extractionFrequency,
@@ -52,12 +62,13 @@ export class CreateJobComponent implements OnInit {
       extractionTime: this.extractionTime // Add extraction time to job configuration
       // Add more job configuration properties here
     };
+    console.log('Job created:'); 
+    this.snackBar.open('Job created successfully', 'Close', {
+      duration: 3000, 
+    }); 
+    this.goToJobScreen(); 
 
-    // Call the job service to create and schedule the job
-    this.jobService.createJob(jobConfig).subscribe((response) => {
-      console.log('Job created:', response);
-      // Add any further actions here, such as displaying success messages or updating the job list
-    });
+     
   }
 
   onExtractionFrequencyChange() {
@@ -71,4 +82,6 @@ export class CreateJobComponent implements OnInit {
       this.extractionDate = null as any;
     }
   }
+
+   
 }

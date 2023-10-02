@@ -62,6 +62,10 @@
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="displayedClients.length === 0" class="no-data-message">
+    No data found.
+  </div>
  
   <!-- Form for creating/editing a client -->
   <div *ngIf="showClientForm" class="client-form">

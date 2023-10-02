@@ -183,7 +183,7 @@ export class ClientsComponent implements OnInit {
     this.pageSize = event.target.value;
     this.updateDisplayedClients(1);  
   }
-
+ 
    
 
   editClient(client: any) {
@@ -232,7 +232,7 @@ export class ClientsComponent implements OnInit {
   }
   fetchClients() {
     this.clientService.getClients().subscribe((clients: any[]) => {
-      this.clients = clients;
+      this.clients = clients; 
       console.log('Clients:', this.clients); // Log the clients array
       this.updateDisplayedClients(1);
     });

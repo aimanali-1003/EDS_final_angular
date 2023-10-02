@@ -63,6 +63,10 @@
       </tbody>
     </table>
 
+
+    <div *ngIf="dataTemplates.length === 0" class="no-data-message">
+      No data found.
+    </div>
     <!--create template popup-->
     <div class="data-templates" *ngIf="showForm">
       <!-- Data Templates Form -->

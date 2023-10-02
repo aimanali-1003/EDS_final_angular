@@ -2,27 +2,21 @@
     <div class="client-content">
       <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New Category</h2>
   
-      <form (ngSubmit)="createclient()" class="form-grid">
+      <form (ngSubmit)="CreateCategory()" class="form-grid">
         <div class="form-row">
           <mat-form-field class="form-item">
-            <input matInput placeholder="Category Name" [(ngModel)]="clientName" name="clientName" required>
+            <input matInput placeholder="Category Name" [(ngModel)]="categoryName" name="categoryName" required>
           </mat-form-field>
-        </div>   
-  
-        <div class="form-row">
-          <mat-form-field class="form-item">
-            <input matInput placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
-          </mat-form-field> 
-        </div>
+        </div>  
    
         <div class="form-row">
             <mat-form-field class="form-item">
-              <input matInput placeholder="Category ID" [(ngModel)]="clientName" name="clientName" required>
+              <input matInput placeholder="Category Code" [(ngModel)]="categoryCode" name="categoryCode" required>
             </mat-form-field>
           </div>  
         <div class="button-container" style="padding-top: 10px;">
-          <button mat-button class="luxury-modal-button-cancel"  > <span class="icon">&#10006;</span> Cancel</button>
-          <button mat-raised-button class="create-client-button" type="submit" (click)="goToNextComponent()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Category</button>
+          <button mat-button class="luxury-modal-button-cancel" (click)="goToCategoryScreen()" > <span class="icon">&#10006;</span> Cancel</button>
+          <button mat-raised-button class="create-client-button" type="submit" (click)="CreateCategory()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Category</button>
         </div>
       </form>
     </div>

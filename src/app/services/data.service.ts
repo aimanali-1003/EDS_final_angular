@@ -20,7 +20,7 @@ export class DataService {
   }
 
   getCategories(): Observable<DataService[]> {
-    return this.http.get<DataService[]>(`${this.apiUrl}/api/category`);
+    return this.http.get<DataService[]>(`${this.apiUrl}/api/Categories`);
   }
 
   getColumns(): Observable<any[]> {
