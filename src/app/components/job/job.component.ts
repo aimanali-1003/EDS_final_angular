@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CategoryService } from 'src/app/services/category.service';
+import { Component, Input, OnInit } from '@angular/core'; 
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { CATEGORY, CLIENT } from '../constants/table-headers.constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { JobService } from 'src/app/services/job.service';
 import { ModalComponent } from '../modal/modal.component';
 import { Router } from '@angular/router';
 @Component({
@@ -14,20 +14,20 @@ import { Router } from '@angular/router';
 })
 export class JobComponent implements OnInit {
   showCategoryForm: boolean = false;
-  category: any[] = [];
-  displayedCategory: any[] = []; 
+  job: any[] = [];
+  displayedJob: any[] = []; 
   isEditing = false;
   categoryIdToEdit: string | null = null;
-  categoryName: string = '';
+  jobName: string = '';
   pageSize: number = 10; // Adjust as needed
   searchTerm: string = '';
-  selectedCategory: any = {};
+  selectedJob: any = {};
   dataRecipients: any[] = [];
   notificationRecipients: any[] = [];
   headers = CATEGORY;
 
   constructor(
-    private categoryService: CategoryService,
+    private jobService: JobService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router
@@ -137,7 +137,7 @@ export class JobComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.fetchClients();
+    this.fetchJobs();
     
   }
  
@@ -149,7 +149,7 @@ export class JobComponent implements OnInit {
   onSearchChange(event?: Event) {
     if (event) {
       const searchTerm = (event.target as HTMLInputElement).value.toLowerCase(); 
-      this.displayedCategory = this.category.filter(category =>
+      this.displayedJob = this.job.filter(category =>
         category.Name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     } else {   
@@ -159,12 +159,12 @@ export class JobComponent implements OnInit {
   } 
 
   onPageChange(pageNumber: number) {
-    this.updateDisplayedClients(pageNumber);
+    this.updateDisplayedJobs(pageNumber);
   }
 
   onPageSizeChange(event: any) {
     this.pageSize = event.target.value;
-    this.updateDisplayedClients(1);  
+    this.updateDisplayedJobs(1);  
   }
 
    
@@ -190,16 +190,16 @@ export class JobComponent implements OnInit {
     });
   }
 
-  saveClient() {
+  saveJob() {
     if (this.isEditing && this.categoryIdToEdit) { 
-      this.categoryService.updateCategory(this.categoryIdToEdit, { name: this.categoryName }).subscribe(() => {
+      this.jobService.updateJob(this.categoryIdToEdit, { name: this.jobName }).subscribe(() => {
         this.showCategoryForm = false;
-        this.fetchClients();
+        this.fetchJobs();
       });
     } else { 
-      this.categoryService.createCategory({ name: this.categoryName }).subscribe(() => {
+      this.jobService.createJob({ name: this.jobName }).subscribe(() => {
         this.showCategoryForm = false;
-        this.fetchClients();
+        this.fetchJobs();
       });
     }
   }
@@ -209,24 +209,24 @@ export class JobComponent implements OnInit {
   }
 
   deleteClient(category: any) {
-    this.categoryService.deleteCategory(category.categoryId).subscribe(() => {
-      this.category = this.category.filter(c => c.CategoryID !== this.category);
+    this.jobService.deleteJob(category.categoryId).subscribe(() => {
+      this.job = this.job.filter(c => c.CategoryID !== this.job);
     });
   }
-  fetchClients() {
-    this.categoryService.getCategory().subscribe((category: any[]) => {
-      this.category = category;
-      console.log('Category:', this.category); // Log the clients array
-      this.updateDisplayedClients(1);
+  fetchJobs() {
+    this.jobService.getJobs().subscribe((category: any[]) => {
+      this.job = category;
+      console.log('Category:', this.job); // Log the clients array
+      this.updateDisplayedJobs(1);
     });
   }
   
   
   
-  private updateDisplayedClients(pageNumber: number) {
+  private updateDisplayedJobs(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.displayedCategory = this.category.slice(startIndex, endIndex);
+    this.displayedJob = this.job.slice(startIndex, endIndex);
   }
   
   

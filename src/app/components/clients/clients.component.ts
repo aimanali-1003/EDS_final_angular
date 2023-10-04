@@ -66,32 +66,12 @@ export class ClientsComponent implements OnInit {
   
 
   openClientModalForEdit(clientData?: any): void {
-    // const dialogRef = this.dialog.open(ModalComponent, {
-    //   width: '400px',
-    //   data: {
-    //     title: 'Edit Client Details',
-    //     fields: [
-    //       { label: 'Client Name', key: 'clientName', required: true },
-    //       { label: 'Organization Name', key: 'organizationName', required: false }, 
-    //     ],
-    //     data: clientData || {},  
-    //     isEditing: true  
-    //   }
-    // });
-  
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) { 
-    //     if (result.isEditing) { 
-    //       const updatedData = result.data;  
-    //     } else { 
-    //       const newData = result.data; 
-    //     }
-    //   }
-    // });
-
-    this.router.navigate(['/editClient']);
+    if (clientData && clientData.clientID) {
+      const clientId = clientData.clientID; 
+      this.router.navigate(['/editClient', clientId]);
+    
+    }
   }
-  
 
   openDialog() {
     const dialogRef = this.dialog.open(DeleteDialogComponent,{
@@ -117,34 +97,34 @@ export class ClientsComponent implements OnInit {
   }
   
 
-  openClientPopup(client?: any): void {
-    const isEditing = !!client; // Check if you are editing an existing client
+  // openClientPopup(client?: any): void {
+  //   const isEditing = !!client;  
 
-    const dialogRef = this.dialog.open(PopupComponent, {
-      data: {
-        title: isEditing ? 'Edits Client' : 'Create New Client',
-        content: isEditing ? 'Update the client details:' : 'Enter client details:',
-        inputPlaceholder: 'Client Name',
-        cancelText: 'Cancel',
-        createText: isEditing ? 'Update' : 'Create', // Use different labels for create and update
-        updateText: isEditing ? 'Update' : 'Create',
-        isUpdate: isEditing, // Set to true for editing, false for creating
-        input: isEditing ? client.ClientName : '', // Initialize with client name if editing
-      },
-    });
+  //   const dialogRef = this.dialog.open(PopupComponent, {
+  //     data: {
+  //       title: isEditing ? 'Edits Client' : 'Create New Client',
+  //       content: isEditing ? 'Update the client details:' : 'Enter client details:',
+  //       inputPlaceholder: 'Client Name',
+  //       cancelText: 'Cancel',
+  //       createText: isEditing ? 'Update' : 'Create', 
+  //       updateText: isEditing ? 'Update' : 'Create',
+  //       isUpdate: isEditing,  
+  //       input: isEditing ? client.ClientName : '',  
+  //     },
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        if (isEditing) {
-          // Handle the update operation here
-          this.updateClient(client, result);
-        } else {
-          // Handle the create operation here
-          this.createNewClient(result);
-        }
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       if (isEditing) {
+  //         // Handle the update operation here
+  //         this.updateClient(client, result);
+  //       } else {
+  //         // Handle the create operation here
+  //         this.createNewClient(result);
+  //       }
+  //     }
+  //   });
+  // }
 
   updateClient(client: any, updatedValue: string): void { 
   }

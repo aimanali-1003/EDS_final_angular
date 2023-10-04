@@ -33,7 +33,7 @@ export class DataService {
   }
 
   getDataTemplates(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apifortesting}/template`);
+    return this.http.get<any[]>(`${this.apiUrl}/api/Templates`);
   }
 
   createDataTemplate(templateData: any): Observable<any> {

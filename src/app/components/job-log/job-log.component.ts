@@ -33,6 +33,7 @@ export class JobLogComponent implements OnInit {
   loadJobLogs() {
     this.loggingService.getJobLogs().subscribe((logs: any[]) => {
       this.logs = logs; 
+      console.log(this.logs);
       this.updateDisplayedJoblogs(1); // Initial display
     });
   }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Organization } from '../../org.model';
+import { MatSnackBar } from '@angular/material/snack-bar'; 
 import { OrgService } from 'src/app/services/org.service';
 import { ModalComponent } from '../modal/modal.component';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
@@ -13,25 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./org-management.component.css'],
 })
 export class OrgManagementComponent implements OnInit {
-  displayedOrganization: Organization[] = [];
+  displayedOrganization: any[] = [];
   displayedColumns: string[] = ['id', 'OrgName', 'OrgCode', 'actions'];
-  orgs: Organization[] = [];
+  orgs: any[] = [];
   showOrgForm: boolean = false;
   isEditing = false;
   orgIdToEdit: string | null = null;
   OrgName: string = '';
-  pageSize: number = 10;
-  newOrg: Organization = {
-    id: '',
-    OrgName: '',
-    OrgCode: '',
-    ClientID: 0,
-    CreatedAt: 0,
-    CreatedBy: '',
-    UpdatedAt: 0,
-    UpdatedBy: '',
-    Active: false,
-  };
+  pageSize: number = 10; 
 
   constructor(
     private orgService: OrgService,
@@ -41,19 +29,30 @@ export class OrgManagementComponent implements OnInit {
     private router: Router,
   ) {}
 
-  ngOnInit() {
-    this.fetchOrgs(); 
+  ngOnInit() { 
+    this.fetchOrgs();  
+  }
+
+  // getOrgs(){
+
+  //   this.orgService.getOrgs().subscribe((orgs: any[]) => {
+      
+  //     this.orgs = orgs;
+  //     console.log(this.orgs)
+  //   });
+  // }
+
+  fetchOrgs() {
+    this.orgService.getOrgs().subscribe((orgs: any[]) => {
+      this.orgs = orgs;
+      this.displayedOrganization=orgs;
+      console.log(this.orgs);
+      this.updateDisplayedOrgs(1);
+    });
     
   }
 
-  fetchOrgs() {
-    this.orgService.getOrgs().subscribe((orgs: Organization[]) => {
-      this.orgs = orgs; 
-      this.updateDisplayedOrgs(1);
-    });
-  }
-
-  openModalForEdit(orgData?: Organization): void {
+  openModalForEdit(orgData?: any): void {
     // const dialogRef = this.dialog.open(ModalComponent, {
     //   width: '400px',
     //   data: {
@@ -133,11 +132,7 @@ export class OrgManagementComponent implements OnInit {
   cancelEdit(): void {
     this.isEditing = false;
     // Reset any form fields or variables used for editing
-  }
-
-  CreateOrg(){
-    this.router.navigate(['/createOrg']);
-  }
+  } 
 
   onPageChange(pageNumber: number) {
     this.updateDisplayedOrgs(pageNumber);

@@ -23,7 +23,7 @@ export class DataTemplateComponent implements OnInit {
   displayedCategory: any[] = []; 
 
 
-  pageSize: number = 10; // Adjust as needed
+  pageSize: number = 10;  
   searchTerm: string = '';
   selectedClient: any = {};
   dataRecipients: any[] = [];
@@ -47,34 +47,34 @@ export class DataTemplateComponent implements OnInit {
 
   onPageSizeChange(event: any) {
     this.pageSize = event.target.value;
-    this.updateDisplayedCategory(1); // Reset to the first page when page size changes
+    this.updateDisplayedCategory(1);  
   }
 
   fetchClients() {
     this.dataService.getDataTemplates().subscribe((category: any[]) => {
       this.category = category;
-      this.updateDisplayedCategory(1); // Initialize displayedClients when data is fetched
+      this.updateDisplayedCategory(1);  
     });
   }
   openCreateTemplateModal() {
     const dialogRef = this.dialog.open(DataTemplateDialogComponent, {
-      width: '400px', // Adjust the width as needed
+      width: '400px',  
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // Handle modal close if needed
+    dialogRef.afterClosed().subscribe(result => { 
     });
   }
   constructor(
     private dataService: DataService,
     private router: Router,
     private httpClient: HttpClient,
-    public dialog: MatDialog // Inject MatDialog for opening the dialog
+    public dialog: MatDialog  
   ) {}
 
   ngOnInit(): void {
     this.dataService.getDataTemplates().subscribe((templates: any[]) => {
       this.dataTemplates = templates;
+      console.log(this.dataTemplates);
     });
   } 
 
@@ -83,10 +83,8 @@ export class DataTemplateComponent implements OnInit {
   }
 
   saveTemplate() {
-    if (this.editingTemplate) {
-      // Implement the logic for editing a template
-    } else {
-      // Implement the logic for creating a template
+    if (this.editingTemplate) { 
+    } else { 
     }
     this.showForm = false;
     this.templateData = {};
@@ -102,8 +100,7 @@ export class DataTemplateComponent implements OnInit {
   createNewTemplate() {
     this.router.navigate(['/createTemplate']);
   }
-
-  // Existing methods...
+ 
 
   cancelCreateTemplate(): void {
     this.showForm = false;
@@ -118,23 +115,20 @@ export class DataTemplateComponent implements OnInit {
   applyClientFilter(filterData: any) {
     // Implement the filter logic specific to the 'clients' component
     // Update your displayedCategory based on the filter data
-  }
-  // Open the create template dialog
-openCreateTemplateDialog(): void {
-  // Prevent opening multiple dialogs
+  } 
+openCreateTemplateDialog(): void { 
   if (!this.isDialogOpen) {
     const dialogRef = this.dialog.open(DataTemplateDialogComponent, {
-      width: '400px', // Adjust the width as needed
-      data: { template: this.template }, // Pass data to the dialog if needed
-      disableClose: true, // Prevent closing by clicking outside
-      autoFocus: false, // Prevent autofocus on input fields
+      width: '400px',  
+      data: { template: this.template }, 
+      disableClose: true, 
+      autoFocus: false, 
     });
 
     this.isDialogOpen = true;
 
     dialogRef.afterClosed().subscribe(() => {
-      this.isDialogOpen = false;
-      // Handle dialog close event here, if needed
+      this.isDialogOpen = false; 
     });
   }
 }

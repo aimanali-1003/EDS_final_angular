@@ -9,8 +9,7 @@ import { CreateTemplateComponent } from './components/create-template/create-tem
 import { CreateJobComponent } from './components/create-job/create-job.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
-import { CreateCategoryComponent } from './components/create-category/create-category.component';
-import { CreateOrgComponent } from './components/create-org/create-org.component';
+import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
 import { ClientEditComponent } from './components/Edits/client-edit/client-edit.component';
 import { EditCategoryComponent } from './components/Edits/edit-category/edit-category.component';
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
@@ -30,9 +29,8 @@ const routes: Routes = [
   { path: 'createTemplate', component: CreateTemplateComponent },
   { path: 'createJob', component: CreateJobComponent },
   { path: 'category', component: CategoryComponent },
-  {path:'createClient',component:CreateClientComponent},
-  {path:'createOrg',component:CreateOrgComponent},
-  {path:'editClient',component:ClientEditComponent},
+  {path:'createClient',component:CreateClientComponent}, 
+  {path:'editClient/:clientId',component:ClientEditComponent},
   {path:'editCategory',component:EditCategoryComponent},
   {path:'editOrg',component:EditOrgComponent},
   {path:'editJoblog',component:EditJoblogComponent},

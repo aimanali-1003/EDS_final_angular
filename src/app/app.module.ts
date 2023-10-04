@@ -54,8 +54,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditFullScreenComponent } from './components/edit-full-screen/edit-full-screen.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
-import { CreateCategoryComponent } from './components/create-category/create-category.component';
-import { CreateOrgComponent } from './components/create-org/create-org.component';
+import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
 import { SearchComponent } from './search/search.component';
 import { ClientEditComponent } from './components/Edits/client-edit/client-edit.component';
 import { EditCategoryComponent } from './components/Edits/edit-category/edit-category.component';
@@ -88,8 +87,7 @@ import { EditJobComponent } from './components/Edits/edit-job/edit-job.component
     CreateJobComponent,
     EditFullScreenComponent,
     CreateClientComponent,
-    CreateCategoryComponent,
-    CreateOrgComponent,
+    CreateCategoryComponent, 
     SearchComponent,
     ClientEditComponent,
     EditCategoryComponent,

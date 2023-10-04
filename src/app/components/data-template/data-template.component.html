@@ -19,8 +19,8 @@
     <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
       <thead>
         <tr>
-          <th>Template Name</th>
           <th>ID</th>
+          <th>Template Name</th> 
           <th>Category ID</th>
           <th>Created At</th>
           <th>Updated At</th>
@@ -30,14 +30,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let template of dataTemplates" class="template-item">
-          <td>{{ template.TemplateName }}</td>
-          <td>{{ template.id }}</td>
-          <td>{{ template.CategoryId }}</td>
+          <td>{{ template.templateID }}</td>
+          <td>{{ template.templateName }}</td> 
+          <td>{{ template.categoryId}}</td>
           <td class="created-info-cell">
-            <div class="created-at">{{ template.CreatedAt | date:'medium' }}</div>
+            <div class="created-at">{{ template.createdAt | date:'medium' }}</div>
             <div class="created-by">
               <span class="created-by-label">Created By: </span>
-              <span class="created-by-cell">{{ template.CreatedBy }}</span>
+              <span class="created-by-cell">{{ template.createdBy }}</span>
             </div>
           </td>
           <td class="updated-info-cell">
@@ -48,7 +48,7 @@
             </div>
           </td>
           <td [style.color]="template.Active ? '#4cf0a1' : 'red'">
-            <ng-container *ngIf="template.Active; else inactive"><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+            <ng-container *ngIf="template.cctive; else inactive"><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
             <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
           </td>
           <td class="action-cell">

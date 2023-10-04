@@ -162,11 +162,12 @@ export class CategoryComponent implements OnInit {
       this.category = category;
     });
   }
+  
   fetchClients() {
     this.categoryService.getCategory().subscribe((category: any[]) => {
       this.category = category;
       this.displayedCategory=category;
-      console.log('Category:', this.category); // Log the clients array
+      console.log('Category:', this.category); 
       this.updateDisplayedClients(1);
     });
   }

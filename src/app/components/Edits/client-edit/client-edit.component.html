@@ -2,25 +2,24 @@
     <div class="client-content">
       <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Edit Client</h2>
   
-      <form (ngSubmit)="saveclient()" class="form-grid">
-        <div class="form-row">
+      <form (ngSubmit)="onSaveChanges(clientData.clientName, organizationName, clientId)" class="form-grid"> 
+        <div class="form-row" *ngIf="clientData">
           <mat-form-field class="form-item">
-            <input matInput placeholder="Client Name" [(ngModel)]="clientName" name="clientName" required>
-          </mat-form-field>
-        </div>
+            <input matInput placeholder="Client Name" [(ngModel)]="clientData.clientName" name="clientName" required>
+          </mat-form-field> 
+        </div> 
   
         <div class="form-row">
-          <mat-form-field class="form-item">
-            <!-- Add a dropdown for Organization Name -->
+          <mat-form-field class="form-item"> 
             <mat-select placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
-              <mat-option *ngFor="let org of orgs" [value]="org.OrgName">{{ org.OrgName }}</mat-option>
+              <mat-option *ngFor="let org of orgs" [value]="org.orgID">{{ org.orgName }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
   
         <div class="button-container" style="padding-top: 10px;">
           <button mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()"> <span class="icon">&#10006;</span> Cancel</button>
-          <button mat-raised-button class="create-client-button" type="submit" (click)="saveclient()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Save Changes</button>
+          <button mat-raised-button class="create-client-button" type="submit" ><mat-icon style="margin-right: 8px;">done_all</mat-icon>Save Changes</button>
         </div>
       </form>
     </div>
