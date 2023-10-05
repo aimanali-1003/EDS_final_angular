@@ -9,6 +9,7 @@ import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.compo
 import { CLIENT } from '../constants/table-headers.constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalComponent } from '../modal/modal.component';
+
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -17,7 +18,7 @@ import { ModalComponent } from '../modal/modal.component';
 export class ClientsComponent implements OnInit {
   showClientForm: boolean = false;
   clients: any[] = [];
-  displayedClients: any[] = []; 
+  displayedClients: any[] = [];
   isEditing = false;
   clientIdToEdit: string | null = null;
   clientName: string = '';
@@ -27,11 +28,13 @@ export class ClientsComponent implements OnInit {
   dataRecipients: any[] = [];
   notificationRecipients: any[] = [];
   headers = CLIENT;
+  sortBy: string = 'clientName'; // Default sorting column
+  sortDirection: 'asc' | 'desc' = 'asc'; // Default sorting direction
 
   constructor(
     private clientService: ClientService,
     private router: Router,
-    private clientDialogService : ClientDialogService,
+    private clientDialogService: ClientDialogService,
     private sharedService: SharedService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -45,37 +48,33 @@ export class ClientsComponent implements OnInit {
         fields: [
           { label: 'Client Name', key: 'clientName', required: true },
           { label: 'Client ID', key: 'clientId', required: true },
-          { label: 'Organization Name', key: 'organizationName', required: false },
-          // Add more fields as needed
+          { label: 'Organization Name', key: 'organizationName', required: false }, 
         ],
-        isEditing: false // Explicitly set it to false for a create operation
+        isEditing: false  
       }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the created client data here
-        const newData = result.data; // New data
-        // Perform create logic with newData
+      if (result) { 
+        const newData = result.data;  
       }
     });
   }
-  CreateClients(){
+  
+  CreateClients() {
     this.router.navigate(['/createClient']);
   }
-  
 
   openClientModalForEdit(clientData?: any): void {
     if (clientData && clientData.clientID) {
-      const clientId = clientData.clientID; 
+      const clientId = clientData.clientID;
       this.router.navigate(['/editClient', clientId]);
-    
     }
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DeleteDialogComponent,{
-      data:{
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
         message: 'Are you sure want to delete?',
         buttonText: {
           ok: 'Delete',
@@ -95,48 +94,44 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
-  
 
-  // openClientPopup(client?: any): void {
-  //   const isEditing = !!client;  
-
-  //   const dialogRef = this.dialog.open(PopupComponent, {
-  //     data: {
-  //       title: isEditing ? 'Edits Client' : 'Create New Client',
-  //       content: isEditing ? 'Update the client details:' : 'Enter client details:',
-  //       inputPlaceholder: 'Client Name',
-  //       cancelText: 'Cancel',
-  //       createText: isEditing ? 'Update' : 'Create', 
-  //       updateText: isEditing ? 'Update' : 'Create',
-  //       isUpdate: isEditing,  
-  //       input: isEditing ? client.ClientName : '',  
-  //     },
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       if (isEditing) {
-  //         // Handle the update operation here
-  //         this.updateClient(client, result);
-  //       } else {
-  //         // Handle the create operation here
-  //         this.createNewClient(result);
-  //       }
-  //     }
-  //   });
-  // }
-
-  updateClient(client: any, updatedValue: string): void { 
+  sortByColumn(column: string): void {
+    if (column === this.sortBy) {
+      this.toggleSortDirection(); // Toggle sorting direction if clicking the same column
+    } else {
+      this.sortBy = column;
+      this.sortDirection = 'asc'; // Reset sorting direction when changing columns
+    }
+    this.updateDisplayedClients(1); // Apply sorting to the updated column
   }
 
-  createNewClient(clientName: string): void { 
+  toggleSortDirection(): void {
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    this.updateDisplayedClients(1); // Reapply sorting when direction changes
   }
 
-  
+  private updateDisplayedClients(pageNumber: number) {
+    const startIndex = (pageNumber - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+
+    // Apply sorting to the displayedClients array
+    this.displayedClients = this.clients
+      .slice(0) // Create a shallow copy of the clients array
+      .sort((a, b) => {
+        const columnA = a[this.sortBy];
+        const columnB = b[this.sortBy];
+
+        if (this.sortDirection === 'asc') {
+          return columnA.localeCompare(columnB);
+        } else {
+          return columnB.localeCompare(columnA);
+        }
+      })
+      .slice(startIndex, endIndex);
+  }
 
   ngOnInit(): void {
     this.fetchClients();
-    
   }
  
   clearSearch() {
@@ -220,12 +215,7 @@ export class ClientsComponent implements OnInit {
   }
   
   
-  
-  private updateDisplayedClients(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedClients = this.clients.slice(startIndex, endIndex);
-  }
+   
 
   performClientSearch(query: string) {
     // Implement the search logic specific to the 'clients' component

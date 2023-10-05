@@ -19,8 +19,18 @@
     
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Client Name</th> 
+        <th (click)="sortByColumn('clientID')">
+          ID
+          <mat-icon *ngIf="sortBy === 'clientID' && sortDirection === 'asc'">arrow_upward</mat-icon>
+          <mat-icon *ngIf="sortBy === 'clientID' && sortDirection === 'desc'">arrow_downward</mat-icon>
+        </th>
+        <th (click)="sortByColumn('clientName')">
+          Client Name
+          <mat-icon *ngIf="sortBy === 'clientName' && sortDirection === 'asc'">arrow_upward</mat-icon>
+          <mat-icon *ngIf="sortBy === 'clientName' && sortDirection === 'desc'">arrow_downward</mat-icon>
+        </th>
+        <!-- Add sorting arrows for other columns here -->
+        
         <th>Created At</th>
         <th>Updated At</th>
         <th>Status</th>
@@ -41,10 +51,10 @@
         </td>
         
         <td class="updated-info-cell">
-          <div class="updated-at">{{ client.UpdatedAt | date:'medium' }}</div>
+          <div class="updated-at">{{ client.updatedAt | date:'medium' }}</div>
           <div class="updated-by">
             <span class="updated-by-label">Updated By: </span>
-            <span class="updated-by-cell">{{ client.UpdatedBy }}</span>
+            <span class="updated-by-cell">{{ client.updatedBy }}</span>
           </div>
         </td>
         <td [style.color]="client.Active ? '#4cf0a1;' : 'red'">

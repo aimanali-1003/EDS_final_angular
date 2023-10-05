@@ -13,7 +13,7 @@
         <mat-form-field class="form-item">
           <!-- Add a dropdown for Organization Name -->
           <mat-select placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
-            <mat-option *ngFor="let org of orgs" [value]="org.OrgName">{{ org.OrgName }}</mat-option>
+            <mat-option *ngFor="let org of orgs" [value]="org.orgID">{{ org.orgName }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

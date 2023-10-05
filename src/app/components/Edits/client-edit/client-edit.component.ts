@@ -10,7 +10,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./client-edit.component.css']
 })
 export class ClientEditComponent implements OnInit {
-  clients: any[] = [];
   clientData: any;
   clientId: string = '';
   organizationName!: string;
@@ -39,7 +38,7 @@ export class ClientEditComponent implements OnInit {
     // Fetch client data using this.clientId
     this.clientService.getClient(this.clientId).subscribe((clientData: any) => {
       this.clientData = clientData; 
-      console.log('ecwibubhcuierbkrb',this.clientData)
+      console.log('Client Data:', this.clientData);
     });
   }
 
@@ -47,22 +46,34 @@ export class ClientEditComponent implements OnInit {
     this.router.navigate(['/clients']);
   }
 
-  onSaveChanges(clientName: string, organizationId: string, clientId: string) {
+  onSaveChanges(clientName: string, clientId: string, organizationId: string, clientStatus: boolean) {
     if (clientId && organizationId) {
-      // Update the clientData object with the new organizationId and clientName
+      // Update the clientData object with the new organizationId, clientName, and status
       this.clientData.organization = organizationId;
-      this.clientData.clientName = clientName; 
+      this.clientData.clientName = clientName;
+      this.clientData.active = clientStatus;
   
+      const currentDatetime = new Date();
+      this.clientData.updatedAt = currentDatetime.toISOString();
+      this.clientData.updatedBy='ABC';
       // Call the saveclient function with the updated clientData
-      this.saveclient(clientId, this.clientData);
+      this.saveclient(this.clientId, this.clientData);
+      console.log(this.clientData)
     } else {
       console.error('clientId and organizationId are required.');
     }
   }
   
 
-  saveclient(clientID:string, updatedClient: any) {  
-    this.clientService.updateClient(clientID,updatedClient).subscribe(() => { 
+  saveclient(clientID: string, updatedClient: any) {  
+    this.clientService.updateClient(clientID, updatedClient).subscribe(() => { 
+      // Show a success message or perform other actions as needed
+      this.snackBar.open('Client updated successfully', 'Close', {
+        duration: 2000,
+      });
+
+      // Navigate back to the clients list
+      this.router.navigate(['/clients']);
     });
   }
 }

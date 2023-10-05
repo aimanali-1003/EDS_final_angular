@@ -20,11 +20,12 @@ export class ClientService {
   }
 
   createClient(clientData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/client`, clientData);
+    console.log('ABC',clientData)
+    return this.http.post<any>(`${this.apiUrl}/api/Clients`, clientData);
   }
 
-  updateClient(clientId: string, clientData: any): Observable<any> {
-    console.log(clientId,clientData);
+  updateClient(clientId: string, clientData: any): Observable<any> { 
+    console.log(clientId,clientData); 
     return this.http.put<any>(`${this.apiUrl}/api/Clients/${clientId}`, clientData);
   }
 
