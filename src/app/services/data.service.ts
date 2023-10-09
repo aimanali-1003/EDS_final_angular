@@ -8,8 +8,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class DataService {
-  
-  private apiUrl = 'https://localhost:44397';
+   
+  private apiUrl = 'https://localhost:44397'; 
 
   constructor(private http: HttpClient) { 
     

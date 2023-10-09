@@ -4,28 +4,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TemplateListComponent } from './components/template-list/template-list.component';
-import { DataService } from './services/data.service';
+import { DataService } from './services/data.service'; 
 import { MatSidenavModule } from '@angular/material/sidenav'; 
-import { DataTemplateComponent } from './components/data-template/data-template.component';
+import { DataTemplateComponent } from './components/data-template/data-template.component'; 
 import { FormsModule } from '@angular/forms';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ClientService } from './services/client.service';
-import { MatSelectModule } from '@angular/material/select';  
+import { MatSelectModule } from '@angular/material/select';    
 import { RouterModule } from '@angular/router';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider'; 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { MatButtonModule } from '@angular/material/button'; 
 import { MatDialogModule } from '@angular/material/dialog';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component'; 
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon'; 
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { FilterComponent } from './components/filter/filter.component';
+import { FilterComponent } from './components/filter/filter.component'; 
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { JobComponent } from './components/job/job.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -118,6 +118,7 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     MatPaginatorModule,
     MatSelectModule,
     MatTableModule,  
+    MatTableModule,  
     MatCardModule,
     MatSidenavModule,
     MatListModule,
@@ -131,8 +132,19 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     ReactiveFormsModule,
     MatCheckboxModule,
     MatDividerModule, 
+    MatListModule,
+    MatOptionModule,
+    MatSnackBarModule,
+    CommonModule,
+    MatSortModule,  
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatDividerModule, 
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent], 
 })
-export class AppModule {}
+export class AppModule {} 
