@@ -18,7 +18,7 @@ export class CategoryService {
   }
 
   createCategory(categoryData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/category`, categoryData);
+    return this.http.post<any>(`${this.apiUrl}/api/Categories`, categoryData);
   }
 
   updateCategory(categoryId: string, categoryData: any): Observable<any> {
@@ -26,6 +26,6 @@ export class CategoryService {
   }
 
   deleteCategory(categoryId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/category/${categoryId}`);
+    return this.http.delete<any>(`${this.apiUrl}/api/Categories/${categoryId}`);
   }
 }

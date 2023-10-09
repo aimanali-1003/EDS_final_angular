@@ -22,25 +22,12 @@ export class OrgManagementComponent implements OnInit {
   pageSize: number = 10; 
 
   constructor(
-    private orgService: OrgService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    
-    private router: Router,
+    private orgService: OrgService, 
   ) {}
 
   ngOnInit() { 
     this.fetchOrgs();  
-  }
-
-  // getOrgs(){
-
-  //   this.orgService.getOrgs().subscribe((orgs: any[]) => {
-      
-  //     this.orgs = orgs;
-  //     console.log(this.orgs)
-  //   });
-  // }
+  } 
 
   fetchOrgs() {
     this.orgService.getOrgs().subscribe((orgs: any[]) => {
@@ -50,88 +37,6 @@ export class OrgManagementComponent implements OnInit {
       this.updateDisplayedOrgs(1);
     });
     
-  }
-
-  openModalForEdit(orgData?: any): void {
-    // const dialogRef = this.dialog.open(ModalComponent, {
-    //   width: '400px',
-    //   data: {
-    //     title: 'Edit Organization Details',
-    //     fields: [
-    //       { label: 'Organization Name', key: 'OrgName', required: true },
-    //       { label: 'Organization Code', key: 'OrgCode', required: true },
-    //     ],
-    //     data: orgData || {},
-    //     isEditing: true,
-    //   },
-    // });
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result) {
-    //     if (result.isEditing) {
-    //       const updatedData = result.data; 
-    //     }
-    //   }
-    // });
-    this.router.navigate(['/editOrg']);
-  }
-
-  openDialog() {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {
-        message: 'Are you sure you want to delete?',
-        buttonText: {
-          ok: 'Delete',
-          cancel: 'Cancel',
-        },
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        // Perform delete logic
-        this.snackBar.open('Successfully Deleted', 'Cancel', {
-          duration: 2000,
-        });
-      }
-    });
-  }
-
-  openModalForCreate(): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '400px',
-      data: {
-        title: 'Create Organization',
-        fields: [
-          { label: 'Organization Name', key: 'OrgName', required: true },
-          { label: 'Organization Code', key: 'OrgCode', required: true },
-        ],
-        isEditing: false, // Explicitly set it to false for a create operation
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const newOrgData = result.data;
-        // Perform create logic with newOrgData
-      }
-    });
-  }
-
-  // Add the saveOrg method to handle organization creation/update
-  saveOrg(): void {
-    // Add logic to create/update the organization here
-    if (this.isEditing) {
-      // Update organization logic
-    } else {
-      // Create organization logic
-    }
-  }
-
-  // Add the cancelEdit method to cancel organization editing
-  cancelEdit(): void {
-    this.isEditing = false;
-    // Reset any form fields or variables used for editing
   } 
 
   onPageChange(pageNumber: number) {

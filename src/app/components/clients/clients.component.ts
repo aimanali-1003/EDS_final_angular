@@ -72,28 +72,40 @@ export class ClientsComponent implements OnInit {
     }
   }
 
-  openDialog() {
+  deleteClient(client: any): void {
+    const clientId = client.clientID; // Assuming 'clientID' is the correct property name for the client's ID
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
-        message: 'Are you sure want to delete?',
+        message: 'Are you sure you want to delete this client?',
         buttonText: {
           ok: 'Delete',
           cancel: 'Cancel'
         }
       }
     });
-
+  
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        const a = document.createElement('a');
-        a.click();
-        a.remove();
-        this.snackBar.open('Successfully Deleted', 'Cancel', {
-          duration: 2000,
+        // Call the clientService to delete the client by ID
+        this.clientService.deleteClient(clientId).subscribe(() => {
+          // Remove the deleted client from the local 'clients' array
+          this.clients = this.clients.filter(c => c.clientID !== clientId);
+          console.log(clientId);
+          this.updateDisplayedClients(1); // Update the displayed clients
+          this.snackBar.open('Client successfully deleted', 'Close', {
+            duration: 2000,
+          });
+        }, (error) => {
+          // Handle error if the delete operation fails
+          console.error('Error deleting client:', error);
+          this.snackBar.open('Error deleting client', 'Close', {
+            duration: 2000,
+          });
         });
       }
     });
   }
+  
 
   sortByColumn(column: string): void {
     if (column === this.sortBy) {
@@ -199,17 +211,10 @@ export class ClientsComponent implements OnInit {
 
   cancelEdit() {
     this.showClientForm = false;
-  }
-
-  deleteClient(client: any) {
-    this.clientService.deleteClient(client.id).subscribe(() => {
-      this.clients = this.clients.filter(c => c.id !== client.id);
-    });
-  }
+  } 
   fetchClients() {
     this.clientService.getClients().subscribe((clients: any[]) => {
-      this.clients = clients; 
-      console.log('Clients:', this.clients); // Log the clients array
+      this.clients = clients;  
       this.updateDisplayedClients(1);
     });
   }

@@ -17,7 +17,7 @@
       <tr>
         <th>ID</th>
         <th>Organization Name</th>
-        <th>Actions</th>
+        <th>Organization Code</th> 
 
       </tr>
     </thead>
@@ -25,18 +25,9 @@
       <tr *ngFor="let org of displayedOrganization" class="client-item">
         <td>{{ org.orgID }}</td>
 <td>{{ org.orgName }}</td>
+<td>{{ org.code }}</td>
 
-
-
-        <td class="action-cell">
-          <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </tr>
+ 
     </tbody>
   </table>
 
@@ -44,20 +35,7 @@
     No data found.
   </div>
 
-  <!-- Form for creating/editing an organization -->
-  <div *ngIf="showOrgForm" class="client-form">
-    <h3>{{ isEditing ? 'Edit Organization' : 'Create New Organization' }}</h3>
-    <form (ngSubmit)="saveOrg()">
-      <mat-form-field class="full-width">
-        <input matInput id="OrgName" name="OrgName" placeholder="Org Name" [(ngModel)]="OrgName" required>
-      </mat-form-field>
-      <div class="button-container">
-        <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
-          }}</button>
-        <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
-      </div>
-    </form>
-  </div>
+   
 
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="orgs.length"
     (pageChange)="onPageChange($event)"></app-pagination>

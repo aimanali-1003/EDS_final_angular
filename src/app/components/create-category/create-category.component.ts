@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CreateCategoryComponent implements OnInit {
   categoryName: string = '';
   categoryCode: string = '';
+  currentDatetime = new Date();
 
   constructor(
     private categoryService: CategoryService,
@@ -31,17 +32,38 @@ export class CreateCategoryComponent implements OnInit {
       });
       return; // Prevent further execution if fields are empty
     }
-
-    const categoryData = {
-      name: this.categoryName,
-      id: this.categoryCode,
+  
+    const templateData = {
+      templateName: '', // Add the properties you need for a template
     };
-
-    console.log('Category created successfully:');
-    this.snackBar.open('Category created successfully', 'Close', {
-      duration: 3000,
-    }); 
-    // Redirect to the category list screen
-    this.goToCategoryScreen();
+  
+    const categoryData = {
+      categoryName: this.categoryName,
+      code: this.categoryCode,
+      createdBy: 'ABC',
+      createdAt: this.currentDatetime.toISOString(),
+      templates: [templateData], // Include the empty template
+    };
+  
+    console.log(categoryData);
+  
+    this.categoryService.createCategory(categoryData).subscribe(
+      (response) => {
+        console.log('Category created successfully:', response);
+        this.snackBar.open('Category created successfully', 'Close', {
+          duration: 3000,
+        });
+        // Redirect to the category list screen
+        this.goToCategoryScreen();
+      },
+      (error) => {
+        console.error('Error creating category:', error);
+        // Handle error and show an error message
+        this.snackBar.open('Error creating category', 'Close', {
+          duration: 3000,
+        });
+      }
+    );
   }
+  
 }

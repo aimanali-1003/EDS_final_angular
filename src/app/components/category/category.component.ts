@@ -89,28 +89,26 @@ export class CategoryComponent implements OnInit {
   }
   
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DeleteDialogComponent,{
-      data:{
-        message: 'Are you sure want to delete?',
+  deleteCategory(categoryId: string): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this category?',
         buttonText: {
           ok: 'Delete',
           cancel: 'Cancel'
         }
       }
     });
-
+  
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        const a = document.createElement('a');
-        a.click();
-        a.remove();
-        this.snackBar.open('Successfully Deleted', 'Cancel', {
-          duration: 2000,
+      if (confirmed) { 
+        this.categoryService.deleteCategory(categoryId).subscribe(() => { 
+          this.category = this.category.filter(c => c.categoryId !== categoryId);
         });
       }
     });
   }
+  
   
 
   openClientPopup(client?: any): void {
@@ -162,7 +160,7 @@ export class CategoryComponent implements OnInit {
       this.category = category;
     });
   }
-  
+
   fetchClients() {
     this.categoryService.getCategory().subscribe((category: any[]) => {
       this.category = category;

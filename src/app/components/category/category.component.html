@@ -21,6 +21,7 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Code</th>
           <th>Category Name</th> 
           <th>Actions</th>
         </tr>
@@ -28,15 +29,17 @@
       <tbody>
         <tr *ngFor="let category of displayedCategory" class="client-item">
           <td>{{ category.categoryId }}</td>
+          <td>{{ category.code }}</td>
           <td>{{ category.categoryName }}</td>
+          
         
           <td class="action-cell">
             <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
+            <button mat-icon-button [style.color]="'#D84315'" (click)="deleteCategory(category.categoryId)">
               <mat-icon>delete</mat-icon>
-            </button>
+            </button> 
           </td>
         </tr>
       </tbody>
