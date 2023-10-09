@@ -1,0 +1,61 @@
+.client {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 60%;
+    margin: 0 auto;
+    position: absolute;
+    top: 7%;
+    left: 4%;
+}
+
+.client-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.org-details {
+    font-size: 15px;
+    text-align: left;
+    margin-top: 20px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.org-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.org-details li {
+    margin-bottom: 10px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.field {
+    display: flex;
+    margin-bottom: 10px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.field strong {
+    margin-right: 10px; /* Add space between the field label and data */
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.luxury-modal-button-cancel {
+    color: #ee958d;
+    background-color: rgb(243, 227, 227);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.luxury-modal-button-cancel:hover {
+    background-color: rgb(239, 218, 218);
+}

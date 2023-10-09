@@ -10,7 +10,7 @@
   </div>
     
 
-  <app-search [placeholderText]="'Search Cliet by Name ID & Status'"
+  <app-search [placeholderText]="'Search Client by Name ID & Status'"
                   (searchQueryChanged)="performClientSearch($event)"
                   (filterChanged)="applyClientFilter($event)">
   </app-search>
@@ -19,8 +19,18 @@
     
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Client Name</th> 
+        <th (click)="sortByColumn('clientID')">
+          ID
+          <mat-icon *ngIf="sortBy === 'clientID' && sortDirection === 'asc'">arrow_upward</mat-icon>
+          <mat-icon *ngIf="sortBy === 'clientID' && sortDirection === 'desc'">arrow_downward</mat-icon>
+        </th>
+        <th (click)="sortByColumn('clientName')">
+          Client Name
+          <mat-icon *ngIf="sortBy === 'clientName' && sortDirection === 'asc'">arrow_upward</mat-icon>
+          <mat-icon *ngIf="sortBy === 'clientName' && sortDirection === 'desc'">arrow_downward</mat-icon>
+        </th>
+        <!-- Add sorting arrows for other columns here -->
+        
         <th>Created At</th>
         <th>Updated At</th>
         <th>Status</th>
@@ -29,59 +39,43 @@
     </thead>
     <tbody>
       <tr *ngFor="let client of displayedClients" class="client-item">
-        <td>{{ client.id }}</td>
-        <td>{{ client.ClientName }}</td>
+        <td>{{ client.clientID }}</td>
+        <td>{{ client.clientName }}</td>
         
         <td class="created-info-cell">
-          <div class="created-at">{{ client.CreatedAt | date:'medium' }}</div>
+          <div class="created-at">{{ client.createdAt | date:'medium' }}</div>
           <div class="created-by">
             <span class="created-by-label">Created By: </span>
-            <span class="created-by-cell">{{ client.CreatedBy }}</span>
+            <span class="created-by-cell">{{ client.createdBy }}</span>
           </div>
         </td>
         
         <td class="updated-info-cell">
-          <div class="updated-at">{{ client.UpdatedAt | date:'medium' }}</div>
+          <div class="updated-at">{{ client.updatedAt | date:'medium' }}</div>
           <div class="updated-by">
             <span class="updated-by-label">Updated By: </span>
-            <span class="updated-by-cell">{{ client.UpdatedBy }}</span>
+            <span class="updated-by-cell">{{ client.updatedBy }}</span>
           </div>
         </td>
         <td [style.color]="client.Active ? '#4cf0a1;' : 'red'">
-          <ng-container *ngIf="client.Active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+          <ng-container *ngIf="client.active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
           <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
         </td>
         <td class="action-cell">
-          <button mat-icon-button [style.color]="'#0091EA'" (click)="openClientModalForEdit()">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openClientModalForEdit(client)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
+          <button mat-icon-button [style.color]="'#D84315'" (click)="deleteClient(client)">
             <mat-icon>delete</mat-icon>
           </button>
-        </td>
+        </td> 
       </tr>
     </tbody>
   </table>
 
   <div *ngIf="displayedClients.length === 0" class="no-data-message">
     No data found.
-  </div>
- 
-  <!-- Form for creating/editing a client -->
-  <div *ngIf="showClientForm" class="client-form">
-    <h3>{{ isEditing ? 'Edit Client' : 'Create New Client' }}</h3>
-    <form (ngSubmit)="saveClient()">
-      <mat-form-field class="full-width">
-        <input matInput id="clientName" name="clientName" placeholder="Client Name" [(ngModel)]="clientName" required>
-      </mat-form-field>
-      <div class="button-container">
-        <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
-          }}</button>
-        <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
-      </div>
-    </form>
-  </div>
-
+  </div> 
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="clients.length"
     (pageChange)="onPageChange($event)"></app-pagination>
 </div>

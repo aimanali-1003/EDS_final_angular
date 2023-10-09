@@ -7,29 +7,33 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = environment.baseApiUrl;
-
-  private apiOrg = 'https://lr7rg.wiremockapi.cloud';
-
+  private apiUrl = 'https://localhost:44397';
+  
   constructor(private http: HttpClient) { }
 
   getClients(): Observable<ClientService[]> {
-    return this.http.get<ClientService[]>(`${this.apiOrg}/client`);
+    return this.http.get<ClientService[]>(`${this.apiUrl}/api/Clients`);
   }
 
   getOrgs(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiOrg}/orgs`);
+    return this.http.get<any[]>(`${this.apiUrl}/api/Organizations`);
   }
 
   createClient(clientData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/client`, clientData);
+    console.log('ABC',clientData)
+    return this.http.post<any>(`${this.apiUrl}/api/Clients`, clientData);
   }
 
-  updateClient(clientId: string, clientData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/client/${clientId}`, clientData);
+  updateClient(clientId: string, clientData: any): Observable<any> { 
+    console.log(clientId,clientData); 
+    return this.http.put<any>(`${this.apiUrl}/api/Clients/${clientId}`, clientData);
   }
 
   deleteClient(clientId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/client/${clientId}`);
+    return this.http.delete<any>(`${this.apiUrl}/api/Clients/${clientId}`);
+  } 
+
+  getClient(clientId: string): Observable<string> { 
+    return this.http.get<any>(`${this.apiUrl}/api/Clients/${clientId}`);
   }
 }

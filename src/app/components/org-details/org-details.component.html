@@ -1,0 +1,29 @@
+<div class="client">
+    <div class="client-content">
+        <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Organization Details</h2>
+
+        <div class="org-details">
+            <div class="field">
+                <strong>ID:</strong>
+                <span>{{ org.orgID }}</span>
+            </div>
+            <div class="field">
+                <strong>Organization Name:</strong>
+                <span>{{ org.orgName }}</span>
+            </div>
+            <div class="field">
+                <strong>Organization Code:</strong>
+                <span>{{ org.code }}</span>
+            </div>
+            <div class="field">
+                <strong>Levels:</strong>
+                <ul>
+                    <li *ngFor="let level of orglevel">{{ level.name }}</li>
+                </ul>
+            </div>
+            <div class="button-container">
+                <button class="luxury-modal-button-cancel" (click)="goToOrgScreen()"><span class="icon">&#8592;</span> Go Back</button>
+            </div>
+        </div>
+    </div>
+</div>

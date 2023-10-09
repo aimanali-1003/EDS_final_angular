@@ -19,14 +19,14 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Job Name</th> 
+        <th>Send Notification</th> 
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let category of displayedCategory" class="client-item">
-        <td>{{ category.CategoryID }}</td>
-        <td>{{ category.Name }}</td>
+      <tr *ngFor="let job of displayedJob" class="client-item">
+        <td>{{ job.jobID }}</td>
+        <td>{{ job.sendNotification }}</td>
       
         <td class="action-cell">
           <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
@@ -41,15 +41,15 @@
   </table>
  
 
-  <div *ngIf="displayedCategory.length === 0" class="no-data-message">
+  <div *ngIf="displayedJob.length === 0" class="no-data-message">
     No data found.
   </div>
   <!-- Form for creating/editing a client -->
   <div *ngIf="showCategoryForm" class="client-form">
     <h3>{{ isEditing ? 'Edit Client' : 'Create New Client' }}</h3>
-    <form (ngSubmit)="saveClient()">
+    <form (ngSubmit)="saveJob()">
       <mat-form-field class="full-width">
-        <input matInput id="clientName" name="clientName" placeholder="Client Name" [(ngModel)]="categoryName" required>
+        <input matInput id="jobName" name="jobName" placeholder="Job Name" [(ngModel)]="jobName" required>
       </mat-form-field>
       <div class="button-container">
         <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
@@ -59,6 +59,6 @@
     </form>
   </div>
 
-  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="category.length"
+  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="job.length"
     (pageChange)="onPageChange($event)"></app-pagination>
 </div>

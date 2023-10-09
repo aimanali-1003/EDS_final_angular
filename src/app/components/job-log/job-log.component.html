@@ -19,15 +19,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let log of logs" class="client-item">
-        <td class="client-name">{{ log.JobID }}</td>
-        <td class="id">{{ formatDate(log.JobRunDateTime) }}</td>
-        <td class="created-at">{{ log.JobRunDuration }}</td>
-        <td class="updated-at">{{ log.ExtractSuccess }}</td>
-        <td class="status">{{ log.NotificationRecipeintSuccess }}</td>
-        <td class="actions">{{ log.ExtractedRecordCount }}</td>
-        <td class="actions">{{ log.JobLodId }}</td>
+        <td class="client-name">{{ log.jobLogID }}</td>
+        <td class="id">{{ log.jobRunDateTime}}</td>
+        <td class="created-at">{{ log.jobRunDuration }}</td>
+        <td class="updated-at">{{ log.extractSuccess}}</td>
+        <td class="status">{{ log.notificationRecipientSuccess}}</td>
+        <td class="actions">{{ log.extractedRecordCount }}</td>
+        <td class="actions">{{ log.jobID}}</td>
         <td class="actions" [style.color]="log.Active ? '#4cf0a1' : 'red'">
-          <ng-container *ngIf="log.Active; else inactive">
+          <ng-container *ngIf="log.active; else inactive">
             <span class="making-active-attractive">Active</span>
           </ng-container>
           <ng-template #inactive>

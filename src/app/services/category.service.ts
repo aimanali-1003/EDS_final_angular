@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = environment.baseApiUrl;
+  private apiUrl = 'https://localhost:44397';
   
-  private apicategory = 'https://lr7rg.wiremockapi.cloud';
+  
 
   constructor(private http: HttpClient) { }
 
   getCategory(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apicategory}/category`);
+    return this.http.get<any[]>(`${this.apiUrl}/api/Categories`);
   }
 
   createCategory(categoryData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/category`, categoryData);
+    return this.http.post<any>(`${this.apiUrl}/api/Categories`, categoryData);
   }
 
   updateCategory(categoryId: string, categoryData: any): Observable<any> {
@@ -26,6 +25,6 @@ export class CategoryService {
   }
 
   deleteCategory(categoryId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/category/${categoryId}`);
+    return this.http.delete<any>(`${this.apiUrl}/api/Categories/${categoryId}`);
   }
 }
