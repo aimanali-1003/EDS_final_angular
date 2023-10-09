@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class OrgService {
-  private apiUrl = environment.baseApiUrl; 
+  private apiUrl = 'https://localhost:44397'; 
 
   constructor(private http: HttpClient) { }
 

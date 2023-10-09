@@ -6,10 +6,9 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class LoggingService {
-  //private apiUrl = 'https://lr7rg.wiremockapi.cloud';
+export class LoggingService { 
 
-  private apiUrl = environment.baseApiUrl;
+  private apiUrl ='https://localhost:44397';
   private jobLogs: any[] = [];
 
   constructor(private http: HttpClient) { }

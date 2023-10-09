@@ -6,9 +6,8 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class JobService {
-  //private apiUrl = 'https://lr7rg.wiremockapi.cloud';
-  private apiUrl = environment.baseApiUrl;
+export class JobService { 
+  private apiUrl = 'https://localhost:44397';
 
   constructor(private http: HttpClient) { }
 

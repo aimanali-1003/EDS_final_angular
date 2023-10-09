@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = environment.baseApiUrl;
+  private apiUrl = 'https://localhost:44397';
   
-  private apicategory = 'https://lr7rg.wiremockapi.cloud';
+  
 
   constructor(private http: HttpClient) { }
 

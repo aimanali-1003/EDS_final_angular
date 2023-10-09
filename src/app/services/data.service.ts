@@ -9,8 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DataService {
   
-  private apiUrl = environment.baseApiUrl;
-  private apifortesting = 'https://lr7rg.wiremockapi.cloud';
+  private apiUrl = 'https://localhost:44397';
 
   constructor(private http: HttpClient) { 
     
