@@ -16,6 +16,7 @@ import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
+import { OrgDetailsComponent } from './components/org-details/org-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/clients', pathMatch: 'full' }, // Default route
@@ -37,6 +38,7 @@ const routes: Routes = [
   {path:'editTemplate',component:EditTemplateComponent},
   {path:'editJob',component:EditJobComponent}, 
   {path:'createCategory',component:CreateCategoryComponent},
+  { path: 'org-details/:id', component: OrgDetailsComponent },
   // Add more routes as needed 
 ];
 

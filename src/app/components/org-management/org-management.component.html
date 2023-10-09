@@ -1,41 +1,41 @@
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
     <h2 class="title"
-      style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;margin-top: 20px; margin-left: 10px; margin-bottom: 20px;">
-      Organization Management</h2>
-
+      style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif; margin-top: 20px; margin-left: 10px; margin-bottom: 20px;">
+      Organization Management
+    </h2>
   </div>
 
   <app-search [placeholderText]="'Search organization by Name ID & Status'"
     (searchQueryChanged)="performClientSearch($event)" (filterChanged)="applyClientFilter($event)">
   </app-search>
 
-
-  <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
-
+  <table class="client-table" style="font-family:'Quicksand', sans-serif;">
     <thead>
       <tr>
         <th>ID</th>
         <th>Organization Name</th>
         <th>Organization Code</th> 
-
+        <th>View</th> <!-- "Action" column -->
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let org of displayedOrganization" class="client-item">
         <td>{{ org.orgID }}</td>
-<td>{{ org.orgName }}</td>
-<td>{{ org.code }}</td>
-
- 
+        <td>{{ org.orgName }}</td>
+        <td>{{ org.code }}</td> 
+        <td>
+          <button mat-icon-button (click)="viewOrgDetails(org)" style="border: none; background-color: whitesmoke">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
 
   <div *ngIf="!displayedOrganization.length" class="no-data-message">
     No data found.
   </div>
-
-   
 
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="orgs.length"
     (pageChange)="onPageChange($event)"></app-pagination>

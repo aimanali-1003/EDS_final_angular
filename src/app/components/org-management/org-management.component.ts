@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; 
+import { OrgService } from 'src/app/services/org.service'; 
+import { LevelsDialogComponent} from '../levels-dialog/levels-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar'; 
-import { OrgService } from 'src/app/services/org.service';
-import { ModalComponent } from '../modal/modal.component';
-import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,6 +21,8 @@ export class OrgManagementComponent implements OnInit {
 
   constructor(
     private orgService: OrgService, 
+    private dialog:MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit() { 
@@ -31,13 +31,17 @@ export class OrgManagementComponent implements OnInit {
 
   fetchOrgs() {
     this.orgService.getOrgs().subscribe((orgs: any[]) => {
-      this.orgs = orgs;
+      this.orgs = orgs; 
       this.displayedOrganization=orgs;
       console.log(this.orgs);
       this.updateDisplayedOrgs(1);
     });
     
-  } 
+  }  
+  viewOrgDetails(org: any) { 
+    // Navigate to the details route with the organization ID as a parameter
+    this.router.navigate(['org-details', org.orgID]);
+  }
 
   onPageChange(pageNumber: number) {
     this.updateDisplayedOrgs(pageNumber);

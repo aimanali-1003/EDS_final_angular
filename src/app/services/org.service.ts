@@ -15,6 +15,15 @@ export class OrgService {
     return this.http.get<any[]>(`${this.apiUrl}/api/Organizations`);
   }
 
+  getOrgById(orgID:string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/${orgID}`);
+  }
+
+  getOrgDetails(orgId:string): Observable<any[]> {
+    console.log("ecwebcberc",orgId)
+    return this.http.get<any[]>(`${this.apiUrl}/api/OrganizationLevels/${orgId}`);
+  }
+
   createOrgs(orgData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/orgs`, orgData);
   }

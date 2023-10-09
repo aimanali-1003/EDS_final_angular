@@ -62,6 +62,8 @@ import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
+import { LevelsDialogComponent } from './components/levels-dialog/levels-dialog.component';
+import { OrgDetailsComponent } from './components/org-details/org-details.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,9 @@ import { EditJobComponent } from './components/Edits/edit-job/edit-job.component
     EditOrgComponent,
     EditJoblogComponent,
     EditTemplateComponent,
-    EditJobComponent, 
+    EditJobComponent,
+    LevelsDialogComponent,
+    OrgDetailsComponent, 
     
   ],
   imports: [
