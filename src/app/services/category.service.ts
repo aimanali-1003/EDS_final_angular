@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = 'https://localhost:44397';
+  private apiUrl = 'https://localhost:7133';
   
   
 

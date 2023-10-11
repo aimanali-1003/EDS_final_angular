@@ -32,21 +32,14 @@ export class CreateCategoryComponent implements OnInit {
       });
       return; // Prevent further execution if fields are empty
     }
-  
-    const templateData = {
-      templateName: '', // Add the properties you need for a template
-    };
-  
+
     const categoryData = {
       categoryName: this.categoryName,
-      code: this.categoryCode,
+      categoryCode: this.categoryCode,
       createdBy: 'ABC',
       createdAt: this.currentDatetime.toISOString(),
-      templates: [templateData], // Include the empty template
     };
-  
-    console.log(categoryData);
-  
+
     this.categoryService.createCategory(categoryData).subscribe(
       (response) => {
         console.log('Category created successfully:', response);
@@ -65,5 +58,4 @@ export class CreateCategoryComponent implements OnInit {
       }
     );
   }
-  
 }
