@@ -35,7 +35,12 @@ const routes: Routes = [
   { path: 'category', component: CategoryComponent },
   {path:'createClient',component:CreateClientComponent}, 
   {path:'editClient/:clientId',component:ClientEditComponent},
-  {path:'editCategory',component:EditCategoryComponent},
+  {
+    path: 'editCategory/:id', // Use 'id' as the route parameter for the categoryID
+    component: EditCategoryComponent // Replace with the actual component name
+  },
+  
+  // {path:'editCategory',component:EditCategoryComponent},
   {path:'editOrg',component:EditOrgComponent},
   {path:'editJoblog',component:EditJoblogComponent},
   {path:'editTemplate',component:EditTemplateComponent},

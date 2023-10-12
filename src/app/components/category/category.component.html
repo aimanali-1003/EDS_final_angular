@@ -34,12 +34,13 @@
           
           
           <td class="action-cell">
-            <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
+            <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit(category)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button [style.color]="'#D84315'" (click)="deleteCategory(category.categoryId)">
+            
+            <button mat-icon-button [style.color]="'#D84315'" (click)="deleteCategory(category.categoryID)">
               <mat-icon>delete</mat-icon>
-            </button> 
+            </button>
           </td>
         </tr>
       </tbody>

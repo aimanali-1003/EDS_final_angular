@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/services/category.service';
 
@@ -10,34 +10,46 @@ import { CategoryService } from 'src/app/services/category.service';
 })
 export class EditCategoryComponent implements OnInit {
 
+  // categoryId: string = '';
   categoryName: string = '';
   categoryCode: string = '';
+  categoryId: string = '';
+  updatedCategory: any = {};
 
   constructor(
     private categoryService: CategoryService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.categoryId = params['id'];
+    });
+  }
 
   goToCategoryScreen() {
     this.router.navigate(['/category']);
   }
 
-  saveCategory() {
-     
 
-    const categoryData = {
-      name: this.categoryName,
-      id: this.categoryCode,
+  saveUpdatedCategory() {
+    this.updatedCategory = {
+      categoryCode: this.categoryCode,
+      categoryName: this.categoryName,
+      // Include other properties if needed
     };
-
-    console.log('Category edited successfully:');
-    this.snackBar.open('Category edited successfully', 'Close', {
-      duration: 3000,
-    });  
-    this.goToCategoryScreen();
+    this.categoryService.updateCategory(this.categoryId, this.updatedCategory).subscribe(
+      (response) => {
+        // Handle success, if needed
+        console.log('Category updated successfully.', response);
+      },
+      (error) => {
+        // Handle error, if needed
+        console.error('Error updating category.', error);
+      }
+    );
   }
 
 }
