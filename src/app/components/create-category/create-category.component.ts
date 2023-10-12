@@ -35,9 +35,7 @@ export class CreateCategoryComponent implements OnInit {
 
     const categoryData = {
       categoryName: this.categoryName,
-      categoryCode: this.categoryCode,
-      createdBy: 'ABC',
-      createdAt: this.currentDatetime.toISOString(),
+      categoryCode: this.categoryCode
     };
 
     this.categoryService.createCategory(categoryData).subscribe(
