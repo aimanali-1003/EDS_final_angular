@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DataService {
    
-  private apiUrl = 'https://localhost:44397'; 
+  private apiUrl = 'https://localhost:7133'; 
 
   constructor(private http: HttpClient) { 
     
@@ -19,16 +19,16 @@ export class DataService {
     return this.http.get<any[]>(`${this.apiUrl}/template`);
   }
 
-  getCategories(): Observable<DataService[]> {
-    return this.http.get<DataService[]>(`${this.apiUrl}/api/Categories`);
+  getCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/Categories`);
   }
 
   getColumns(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/columns`);
+    return this.http.get<any[]>(`${this.apiUrl}/api/columns`);
   }
 
   getClients(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/client`);
+    return this.http.get<any[]>(`${this.apiUrl}/clients`);
   }
 
   getDataTemplates(): Observable<any[]> {
@@ -46,4 +46,11 @@ export class DataService {
   deleteDataTemplate(templateId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/template/${templateId}`);
   }
+
+  getCategoryColumns(categoryId: number) {
+    const url = `${this.apiUrl}/api/category-columns/${categoryId}`;
+    return this.http.get(url);
+  }
+
+
 }

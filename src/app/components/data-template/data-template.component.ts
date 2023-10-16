@@ -17,7 +17,8 @@ export class DataTemplateComponent implements OnInit {
   showForm = false;
   templateData: any = {};
   editingTemplate = false;
-  template: DataTemplate = { name: '', category: '', columns: [] };
+  template: any = { templateName: '', category: '', columns: {} };
+
   availableColumns: string[] = ['Column1', 'Column2', 'Column3'];
   selectedColumns: string[] = [];
   displayedCategory: any[] = []; 

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'https://localhost:44397';
+  private apiUrl = 'https://localhost:7133';
   
   constructor(private http: HttpClient) { }
 
@@ -20,7 +20,7 @@ export class ClientService {
   }
 
   createClient(clientData: any): Observable<any> {
-    console.log('ABC',clientData)
+    console.log(clientData)
     return this.http.post<any>(`${this.apiUrl}/api/Clients`, clientData);
   }
 

@@ -129,16 +129,7 @@ export class ClientsComponent implements OnInit {
     // Apply sorting to the displayedClients array
     this.displayedClients = this.clients
       .slice(0) // Create a shallow copy of the clients array
-      .sort((a, b) => {
-        const columnA = a[this.sortBy];
-        const columnB = b[this.sortBy];
-
-        if (this.sortDirection === 'asc') {
-          return columnA.localeCompare(columnB);
-        } else {
-          return columnB.localeCompare(columnA);
-        }
-      })
+      .sort((a, b) => b.clientID - a.clientID)
       .slice(startIndex, endIndex);
   }
 

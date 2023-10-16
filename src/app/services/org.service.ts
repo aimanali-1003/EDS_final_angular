@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class OrgService {
-  private apiUrl = 'https://localhost:44397'; 
+  private apiUrl = 'https://localhost:7133'; 
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +20,7 @@ export class OrgService {
   }
 
   getOrgDetails(orgId:string): Observable<any[]> {
-    console.log("ecwebcberc",orgId)
+    console.log("org service", orgId)
     return this.http.get<any[]>(`${this.apiUrl}/api/OrganizationLevels/${orgId}`);
   }
 

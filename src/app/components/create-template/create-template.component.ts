@@ -1,33 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-template-dialog',
+  selector: 'app-create-template',
   templateUrl: './create-template.component.html',
   styleUrls: ['./create-template.component.css']
 })
-export class CreateTemplateComponent {
-  templateName: string = '';
-  selectedCategories: string[] = [];
-  selectedOrganization: string = '';
-  selectedClient: string = '';
-  selectedColumns: { [key: string]: any } = {};
+export class CreateTemplateComponent implements OnInit {
+  template: { templateName: string, categoryId: number, category: string,columns: { [key: string]: boolean } } = {
+    templateName: '',
+    categoryId: 0, // Store the selected category ID
+    category: '',
+    columns: {}
+  };
   columnSearch: string = '';
   filteredColumns: string[] = [];
+  categoryName: string = '';
+  categoriesWithColumns: any[] = [];
 
-  // Sample data for categories, organizations, and clients
-  categories: string[] = ['Category 1', 'Category 2', 'Category 3'];
-  organizations: string[] = ['Org 1', 'Org 2', 'Org 3'];
-  clients: string[] = ['Client 1', 'Client 2', 'Client 3'];
-  columns: string[] = [
-    'Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5', 'Column 6', 'Column 7',
-    'Column 8', 'Column 9', 'Column 10', 'Column 11', 'Column 12', 'Column 13', 'Column 14',
-    'Column 15', 'Column 16', 'Column 17', 'Column 18'
-  ];
+  categories: any[] = [];
+  columns: any[] = [];
 
-  constructor(private router: Router,
-    private snackBar: MatSnackBar  ) {}
+  constructor(
+    private templateService: DataService,
+    private router: Router,
+    private snackBar: MatSnackBar  
+  ) {}
+
+  ngOnInit(): void {
+    this.templateService.getCategories().subscribe((categories: any[]) => {
+      console.log(categories);
+      this.categories = categories;
+    });
+  }
+  
+
+  // Update the selected category ID
+  updateCategory(categoryId: number) {
+    this.template.categoryId = categoryId;
+
+    // Fetch columns for the selected category
+    // this.templateService.getColumnsByCategory(this.template.categoryId).subscribe((columns: string[]) => {
+    //   console.log(columns);
+    //   this.columns = columns;
+    // });
+  }
 
   updateFilteredColumns() {
     const searchText = this.columnSearch.toLowerCase();
@@ -35,25 +54,33 @@ export class CreateTemplateComponent {
   }
 
   goToTemplateScreen() {
-    this.router.navigate(['/dataTemplate']);
+    this.router.navigate(['/templates']);
   }
+  
 
-  SaveTemplate() {
-    const selectedColumnsArray = Object.keys(this.selectedColumns).filter(column => this.selectedColumns[column]);
-    console.log('Selected Columns:', selectedColumnsArray); 
+  createTemplate() {
+    const selectedColumnsArray = Object.keys(this.template.columns).filter(column => this.template.columns[column]);
 
-    if (!this.templateName || !this.selectedCategories || !this.selectedColumns) {
-      this.snackBar.open('Template Name, categories and Columns are required.', 'Close', {
+    if (!this.template.templateName || this.template.categoryId === 0 || selectedColumnsArray.length === 0) {
+      this.snackBar.open('Template Name, Category, and Columns are required.', 'Close', {
         duration: 3000,
       });
-      return; // Prevent further execution if fields are empty
+      return;
     }
-    this.snackBar.open('Organization created successfully', 'Close', {
-      duration: 3000, 
-    }); 
-    this.goToTemplateScreen(); 
-  } 
- 
- 
-    
+
+    const templateConfig = {
+      templateName: this.template.templateName,
+      categoryId: this.template.categoryId,
+      columns: selectedColumnsArray,
+      categoryName: this.categoryName
+    };
+
+    this.templateService.createDataTemplate(templateConfig).subscribe(() => {
+      this.snackBar.open('Template created successfully', 'Close', {
+        duration: 3000,
+      });
+
+      this.router.navigate(['/templates']);
+    });
+  }
 }
