@@ -16,6 +16,7 @@ export class EditCategoryComponent implements OnInit {
   categoryId: string = '';
   updatedCategory: any = {};
 
+
   constructor(
     private categoryService: CategoryService,
     private router: Router,
@@ -29,10 +30,6 @@ export class EditCategoryComponent implements OnInit {
     });
   }
 
-  goToCategoryScreen() {
-    this.router.navigate(['/category']);
-  }
-
 
   saveUpdatedCategory() {
     this.updatedCategory = {
@@ -44,12 +41,17 @@ export class EditCategoryComponent implements OnInit {
       (response) => {
         // Handle success, if needed
         console.log('Category updated successfully.', response);
+        this.router.navigate(['/category']);
       },
       (error) => {
         // Handle error, if needed
         console.error('Error updating category.', error);
       }
     );
+  }
+
+  goToCategoryScreen() {
+    this.router.navigate(['/category']);
   }
 
 }

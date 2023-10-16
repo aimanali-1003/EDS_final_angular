@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CATEGORY, CLIENT } from '../constants/table-headers.constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -40,27 +41,45 @@ export class CategoryComponent implements OnInit {
   
   openModalForEdit(category: any): void {
     if (category) {
-      const categoryId = category.categoryID;
-      this.router.navigate(['/editCategory', categoryId]);
+      const categoryID = category.categoryID;
+      this.router.navigate(['/editCategory', categoryID]);
     }
   }
 
-  deleteCategory(categoryId: string): void {
-    console.log('categoryId:', categoryId); // Debugging line
-  
-    const confirmation = confirm('Are you sure you want to delete this category');
-  
-    if (confirmation) {
-      this.categoryService.deleteCategory(categoryId).subscribe(
-        () => {
-          this.displayedCategory = this.displayedCategory.filter(category => category.categoryId !== categoryId);
-        },
-        (error) => {
-          console.error('Error deleting category:', error);
+  deleteCategory(category: any): void {
+    const categoryId = category; // Assuming 'categoryID' is the correct property name for the category's ID
+    console.log(categoryId);
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this category?',
+        buttonText: {
+          ok: 'Delete',
+          cancel: 'Cancel'
         }
-      );
-    }
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        // Call the categoryService to delete the category by ID
+        this.categoryService.deleteCategory(categoryId).subscribe(() => {
+          // Remove the deleted category from the local 'category' array
+          this.category = this.category.filter(c => c.categoryId !== categoryId);
+          this.updateDisplayedClients(1); // Update the displayed categories
+          this.snackBar.open('Category successfully deleted', 'Close', {
+            duration: 2000,
+          });
+        }, (error) => {
+          // Handle error if the delete operation fails
+          console.error('Error deleting category:', error);
+          this.snackBar.open('Error deleting category', 'Close', {
+            duration: 2000,
+          });
+        });
+      }
+    });
   }
+  
 
   fetchClients() {
     this.categoryService.getCategory().subscribe((category: any[]) => {
@@ -115,8 +134,14 @@ export class CategoryComponent implements OnInit {
   private updateDisplayedClients(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
+  
+    // Sort the categories in descending order based on categoryID
+    this.category.sort((a, b) => b.categoryID - a.categoryID);
+  
+    // Update displayedCategory with the sorted subset of categories
     this.displayedCategory = this.category.slice(startIndex, endIndex);
   }
+  
    
 }
  

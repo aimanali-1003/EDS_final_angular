@@ -5,20 +5,21 @@
         <div class="org-details">
             <div class="field">
                 <strong>ID:</strong>
-                <span>{{ org.orgID }}</span>
+                <span>{{ org.organizationID }}</span>
             </div>
             <div class="field">
                 <strong>Organization Name:</strong>
-                <span>{{ org.orgName }}</span>
+                <span>{{ org.organizationLevel }}</span>
             </div>
             <div class="field">
                 <strong>Organization Code:</strong>
-                <span>{{ org.code }}</span>
+                <span>{{ org.organizationCode }}</span>
             </div>
             <div class="field">
-                <strong>Levels:</strong>
+                <strong>Levels: GPO_GRP_CD</strong>
                 <ul>
-                    <li *ngFor="let level of orglevel">{{ level.name }}</li>
+                    <!-- <li *ngFor="let level of orglevel">{{ level.name }}</li> -->
+                    <!-- <li *ngFor="let level of orglevel">GPO_GRP_CD</li> -->
                 </ul>
             </div>
             <div class="button-container">

@@ -33,14 +33,15 @@ export class OrgManagementComponent implements OnInit {
     this.orgService.getOrgs().subscribe((orgs: any[]) => {
       this.orgs = orgs; 
       this.displayedOrganization=orgs;
-      console.log(this.orgs);
+      // console.log(this.orgs);
       this.updateDisplayedOrgs(1);
     });
     
   }  
   viewOrgDetails(org: any) { 
+    console.log('View',org)
     // Navigate to the details route with the organization ID as a parameter
-    this.router.navigate(['org-details', org.orgID]);
+    this.router.navigate(['org-details', org.organizationID]);
   }
 
   onPageChange(pageNumber: number) {
