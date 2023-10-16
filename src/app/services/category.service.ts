@@ -22,6 +22,11 @@ export class CategoryService {
     return this.http.get(url);
   }
 
+  getOrganizationIdByCategory(categoryId: string) {
+    // Make an HTTP GET request to your backend to fetch the organization ID based on the category ID.
+    return this.http.get<string>(`/api/organization?categoryId=${categoryId}`);
+  }
+
   createCategory(categoryData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/api/Categories`, categoryData);
   }

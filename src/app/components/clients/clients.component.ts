@@ -65,6 +65,13 @@ export class ClientsComponent implements OnInit {
     this.router.navigate(['/createClient']);
   }
 
+
+
+  viewClient(client: any) {
+    this.selectedClient = client;
+    console.log('Viewing client:', client);
+  }
+
   openClientModalForEdit(clientData?: any): void {
     if (clientData && clientData.clientID) {
       const clientId = clientData.clientID;
