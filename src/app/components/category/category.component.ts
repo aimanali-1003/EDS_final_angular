@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { CATEGORY, CLIENT } from '../constants/table-headers.constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 @Component({
@@ -17,8 +16,10 @@ export class CategoryComponent implements OnInit {
   isEditing = false;
   categoryIdToEdit: string | null = null;
   categoryName: string = '';
-  pageSize: number = 10; // Adjust as needed
-
+  pageSize: number = 10;
+  isViewingCategory: boolean = false;
+  categoryData: any;
+  categorySearchQuery: string = '';
 
   constructor(
     private categoryService: CategoryService,
@@ -31,6 +32,12 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.fetchClients();   
   }
+
+  ViewCategory(category: any): void {
+    this.categoryData = category;
+    this.isViewingCategory = true;
+    this.router.navigate(['/view/Category/' + category.categoryID]);
+  }
   
   openModalForEdit(category?: any): void {
     if (category && category.categoryID) {
@@ -40,7 +47,7 @@ export class CategoryComponent implements OnInit {
   }
 
   deleteCategory(category: any): void {
-    const categoryId = category; // Assuming 'categoryID' is the correct property name for the category's ID
+    const categoryId = category;
     console.log(categoryId);
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
@@ -54,16 +61,13 @@ export class CategoryComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        // Call the categoryService to delete the category by ID
         this.categoryService.deleteCategory(categoryId).subscribe(() => {
-          // Remove the deleted category from the local 'category' array
           this.category = this.category.filter(c => c.categoryId !== categoryId);
-          this.updateDisplayedClients(1); // Update the displayed categories
+          this.updateDisplayedClients(1); 
           this.snackBar.open('Category successfully deleted', 'Close', {
             duration: 2000,
           });
         }, (error) => {
-          // Handle error if the delete operation fails
           console.error('Error deleting category:', error);
           this.snackBar.open('Error deleting category', 'Close', {
             duration: 2000,
@@ -109,23 +113,38 @@ export class CategoryComponent implements OnInit {
     this.showCategoryForm = false;
   }
 
-  performClientSearch(query: string) {
-    // Implement the search logic specific to the 'clients' component
-    // Update your displayedCategory based on the query
+
+  performCategorySearch(query: string) {
+    if (query) {
+      this.displayedCategory = this.filterCategories(query);
+    } else {
+      // If the search query is empty, reset the displayed data to the original data.
+      this.displayedCategory = this.category;
+    }
   }
   
-  applyClientFilter(filterData: any) {
-    // Implement the filter logic specific to the 'clients' component
-    // Update your displayedCategory based on the filter data
+  filterCategories(query: string): any[] {
+    return this.category.filter((category) =>
+      category.categoryName.toLowerCase().includes(query.toLowerCase()) ||
+      category.categoryCode.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+  
+  applyCategoryFilter(filterData: any) {
+    this.displayedCategory = this.category.filter((category) => {
+      return true;
+    });
   }
   
   private updateDisplayedClients(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.category.sort((a, b) => b.categoryID - a.categoryID);
+    this.category.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateB - dateA; // Sort in descending order
+    });
     this.displayedCategory = this.category.slice(startIndex, endIndex);
-  }
-  
-   
+  } 
 }
  

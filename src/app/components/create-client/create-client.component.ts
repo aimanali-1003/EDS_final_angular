@@ -44,7 +44,7 @@ export class CreateClientComponent implements OnInit {
     const clientConfig = {
       clientName: this.clientName,
       organizationID: this.organizationLevel,
-      clientCode: this.clientCode
+      clientCode: this.clientCode,
     }; 
 
     

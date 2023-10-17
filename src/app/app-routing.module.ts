@@ -17,6 +17,7 @@ import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
 import { OrgDetailsComponent } from './components/org-details/org-details.component';
+import { GenericViewComponent } from './components/generic-view/generic-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/clients', pathMatch: 'full' }, // Default route
@@ -39,6 +40,11 @@ const routes: Routes = [
     path: 'editCategory/:id', // Use 'id' as the route parameter for the categoryID
     component: EditCategoryComponent // Replace with the actual component name
   },
+  // {
+  //   path: 'client-details/:id',
+  //   component: ClientDetailsComponent,
+  // },
+  { path: 'view/:type/:id', component: GenericViewComponent },
   
   // {path:'editCategory',component:EditCategoryComponent},
   {path:'editOrg',component:EditOrgComponent},

@@ -1,0 +1,30 @@
+<mat-card *ngIf="type === 'Client'" class="view-container">
+    <mat-card-title>{{ data.clientName }}</mat-card-title>
+    <mat-card-content class="additional-data">
+      <div class="data-item">
+        <strong>Client Code:</strong> {{ data.clientCode }}
+      </div>
+      <div class="data-item">
+        <strong>Client Name:</strong> {{ data.clientName }}
+      </div>
+      <div class="data-item">
+        <strong>Active:</strong> <span [ngClass]="{'active-text': data.active, 'inactive-text': !data.active}">{{ data.active ? 'Active' : 'Inactive' }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="type === 'Category'" class="view-container">
+    <mat-card-title>{{ data.categoryName }}</mat-card-title>
+    <mat-card-content class="additional-data">
+      <div class="data-item">
+        <strong>Client Code:</strong> {{ data.categoryCode }}
+      </div>
+      <div class="data-item">
+        <strong>Client Name:</strong> {{ data.categoryName }}
+      </div>
+      <div class="data-item">
+        <strong>Active:</strong> <span [ngClass]="{'active-text': data.active, 'inactive-text': !data.active}">{{ data.active ? 'Active' : 'Inactive' }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
