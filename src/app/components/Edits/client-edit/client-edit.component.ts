@@ -13,6 +13,8 @@ export class ClientEditComponent implements OnInit {
   clientData: any;
   clientId: string = '';
   orgs: any[] = [];
+  clientOrg: any[] = [];
+  selectedOrganization: any; 
 
   constructor(
     private clientService: ClientService,
@@ -24,56 +26,67 @@ export class ClientEditComponent implements OnInit {
   ngOnInit(): void {
     this.clientService.getOrgs().subscribe((orgs: any[]) => {
       this.orgs = orgs;
+      console.log('Load all organizations', this.orgs)
     });
 
     this.route.params.subscribe((params) => {
       this.clientId = params['clientId'];
       this.loadClientData();
+      this.loadOrganization();
     });
   }
 
   loadClientData(): void {
     this.clientService.getClient(this.clientId).subscribe((clientData: any) => {
       this.clientData = clientData;
-
-      // Set the client's organization based on the data received
-      this.clientData.organization = this.findOrganization(this.clientData.organizationID);
+      console.log(this.clientData);
     });
   }
 
-  findOrganization(clientOrganizationID: string): any {
-    return this.orgs.find((org) => org.organizationID === clientOrganizationID);
+  loadOrganization(): void {
+    // Assuming you have a method in your service to load organizations by client ID
+    this.clientService.getOrgsForClient(this.clientId).subscribe((clientOrg: any[]) => {
+      this.clientOrg = clientOrg;
+  
+      if (this.clientOrg.length > 0) {
+        const organizationID = this.clientOrg[0].organizationID;
+        this.selectedOrganization = this.orgs.find(org => org.organizationID === organizationID);
+      }
+    });
   }
+  
+
 
   goToClientScreen() {
     this.router.navigate(['/clients']);
   }
 
-  onSaveChanges(clientName: string, organizationID: string, clientStatus: boolean) {
-    // Update the clientData object with the new organizationId, clientName, and status
-    this.clientData.organizationID = organizationID;
-    this.clientData.clientName = clientName;
-    this.clientData.active = clientStatus;
+  onSaveChanges() {
+    if (!this.clientData) {
+      // Handle the case when clientData is not available
+      return;
+    }
   
-    const currentDatetime = new Date();
-    this.clientData.updatedAt = currentDatetime.toISOString();
-    this.clientData.updatedBy = 'ABC';
+    const updatedClientData = {
+      clientName: this.clientData.clientName,
+      organizationID: this.selectedOrganization?.organizationID, // Use selectedOrganization
+      active: this.clientData.active, // Assuming you have an active property
+      clientCode: this.clientData.clientCode
+    };
   
-    // Call the saveClient function with the updated clientData
-    this.saveClient(this.clientId, this.clientData);
-    console.log(this.clientData);
-  }
+    this.clientService.updateClient(this.clientId, updatedClientData).subscribe(
+      (response: any) => {
+        this.snackBar.open('Client updated successfully', 'Close', {
+          duration: 2000,
+        });
   
-
-  saveClient(clientID: string, updatedClient: any) {
-    this.clientService.updateClient(clientID, updatedClient).subscribe(() => {
-      // Show a success message or perform other actions as needed
-      this.snackBar.open('Client updated successfully', 'Close', {
-        duration: 2000,
-      });
-
-      // Navigate back to the clients list
-      this.router.navigate(['/clients']);
-    });
+        this.router.navigate(['/clients']); // Navigate back to the clients list
+      },
+      (error: any) => {
+        this.snackBar.open('Error updating client', 'Close', {
+          duration: 2000,
+        });
+      }
+    );
   }
 }

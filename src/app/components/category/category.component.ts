@@ -18,12 +18,7 @@ export class CategoryComponent implements OnInit {
   categoryIdToEdit: string | null = null;
   categoryName: string = '';
   pageSize: number = 10; // Adjust as needed
-  searchTerm: string = '';
-  selectedCategory: any = {};
-  dataRecipients: any[] = [];
-  notificationRecipients: any[] = [];
-  headers = CATEGORY;
-  
+
 
   constructor(
     private categoryService: CategoryService,
@@ -36,11 +31,9 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.fetchClients();   
   }
-
   
-  
-  openModalForEdit(category: any): void {
-    if (category) {
+  openModalForEdit(category?: any): void {
+    if (category && category.categoryID) {
       const categoryID = category.categoryID;
       this.router.navigate(['/editCategory', categoryID]);
     }
@@ -98,11 +91,6 @@ export class CategoryComponent implements OnInit {
     this.updateDisplayedClients(pageNumber);
   }
 
-  onPageSizeChange(event: any) {
-    this.pageSize = event.target.value;
-    this.updateDisplayedClients(1);  
-  }  
-
   saveClient() {
     if (this.isEditing && this.categoryIdToEdit) { 
       this.categoryService.updateCategory(this.categoryIdToEdit, { name: this.categoryName }).subscribe(() => {
@@ -134,11 +122,7 @@ export class CategoryComponent implements OnInit {
   private updateDisplayedClients(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-  
-    // Sort the categories in descending order based on categoryID
     this.category.sort((a, b) => b.categoryID - a.categoryID);
-  
-    // Update displayedCategory with the sorted subset of categories
     this.displayedCategory = this.category.slice(startIndex, endIndex);
   }
   

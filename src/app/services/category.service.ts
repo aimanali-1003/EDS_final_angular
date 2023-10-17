@@ -17,7 +17,7 @@ export class CategoryService {
   }
 
   getCategoryById(categoryId: string): Observable<any> {
-    const url = `${this.apiUrl}/categories/${categoryId}`; // Adjust the URL structure to match your API
+    const url = `${this.apiUrl}/api/Categories/${categoryId}`; // Adjust the URL structure to match your API
 
     return this.http.get(url);
   }

@@ -37,8 +37,8 @@ export class ClientService {
     return this.http.get<any>(`${this.apiUrl}/api/Clients/${clientId}`);
   }
 
-  getOrganizationIdByCategory(categoryId: string) {
-    // Make an HTTP GET request to your backend to fetch the organization ID based on the category ID.
-    return this.http.get<string>(`/api/organization?categoryId=${categoryId}`);
+  getOrgsForClient(clientId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/Clients/${clientId}/Organizations`);
   }
+  
 }

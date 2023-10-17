@@ -9,13 +9,11 @@ import { CategoryService } from 'src/app/services/category.service';
   styleUrls: ['./edit-category.component.css']
 })
 export class EditCategoryComponent implements OnInit {
-
-  // categoryId: string = '';
   categoryName: string = '';
   categoryCode: string = '';
   categoryId: string = '';
   updatedCategory: any = {};
-
+  categoryData: any;
 
   constructor(
     private categoryService: CategoryService,
@@ -27,17 +25,28 @@ export class EditCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.categoryId = params['id'];
+      this.loadCategoryData();
     });
+  }
+
+  loadCategoryData(): void {
+    this.categoryService.getCategoryById(this.categoryId).subscribe((categoryData: any) => {
+      this.categoryData = categoryData;
+
+    })
   }
 
 
   saveUpdatedCategory() {
-    this.updatedCategory = {
-      categoryCode: this.categoryCode,
-      categoryName: this.categoryName,
-      // Include other properties if needed
+
+    const updatedClientData = {
+      categoryCode: this.categoryData.categoryCode,
+      categoryName: this.categoryData.categoryName,
+      active: this.categoryData.active
     };
-    this.categoryService.updateCategory(this.categoryId, this.updatedCategory).subscribe(
+  
+    console.log(this.categoryData.categoryCode)
+    this.categoryService.updateCategory(this.categoryId, updatedClientData).subscribe(
       (response) => {
         // Handle success, if needed
         console.log('Category updated successfully.', response);
@@ -53,5 +62,4 @@ export class EditCategoryComponent implements OnInit {
   goToCategoryScreen() {
     this.router.navigate(['/category']);
   }
-
 }
