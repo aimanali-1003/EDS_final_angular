@@ -23,7 +23,7 @@
         </mat-form-field>
       </div>
 
-      <div class="form-row">
+      <div *ngIf="isEdit" class="form-row">
         <mat-slide-toggle [disabled]="isViewOnly" [(ngModel)]="clientData.active" name="active">Active</mat-slide-toggle>
       </div>
       

@@ -57,7 +57,6 @@ import { EditFullScreenComponent } from './components/edit-full-screen/edit-full
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
 import { SearchComponent } from './search/search.component';
-import { EditCategoryComponent } from './components/Edits/edit-category/edit-category.component';
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
@@ -91,7 +90,6 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     CreateClientComponent,
     CreateCategoryComponent, 
     SearchComponent,
-    EditCategoryComponent,
     EditOrgComponent,
     EditJoblogComponent,
     EditTemplateComponent,

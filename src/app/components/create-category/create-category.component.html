@@ -1,24 +1,39 @@
 <div class="client">
-    <div class="client-content">
-      <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New Category</h2>
-  
-      <form class="form-grid">
-        <div class="form-row">
-          <mat-form-field class="form-item">
-            <input matInput placeholder="Category Name" [(ngModel)]="categoryName" name="categoryName" required>
-          </mat-form-field>
-        </div>  
-   
-        <div class="form-row">
-            <mat-form-field class="form-item">
-              <input matInput placeholder="Category Code" [(ngModel)]="categoryCode" name="categoryCode" required>
-            </mat-form-field>
-          </div>  
-        <div class="button-container" style="padding-top: 10px;">
-          <button mat-button class="luxury-modal-button-cancel" (click)="goToCategoryScreen()" > <span class="icon">&#10006;</span> Cancel</button>
-          <button mat-raised-button class="create-client-button" type="submit" (click)="CreateCategory()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Category</button>
-        </div>
-      </form>
-    </div>
+  <div class="client-content">
+    <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+      {{ isViewOnly ? 'View Category' : (isEdit ? 'Edit Category' : 'Create New Category') }}</h2>
+
+    <form class="form-grid">
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <input [disabled]="isViewOnly" matInput placeholder="Category Name" [(ngModel)]="categoryData.categoryName"
+            name="categoryName" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <input [disabled]="isViewOnly" matInput placeholder="Category Code" [(ngModel)]="categoryData.categoryCode"
+            name="categoryCode" required>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="isEdit" class="form-row">
+        <mat-slide-toggle [disabled]="isViewOnly" [(ngModel)]="categoryData.active" name="active">Active</mat-slide-toggle>
+      </div>
+
+      <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
+        <button *ngIf="!isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToCategoryScreen()"> <span class="icon">&#10006;</span> Cancel</button>
+        <button *ngIf="!isEdit"  mat-raised-button class="create-client-button" (click)="createUpdateCategory()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Category</button>
+        <button *ngIf="isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToCategoryScreen()">
+          <span class="icon">&#10006;</span> Cancel
+        </button>
+        <button *ngIf="isEdit"  mat-raised-button class="create-client-button" (click)="createUpdateCategory()">
+          <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
+        </button>
+      </div>
+
+      
+    </form>
   </div>
-  
+</div>

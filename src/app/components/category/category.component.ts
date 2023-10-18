@@ -36,8 +36,8 @@ export class CategoryComponent implements OnInit {
   ViewCategory(category: any): void {
     this.categoryData = category;
     this.isViewingCategory = true;
-    this.router.navigate(['/view/Category/' + category.categoryID]);
-  }
+    this.router.navigate(['/viewCategory/' + category.categoryID+'/'+true]);
+  } 
   
   openModalForEdit(category?: any): void {
     if (category && category.categoryID) {
@@ -48,7 +48,6 @@ export class CategoryComponent implements OnInit {
 
   deleteCategory(category: any): void {
     const categoryId = category;
-    console.log(categoryId);
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         message: 'Are you sure you want to delete this category?',
@@ -63,7 +62,7 @@ export class CategoryComponent implements OnInit {
       if (confirmed) {
         this.categoryService.deleteCategory(categoryId).subscribe(() => {
           this.category = this.category.filter(c => c.categoryId !== categoryId);
-          this.updateDisplayedClients(1); 
+          this.updateDisplayedCategory(1); 
           this.snackBar.open('Category successfully deleted', 'Close', {
             duration: 2000,
           });
@@ -76,14 +75,13 @@ export class CategoryComponent implements OnInit {
       }
     });
   }
-  
 
   fetchClients() {
     this.categoryService.getCategory().subscribe((category: any[]) => {
       this.category = category;
       this.displayedCategory=category;
       console.log('Category:', this.category); 
-      this.updateDisplayedClients(1);
+      this.updateDisplayedCategory(1);
     });
   }
 
@@ -92,7 +90,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onPageChange(pageNumber: number) {
-    this.updateDisplayedClients(pageNumber);
+    this.updateDisplayedCategory(pageNumber);
   }
 
   saveClient() {
@@ -136,15 +134,17 @@ export class CategoryComponent implements OnInit {
     });
   }
   
-  private updateDisplayedClients(pageNumber: number) {
+  private updateDisplayedCategory(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.category.sort((a, b) => {
+    this.displayedCategory = this.category
+    .slice(0)
+    .sort((a, b) => {
       const dateA = new Date(a.createdAt).getTime();
       const dateB = new Date(b.createdAt).getTime();
       return dateB - dateA; // Sort in descending order
-    });
-    this.displayedCategory = this.category.slice(startIndex, endIndex);
+    })
+    .slice(startIndex, endIndex);
   } 
 }
  

@@ -109,8 +109,8 @@
 }
 
 .title-container button:hover {
-  background-color: #ebe6df;
-  color: black;
+  background-color: #ebe6df !important;
+  color: #e36228;
   /* Darker blue background color on hover */
 }
  
