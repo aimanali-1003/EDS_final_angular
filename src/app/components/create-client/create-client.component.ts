@@ -95,8 +95,6 @@ export class CreateClientComponent implements OnInit {
    this.ValidateFormFields();
 
     this.clientData.organizationId = this.selectedOrganization.organizationID;
-    // this.clientData.active = this.isToggleActive;
-    // console.log(this.clientData.active)
 
     if(this.isEdit){
 
@@ -109,21 +107,29 @@ export class CreateClientComponent implements OnInit {
           this.router.navigate(['/clients']);
         },
         (error: any) => {
-          this.snackBar.open('Error updating client', 'Close', {
+          this.snackBar.open('Error updating client' + error.error, 'Close', {
             duration: 2000,
           });
         }
       );
     }else{
 
-      this.clientService.createClient(this.clientData).subscribe(() => {
+      this.clientService.createClient(this.clientData).subscribe((response: any) => {
 
         this.snackBar.open('Client created successfully', 'Close', {
           duration: 3000,
         });
 
         this.router.navigate(['/clients']);
-      });
+      },
+      (error) => {
+        console.error('Error creating client:', error);
+        // Handle error and show an error message
+        this.snackBar.open('Error creating client: ' + error.error, 'Close', {
+          duration: 3000, // Duration in milliseconds
+        });
+      }
+      );
     }
   
   }
