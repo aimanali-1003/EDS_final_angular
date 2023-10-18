@@ -50,8 +50,8 @@ export class CreateCategoryComponent implements OnInit {
       (error) => {
         console.error('Error creating category:', error);
         // Handle error and show an error message
-        this.snackBar.open('Error creating category', 'Close', {
-          duration: 3000,
+        this.snackBar.open('Error updating category: ' + error.error, 'Close', {
+          duration: 3000, // Duration in milliseconds
         });
       }
     );

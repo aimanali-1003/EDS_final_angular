@@ -39,10 +39,9 @@ export class ClientsComponent implements OnInit {
     }
   }
   
-  viewClient(client: any): void {
-    this.clientData = client;
-    this.isViewingClient = true;
-    this.router.navigate(['/view/Client/' + client.clientID]);
+  viewClient(clientData?: any): void {
+    const clientId = clientData.clientID;
+    this.router.navigate(['/viewClient/'+clientId+'/'+true]);    
   }
 
   deleteClient(client: any): void {

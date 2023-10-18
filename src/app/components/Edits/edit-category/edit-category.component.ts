@@ -12,6 +12,7 @@ export class EditCategoryComponent implements OnInit {
   categoryName: string = '';
   categoryCode: string = '';
   categoryId: string = '';
+  active: string = '';
   updatedCategory: any = {};
   categoryData: any;
 
@@ -32,7 +33,6 @@ export class EditCategoryComponent implements OnInit {
   loadCategoryData(): void {
     this.categoryService.getCategoryById(this.categoryId).subscribe((categoryData: any) => {
       this.categoryData = categoryData;
-
     })
   }
 
@@ -55,6 +55,9 @@ export class EditCategoryComponent implements OnInit {
       (error) => {
         // Handle error, if needed
         console.error('Error updating category.', error);
+        this.snackBar.open('Error updating category: ' + error.error, 'Close', {
+          duration: 3000, // Duration in milliseconds
+        });
       }
     );
   }

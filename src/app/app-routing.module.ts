@@ -10,14 +10,12 @@ import { CreateJobComponent } from './components/create-job/create-job.component
 import { CategoryComponent } from './components/category/category.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
-import { ClientEditComponent } from './components/Edits/client-edit/client-edit.component';
 import { EditCategoryComponent } from './components/Edits/edit-category/edit-category.component';
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
 import { OrgDetailsComponent } from './components/org-details/org-details.component';
-import { GenericViewComponent } from './components/generic-view/generic-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/clients', pathMatch: 'full' }, // Default route
@@ -34,19 +32,13 @@ const routes: Routes = [
   { path: 'createTemplate', component: CreateTemplateComponent },
   { path: 'createJob', component: CreateJobComponent },
   { path: 'category', component: CategoryComponent },
-  {path:'createClient',component:CreateClientComponent}, 
-  {path:'editClient/:clientId',component:ClientEditComponent},
+  { path:'createClient',component:CreateClientComponent}, 
+  { path:'editClient/:clientId',component:CreateClientComponent},
+  { path:'viewClient/:clientId/:isViewOnly',component:CreateClientComponent},
   {
-    path: 'editCategory/:id', // Use 'id' as the route parameter for the categoryID
-    component: EditCategoryComponent // Replace with the actual component name
+    path: 'editCategory/:id',
+    component: EditCategoryComponent 
   },
-  // {
-  //   path: 'client-details/:id',
-  //   component: ClientDetailsComponent,
-  // },
-  { path: 'view/:type/:id', component: GenericViewComponent },
-  
-  // {path:'editCategory',component:EditCategoryComponent},
   {path:'editOrg',component:EditOrgComponent},
   {path:'editJoblog',component:EditJoblogComponent},
   {path:'editTemplate',component:EditTemplateComponent},

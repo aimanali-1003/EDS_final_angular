@@ -75,5 +75,3 @@
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="clients.length"
     (pageChange)="onPageChange($event)"></app-pagination>
 </div>
-
-<app-generic-view [data]="clientData" *ngIf="isViewingClient"></app-generic-view>
