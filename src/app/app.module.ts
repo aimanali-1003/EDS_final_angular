@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { MatButtonModule } from '@angular/material/button'; 
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NavbarComponent } from './components/navbar/navbar.component'; 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon'; 
@@ -56,8 +57,6 @@ import { EditFullScreenComponent } from './components/edit-full-screen/edit-full
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
 import { SearchComponent } from './search/search.component';
-import { ClientEditComponent } from './components/Edits/client-edit/client-edit.component';
-import { EditCategoryComponent } from './components/Edits/edit-category/edit-category.component';
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
@@ -91,14 +90,12 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     CreateClientComponent,
     CreateCategoryComponent, 
     SearchComponent,
-    ClientEditComponent,
-    EditCategoryComponent,
     EditOrgComponent,
     EditJoblogComponent,
     EditTemplateComponent,
     EditJobComponent,
     LevelsDialogComponent,
-    OrgDetailsComponent, 
+    OrgDetailsComponent,
     
   ],
   imports: [
@@ -143,6 +140,7 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     ReactiveFormsModule,
     MatCheckboxModule,
     MatDividerModule, 
+    MatSlideToggleModule
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent], 

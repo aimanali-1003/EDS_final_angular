@@ -8,16 +8,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SearchComponent {
   @Input() placeholderText: string = '';
+  @Input() searchQuery: string = '';
   @Output() searchQueryChanged = new EventEmitter<string>();
-  @Output() filterChanged = new EventEmitter<any>();
 
-  searchQuery: string = '';
-
-  applyFilter(filterData: any) {
-    this.filterChanged.emit(filterData);
-  }
-
-  search() {
-    this.searchQueryChanged.emit(this.searchQuery);
+  onSearchQueryChange(query: string) {
+    this.searchQueryChanged.emit(query);
   }
 }

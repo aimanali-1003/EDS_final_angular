@@ -2,25 +2,42 @@
   <div class="client-content">
     <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New client</h2>
 
-    <form (ngSubmit)="createclient()" class="form-grid">
+    <form class="form-grid">
       <div class="form-row">
         <mat-form-field class="form-item">
-          <input matInput placeholder="Client Name" [(ngModel)]="clientName" name="clientName" required>
+          <input [disabled]="isViewOnly" matInput placeholder="Client Name" [(ngModel)]="clientData.clientName" name="clientName" required>
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form-item">
-          <!-- Add a dropdown for Organization Name -->
-          <mat-select placeholder="Organization Name" [(ngModel)]="organizationName" name="organizationName" required>
-            <mat-option *ngFor="let org of orgs" [value]="org.orgID">{{ org.orgName }}</mat-option>
+          <input [disabled]="isViewOnly" matInput placeholder="Client Code" [(ngModel)]="clientData.clientCode" name="clientCode" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <mat-select [disabled]="isViewOnly" placeholder="Organization Level" [(ngModel)]="selectedOrganization" name="organizationLevel" required>
+            <mat-option *ngFor="let org of orgs" [value]="org">{{ org.organizationLevel }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
-      <div class="button-container" style="padding-top: 10px;">
-        <button mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()"> <span class="icon">&#10006;</span> Cancel</button>
-        <button mat-raised-button class="create-client-button" type="submit" (click)="createclient()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Client</button>
+      <div *ngIf="isEdit" class="form-row">
+        <mat-slide-toggle [disabled]="isViewOnly" [(ngModel)]="clientData.active" name="active">Active</mat-slide-toggle>
+      </div>
+      
+
+      
+      <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
+        <button *ngIf="!isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()"> <span class="icon">&#10006;</span> Cancel</button>
+        <button *ngIf="!isEdit"  mat-raised-button class="create-client-button" (click)="createUpdateclient()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Client</button>
+        <button *ngIf="isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()">
+          <span class="icon">&#10006;</span> Cancel
+        </button>
+        <button *ngIf="isEdit"  mat-raised-button class="create-client-button" (click)="createUpdateclient()">
+          <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
+        </button>
       </div>
     </form>
   </div>

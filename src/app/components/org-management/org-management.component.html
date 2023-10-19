@@ -21,9 +21,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let org of displayedOrganization" class="client-item">
-        <td>{{ org.orgID }}</td>
-        <td>{{ org.orgName }}</td>
-        <td>{{ org.code }}</td> 
+        <td>{{ org.organizationID }}</td>
+        <td>{{ org.organizationLevel }}</td>
+        <td>{{ org.organizationCode }}</td> 
         <td>
           <button mat-icon-button (click)="viewOrgDetails(org)" style="border: none; background-color: whitesmoke">
             <mat-icon>visibility</mat-icon>

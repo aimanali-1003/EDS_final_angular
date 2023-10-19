@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { categoryDataModel } from 'src/app/Models/CategoryModel';
 
 @Component({
   selector: 'app-create-category',
@@ -10,60 +11,83 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CreateCategoryComponent implements OnInit {
   categoryName: string = '';
-  categoryCode: string = '';
+  categoryCode: string = ''; 
+  categoryId: string = '';
   currentDatetime = new Date();
+  categoryData: categoryDataModel=new categoryDataModel();
+  isEdit:boolean = false;
+  isViewOnly:boolean = false;
 
   constructor(
     private categoryService: CategoryService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.categoryId = params['id'];
+      this.isViewOnly = params['isViewOnly'];
+      if(this.categoryId != undefined && this.categoryId != "" && this.categoryId != null && this.categoryId != ''){
+        this.isEdit = true;
+        this.loadCategoryData();
+      } 
+    });
+  }
+  loadCategoryData(): void {
+    this.categoryService.getCategoryById(this.categoryId).subscribe((categoryData: any) => {
+      this.categoryData = categoryData; 
+    })
+  }
 
   goToCategoryScreen() {
     this.router.navigate(['/category']);
   }
 
-  CreateCategory() {
-    if (!this.categoryName || !this.categoryCode) {
+  createUpdateCategory() {
+    if (!this.categoryData.categoryName || !this.categoryData.categoryCode) {
       this.snackBar.open('Category Name and Code are required.', 'Close', {
         duration: 3000,
       });
       return; // Prevent further execution if fields are empty
     }
-  
-    const templateData = {
-      templateName: '', // Add the properties you need for a template
-    };
-  
-    const categoryData = {
-      categoryName: this.categoryName,
-      code: this.categoryCode,
-      createdBy: 'ABC',
-      createdAt: this.currentDatetime.toISOString(),
-      templates: [templateData], // Include the empty template
-    };
-  
-    console.log(categoryData);
-  
-    this.categoryService.createCategory(categoryData).subscribe(
-      (response) => {
-        console.log('Category created successfully:', response);
-        this.snackBar.open('Category created successfully', 'Close', {
-          duration: 3000,
-        });
-        // Redirect to the category list screen
-        this.goToCategoryScreen();
-      },
-      (error) => {
-        console.error('Error creating category:', error);
-        // Handle error and show an error message
-        this.snackBar.open('Error creating category', 'Close', {
-          duration: 3000,
-        });
-      }
-    );
+    if(!this.isEdit){ 
+      this.categoryService.createCategory(this.categoryData).subscribe(
+        (response) => {
+          console.log('Category created successfully:', response);
+          this.snackBar.open('Category created successfully', 'Close', {
+            duration: 3000,
+          });
+          // Redirect to the category list screen
+          this.goToCategoryScreen();
+        },
+        (error) => {
+          console.error('Error creating category:', error);
+          // Handle error and show an error message
+          this.snackBar.open('Error updating category: ' + error.error, 'Close', {
+            duration: 3000, // Duration in milliseconds
+          });
+        }
+      );
+    }
+    else{ 
+      console.log(this.categoryData.categoryCode)
+      this.categoryService.updateCategory(this.categoryId, this.categoryData).subscribe(
+        (response) => {
+          // Handle success, if needed
+          console.log('Category updated successfully.', response);
+          this.router.navigate(['/category']);
+        },
+        (error) => {
+          // Handle error, if needed
+          console.error('Error updating category.', error);
+          this.snackBar.open('Error updating category: ' + error.error, 'Close', {
+            duration: 3000, // Duration in milliseconds
+          });
+        }
+      );
+    }
+    
   }
-  
 }
