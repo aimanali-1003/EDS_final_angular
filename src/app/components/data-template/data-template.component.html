@@ -12,10 +12,8 @@
                   (searchQueryChanged)="performClientSearch($event)"
                   (filterChanged)="applyClientFilter($event)">
   </app-search>
-
-  <!-- Container for both the table and dialog -->
-  <div class="table-container">
-    <!-- Display a list of data templates using a Material UI table -->
+ 
+  <div class="table-container"> 
     <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
       <thead>
         <tr>
@@ -41,7 +39,7 @@
           </td>
            
           <td [style.color]="template.Active ? '#4cf0a1' : 'red'">
-            <ng-container *ngIf="template.cctive; else inactive"><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+            <ng-container *ngIf="template.active; else inactive"><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
             <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
           </td>
           <td class="action-cell">
@@ -60,24 +58,10 @@
     <div *ngIf="dataTemplates.length === 0" class="no-data-message">
       No data found.
     </div>
-    <!--create template popup-->
-    <div class="data-templates" *ngIf="showForm">
-      <!-- Data Templates Form -->
-      <form (ngSubmit)="saveTemplate()">
-        <mat-form-field>
-          <label for="templateName"></label>
-          <input matInput type="text" id="templateName" name="name" placeholder="TemplateName" [(ngModel)]="templateData.name" required>
-        </mat-form-field>
-        <!-- Add more form fields for template properties (e.g., columns) as needed -->
-
-        <div class="button-container">
-          <button mat-raised-button color="primary" type="submit">{{ editingTemplate ? 'Save' : 'Create' }}</button>
-          <button mat-raised-button type="button" (click)="cancelCreateTemplate()">Cancel</button>
-        </div>
-      </form>
-    </div>
+     
   </div>
 
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="dataTemplates.length"
-    (pageChange)="onPageChange($event)"></app-pagination>
+  (pageChange)="onPageChange($event)"></app-pagination>
+
 </div>

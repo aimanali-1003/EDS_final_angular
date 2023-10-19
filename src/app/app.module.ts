@@ -61,7 +61,7 @@ import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
 import { LevelsDialogComponent } from './components/levels-dialog/levels-dialog.component';
-import { OrgDetailsComponent } from './components/org-details/org-details.component';
+import { OrgDetailsComponent } from './components/org-details/org-details.component'; 
 
 @NgModule({
   declarations: [
@@ -138,7 +138,8 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     ReactiveFormsModule,
     MatCheckboxModule,
     MatDividerModule, 
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatPaginatorModule
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent], 

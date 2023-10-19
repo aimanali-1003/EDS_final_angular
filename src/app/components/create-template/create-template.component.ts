@@ -19,13 +19,13 @@ export class CreateTemplateComponent implements OnInit {
   columns: any[] = [];
   isEdit:boolean = false;
   isViewOnly:boolean = false;
-  templateId:string='';
+  templateId:string=''; 
 
   constructor(
     private templateService: DataService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute, 
   ) { }
 
   ngOnInit(): void {
@@ -86,25 +86,13 @@ export class CreateTemplateComponent implements OnInit {
       return;
     }
   
-    this.templateService.createDataTemplate(this.template).subscribe(() => {});
-  
-    // this.templateService.getLastCreatedTemplateId().subscribe(
-    //   (lastTemplateId) => {
-    //     console.log('Last created template ID:', lastTemplateId);
-    //     // Here you can use lastTemplateId as needed
-    //   },
-    //   (error) => {
-    //     console.error('An error occurred:', error);
-    //   }
-    // );
-  
-    // Pass selectedColumnIds to createTemplateColumns method instead of this.template
+    this.templateService.createDataTemplate(this.template,selectedColumnIds).subscribe(() => {}); 
     // this.templateService.createTemplateColumns(selectedColumnIds).subscribe(() => {
     //   this.snackBar.open('Template created successfully', 'Close', {
     //     duration: 3000,
     //   });
     // });
-    this.router.navigate(['/dataTemplate']);
+    this.router.navigate(['/dataTemplate']); 
   }
   
   
