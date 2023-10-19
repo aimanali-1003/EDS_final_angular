@@ -11,8 +11,7 @@ import { CategoryComponent } from './components/category/category.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
-import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
-import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
+import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component'; 
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
 import { OrgDetailsComponent } from './components/org-details/org-details.component';
 
@@ -29,30 +28,22 @@ const routes: Routes = [
   { path: 'joblog', component: JobLogComponent },
   { path: 'orgs', component: OrgManagementComponent },
   { path: 'createTemplate', component: CreateTemplateComponent },
+  
+  {path:'editTemplate/:id',component:CreateTemplateComponent},
   { path: 'createJob', component: CreateJobComponent },
   { path: 'category', component: CategoryComponent },
   { path:'createClient',component:CreateClientComponent}, 
   { path:'editClient/:clientId',component:CreateClientComponent},
   { path:'viewClient/:clientId/:isViewOnly',component:CreateClientComponent},
+  {
+    path: 'editCategory/:id',
+    component: CreateCategoryComponent 
+  },
+  { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
+  {path:'createCategory',component:CreateCategoryComponent},
   {path:'editOrg',component:EditOrgComponent},
   {path:'editJoblog',component:EditJoblogComponent},
-  {path:'editTemplate',component:EditTemplateComponent},
-  {path:'editJob',component:EditJobComponent}, 
-  {path:'createCategory',component:CreateCategoryComponent},
-  { path: 'org-details/:id', component: OrgDetailsComponent },
-  {
-    path: 'editCategory/:id',
-    component: CreateCategoryComponent
-  },
-  { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
-  {path:'createCategory',component:CreateCategoryComponent},
-  { path: 'org-details/:id', component: OrgDetailsComponent },
-  {
-    path: 'editCategory/:id',
-    component: CreateCategoryComponent
-  },
-  { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
-  {path:'createCategory',component:CreateCategoryComponent},
+  {path:'editJob',component:EditJobComponent},  
   { path: 'org-details/:id', component: OrgDetailsComponent },
   // Add more routes as needed 
 ];

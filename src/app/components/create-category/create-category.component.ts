@@ -25,6 +25,7 @@ export class CreateCategoryComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.categoryId = params['id'];
@@ -45,6 +46,7 @@ export class CreateCategoryComponent implements OnInit {
     this.router.navigate(['/category']);
   }
 
+ 
   createUpdateCategory() {
     if (!this.categoryData.categoryName || !this.categoryData.categoryCode) {
       this.snackBar.open('Category Name and Code are required.', 'Close', {

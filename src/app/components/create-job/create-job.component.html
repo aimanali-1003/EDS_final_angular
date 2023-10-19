@@ -7,7 +7,9 @@
         <mat-form-field class="form-item">
           <input matInput placeholder="Job Name" [(ngModel)]="jobName" name="jobName" required>
         </mat-form-field>
+        
       </div>
+ 
 
       <div class="form-row">
         <mat-form-field class="form-item">
@@ -17,6 +19,15 @@
             <mat-option value="daily">Daily</mat-option>
             <mat-option value="weekly">Weekly</mat-option>
             <mat-option value="monthly">Monthly</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-item">
+          <mat-label>Job Format</mat-label>
+          <mat-select  >
+            <mat-option value="once">SMTP</mat-option>
+            <mat-option value="daily">Email</mat-option>
+            <mat-option value="weekly">XLS</mat-option>
+            <mat-option value="monthly">Excel</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

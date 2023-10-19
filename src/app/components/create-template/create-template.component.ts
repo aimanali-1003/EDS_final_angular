@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 
 @Component({
   selector: 'app-create-template',
@@ -9,43 +10,54 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./create-template.component.css']
 })
 export class CreateTemplateComponent implements OnInit {
-  template: { templateName: string, categoryId: number, category: string,columns: { [key: string]: boolean } } = {
-    templateName: '',
-    categoryId: 0, // Store the selected category ID
-    category: '',
-    columns: {}
-  };
+  template: DataTemplateModel = new DataTemplateModel();
   columnSearch: string = '';
   filteredColumns: string[] = [];
   categoryName: string = '';
-  categoriesWithColumns: any[] = [];
-
+  categoriesWithColumns: any[] = []; 
   categories: any[] = [];
   columns: any[] = [];
+  isEdit:boolean = false;
+  isViewOnly:boolean = false;
+  templateId:string='';
 
   constructor(
     private templateService: DataService,
     private router: Router,
-    private snackBar: MatSnackBar  
-  ) {}
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.templateService.getCategories().subscribe((categories: any[]) => {
-      console.log(categories);
+    this.templateService.getCategories().subscribe((categories: any[]) => { 
       this.categories = categories;
     });
+
+
+    this.route.params.subscribe((params) => {
+      this.templateId = params['id'];
+      this.isViewOnly = params['isViewOnly'];
+
+      if(this.templateId != undefined && this.templateId != "" && this.templateId != null && this.templateId != ''){
+        this.isEdit = true;
+        this.loadTemplates(); 
+      }
+    });
   }
-  
 
-  // Update the selected category ID
-  updateCategory(categoryId: number) {
-    this.template.categoryId = categoryId;
+  loadTemplates(){
+    this.templateService.getTemplate(this.templateId).subscribe((template: any) => { 
+      this.template = template; 
+    });
+  }
 
-    // Fetch columns for the selected category
-    // this.templateService.getColumnsByCategory(this.template.categoryId).subscribe((columns: string[]) => {
-    //   console.log(columns);
-    //   this.columns = columns;
-    // });
+  updateColumns(categoryId: number) {
+    this.columns = [];
+    this.template.categoryID = categoryId;  
+    this.templateService.getColumnsByCategory(this.template.categoryID).subscribe((columns: string[]) => { 
+      this.columns = columns;
+      console.log(columns);
+    });
   }
 
   updateFilteredColumns() {
@@ -54,33 +66,46 @@ export class CreateTemplateComponent implements OnInit {
   }
 
   goToTemplateScreen() {
-    this.router.navigate(['/templates']);
+    this.router.navigate(['/dataTemplate']);
   }
-  
+
 
   createTemplate() {
-    const selectedColumnsArray = Object.keys(this.template.columns).filter(column => this.template.columns[column]);
-
-    if (!this.template.templateName || this.template.categoryId === 0 || selectedColumnsArray.length === 0) {
+    const selectedColumnIds = Object.keys(this.template.columnNames)
+      .filter((columnName: string) => this.template.columnNames[columnName as keyof typeof this.template.columnNames])
+      .map((columnName: string) => {
+        const foundColumn = this.columns.find((c: any) => c.columnName === columnName);
+        return foundColumn ? foundColumn.columnID : null;
+      })
+      .filter((columnId: any) => columnId !== null);
+  
+    if (!this.template.templateName || this.template.categoryID === 0 || selectedColumnIds.length === 0) {
       this.snackBar.open('Template Name, Category, and Columns are required.', 'Close', {
         duration: 3000,
       });
       return;
     }
-
-    const templateConfig = {
-      templateName: this.template.templateName,
-      categoryId: this.template.categoryId,
-      columns: selectedColumnsArray,
-      categoryName: this.categoryName
-    };
-
-    this.templateService.createDataTemplate(templateConfig).subscribe(() => {
-      this.snackBar.open('Template created successfully', 'Close', {
-        duration: 3000,
-      });
-
-      this.router.navigate(['/templates']);
-    });
+  
+    this.templateService.createDataTemplate(this.template).subscribe(() => {});
+  
+    // this.templateService.getLastCreatedTemplateId().subscribe(
+    //   (lastTemplateId) => {
+    //     console.log('Last created template ID:', lastTemplateId);
+    //     // Here you can use lastTemplateId as needed
+    //   },
+    //   (error) => {
+    //     console.error('An error occurred:', error);
+    //   }
+    // );
+  
+    // Pass selectedColumnIds to createTemplateColumns method instead of this.template
+    // this.templateService.createTemplateColumns(selectedColumnIds).subscribe(() => {
+    //   this.snackBar.open('Template created successfully', 'Close', {
+    //     duration: 3000,
+    //   });
+    // });
+    this.router.navigate(['/dataTemplate']);
   }
+  
+  
 }

@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataTemplateDialogComponent } from '../data-template-dialog/data-template-dialog.component'; 
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
-import { DataTemplate } from 'src/app/model/data-template.model';
+import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 import { HttpClient } from '@angular/common/http';
+import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-data-template',
@@ -69,18 +71,19 @@ export class DataTemplateComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private httpClient: HttpClient,
-    public dialog: MatDialog  
+    public dialog: MatDialog  ,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.dataService.getDataTemplates().subscribe((templates: any[]) => {
-      this.dataTemplates = templates;
+      this.dataTemplates = templates; 
       console.log(this.dataTemplates);
     });
   } 
 
   editTemplate(template: any) {
-    this.router.navigate(['/editTemplate']);
+    this.router.navigate(['/editTemplate/'+template.templateID]);
   }
 
   saveTemplate() {
@@ -90,13 +93,31 @@ export class DataTemplateComponent implements OnInit {
     this.showForm = false;
     this.templateData = {};
   }
-
-  deleteTemplate(template: any) {
-    this.dataService.deleteDataTemplate(template.id).subscribe(() => {
-      this.dataTemplates = this.dataTemplates.filter((t) => t.id !== template.id);
+ 
+  deleteTemplate(template: any): void {
+    const templateId = template.templateID;
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        message: 'Are you sure you want to delete this Template?',
+        buttonText: {
+          ok: 'Delete',
+          cancel: 'Cancel'
+        }
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.dataService.deleteDataTemplate(templateId).subscribe(() => {
+          this.dataTemplates = this.dataTemplates.filter((t) => t.templateID !== templateId);
+          this.snackBar.open('Template successfully deleted', 'Close', {
+            duration: 2000,
+          });
+        });
+      }
     });
   }
- 
+  
 
   createNewTemplate() {
     this.router.navigate(['/createTemplate']);

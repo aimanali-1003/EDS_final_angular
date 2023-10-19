@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TemplateListComponent } from './components/template-list/template-list.component';
 import { DataService } from './services/data.service'; 
 import { MatSidenavModule } from '@angular/material/sidenav'; 
 import { DataTemplateComponent } from './components/data-template/data-template.component'; 
@@ -56,7 +55,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditFullScreenComponent } from './components/edit-full-screen/edit-full-screen.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
-import { SearchComponent } from './search/search.component';
+import { SearchComponent } from './search/search.component'; 
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
 import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
@@ -66,8 +65,7 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TemplateListComponent,
+    AppComponent,  
     DataTemplateComponent,
     ClientsComponent,
     NavbarComponent,
@@ -89,7 +87,7 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     EditFullScreenComponent,
     CreateClientComponent,
     CreateCategoryComponent, 
-    SearchComponent,
+    SearchComponent, 
     EditOrgComponent,
     EditJoblogComponent,
     EditTemplateComponent,

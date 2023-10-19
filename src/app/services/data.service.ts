@@ -9,15 +9,12 @@ import { environment } from 'src/environments/environment';
 })
 export class DataService {
    
-  private apiUrl = 'https://localhost:7133'; 
+  private apiUrl = 'https://localhost:44327'; 
 
   constructor(private http: HttpClient) { 
     
   }
-
-  getTemplates(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/template`);
-  }
+ 
 
   getCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/Categories`);
@@ -34,22 +31,40 @@ export class DataService {
   getDataTemplates(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/Templates`);
   }
-
-  createDataTemplate(templateData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/template`, templateData);
+  getTemplate(templateId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/Templates/${templateId}`);
   }
 
+  createDataTemplate(templateData: any): Observable<any> {
+    console.log(templateData)
+    return this.http.post<any>(`${this.apiUrl}/api/Templates`, templateData);
+  }
+
+  getLastCreatedTemplateId(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/api/templates/lastCreatedId`);
+  }
+
+
+  createTemplateColumns(templateId: string,columnsId: string[]): Observable<any> {
+    console.log(templateId,"             ",columnsId)
+    return this.http.post<any>(`${this.apiUrl}/api/Templates`, templateId);
+  }
+  
   updateDataTemplate(templateId: string, templateData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/template/${templateId}`, templateData);
   }
 
   deleteDataTemplate(templateId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/template/${templateId}`);
+    return this.http.delete<any>(`${this.apiUrl}/api/Templates/${templateId}`);
   }
 
   getCategoryColumns(categoryId: number) {
     const url = `${this.apiUrl}/api/category-columns/${categoryId}`;
     return this.http.get(url);
+  }
+
+  getColumnsByCategory(categoryId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/api/columns/byCategory/${categoryId}`);
   }
 
 
