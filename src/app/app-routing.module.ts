@@ -46,6 +46,14 @@ const routes: Routes = [
   },
   { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
   {path:'createCategory',component:CreateCategoryComponent},
+  { path: 'org-details/:id', component: OrgDetailsComponent },
+  {
+    path: 'editCategory/:id',
+    component: CreateCategoryComponent
+  },
+  { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
+  {path:'createCategory',component:CreateCategoryComponent},
+  { path: 'org-details/:id', component: OrgDetailsComponent },
   // Add more routes as needed 
 ];
 
