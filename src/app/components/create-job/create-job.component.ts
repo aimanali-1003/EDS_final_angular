@@ -9,6 +9,8 @@ import { ClientService } from 'src/app/services/client.service';
 import { clientDataModel } from 'src/app/model/ClientModel';
 import { OrgService } from 'src/app/services/org.service';
 import { OrgDataModel } from 'src/app/model/OrgDataModel';
+import { DataRecipientService } from 'src/app/services/data-recipient.service';
+import { RecipientTypeDataModel } from 'src/app/model/DataRecipientType.model';
 
 @Component({
   selector: 'app-create-job',
@@ -35,6 +37,13 @@ export class CreateJobComponent implements OnInit {
   selectedClientId: number | null = null;
   clients: any[] = [];
   organizations: OrgDataModel = new OrgDataModel();
+  RecipientTypeData: RecipientTypeDataModel = new RecipientTypeDataModel();
+  dataRecipients: any[] = [];
+  selectedDataRecipientTypeId: number | null = null;
+  dataRecipientTypes: RecipientTypeDataModel[] = [];
+  startDate!: Date; // You can initialize it with a default date if needed
+  endDate!: Date;
+
 
   
   
@@ -45,7 +54,8 @@ export class CreateJobComponent implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     private clientService: ClientService,
-    private orgService: OrgService ) { }
+    private orgService: OrgService,
+    private dataRecipientService: DataRecipientService ) { }
 
 
   ngOnInit(): void {
@@ -54,9 +64,10 @@ export class CreateJobComponent implements OnInit {
       this.jobData = jobs;
     });
 
-    
-
-    
+    this.dataRecipientService.getDataRecipeintTypes().subscribe((dataRecipients: any) => {
+      this.dataRecipientTypes = dataRecipients;
+      console.log(this.dataRecipientTypes);
+    });
 
     this.loadTemplatesDropDown();
     this.loadOrganizations();

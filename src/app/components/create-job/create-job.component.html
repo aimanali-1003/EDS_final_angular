@@ -26,26 +26,21 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="selectedOrganizationId !== null">
       <div class="form-row">
         <mat-form-field class="form-item">
           <mat-select [disabled]="isViewOnly" placeholder="Select Client: " [(ngModel)]="selectedClientId" name="clientName" required>
-            <mat-option *ngFor="let client of organizationClients" [value]="client.clientID">{{ client.clientName }}</mat-option>
+            <mat-option *ngFor="let client of organizationClients" [value]="client">{{ client.clientName }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-    </div>
 
-
-      <!-- <div *ngIf="selectedOrganizationId !== null">
-        <label for="clientSelect">Select Client:</label>
-        <select id="clientSelect" name="clientSelect" >
-          <option  ></option>
-        </select>
-      </div> -->
-      
-      
- 
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <mat-select [disabled]="isViewOnly" placeholder="Recipient Type" [(ngModel)]="selectedDataRecipientTypeId" name="RecipientType" required>
+            <mat-option *ngFor="let type of dataRecipientTypes" [value]="type">{{ type.recipientType }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
       <!-- <div class="form-row">
         <mat-form-field class="form-item">
@@ -130,7 +125,7 @@
         </mat-form-field>
       </div> -->
 
-      <!-- <div class="date-row">
+      <div class="date-row">
         <mat-form-field class="date-item">
           <mat-label>Start Date</mat-label>
           <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" name="startDate" required>
@@ -144,7 +139,7 @@
           <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #endDatePicker></mat-datepicker>
         </mat-form-field>
-      </div> -->
+      </div>
       
       <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
         <button *ngIf="!isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()" > <span class="icon">&#10006;</span> Cancel</button>
