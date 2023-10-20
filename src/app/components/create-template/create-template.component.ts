@@ -53,6 +53,7 @@ export class CreateTemplateComponent implements OnInit {
 
   updateColumns(categoryId: number) {
     this.columns = [];
+    console.log('category Id',categoryId)
     this.template.categoryID = categoryId;  
     this.templateService.getColumnsByCategory(this.template.categoryID).subscribe((columns: string[]) => { 
       this.columns = columns;

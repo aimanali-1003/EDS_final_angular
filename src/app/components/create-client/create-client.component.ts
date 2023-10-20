@@ -123,7 +123,6 @@ export class CreateClientComponent implements OnInit {
       },
       (error) => {
         console.error('Error creating client:', error);
-        // Handle error and show an error message
         this.snackBar.open('Error creating client: ' + error.error, 'Close', {
           duration: 3000, // Duration in milliseconds
         });

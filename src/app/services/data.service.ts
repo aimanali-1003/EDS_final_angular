@@ -29,6 +29,7 @@ export class DataService {
   }
 
   getDataTemplates(): Observable<any[]> {
+    
     return this.http.get<any[]>(`${this.apiUrl}/api/Templates`);
   }
   getTemplate(templateId: string): Observable<any[]> {
@@ -70,6 +71,8 @@ export class DataService {
   getColumnsByCategory(categoryId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/api/columns/byCategory/${categoryId}`);
   }
+
+
 
 
 }

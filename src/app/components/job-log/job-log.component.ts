@@ -3,7 +3,6 @@ import { LoggingService } from 'src/app/services/logging.service';
 import { JOBLOG } from '../constants/table-headers.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ModalComponent } from '../modal/modal.component';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { Router } from '@angular/router';
 

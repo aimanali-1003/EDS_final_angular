@@ -52,18 +52,18 @@
 				</mat-list-item>
 			</div>
 
-			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+			<mat-list-item class="parent" >
 				<mat-icon class="heading-icon">notes</mat-icon>
 				<a class="heading-text" *ngIf="isExpanded || isShowing" href="dataTemplate">Template</a>
 			</mat-list-item>
-			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
+			<mat-list-item class="parent" >
 				<mat-icon class="heading-icon">speaker_notes</mat-icon>
 				<a class="heading-text" *ngIf="isExpanded || isShowing" href="jobs">Jobs</a>
 			</mat-list-item>
 
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
 				<mat-icon class="heading-icon">settings</mat-icon>
-				<span class="heading-text" *ngIf="isExpanded || isShowing">Settings</span>
+				<span class="heading-text" *ngIf="isExpanded || isShowing" mat-list-item>Settings</span>
 			</mat-list-item>
 
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">

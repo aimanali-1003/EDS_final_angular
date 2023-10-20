@@ -72,6 +72,9 @@
   <div *ngIf="displayedClients.length === 0" class="no-data-message">
     No data found.
   </div> 
+  
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="clients.length"
     (pageChange)="onPageChange($event)"></app-pagination>
 </div>
+
+

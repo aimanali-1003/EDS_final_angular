@@ -8,6 +8,7 @@
     <mat-form-field class="flexible-field">
       <input matInput placeholder="Template Name" [(ngModel)]="template.templateName">
     </mat-form-field>
+    
     <mat-form-field class="flexible-field">
       <mat-label>Select Category</mat-label>
       <mat-select [(ngModel)]="template.categoryID" (selectionChange)="updateColumns($event.value)">

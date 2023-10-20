@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'createTemplate', component: CreateTemplateComponent },
   
   {path:'editTemplate/:id',component:CreateTemplateComponent},
-  { path: 'createJob', component: CreateJobComponent },
+
   { path: 'category', component: CategoryComponent },
   { path:'createClient',component:CreateClientComponent}, 
   { path:'editClient/:clientId',component:CreateClientComponent},
@@ -39,7 +39,11 @@ const routes: Routes = [
     path: 'editCategory/:id',
     component: CreateCategoryComponent 
   },
+
   { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
+  { path: 'createJob', component: CreateJobComponent },
+  { path:'viewJob/:jobId/:isViewOnly',component: CreateJobComponent},
+  { path:'editJob/:jobId',component:CreateClientComponent},
   {path:'createCategory',component:CreateCategoryComponent},
   {path:'editOrg',component:EditOrgComponent},
   {path:'editJoblog',component:EditJoblogComponent},

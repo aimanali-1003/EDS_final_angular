@@ -31,7 +31,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatOptionModule } from '@angular/material/core';
 import { OrgManagementComponent } from './components/org-management/org-management.component';
-import { PopupComponent } from './components/popup/popup.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { TableDataComponent } from './components/table-data/table-data.component';
 import { ClientFilterComponent } from './components/client-filter/client-filter.component';
@@ -41,8 +40,6 @@ import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { JobLogComponent } from './components/job-log/job-log.component';
 import { MatSortModule } from '@angular/material/sort';
-import { DataTemplateDialogComponent } from './components/data-template-dialog/data-template-dialog.component';
-import { ModalComponent } from './components/modal/modal.component'; 
 import { OrgService } from './services/org.service';
 import { CategoryComponent } from './components/category/category.component';
 import { CreateTemplateComponent } from './components/create-template/create-template.component';
@@ -52,16 +49,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { EditFullScreenComponent } from './components/edit-full-screen/edit-full-screen.component';
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
 import { SearchComponent } from './search/search.component'; 
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
-import { EditTemplateComponent } from './components/Edits/edit-template/edit-template.component';
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
-import { LevelsDialogComponent } from './components/levels-dialog/levels-dialog.component';
-import { OrgDetailsComponent } from './components/org-details/org-details.component'; 
+import { OrgDetailsComponent } from './components/org-details/org-details.component';
 
 @NgModule({
   declarations: [
@@ -73,26 +67,20 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     FilterComponent,
     JobComponent,
     OrgManagementComponent,
-    PopupComponent,
     TableHeaderComponent,
     TableDataComponent,
     ClientFilterComponent,
     DeleteDialogComponent,
     JobLogComponent,
-    ModalComponent,
-    CategoryComponent,  
-    DataTemplateDialogComponent,
+    CategoryComponent,
     CreateTemplateComponent,
     CreateJobComponent,
-    EditFullScreenComponent,
     CreateClientComponent,
     CreateCategoryComponent, 
     SearchComponent, 
     EditOrgComponent,
     EditJoblogComponent,
-    EditTemplateComponent,
     EditJobComponent,
-    LevelsDialogComponent,
     OrgDetailsComponent,
     
   ],

@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from 'src/app/services/job.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { JobDataModel } from 'src/app/model/JobModel';
+import { DataService } from 'src/app/services/data.service';
+import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
+import { ClientService } from 'src/app/services/client.service';
+import { clientDataModel } from 'src/app/model/ClientModel';
+import { OrgService } from 'src/app/services/org.service';
+import { OrgDataModel } from 'src/app/model/OrgDataModel';
 
 @Component({
   selector: 'app-create-job',
@@ -10,68 +17,159 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CreateJobComponent implements OnInit {
   extractionDate!: Date;
-  extractionTime: string = '';
   extractionFrequency: string = '';
-  jobs: any[] = [];
-  jobName: string = '';
-  deliveryMethod: string = 'email';
+  jobs: any[] = [];  
   showTimeInput: boolean = false;
-  startDate!: Date;
-  endDate!: Date;
-  clientName!: string;
-  organizationName!: string;
-  selectedDayOfWeek: string = '';
-  daysOfWeek: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // Define days of the week
   selectedDays: { [key: string]: boolean } = {}; // Initialize selectedDays object
-  daysOfMonth: number[] = Array.from({ length: 31 }, (_, i) => i + 1); // Days 1 to 31
-  selectedDayOfMonth: number = 1; // Default value, you can set it to any initial value
+  isViewOnly:boolean = false;
+  jobId: string = '';
+  isEdit:boolean = false;
+  jobData: JobDataModel = new JobDataModel();
+  templateData: DataTemplateModel = new DataTemplateModel();
+  templates: any[] = [];
+  selectedTemplates: any; 
+  selectedOrganization: any; 
+  orgs: any[] = [];
+  organizationClients: clientDataModel[] = [];
+  selectedOrganizationId: number | null = null;
+  selectedClientId: number | null = null;
+  clients: any[] = [];
+  organizations: OrgDataModel = new OrgDataModel();
+
   
   
-  constructor(private jobService: JobService, private router: Router,
-    private snackBar: MatSnackBar ) { }
+  constructor(
+    private jobService: JobService, 
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private dataService: DataService,
+    private clientService: ClientService,
+    private orgService: OrgService ) { }
+
 
   ngOnInit(): void {
     // Fetch job data from the service
-    this.jobService.getJobs().subscribe((jobs: any[]) => {
-      this.jobs = jobs;
+    this.jobService.getJobs().subscribe((jobs: any) => {
+      this.jobData = jobs;
+    });
+
+    
+
+    
+
+    this.loadTemplatesDropDown();
+    this.loadOrganizations();
+
+    this.route.params.subscribe((params) =>{
+      this.jobId = params['jobId'];
+      this.isViewOnly = params['isViewOnly'];
+      
+      if(this.jobId != undefined && this.jobId != "" && this.jobId != null && this.jobId != ''){
+        this.isEdit = true;
+        this.loadJobData();
+      }
+
+    })
+  }
+
+  loadJobData(): void {
+    this.jobService.getJob(this.jobId).subscribe((jobData: any) => {
+      this.jobData = jobData;
+      
+    });
+  }
+  
+  onOrganizationSelected(organizationId: number) {
+    this.clients = [];
+    this.organizations.organizationID = organizationId; 
+    console.log('Gone to onOrganizationSelected method with organization Id: ', this.organizations.organizationID);
+    this.loadOrganizationClients(organizationId);
+  }
+  
+  
+
+  loadTemplatesDropDown(): void {
+    this.dataService.getDataTemplates().subscribe((templates: any[]) => {
+      this.templates = templates; 
+      console.log(this.templates);
+      
     });
   }
 
-  goToJobLog() {
-    // Add your logic here
+  loadOrganizations(): void {
+    this.clientService.getOrgs().subscribe((orgs: any[]) => {
+      this.orgs = orgs;
+    });
   }
 
-  
+  loadOrganizationClients(organizationId: number): void {
+    console.log('load org client clicked', organizationId)
+
+    if (organizationId !== null) {
+      this.orgService.getClientsForOrganization(organizationId)
+        .subscribe((clients: clientDataModel[]) => {
+          this.organizationClients = clients;
+        });
+    }
+  }
 
   goToJobScreen() { 
     this.router.navigate(['/jobs']);
   }
 
-  createJob() {
-
-    if (!this.jobName || !this.extractionFrequency || !this.organizationName || !this.clientName) {
-      this.snackBar.open('Job Name, Extraction Frequency, Org Name and client Name are required.', 'Close', {
+  ValidateFormFields(){
+    if (!this.jobData.jobType) {
+      this.snackBar.open('Job Name is required.', 'Close', {
         duration: 3000,
       });
-      return; // Prevent further execution if fields are empty
-    } 
-    const jobConfig = {
-      name: this.jobName,
-      frequency: this.extractionFrequency,
-      method: this.deliveryMethod,
-      extractionTime: this.extractionTime // Add extraction time to job configuration
-      // Add more job configuration properties here
-    };
-    console.log('Job created:'); 
-    this.snackBar.open('Job created successfully', 'Close', {
-      duration: 3000, 
-    }); 
-    this.goToJobScreen(); 
-
-     
+      return;
+    }
   }
 
-  onExtractionFrequencyChange() {
+  createUpdatejob() {
+
+    this.ValidateFormFields();
+ 
+ 
+     if(this.isEdit){
+ 
+       this.jobService.updateJob(this.jobId, this.jobData).subscribe(
+         (response: any) => {
+           this.snackBar.open('Job updated successfully', 'Close', {
+             duration: 2000,
+           });
+     
+           this.router.navigate(['/jobs']);
+         },
+         (error: any) => {
+           this.snackBar.open('Error updating job:' + error.error, 'Close', {
+             duration: 2000,
+           });
+         }
+       );
+     }else{
+       this.jobService.createJob(this.jobData).subscribe((response: any) => {
+         
+         this.snackBar.open('Job created successfully', 'Close', {
+           duration: 3000,
+         });
+ 
+         this.router.navigate(['/jobs']);
+       },
+       (error) => {
+         console.error('Error creating job:', error);
+         // Handle error and show an error message
+         this.snackBar.open('Error creating job: ' + error.error, 'Close', {
+           duration: 3000, // Duration in milliseconds
+         });
+       }
+       );
+     }
+   
+   }
+
+   onExtractionFrequencyChange() {
     this.showTimeInput = this.extractionFrequency === 'daily';
 
     // Clear selectedDays when the frequency changes
@@ -81,7 +179,7 @@ export class CreateJobComponent implements OnInit {
     if (this.extractionFrequency !== 'once') {
       this.extractionDate = null as any;
     }
+
   }
 
-   
-}
+  }

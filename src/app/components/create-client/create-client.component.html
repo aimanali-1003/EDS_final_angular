@@ -1,6 +1,7 @@
 <div class="client">
   <div class="client-content">
-    <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New client</h2>
+    <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+      {{ isViewOnly ? 'View Client' : (isEdit ? 'Edit Client' : 'Create New Client') }}</h2>
 
     <form class="form-grid">
       <div class="form-row">

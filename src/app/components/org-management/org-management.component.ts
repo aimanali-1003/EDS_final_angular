@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core'; 
 import { OrgService } from 'src/app/services/org.service'; 
-import { LevelsDialogComponent} from '../levels-dialog/levels-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -33,7 +32,6 @@ export class OrgManagementComponent implements OnInit {
     this.orgService.getOrgs().subscribe((orgs: any[]) => {
       this.orgs = orgs; 
       this.displayedOrganization=orgs;
-      // console.log(this.orgs);
       this.updateDisplayedOrgs(1);
     });
     

@@ -53,20 +53,7 @@
       No data found.
     </div>
    
-    <!-- Form for creating/editing a client -->
-    <div *ngIf="showCategoryForm" class="client-form">
-      <h3>{{ isEditing ? 'Edit Client' : 'Create New Client' }}</h3>
-      <form (ngSubmit)="saveClient()">
-        <mat-form-field class="full-width">
-          <input matInput id="clientName" name="clientName" placeholder="Client Name" [(ngModel)]="categoryName" required>
-        </mat-form-field>
-        <div class="button-container">
-          <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
-            }}</button>
-          <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
-        </div>
-      </form>
-    </div>
+    
   
     <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="category.length"
       (pageChange)="onPageChange($event)"></app-pagination>

@@ -1,4 +1,3 @@
-<!-- client.component.html -->
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
     <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Job Management</h2>
@@ -9,7 +8,7 @@
     </div>
   </div>
     
-  <app-search [placeholderText]="'Search Job by Name ID & Status'"
+  <app-search [placeholderText]="'Search Job by Name & Code'"
                   (searchQueryChanged)="performClientSearch($event)"
                   (filterChanged)="applyClientFilter($event)">
   </app-search>
@@ -19,20 +18,23 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Send Notification</th> 
+        <th>Job Name</th> 
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let job of displayedJob" class="client-item">
         <td>{{ job.jobID }}</td>
-        <td>{{ job.sendNotification }}</td>
+        <td>{{ job.jobType }}</td>
       
         <td class="action-cell">
-          <button mat-icon-button [style.color]="'#0091EA'" (click)="openModalForEdit()">
+          <button mat-icon-button [style.color]="'#00C853'" (click)="viewJob(job)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openJobModalForEdit(job)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [style.color]="'#D84315'" (click)="openDialog()">
+          <button mat-icon-button [style.color]="'#D84315'" (click)="deleteJob(job)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -43,20 +45,6 @@
 
   <div *ngIf="displayedJob.length === 0" class="no-data-message">
     No data found.
-  </div>
-  <!-- Form for creating/editing a client -->
-  <div *ngIf="showCategoryForm" class="client-form">
-    <h3>{{ isEditing ? 'Edit Client' : 'Create New Client' }}</h3>
-    <form (ngSubmit)="saveJob()">
-      <mat-form-field class="full-width">
-        <input matInput id="jobName" name="jobName" placeholder="Job Name" [(ngModel)]="jobName" required>
-      </mat-form-field>
-      <div class="button-container">
-        <button mat-raised-button color="primary" type="submit" class="action-button">{{ isEditing ? 'Update' : 'Create'
-          }}</button>
-        <button mat-raised-button (click)="cancelEdit()" class="action-button">Cancel</button>
-      </div>
-    </form>
   </div>
 
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="job.length"

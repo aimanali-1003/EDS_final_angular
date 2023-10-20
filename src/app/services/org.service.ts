@@ -36,4 +36,9 @@ export class OrgService {
     return this.http.delete<any>(`${this.apiUrl}/orgs/${orgId}`);
   }
 
+  getClientsForOrganization(orgId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/api/Organizations/${orgId}/clients`;
+    return this.http.get<any[]>(url);
+  }
+
 }

@@ -1,17 +1,53 @@
 <div class="job">
   <div class="job-content">
-    <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Create New Job</h2>
+    <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+      {{ isViewOnly ? 'View Job' : (isEdit ? 'Edit Job' : 'Create New Job') }}</h2>
 
-    <form (ngSubmit)="createJob()" class="form-grid">
+    <form class="form-grid">
       <div class="form-row">
         <mat-form-field class="form-item">
-          <input matInput placeholder="Job Name" [(ngModel)]="jobName" name="jobName" required>
+          <input [disabled]="isViewOnly" matInput placeholder="Job Name" [(ngModel)]="jobData.jobType" name="jobType" required>
         </mat-form-field>
-        
       </div>
- 
 
       <div class="form-row">
+        <mat-form-field class="form-item">
+          <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="selectedTemplates" name="TemplateName" required>
+            <mat-option *ngFor="let template of templates" [value]="template">{{ template.templateName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <mat-select [disabled]="isViewOnly" placeholder="Organization Name" [(ngModel)]="selectedOrganizationId" (selectionChange)="onOrganizationSelected($event.value)" name="OrganizationName" required>
+            <mat-option *ngFor="let org of orgs" [value]="org.organizationID">{{ org.organizationLevel }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="selectedOrganizationId !== null">
+      <div class="form-row">
+        <mat-form-field class="form-item">
+          <mat-select [disabled]="isViewOnly" placeholder="Select Client: " [(ngModel)]="selectedClientId" name="clientName" required>
+            <mat-option *ngFor="let client of organizationClients" [value]="client.clientID">{{ client.clientName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+      <!-- <div *ngIf="selectedOrganizationId !== null">
+        <label for="clientSelect">Select Client:</label>
+        <select id="clientSelect" name="clientSelect" >
+          <option  ></option>
+        </select>
+      </div> -->
+      
+      
+ 
+
+      <!-- <div class="form-row">
         <mat-form-field class="form-item">
           <mat-label>Extraction Frequency</mat-label>
           <mat-select [(ngModel)]="extractionFrequency" name="extractionFrequency" required (change)="onExtractionFrequencyChange()">
@@ -30,9 +66,9 @@
             <mat-option value="monthly">Excel</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
+      </div> -->
 
-      <div *ngIf="extractionFrequency === 'weekly'" class="form-row">
+      <!-- <div *ngIf="extractionFrequency === 'weekly'" class="form-row">
         <div *ngFor="let day of daysOfWeek" class="checkbox-item">
           <mat-checkbox [(ngModel)]="selectedDays[day]" name="selectedDays[day]">{{ day }}</mat-checkbox> 
         </div>
@@ -60,10 +96,10 @@
           <mat-label>Extraction Time</mat-label>
           <input matInput type="time" [(ngModel)]="extractionTime" name="extractionTime" required>
         </mat-form-field>
-      </div>
+      </div> -->
       
 
-
+<!-- 
       <div class="form-row" *ngIf="extractionFrequency === 'once'">
         <mat-form-field class="date-item">
           <mat-label>Extraction Date</mat-label>
@@ -92,9 +128,9 @@
         <mat-form-field class="form-item">
           <input matInput placeholder="Client Name" [(ngModel)]="clientName" name="clientName" required>
         </mat-form-field>
-      </div>
+      </div> -->
 
-      <div class="date-row">
+      <!-- <div class="date-row">
         <mat-form-field class="date-item">
           <mat-label>Start Date</mat-label>
           <input matInput [matDatepicker]="startDatePicker" [(ngModel)]="startDate" name="startDate" required>
@@ -108,12 +144,18 @@
           <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
           <mat-datepicker #endDatePicker></mat-datepicker>
         </mat-form-field>
-      </div>
+      </div> -->
       
-      <div class="button-container" style="padding-top: 10px;">
-        <button mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()" > <span class="icon">&#10006;</span> Cancel</button>
-        <button mat-raised-button class="create-job-button" type="submit" (click)="createJob()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Job</button>
+      <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
+        <button *ngIf="!isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()" > <span class="icon">&#10006;</span> Cancel</button>
+        <button *ngIf="!isEdit" mat-raised-button class="create-job-button" type="submit" (click)="createUpdatejob()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Job</button>
+        <button *ngIf="isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()"> <span class="icon">&#10006;</span> Cancel</button>
+        
+        <button *ngIf="isEdit"  mat-raised-button class="create-client-button" (click)="createUpdatejob()">
+          <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
+        </button>
       </div>
     </form>
   </div>
 </div>
+
