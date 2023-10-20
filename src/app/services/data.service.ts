@@ -36,19 +36,18 @@ export class DataService {
     return this.http.get<any[]>(`${this.apiUrl}/api/Templates/${templateId}`);
   }
 
-  createDataTemplate(templateData: any, columnsId: string[]): Observable<any> {
-    const data = {
-        template: templateData,
-        selectedColumns: columnsId
-    };
-    console.log(data);
-    return this.http.post<any>(`${this.apiUrl}/api/Templates`, data);
+  createDataTemplate(templateData: any): Observable<any> {
+    console.log(templateData);
+    return this.http.post<any>(`${this.apiUrl}/api/Templates`, templateData);
 }
 
   getLastCreatedTemplateId(): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/api/templates/lastCreatedId`);
   }
 
+  getColumnsOfTemplate(templateId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/Templates/GetColumnsOfTemplate?templateId=${templateId}`);
+  }
 
   createTemplateColumns(columnsId: string[]): Observable<any> { 
     return this.http.post<any>(`${this.apiUrl}/api/Templates`,columnsId);

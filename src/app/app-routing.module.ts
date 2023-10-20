@@ -30,7 +30,8 @@ const routes: Routes = [
   { path: 'createTemplate', component: CreateTemplateComponent },
   
   {path:'editTemplate/:id',component:CreateTemplateComponent},
-
+  {path:'viewTemplate/:id/:isViewOnly',component:CreateTemplateComponent},
+  { path: 'createJob', component: CreateJobComponent },
   { path: 'category', component: CategoryComponent },
   { path:'createClient',component:CreateClientComponent}, 
   { path:'editClient/:clientId',component:CreateClientComponent},
