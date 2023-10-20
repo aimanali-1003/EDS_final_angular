@@ -11,6 +11,10 @@ import { OrgService } from 'src/app/services/org.service';
 import { OrgDataModel } from 'src/app/model/OrgDataModel';
 import { DataRecipientService } from 'src/app/services/data-recipient.service';
 import { RecipientTypeDataModel } from 'src/app/model/DataRecipientType.model';
+import { FrequencyService } from 'src/app/services/frequency.service';
+import { FrequencyDataModel } from 'src/app/model/Frequency.model';
+import { FileFormatDataModel } from 'src/app/model/FileFormat.model';
+import { FileFormatService } from 'src/app/services/file-format.service';
 
 @Component({
   selector: 'app-create-job',
@@ -19,7 +23,7 @@ import { RecipientTypeDataModel } from 'src/app/model/DataRecipientType.model';
 })
 export class CreateJobComponent implements OnInit {
   extractionDate!: Date;
-  extractionFrequency: string = '';
+  
   jobs: any[] = [];  
   showTimeInput: boolean = false;
   selectedDays: { [key: string]: boolean } = {}; // Initialize selectedDays object
@@ -27,6 +31,7 @@ export class CreateJobComponent implements OnInit {
   jobId: string = '';
   isEdit:boolean = false;
   jobData: JobDataModel = new JobDataModel();
+  frequencyData: FrequencyDataModel = new FrequencyDataModel();
   templateData: DataTemplateModel = new DataTemplateModel();
   templates: any[] = [];
   selectedTemplates: any; 
@@ -40,9 +45,15 @@ export class CreateJobComponent implements OnInit {
   RecipientTypeData: RecipientTypeDataModel = new RecipientTypeDataModel();
   dataRecipients: any[] = [];
   selectedDataRecipientTypeId: number | null = null;
+  extractionFrequency: string | null = null;
   dataRecipientTypes: RecipientTypeDataModel[] = [];
+  frequenciesData: FrequencyDataModel[] = [];
   startDate!: Date; // You can initialize it with a default date if needed
   endDate!: Date;
+  frequencies: any[] = [];
+  fileFormat: any[] = [];
+  fileFormatJobs: FileFormatDataModel[] = [];
+  fileFormatstore: string | null = null;
 
 
   
@@ -55,7 +66,9 @@ export class CreateJobComponent implements OnInit {
     private dataService: DataService,
     private clientService: ClientService,
     private orgService: OrgService,
-    private dataRecipientService: DataRecipientService ) { }
+    private dataRecipientService: DataRecipientService,
+    private frequencyService: FrequencyService,
+    private fileformatService: FileFormatService) { }
 
 
   ngOnInit(): void {
@@ -66,8 +79,18 @@ export class CreateJobComponent implements OnInit {
 
     this.dataRecipientService.getDataRecipeintTypes().subscribe((dataRecipients: any) => {
       this.dataRecipientTypes = dataRecipients;
-      console.log(this.dataRecipientTypes);
     });
+
+    this.frequencyService.getFrequency().subscribe((frequencies: any) => {
+      this.frequenciesData = frequencies;
+    });
+
+    this.fileformatService.getfileFormats().subscribe((fileFormat: any) => {
+      this.fileFormatJobs = fileFormat;
+      console.log( this.fileFormatJobs);
+    });
+
+
 
     this.loadTemplatesDropDown();
     this.loadOrganizations();
