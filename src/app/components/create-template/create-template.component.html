@@ -7,7 +7,7 @@
     <mat-form-field class="flexible-field">
       <input matInput [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="template.templateName">
     </mat-form-field>
-    
+
     <mat-form-field class="flexible-field">
       <mat-label>Select Category</mat-label>
       <mat-select [disabled]="isViewOnly" [(ngModel)]="template.categoryID"
@@ -17,14 +17,17 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+
+
   </div>
-  <div *ngIf="!isViewOnly">
-    <div class="roww" *ngIf="template.categoryID">
+  <div *ngIf="!isViewOnly && !isEdit">
+    <div class="roww" >
       <mat-label>Select Columns</mat-label>
       <div class="search-container">
         <mat-form-field>
           <mat-icon matPrefix>search</mat-icon>
-          <input matInput placeholder="Search Columns" [(ngModel)]="columnSearch" (input)="updateFilteredColumns()">
+          <input matInput placeholder="Search Columns">
         </mat-form-field>
       </div>
       <div *ngIf="columns.length > 0; else noColumnsFound">
@@ -43,30 +46,60 @@
       </ng-template>
     </div>
   </div>
-  <div *ngIf="isViewOnly">
-    <div *ngIf="columns.length > 0; else noColumnsFound">
-      <div class="scrollable-column">
-        <div class="column-checkbox" *ngFor="let column of columns">
-          <p>{{ columnNames }}</p> 
+
+  <div *ngIf="isEdit && !isViewOnly">
+    <div class="roww">
+      <mat-label>Select Columns</mat-label>
+      <div class="search-container">
+        <mat-form-field>
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput placeholder="Search Columns">
+        </mat-form-field>
+      </div>
+      <div *ngIf="columns.length > 0; else noColumnsFound">
+        <div class="scrollable-column">
+          <div class="column-checkbox" *ngFor="let column of columns">
+            <mat-checkbox [(ngModel)]="selectedcolumnsForUpdate[column.columnID]" [ngClass]="{'checked-checkbox': columnNames.includes(column)}">
+              {{ column.columnName }}
+            </mat-checkbox>
+          </div>
         </div>
       </div>
+      <ng-template #noColumnsFound>
+        <div class="no-columns-message">
+          No columns found.
+        </div>
+      </ng-template>
     </div>
-    <ng-template #noColumnsFound>
-      <div class="no-columns-message">
-        No columns found.
-      </div>
-    </ng-template>
   </div>
+  
+  
+  
+
+
+  <div *ngIf="isViewOnly && !isViewingColumns">
+    <button mat-button (click)="viewTemplateColumns()">View Template Columns</button>
+  </div>
+  <div class="scrollable-column" *ngIf="isViewOnly && isViewingColumns && columns && columns.length > 0">
+    <div class="column-checkbox" *ngFor="let column of columns">
+      <mat-checkbox [disabled]="isViewOnly" [checked]="true" [ngClass]="{'checked-checkbox': true}">
+        {{ column }}
+      </mat-checkbox>
+    </div>
+  </div>
+ 
   <div class="form-row">
     <mat-slide-toggle [disabled]="isViewOnly" [(ngModel)]="template.active" name="active">Active</mat-slide-toggle>
   </div>
   <mat-card-actions *ngIf="!isViewOnly" class="button-container">
-    <button *ngIf="!isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()"> <span class="icon">&#10006;</span> Cancel</button>
-    <button *ngIf="!isEdit"  mat-raised-button class="create-job-button" (click)="createTemplate()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Template</button>
-    <button *ngIf="isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()">
+    <button *ngIf="!isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()"> <span
+        class="icon">&#10006;</span> Cancel</button>
+    <button *ngIf="!isEdit" mat-raised-button class="create-job-button" (click)="createTemplate()"><mat-icon
+        style="margin-right: 8px;">done_all</mat-icon>Create Template</button>
+    <button *ngIf="isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()">
       <span class="icon">&#10006;</span> Cancel
     </button>
-    <button *ngIf="isEdit"   mat-raised-button class="create-job-button" (click)="createTemplate()">
+    <button *ngIf="isEdit" mat-raised-button class="create-job-button" (click)="createTemplate()">
       <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
     </button>
   </mat-card-actions>

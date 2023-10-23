@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog'; 
+import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/app/services/data.service';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-data-template',
@@ -13,17 +14,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class DataTemplateComponent implements OnInit {
   dataTemplates: any[] = [];
-  category: string[] = [];
-  showForm = false; 
+  showForm = false;
   editingTemplate = false;
-  template: any = { templateName: '', category: '', columns: {} }; 
+  template: any = { templateName: '', category: '', columns: {} };
   selectedColumns: string[] = [];
   displayedTemplate: any[] = [];
-
+  categories: any[] = [];
   currentPage: number = 1;
 
   pageSize: number = 10;
-  searchTerm: string = ''; 
+  searchTerm: string = '';
 
 
   selectedCategory: string[] = [];
@@ -31,9 +31,10 @@ export class DataTemplateComponent implements OnInit {
 
   isDialogOpen = false;
 
-   
+
   constructor(
     private dataService: DataService,
+    private categoryService: CategoryService,
     private router: Router,
     private httpClient: HttpClient,
     public dialog: MatDialog,
@@ -42,9 +43,9 @@ export class DataTemplateComponent implements OnInit {
 
   viewTemplate(dataTemplates?: any): void {
     const templateId = dataTemplates.templateID;
-    this.router.navigate(['/viewTemplate/'+templateId+'/'+true]);    
+    this.router.navigate(['/viewTemplate/' + templateId + '/' + true]);
   }
- 
+
   editTemplate(template: any) {
     this.router.navigate(['/editTemplate/' + template.templateID]);
   }
@@ -71,17 +72,17 @@ export class DataTemplateComponent implements OnInit {
         });
       }
     });
-  } 
+  }
   createNewTemplate() {
     this.router.navigate(['/createTemplate']);
-  } 
-
-  performClientSearch(query: string) { 
-  } 
-
-  applyClientFilter(filterData: any) { 
   }
-  
+
+  performClientSearch(query: string) {
+  }
+
+  applyClientFilter(filterData: any) {
+  }
+
   private updatedataTemplates(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
@@ -94,7 +95,7 @@ export class DataTemplateComponent implements OnInit {
       })
       .slice(startIndex, endIndex);
   }
- 
+
   onPageChange(pageNumber: number) {
     this.currentPage = pageNumber;
     this.updateDisplayedTemplates(this.currentPage);
@@ -120,6 +121,18 @@ export class DataTemplateComponent implements OnInit {
       this.dataTemplates = dataTemplate;
       this.updateDisplayedTemplates(this.currentPage);
     });
+    this.categoryService.getCategory().subscribe((categories: any[]) => {
+      this.categories = categories;
+      console.log(categories)
+    }); 
+  } 
+  getMatchingCategoryInfo(template: any): { categoryCode: string, categoryName: string } {
+    const matchingCategory = this.categories.find(category => category.categoryID === template.categoryID);
+    return matchingCategory
+      ? { categoryCode: matchingCategory.categoryCode, categoryName: matchingCategory.categoryName }
+      : { categoryCode: '', categoryName: '' };
   }
-   
+  
+  
+  
 }

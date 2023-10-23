@@ -1,45 +1,50 @@
 <div class="clients">
-    <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
-      <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Template Management</h2>
-      <div class="form-outline search-box mb-4">
-        <button mat-raised-button class="custom-button" (click)="createNewTemplate()">
-          <span class="circle">+</span> Create Template
-        </button>
-      </div>
+  <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Template
+      Management</h2>
+    <div class="form-outline search-box mb-4">
+      <button mat-raised-button class="custom-button" (click)="createNewTemplate()">
+        <span class="circle">+</span> Create Template
+      </button>
     </div>
+  </div>
 
-    <app-search [placeholderText]="'Search Template by Name ID & Status'"
-                  (searchQueryChanged)="performClientSearch($event)"
-                  (filterChanged)="applyClientFilter($event)">
+  <app-search [placeholderText]="'Search Template by Name ID & Status'"
+    (searchQueryChanged)="performClientSearch($event)" (filterChanged)="applyClientFilter($event)">
   </app-search>
- 
-  <div class="table-container"> 
+
+  <div class="table-container">
     <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Template Name</th> 
-          <th>Category ID</th>
-          <th>Created At</th> 
+          <th>Template Name</th>
+          <th>Category</th> 
+          <th>Created At</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let template of dataTemplates" class="template-item">
-          <td>{{ template.templateID }}</td>
           <td>{{ template.templateName }}</td> 
-          <td>{{ template.categoryID}}</td>
           <td class="created-info-cell">
+            <div class="created-at">{{ getMatchingCategoryInfo(template).categoryName }}</div>
+            <div class="created-by">
+              <span class="created-by-label">Code : </span>
+              <span class="created-by-cell">{{ getMatchingCategoryInfo(template).categoryCode }}</span>
+            </div>
+          </td> 
+          <td >
             <div class="created-at">{{ template.createdAt | date:'medium' }}</div>
             <div class="created-by">
               <span class="created-by-label">Created By: </span>
               <span class="created-by-cell">{{ template.createdBy }}</span>
             </div>
           </td>
-           
+
           <td [style.color]="template.Active ? '#4cf0a1' : 'red'">
-            <ng-container *ngIf="template.active; else inactive"><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+            <ng-container *ngIf="template.active; else inactive"><span class="making-active-attractive">{{ 'Active'
+                }}</span></ng-container>
             <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
           </td>
           <td class="action-cell">
@@ -62,10 +67,10 @@
     <div *ngIf="dataTemplates.length === 0" class="no-data-message">
       No data found.
     </div>
-     
+
   </div>
 
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="dataTemplates.length"
-  (pageChange)="onPageChange($event)"></app-pagination>
+    (pageChange)="onPageChange($event)"></app-pagination>
 
 </div>

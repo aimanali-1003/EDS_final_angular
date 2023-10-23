@@ -46,7 +46,7 @@ export class DataService {
   }
 
   getColumnsOfTemplate(templateId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/api/Templates/GetColumnsOfTemplate?templateId=${templateId}`);
+    return this.http.get<string[]>(`${this.apiUrl}/api/Templates/GetColumnsOfTemplate?templateId=${templateId}`);
   }
 
   createTemplateColumns(columnsId: string[]): Observable<any> { 
@@ -54,7 +54,7 @@ export class DataService {
   }
   
   updateDataTemplate(templateId: string, templateData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/template/${templateId}`, templateData);
+    return this.http.put<any>(`${this.apiUrl}/api/Templates/${templateId}`, templateData);
   }
 
   deleteDataTemplate(templateId: string): Observable<any> {

@@ -55,7 +55,7 @@ import { SearchComponent } from './search/search.component';
 import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
 import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
 import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
-import { OrgDetailsComponent } from './components/org-details/org-details.component';
+import { OrgDetailsComponent } from './components/org-details/org-details.component'; 
 
 @NgModule({
   declarations: [
@@ -81,7 +81,7 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     EditOrgComponent,
     EditJoblogComponent,
     EditJobComponent,
-    OrgDetailsComponent,
+    OrgDetailsComponent, 
     
   ],
   imports: [
