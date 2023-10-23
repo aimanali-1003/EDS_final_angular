@@ -77,10 +77,6 @@ export class CreateJobComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // Fetch job data from the service
-    this.jobService.getJobs().subscribe((jobs: any) => {
-      this.jobData = jobs;
-    });
 
     this.dataRecipientService.getDataRecipeintTypes().subscribe((dataRecipients: any) => {
       this.dataRecipientTypes = dataRecipients;
@@ -92,7 +88,6 @@ export class CreateJobComponent implements OnInit {
 
     this.fileformatService.getfileFormats().subscribe((fileFormat: any) => {
       this.fileFormatJobs = fileFormat;
-      console.log( this.fileFormatJobs);
     });
 
 
@@ -122,7 +117,6 @@ export class CreateJobComponent implements OnInit {
   onOrganizationSelected(organizationId: number) {
     this.clients = [];
     this.organizations.organizationID = organizationId; 
-    console.log('Gone to onOrganizationSelected method with organization Id: ', this.organizations.organizationID);
     this.loadOrganizationClients(organizationId);
   }
   
@@ -131,8 +125,6 @@ export class CreateJobComponent implements OnInit {
   loadTemplatesDropDown(): void {
     this.dataService.getDataTemplates().subscribe((templates: any[]) => {
       this.templates = templates; 
-      console.log(this.templates);
-      
     });
   }
 
@@ -143,7 +135,6 @@ export class CreateJobComponent implements OnInit {
   }
 
   loadOrganizationClients(organizationId: number): void {
-    console.log('load org client clicked', organizationId)
 
     if (organizationId !== null) {
       this.orgService.getClientsForOrganization(organizationId)
@@ -168,8 +159,12 @@ export class CreateJobComponent implements OnInit {
 
   createUpdatejob() {
 
-    this.ValidateFormFields();
- 
+    this.jobData.templateId = this.selectedTemplates.templateID;
+    this.jobData.orgsOrganizationID = this.selectedOrganizationId;
+    this.jobData.clientId = this.selectedClientId;
+    this.jobData.recipientTypeId = this.selectedDataRecipientTypeId;
+    this.jobData.frequencyType = this.extractionFrequency;
+    this.jobData.fileFormatType = this.fileFormatstore;
  
      if(this.isEdit){
  
@@ -188,6 +183,8 @@ export class CreateJobComponent implements OnInit {
          }
        );
      }else{
+
+      console.log(this.jobData);
        this.jobService.createJob(this.jobData).subscribe((response: any) => {
          
          this.snackBar.open('Job created successfully', 'Close', {
@@ -207,21 +204,5 @@ export class CreateJobComponent implements OnInit {
      }
    
    }
-
-   onExtractionFrequencyChange(frequencyType: string) {
-
-    console.log(frequencyType);
-    // this.showTimeInput = this.extractionFrequency === 'daily';
-    // this.showDateFields = this.extractionFrequency === 'Once';
-
-    // Clear selectedDays when the frequency changes
-    // this.selectedDays = {};
-
-    // // Set extractionDate to null when the frequency is not "once"
-    // if (this.extractionFrequency !== 'once') {
-    //   this.extractionDate = null as any;
-    // }
-
-  }
 
   }

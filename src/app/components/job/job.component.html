@@ -19,6 +19,8 @@
       <tr>
         <th>ID</th>
         <th>Job Name</th> 
+        <th>Created At</th>
+        <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -26,6 +28,17 @@
       <tr *ngFor="let job of displayedJob" class="client-item">
         <td>{{ job.jobID }}</td>
         <td>{{ job.jobType }}</td>
+        <td class="created-info-cell">
+          <div class="created-at">{{ job.createdAt | date:'medium' }}</div>
+          <div class="created-by">
+            <span class="created-by-label">Created By: </span>
+            <span class="created-by-cell">{{ job.createdBy }}</span>
+          </div>
+        </td>
+        <td [style.color]="job.Active ? '#4cf0a1;' : 'red'">
+          <ng-container *ngIf="job.active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+          <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
+        </td>
       
         <td class="action-cell">
           <button mat-icon-button [style.color]="'#00C853'" (click)="viewJob(job)">

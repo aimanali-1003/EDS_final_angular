@@ -7,10 +7,11 @@ export class JobDataModel {
     public active: boolean;
     public clientId: number | null;
     public client: { orgsOrganizationID: number | null }; // Define a nested 'client' property
+    public orgsOrganizationID: number | null;
     public templateId: number | null;
     public recipientTypeId:  number | null;
-    public frequencyId:  number | null;
-    public fileFormatId:  number | null;
+    public frequencyType:  string | null;
+    public fileFormatType:  string | null;
     public startTime: Time | null;
     public endTime: Time | null;
   
@@ -23,10 +24,11 @@ export class JobDataModel {
       this.client = { orgsOrganizationID: null }; // Initialize the 'client' property
       this.templateId = null;
       this.recipientTypeId = null;
-      this.frequencyId = null;
-      this.fileFormatId = null;
+      this.frequencyType = "";
+      this.fileFormatType = "";
       this.startTime = null;
       this.endTime = null;
+      this.orgsOrganizationID = null;
     }
   }
   
