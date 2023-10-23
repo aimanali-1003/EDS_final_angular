@@ -54,6 +54,11 @@ export class CreateJobComponent implements OnInit {
   fileFormat: any[] = [];
   fileFormatJobs: FileFormatDataModel[] = [];
   fileFormatstore: string | null = null;
+  showDateFields: boolean = false;
+  startTime!: string;
+  endTime!: string;
+  selectedItems: string[] = [];
+  
 
 
   
@@ -203,16 +208,19 @@ export class CreateJobComponent implements OnInit {
    
    }
 
-   onExtractionFrequencyChange() {
-    this.showTimeInput = this.extractionFrequency === 'daily';
+   onExtractionFrequencyChange(frequencyType: string) {
+
+    console.log(frequencyType);
+    // this.showTimeInput = this.extractionFrequency === 'daily';
+    // this.showDateFields = this.extractionFrequency === 'Once';
 
     // Clear selectedDays when the frequency changes
-    this.selectedDays = {};
+    // this.selectedDays = {};
 
-    // Set extractionDate to null when the frequency is not "once"
-    if (this.extractionFrequency !== 'once') {
-      this.extractionDate = null as any;
-    }
+    // // Set extractionDate to null when the frequency is not "once"
+    // if (this.extractionFrequency !== 'once') {
+    //   this.extractionDate = null as any;
+    // }
 
   }
 

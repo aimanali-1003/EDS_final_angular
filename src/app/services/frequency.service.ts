@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class FrequencyService {
 
-  private apiUrl = 'https://localhost:44327';
+  private apiUrl = 'https://localhost:7133';
 
   constructor(private http: HttpClient) { }
 
