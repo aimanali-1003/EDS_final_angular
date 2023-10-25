@@ -24,7 +24,7 @@
       <div class="form-row">
         <div class="form-item">
           <mat-form-field class="full-width">
-            <mat-select [disabled]="isViewOnly" placeholder="Organization Name" [(ngModel)]="selectedOrganizationId" (selectionChange)="onOrganizationSelected($event.value)" name="OrganizationName" required>
+            <mat-select [disabled]="isViewOnly" placeholder="Organization Level" [(ngModel)]="selectedOrganizationId" (selectionChange)="onOrganizationSelected($event.value)" name="OrganizationName" required>
               <mat-option *ngFor="let org of orgs" [value]="org.organizationID">{{ org.organizationLevel }}</mat-option>
             </mat-select>
           </mat-form-field>

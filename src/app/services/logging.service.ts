@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LoggingService { 
 
-  private apiUrl ='https://localhost:7133';
+  private apiUrl ='https://localhost:44327';
   private jobLogs: any[] = [];
 
   constructor(private http: HttpClient) { }

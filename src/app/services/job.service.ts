@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class JobService { 
-  private apiUrl = 'https://localhost:7133';
+  private apiUrl = 'https://localhost:44327';
 
   constructor(private http: HttpClient) { }
 

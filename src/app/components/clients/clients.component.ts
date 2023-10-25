@@ -60,7 +60,6 @@ export class ClientsComponent implements OnInit {
       if (confirmed) {
         this.clientService.deleteClient(clientId).subscribe(() => {
           this.clients = this.clients.filter(c => c.clientID !== clientId);
-          console.log(clientId);
           this.updateDisplayedClients(1);
           this.snackBar.open('Client successfully deleted', 'Close', {
             duration: 2000,

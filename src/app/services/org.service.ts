@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class OrgService {
-  private apiUrl = 'https://localhost:7133'; 
+  private apiUrl = 'https://localhost:44327'; 
 
   constructor(private http: HttpClient) { }
 
@@ -19,23 +19,9 @@ export class OrgService {
     return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/${orgID}`);
   }
 
-  getOrgDetails(orgId:string): Observable<any[]> {
-    console.log("org service", orgId)
+  getOrgDetails(orgId:string): Observable<any[]> { 
     return this.http.get<any[]>(`${this.apiUrl}/api/OrganizationLevels/${orgId}`);
-  }
-
-  createOrgs(orgData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/orgs`, orgData);
-  }
-
-  updateOrgs(orgId: string, orgData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/orgs/${orgId}`, orgData);
-  }
-
-  deleteOrgs(orgId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/orgs/${orgId}`);
-  }
-
+  } 
   getClientsForOrganization(orgId: number): Observable<any[]> {
     const url = `${this.apiUrl}/api/Organizations/${orgId}/clients`;
     return this.http.get<any[]>(url);

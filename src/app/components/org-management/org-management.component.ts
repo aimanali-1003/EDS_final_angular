@@ -32,6 +32,7 @@ export class OrgManagementComponent implements OnInit {
     this.orgService.getOrgs().subscribe((orgs: any[]) => {
       this.orgs = orgs; 
       this.displayedOrganization=orgs;
+      console.log(this.displayedOrganization)
       this.updateDisplayedOrgs(1);
     });
     

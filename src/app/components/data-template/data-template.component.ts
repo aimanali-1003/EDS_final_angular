@@ -16,12 +16,12 @@ export class DataTemplateComponent implements OnInit {
   dataTemplates: any[] = [];
   showForm = false;
   editingTemplate = false;
-  template: any = { templateName: '', category: '', columns: {} };
+  template: any[]=[];
   selectedColumns: string[] = [];
   displayedTemplate: any[] = [];
   categories: any[] = [];
   currentPage: number = 1;
-
+  templateSearchQuery: string = '';
   pageSize: number = 10;
   searchTerm: string = '';
 
@@ -66,48 +66,29 @@ export class DataTemplateComponent implements OnInit {
       if (confirmed) {
         this.dataService.deleteDataTemplate(templateId).subscribe(() => {
           this.dataTemplates = this.dataTemplates.filter((t) => t.templateID !== templateId);
+          this.updateDisplayedTemplates();
           this.snackBar.open('Template successfully deleted', 'Close', {
             duration: 2000,
           });
-        });
+        }); 
       }
     });
-  }
+  } 
   createNewTemplate() {
     this.router.navigate(['/createTemplate']);
-  }
-
-  performClientSearch(query: string) {
-  }
-
-  applyClientFilter(filterData: any) {
-  }
-
-  private updatedataTemplates(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.dataTemplates = this.dataTemplates
-      .slice(0)
-      .sort((a, b) => {
-        const dateA = new Date(a.createdAt).getTime();
-        const dateB = new Date(b.createdAt).getTime();
-        return dateB - dateA;
-      })
-      .slice(startIndex, endIndex);
-  }
+  }  
 
   onPageChange(pageNumber: number) {
     this.currentPage = pageNumber;
-    this.updateDisplayedTemplates(this.currentPage);
+    this.updateDisplayedTemplates();
   }
-
   onPageSizeChange(event: any) {
     this.pageSize = event.target.value;
-    this.updateDisplayedTemplates(this.currentPage);
+    this.updateDisplayedTemplates();
   }
 
-  private updateDisplayedTemplates(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
+  private updateDisplayedTemplates() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = Math.min(startIndex + this.pageSize, this.dataTemplates.length);
     this.displayedTemplate = this.dataTemplates.slice(startIndex, endIndex);
   }
@@ -119,11 +100,10 @@ export class DataTemplateComponent implements OnInit {
   fetchTemplates() {
     this.dataService.getDataTemplates().subscribe((dataTemplate: any[]) => {
       this.dataTemplates = dataTemplate;
-      this.updateDisplayedTemplates(this.currentPage);
+      this.updateDisplayedTemplates();
     });
     this.categoryService.getCategory().subscribe((categories: any[]) => {
-      this.categories = categories;
-      console.log(categories)
+      this.categories = categories; 
     }); 
   } 
   getMatchingCategoryInfo(template: any): { categoryCode: string, categoryName: string } {
@@ -132,7 +112,14 @@ export class DataTemplateComponent implements OnInit {
       ? { categoryCode: matchingCategory.categoryCode, categoryName: matchingCategory.categoryName }
       : { categoryCode: '', categoryName: '' };
   }
-  
-  
-  
+  performTemplateSearch(searchTerm: string) {
+    this.templateSearchQuery = searchTerm;
+    this.dataService.getDataTemplates().subscribe((dataTemplate: any[]) => {
+      this.dataTemplates = dataTemplate.filter(template =>
+        template.templateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        template.active.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      this.updateDisplayedTemplates();
+    });
+  } 
 }

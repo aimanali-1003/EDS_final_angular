@@ -30,7 +30,7 @@ export class CategoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.fetchClients();   
+    this.fetchCategories();   
   }
 
   ViewCategory(category: any): void {
@@ -62,7 +62,7 @@ export class CategoryComponent implements OnInit {
       if (confirmed) {
         this.categoryService.deleteCategory(categoryId).subscribe(() => {
           this.category = this.category.filter(c => c.categoryId !== categoryId);
-          this.updateDisplayedCategory(1); 
+          this.fetchCategories(); // Refresh the categories after deletion
           this.snackBar.open('Category successfully deleted', 'Close', {
             duration: 2000,
           });
@@ -75,12 +75,12 @@ export class CategoryComponent implements OnInit {
       }
     });
   }
+  
 
-  fetchClients() {
+  fetchCategories() {
     this.categoryService.getCategory().subscribe((category: any[]) => {
       this.category = category;
-      this.displayedCategory=category;
-      console.log('Category:', this.category); 
+      this.displayedCategory=category; 
       this.updateDisplayedCategory(1);
     });
   }
@@ -97,12 +97,12 @@ export class CategoryComponent implements OnInit {
     if (this.isEditing && this.categoryIdToEdit) { 
       this.categoryService.updateCategory(this.categoryIdToEdit, { name: this.categoryName }).subscribe(() => {
         this.showCategoryForm = false;
-        this.fetchClients();
+        this.fetchCategories();
       });
     } else { 
       this.categoryService.createCategory({ name: this.categoryName }).subscribe(() => {
         this.showCategoryForm = false;
-        this.fetchClients();
+        this.fetchCategories();
       });
     }
   }

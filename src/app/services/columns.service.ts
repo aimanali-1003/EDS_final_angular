@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ColumnsService {
-  private baseUrl = 'https://localhost:7133'; // Replace with your API base URL
+  private baseUrl = 'https://localhost:44327'; // Replace with your API base URL
 
   constructor(private http: HttpClient) {}
 
