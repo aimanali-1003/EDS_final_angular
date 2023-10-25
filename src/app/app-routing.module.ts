@@ -16,8 +16,7 @@ import { EditJobComponent } from './components/Edits/edit-job/edit-job.component
 import { OrgDetailsComponent } from './components/org-details/org-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/clients', pathMatch: 'full' }, // Default route
-  // Import the routing modules for clients, jobs, and job logs
+  { path: '', redirectTo: '/clients', pathMatch: 'full' },  
   { path: 'clients', component: ClientsComponent, data: { title: 'Clients' } },
   { path: 'jobs', component: JobComponent,data: { title: 'Jobs' } },
   { path: 'job-logs', component: JobLogComponent, data: { title: 'Job Logs' } },
@@ -27,8 +26,7 @@ const routes: Routes = [
   { path: 'dataTemplate', component: DataTemplateComponent},
   { path: 'joblog', component: JobLogComponent },
   { path: 'orgs', component: OrgManagementComponent },
-  { path: 'createTemplate', component: CreateTemplateComponent },
-  
+  { path: 'createTemplate', component: CreateTemplateComponent }, 
   {path:'editTemplate/:id',component:CreateTemplateComponent},
   {path:'viewTemplate/:id/:isViewOnly',component:CreateTemplateComponent},
   { path: 'createJob', component: CreateJobComponent },
@@ -39,8 +37,7 @@ const routes: Routes = [
   {
     path: 'editCategory/:id',
     component: CreateCategoryComponent 
-  },
-
+  }, 
   { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
   { path: 'createJob', component: CreateJobComponent },
   { path:'viewJob/:jobId/:isViewOnly',component: CreateJobComponent},
@@ -49,8 +46,7 @@ const routes: Routes = [
   {path:'editOrg',component:EditOrgComponent},
   {path:'editJoblog',component:EditJoblogComponent},
   {path:'editJob',component:EditJobComponent},  
-  { path: 'org-details/:id', component: OrgDetailsComponent },
-  // Add more routes as needed 
+  { path: 'org-details/:id', component: OrgDetailsComponent }, 
 ];
 
 @NgModule({

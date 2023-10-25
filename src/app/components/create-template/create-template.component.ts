@@ -3,13 +3,14 @@ import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-create-template',
   templateUrl: './create-template.component.html',
   styleUrls: ['./create-template.component.css']
 })
-export class CreateTemplateComponent implements OnInit {
+export class CreateTemplateComponent implements OnInit { 
   template: DataTemplateModel = new DataTemplateModel();
   columnSearch: string = '';
   filteredColumns: string[] = [];
@@ -25,7 +26,7 @@ export class CreateTemplateComponent implements OnInit {
   columnNames: string[] = [];
   selectedcolumnsForUpdate: { [key: number]: boolean } = {};
 
-  constructor(
+  constructor( 
     private templateService: DataService,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -111,11 +112,18 @@ export class CreateTemplateComponent implements OnInit {
       this.template.columnsId = selectedColumnIds;
       this.templateService.createDataTemplate(this.template).subscribe(() => {});
       this.router.navigate(['/dataTemplate']);
-    } else {
+    } else { 
       const selectedColumnIds = Object.keys(this.selectedcolumnsForUpdate)
         .filter((key) => this.selectedcolumnsForUpdate[parseInt(key)])
         .map((key) => parseInt(key));
 
+
+        if (!selectedColumnIds || selectedColumnIds.length === 0) {
+          this.snackBar.open('Please select at least one column to update.', 'Close', {
+            duration: 3000,
+          });
+          return;
+        }
       this.template.columnsId = selectedColumnIds;
       this.templateService.updateDataTemplate(this.templateId, this.template).subscribe(
         (response: any) => {
