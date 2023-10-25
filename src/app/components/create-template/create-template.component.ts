@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DataTemplateModel } from 'src/app/model/DataTemplateModel'; 
+import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 
 @Component({
   selector: 'app-create-template',
@@ -29,14 +29,13 @@ export class CreateTemplateComponent implements OnInit {
     private templateService: DataService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute, 
-  ) { }
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.templateService.getCategories().subscribe((categories: any[]) => {
       this.categories = categories;
     });
-    
 
     this.route.params.subscribe((params) => {
       this.templateId = params['id'];
@@ -46,42 +45,40 @@ export class CreateTemplateComponent implements OnInit {
         this.isEdit = true;
         this.loadTemplates();
       }
-    }); 
-    
-  }
-
-  loadTemplates() {
-    this.templateService.getTemplate(this.templateId).subscribe((template: any) => {
-      this.template = template;
-      this.fetchColumnsByCategory(this.template.categoryID);
-      this.selectedcolumnsForUpdate = {}; // Initialize here
-  
-      this.columns.forEach((column) => {
-        const found = this.viewColumns.find((viewColumn) => viewColumn === column.columnName);
-        if (found) {
-          this.selectedcolumnsForUpdate[column.columnID] = true;
-        } else {
-          this.selectedcolumnsForUpdate[column.columnID] = false;
-        }
-      });
     });
   }
 
   fetchColumnsByCategory(categoryId: number) {
     this.templateService.getColumnsByCategory(categoryId).subscribe((columns: string[]) => {
       this.columns = columns;
+      this.initializeSelectedColumnsForUpdate();
     });
   }
+
+  initializeSelectedColumnsForUpdate() {
+    this.selectedcolumnsForUpdate = {};
+    for (let column of this.columns) {
+      this.selectedcolumnsForUpdate[column.columnID] = this.viewColumns.includes(column.columnName);
+    }
+  }
+
+  loadTemplates() {
+    this.templateService.getTemplate(this.templateId).subscribe((template: any) => {
+      this.template = template;
+      this.fetchColumnsByCategory(this.template.categoryID);
+    });
+  }
+
   viewTemplateColumns() {
     this.templateService.getColumnsOfTemplate(this.templateId).subscribe((viewColumns: string[]) => {
-      this.viewColumns= viewColumns;
-      this.isViewingColumns = true;   
+      this.viewColumns = viewColumns;
+      this.isViewingColumns = true;
     });
-  } 
+  }
 
   updateColumns(categoryId: number) {
     this.columns = [];
-    this.template.categoryID = categoryId; 
+    this.template.categoryID = categoryId;
     this.fetchColumnsByCategory(categoryId);
   }
 
@@ -92,7 +89,7 @@ export class CreateTemplateComponent implements OnInit {
 
   goToTemplateScreen() {
     this.router.navigate(['/dataTemplate']);
-  } 
+  }
 
   createTemplate() {
     if (!this.isEdit) {
@@ -112,9 +109,8 @@ export class CreateTemplateComponent implements OnInit {
       }
 
       this.template.columnsId = selectedColumnIds;
-      this.templateService.createDataTemplate(this.template).subscribe(() => {
-      });
-      this.router.navigate(['/dataTemplate']); 
+      this.templateService.createDataTemplate(this.template).subscribe(() => {});
+      this.router.navigate(['/dataTemplate']);
     } else {
       const selectedColumnIds = Object.keys(this.selectedcolumnsForUpdate)
         .filter((key) => this.selectedcolumnsForUpdate[parseInt(key)])
@@ -127,7 +123,7 @@ export class CreateTemplateComponent implements OnInit {
             duration: 2000,
           });
 
-          this.router.navigate(['/dataTemplate']); 
+          this.router.navigate(['/dataTemplate']);
         },
         (error: any) => {
           this.snackBar.open('Error updating template' + error.error, 'Close', {

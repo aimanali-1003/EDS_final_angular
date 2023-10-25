@@ -41,6 +41,21 @@ export class DataTemplateComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
+  
+  ngOnInit(): void {
+    this.fetchTemplates();
+  }
+
+  fetchTemplates() {
+    this.dataService.getDataTemplates().subscribe((dataTemplate: any[]) => {
+      this.dataTemplates = dataTemplate;
+      this.updateDisplayedTemplates();
+    });
+    this.categoryService.getCategory().subscribe((categories: any[]) => {
+      this.categories = categories; 
+    }); 
+  } 
+
   viewTemplate(dataTemplates?: any): void {
     const templateId = dataTemplates.templateID;
     this.router.navigate(['/viewTemplate/' + templateId + '/' + true]);
@@ -93,19 +108,6 @@ export class DataTemplateComponent implements OnInit {
     this.displayedTemplate = this.dataTemplates.slice(startIndex, endIndex);
   }
 
-  ngOnInit(): void {
-    this.fetchTemplates();
-  }
-
-  fetchTemplates() {
-    this.dataService.getDataTemplates().subscribe((dataTemplate: any[]) => {
-      this.dataTemplates = dataTemplate;
-      this.updateDisplayedTemplates();
-    });
-    this.categoryService.getCategory().subscribe((categories: any[]) => {
-      this.categories = categories; 
-    }); 
-  } 
   getMatchingCategoryInfo(template: any): { categoryCode: string, categoryName: string } {
     const matchingCategory = this.categories.find(category => category.categoryID === template.categoryID);
     return matchingCategory

@@ -77,14 +77,13 @@
   </div>
    
 
-  <div *ngIf="isViewOnly && !isViewingColumns">
-    <button mat-button (click)="viewTemplateColumns()">View Template Columns</button>
-  </div>
-  <div class="scrollable-column" *ngIf="isViewOnly && isViewingColumns && columns && columns.length > 0">
-    <div class="column-checkbox" *ngFor="let column of viewColumns">
-      <mat-checkbox [disabled]="isViewOnly" [checked]="true" [ngClass]="{'checked-checkbox': true}">
-        {{ column }}
-      </mat-checkbox>
+  <div *ngIf="isViewOnly && isViewingColumns && viewColumns && viewColumns.length > 0">
+    <div class="scrollable-column">
+      <div class="column-checkbox" *ngFor="let column of viewColumns">
+        <mat-checkbox [disabled]="isViewOnly" [checked]="true" [ngClass]="{'checked-checkbox': true}">
+          {{ column }}
+        </mat-checkbox>
+      </div>
     </div>
   </div>
  
