@@ -1,18 +1,32 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  position: absolute;
+  top: 7%;
+  left: 4%;
+  width: 60%;
+}
+
 .job {
+  flex: 1;
   background-color: #f8f8f8;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  width: 60%; 
-  margin: 0 auto;
-  position: absolute;
-  top: 7%;
-  left: 4%; /* Adjust the left value to control the position from the left side */ 
 }
 
-
+.template-container {
+  flex: 1;
+  margin-left: 20px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
 .job-content {
   text-align: center;
+  flex: 1;
 }
 
 .job-title {
@@ -42,10 +56,9 @@
 
 .button-container {
   display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
+  justify-content: flex-end; 
   margin-top: 20px;
-  gap: 10px; /* Add spacing between buttons */
-  /* border-top: 1px solid lightgrey; */
+  gap: 10px;  
 }
 
 .create-job-button {
@@ -60,8 +73,7 @@
   color:#f3eeeb;
   font-weight: medium;
 }
-
-/* Add hover effect for cancel button */
+ 
 .luxury-modal-button-cancel {
   color: #c93232;
   background-color: rgb(243, 227, 227);
@@ -70,3 +82,37 @@
 .full-width {
   width: 100%;
 }
+ 
+.side-container {
+  flex: 1;
+  margin-left: 20px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+.template-details-container {
+  text-align: left;
+}
+.scrollable-column{
+  max-height: 270px; /* Set the maximum height for the scrollable column */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Add a border for better separation */
+  padding: 10px; /* Add padding for better appearance */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribute columns evenly */
+}
+.column-checkbox {
+  flex-basis: calc(33.33% - 10px); /* Display 3 columns per row with some spacing */
+  margin-bottom: 10px; /* Add spacing between rows */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+
+
+
+
+
+
+ 
