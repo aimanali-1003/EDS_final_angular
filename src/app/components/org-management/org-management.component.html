@@ -6,22 +6,22 @@
     </h2>
   </div>
 
-  <app-search [placeholderText]="'Search organization by Name ID & Status'"
-    (searchQueryChanged)="performClientSearch($event)" (filterChanged)="applyClientFilter($event)">
-  </app-search>
+  <app-search
+  [placeholderText]="'Search Organization by Name and code'"
+  [searchQuery]="organizationSearchQuery"
+  (searchQueryChanged)="performOrganizationSearch($event)"
+></app-search>
 
   <table class="client-table" style="font-family:'Quicksand', sans-serif;">
     <thead>
-      <tr>
-        <th>ID</th>
-        <th>Organization Name</th>
+      <tr> 
+        <th>Organization Level</th>
         <th>Organization Code</th> 
-        <th>View</th> <!-- "Action" column -->
+        <th>View</th> 
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let org of displayedOrganization" class="client-item">
-        <td>{{ org.organizationID }}</td>
+      <tr *ngFor="let org of displayedOrganization" class="client-item"> 
         <td>{{ org.organizationLevel }}</td>
         <td>{{ org.organizationCode }}</td> 
         <td>

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientService } from 'src/app/services/client.service';
 import { Router } from '@angular/router';
-import { ClientDialogService } from 'src/app/services/client-dialog.service';
-import { SharedService } from 'src/service/shared.service';
+import { ClientDialogService } from 'src/app/services/client-dialog.service'; 
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,8 +21,7 @@ export class ClientsComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private router: Router,
-    private clientDialogService: ClientDialogService,
-    private sharedService: SharedService,
+    private clientDialogService: ClientDialogService, 
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
   ) { }

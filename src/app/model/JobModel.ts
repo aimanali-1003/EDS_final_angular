@@ -6,7 +6,7 @@ export class JobDataModel {
     public endDate: Date | null;
     public active: boolean;
     public clientId: number | null;
-    public client: { orgsOrganizationID: number | null }; // Define a nested 'client' property
+    public client: { orgsOrganizationID: number | null };  
     public orgsOrganizationID: number | null;
     public templateId: number | null;
     public recipientTypeId:  number | null;

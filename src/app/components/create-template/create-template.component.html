@@ -87,7 +87,7 @@
     </div>
   </div>
  
-  <div class="form-row">
+  <div *ngIf="isEdit" class="form-row">
     <mat-slide-toggle [color]="template.active ? 'primary' : 'warn'" [disabled]="isViewOnly" [(ngModel)]="template.active" name="active">Active</mat-slide-toggle>
   </div>
   <mat-card-actions *ngIf="!isViewOnly" class="button-container">

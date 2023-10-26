@@ -17,7 +17,7 @@ export class OrgManagementComponent implements OnInit {
   orgIdToEdit: string | null = null;
   OrgName: string = '';
   pageSize: number = 10; 
-
+  organizationSearchQuery:string='';
   constructor(
     private orgService: OrgService, 
     private dialog:MatDialog,
@@ -58,15 +58,16 @@ export class OrgManagementComponent implements OnInit {
     const endIndex = startIndex + this.pageSize;
     this.displayedOrganization = this.orgs.slice(startIndex, endIndex);
   }
-
-  performClientSearch(query: string) {
-    // Implement the search logic specific to the 'clients' component
-    // Update your displayedCategory based on the query
+  performOrganizationSearch(searchTerm: string) {
+    this.organizationSearchQuery = searchTerm;
+    if (!searchTerm) {
+      this.updateDisplayedOrgs(1);  
+    } else {
+      this.displayedOrganization = this.orgs.filter(
+        (org) =>
+          org.organizationLevel.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          org.organizationCode.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
   }
-  
-  applyClientFilter(filterData: any) {
-    // Implement the filter logic specific to the 'clients' component
-    // Update your displayedCategory based on the filter data
-  }
-  
 }

@@ -22,17 +22,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon'; 
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { FilterComponent } from './components/filter/filter.component'; 
+import { MatTableModule } from '@angular/material/table'; 
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
 import { JobComponent } from './components/job/job.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatOptionModule } from '@angular/material/core';
-import { OrgManagementComponent } from './components/org-management/org-management.component';
-import { TableHeaderComponent } from './components/table-header/table-header.component';
-import { TableDataComponent } from './components/table-data/table-data.component';
+import { OrgManagementComponent } from './components/org-management/org-management.component'; 
 import { ClientFilterComponent } from './components/client-filter/client-filter.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -51,10 +48,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateClientComponent } from './components/create-client/create-client.component';
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
-import { SearchComponent } from './search/search.component'; 
-import { EditOrgComponent } from './components/Edits/edit-org/edit-org.component';
-import { EditJoblogComponent } from './components/Edits/edit-joblog/edit-joblog.component';
-import { EditJobComponent } from './components/Edits/edit-job/edit-job.component';
+import { SearchComponent } from './search/search.component';   
 import { OrgDetailsComponent } from './components/org-details/org-details.component'; 
 
 @NgModule({
@@ -63,12 +57,9 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     DataTemplateComponent,
     ClientsComponent,
     NavbarComponent,
-    PaginationComponent,
-    FilterComponent,
+    PaginationComponent, 
     JobComponent,
-    OrgManagementComponent,
-    TableHeaderComponent,
-    TableDataComponent,
+    OrgManagementComponent, 
     ClientFilterComponent,
     DeleteDialogComponent,
     JobLogComponent,
@@ -77,10 +68,7 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     CreateJobComponent,
     CreateClientComponent,
     CreateCategoryComponent, 
-    SearchComponent, 
-    EditOrgComponent,
-    EditJoblogComponent,
-    EditJobComponent,
+    SearchComponent,   
     OrgDetailsComponent, 
     
   ],
