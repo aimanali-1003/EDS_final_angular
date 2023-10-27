@@ -47,6 +47,7 @@ export class CreateJobComponent implements OnInit {
   dataRecipients: any[] = [];
   selectedDataRecipientTypeId: number | null = null;
   extractionFrequency: string | null = null;
+
   dataRecipientTypes: RecipientTypeDataModel[] = [];
   frequenciesData: FrequencyDataModel[] = [];
   startDate!: Date; // You can initialize it with a default date if needed
@@ -99,11 +100,14 @@ export class CreateJobComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.jobId = params['jobId'];
       this.isViewOnly = params['isViewOnly'];
+     
 
       if (this.jobId != undefined && this.jobId != "" && this.jobId != null && this.jobId != '') {
         this.isEdit = true;
         this.loadJobData();
       }
+
+      
 
     })
   }
@@ -111,6 +115,20 @@ export class CreateJobComponent implements OnInit {
   loadJobData(): void {
     this.jobService.getJob(this.jobId).subscribe((jobData: any) => {
       this.jobData = jobData;
+      this.extractionFrequency = jobData?.Frequency?.FrequencyType || null;
+      this.selectedTemplates = this.jobData.Template?.TemplateID;
+      this.fileFormatstore = this.jobData.FileFormat?.FileFormatName || null;
+      this.selectedDataRecipientTypeId = jobData?.DataRecipient?.RecipientTypeID || null;
+      // this.selectedDataRecipientTypeId = this.jobData.DataRecipient?.RecipientTypeID || null;
+      console.log( jobData?.DataRecipient?.RecipientTypeID)
+
+      if (this.isViewOnly) {
+        // Set the selected template when in view-only mode
+       
+        console.log(this.selectedTemplates);
+      }
+     
+
 
     });
   }
@@ -166,7 +184,7 @@ export class CreateJobComponent implements OnInit {
   }
 
   ValidateFormFields() {
-    if (!this.jobData.jobType) {
+    if (!this.jobData.JobType) {
       this.snackBar.open('Job Name is required.', 'Close', {
         duration: 3000,
       });
@@ -176,10 +194,10 @@ export class CreateJobComponent implements OnInit {
 
   createUpdatejob() {
 
-    this.jobData.templateId = this.selectedTemplates.templateID;
+    this.jobData.templateID = this.selectedTemplates.templateID;
     this.jobData.orgsOrganizationID = this.selectedOrganizationId;
     this.jobData.clientId = this.selectedClientId;
-    this.jobData.recipientTypeId = this.selectedDataRecipientTypeId;
+    this.jobData.RecipientTypeID = this.selectedDataRecipientTypeId;
     this.jobData.frequencyType = this.extractionFrequency;
     this.jobData.fileFormatType = this.fileFormatstore;
 

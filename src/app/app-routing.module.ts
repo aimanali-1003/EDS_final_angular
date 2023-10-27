@@ -38,7 +38,7 @@ const routes: Routes = [
   { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
   { path: 'createJob', component: CreateJobComponent },
   { path:'viewJob/:jobId/:isViewOnly',component: CreateJobComponent},
-  { path:'editJob/:jobId',component:CreateClientComponent},
+  { path:'editJob/:jobId',component:CreateJobComponent},
   {path:'createCategory',component:CreateCategoryComponent},  
   { path: 'org-details/:id', component: OrgDetailsComponent }, 
 ];

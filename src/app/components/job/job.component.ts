@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./job.component.css']
 })
 export class JobComponent implements OnInit {
-  showCategoryForm: boolean = false;
-  job: any[] = [];
+  
+  jobs: any[] = [];
   displayedJob: any[] = []; 
   isEditing = false;
   categoryIdToEdit: string | null = null;
@@ -25,6 +25,8 @@ export class JobComponent implements OnInit {
   headers = CATEGORY;
   jobData: any;
 
+
+
   constructor(
     private jobService: JobService,
     private dialog: MatDialog,
@@ -35,6 +37,7 @@ export class JobComponent implements OnInit {
   
   ngOnInit(): void {
     this.fetchJobs(); 
+    
   }
 
   CreateJobs(){
@@ -42,19 +45,23 @@ export class JobComponent implements OnInit {
   }
 
   viewJob(jobData?: any): void {
-    const jobId = jobData.jobId;
+    console.log(jobData)
+    const jobId = jobData.jobID;
     this.router.navigate(['/viewJob/'+jobId+'/'+true]);    
   }
+ 
 
   openJobModalForEdit(jobData?: any): void {
-    if (jobData && jobData.jobId) {
+    console.log(this.jobData)
+    if (jobData && jobData.jobID) {
       const jobId = jobData.jobID;
-      this.router.navigate(['/editClient', jobId]);
+      
+      this.router.navigate(['/editJob', jobId]);
     }
   }
 
-  deleteJob(jobData: any): void {
-    const jobId = jobData.jobID;
+  deleteJob(job: any): void {
+    const jobId = job.jobID;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         message: 'Are you sure you want to delete this job?',
@@ -68,7 +75,7 @@ export class JobComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.jobService.deleteJob(jobId).subscribe(() => {
-          this.job = this.job.filter(c => c.jobID !== jobId);
+          this.jobs = this.jobs.filter(c => c.jobID !== jobId);
           console.log(jobId);
           this.updateDisplayedJobs(1);
           this.snackBar.open('Job successfully deleted', 'Close', {
@@ -84,16 +91,17 @@ export class JobComponent implements OnInit {
     });
   }
 
+
   private updateDisplayedJobs(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.displayedJob = this.job.slice(startIndex, endIndex);
+    this.displayedJob = this.jobs.slice(startIndex, endIndex);
   }
 
   fetchJobs() {
-    this.jobService.getJobs().subscribe((category: any[]) => {
-      this.job = category;
-      // console.log('Category:', this.job); // Log the clients array
+    this.jobService.getJobs().subscribe((jobs: any[]) => {
+      this.jobs = jobs;
+      console.log(jobs);
       this.updateDisplayedJobs(1);
     });
   }

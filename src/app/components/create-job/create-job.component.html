@@ -9,16 +9,16 @@
         <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Job Name" [(ngModel)]="jobData.jobType"
-                name="jobType" required>
+              <input [disabled]="isViewOnly" matInput placeholder="Job Name" [(ngModel)]="jobData.JobType" name="jobType" required>
             </mat-form-field>
           </div>
+          
 
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="selectedTemplates"
-                (selectionChange)="loadTemplates(selectedTemplates.templateID)" name="TemplateName" required>
-                <mat-option *ngFor="let template of templates" [value]="template">{{ template.templateName
+                (selectionChange)="loadTemplates(selectedTemplates)" name="TemplateName" required>
+                <mat-option *ngFor="let template of templates" [value]="template.templateID">{{ template.templateName
                   }}</mat-option>
               </mat-select>
             </mat-form-field>
