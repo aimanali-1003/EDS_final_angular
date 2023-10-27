@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs'; 
+import { CommonService } from '../shared/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggingService { 
-
-  private apiUrl ='https://localhost:44327';
+ 
   private jobLogs: any[] = [];
-
-  constructor(private http: HttpClient) { }
+  private apiUrl:string; 
+  
+  constructor(private http: HttpClient, private commonService: CommonService) {
+    this.apiUrl = this.commonService.getApiUrl();
+  }
 
   getJobLogs(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/Joblogs`);

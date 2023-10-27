@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientService } from 'src/app/services/client.service';
-import { Router } from '@angular/router';
-import { ClientDialogService } from 'src/app/services/client-dialog.service'; 
+import { Router } from '@angular/router'; 
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,8 +19,7 @@ export class ClientsComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
-    private router: Router,
-    private clientDialogService: ClientDialogService, 
+    private router: Router, 
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
   ) { }
@@ -101,6 +99,7 @@ export class ClientsComponent implements OnInit {
   fetchClients() {
     this.clientService.getClients().subscribe((clients: any[]) => {
       this.clients = clients;  
+      console.log(this.clients)
       this.updateDisplayedClients(1);
     });
   }

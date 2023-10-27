@@ -110,8 +110,13 @@ export class CreateTemplateComponent implements OnInit {
       }
 
       this.template.columnsId = selectedColumnIds;
-      this.templateService.createDataTemplate(this.template).subscribe(() => {});
-      this.router.navigate(['/dataTemplate']);
+      this.templateService.createDataTemplate(this.template).subscribe(() => {
+        this.snackBar.open('Template created successfully', 'Close', {
+          duration: 3000,
+        });
+
+        this.router.navigate(['/dataTemplate']);
+      }); 
     } else { 
       const selectedColumnIds = Object.keys(this.selectedcolumnsForUpdate)
         .filter((key) => this.selectedcolumnsForUpdate[parseInt(key)])
