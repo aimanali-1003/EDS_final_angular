@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core'; 
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
-import { CATEGORY } from '../constants/table-headers.constants';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JobService } from 'src/app/services/job.service';
 import { Router } from '@angular/router';
@@ -22,7 +21,6 @@ export class JobComponent implements OnInit {
   selectedJob: any = {};
   dataRecipients: any[] = [];
   notificationRecipients: any[] = [];
-  headers = CATEGORY;
   jobData: any;
 
 
@@ -45,7 +43,6 @@ export class JobComponent implements OnInit {
   }
 
   viewJob(jobData?: any): void {
-    console.log(jobData)
     const jobId = jobData.jobID;
     this.router.navigate(['/viewJob/'+jobId+'/'+true]);    
   }

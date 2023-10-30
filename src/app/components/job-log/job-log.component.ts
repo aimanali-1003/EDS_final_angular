@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LoggingService } from 'src/app/services/logging.service';
-import { JOBLOG } from '../constants/table-headers.constants';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
@@ -14,7 +13,7 @@ import { Router } from '@angular/router';
 export class JobLogComponent implements OnInit {
   logs: any[] = [];
   pageSize: number = 10;
-  headers = JOBLOG;
+
   displayedJobLog: any[] = [];
   currentPage: number = 1; // Initialize to page 1
 

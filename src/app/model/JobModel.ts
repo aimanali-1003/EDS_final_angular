@@ -18,6 +18,9 @@ export class JobDataModel {
     public Frequency: { FrequencyID: number | null, FrequencyType: string | null } | null; // Include 'frequency' property
     public Template: { TemplateID: number | null, TemplateName: string | null } | null; // Include 'template' property
     public FileFormat: { FileFormatID: number | null, FileFormatName: string | null } | null;
+    public Client: { ClientID: number | null, ClientName: string | null } | null;
+    public OrganizationID: number | null;
+    public OrganizationLevel: string | null;
   
     constructor() {
       this.JobType = "";
@@ -37,6 +40,9 @@ export class JobDataModel {
       this.Frequency = { FrequencyID: null, FrequencyType: null }; // Initialize the 'frequency' property
       this.Template = { TemplateID: null, TemplateName: null }; // Initialize the 'template' property
       this.FileFormat = { FileFormatID: null, FileFormatName: null };
+      this.Client = { ClientID: null, ClientName: null };
+      this.OrganizationID = null;
+      this.OrganizationLevel = null;
       
     }
   }

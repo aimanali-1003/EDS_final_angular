@@ -22,17 +22,13 @@ import { FileFormatService } from 'src/app/services/file-format.service';
   styleUrls: ['./create-job.component.css']
 })
 export class CreateJobComponent implements OnInit {
-  extractionDate!: Date;
 
-  jobs: any[] = [];
-  showTimeInput: boolean = false;
   selectedDays: { [key: string]: boolean } = {}; // Initialize selectedDays object
   isViewOnly: boolean = false;
   jobId: string = '';
   isEdit: boolean = false;
   jobData: JobDataModel = new JobDataModel();
-  frequencyData: FrequencyDataModel = new FrequencyDataModel();
-  templateData: DataTemplateModel = new DataTemplateModel();
+ 
   templates: any[] = [];
   template: DataTemplateModel = new DataTemplateModel();
   selectedTemplates: any;
@@ -44,7 +40,7 @@ export class CreateJobComponent implements OnInit {
   clients: any[] = [];
   organizations: OrgDataModel = new OrgDataModel();
   RecipientTypeData: RecipientTypeDataModel = new RecipientTypeDataModel();
-  dataRecipients: any[] = [];
+  
   selectedDataRecipientTypeId: number | null = null;
   extractionFrequency: string | null = null;
 
@@ -59,7 +55,7 @@ export class CreateJobComponent implements OnInit {
   showDateFields: boolean = false;
   startTime!: string;
   endTime!: string;
-  selectedItems: string[] = [];
+  
   templateId: string = '';
 
   columns: string[] = [];
@@ -100,14 +96,14 @@ export class CreateJobComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.jobId = params['jobId'];
       this.isViewOnly = params['isViewOnly'];
-     
+
 
       if (this.jobId != undefined && this.jobId != "" && this.jobId != null && this.jobId != '') {
         this.isEdit = true;
         this.loadJobData();
       }
 
-      
+
 
     })
   }
@@ -117,17 +113,24 @@ export class CreateJobComponent implements OnInit {
       this.jobData = jobData;
       this.extractionFrequency = jobData?.Frequency?.FrequencyType || null;
       this.selectedTemplates = this.jobData.Template?.TemplateID;
+      console.log('Template: ',this.selectedTemplates);
       this.fileFormatstore = this.jobData.FileFormat?.FileFormatName || null;
       this.selectedDataRecipientTypeId = jobData?.DataRecipient?.RecipientTypeID || null;
+      this.jobData.OrganizationID = jobData.Client.Orgs.OrganizationID || null;
+      this.jobData.OrganizationLevel = jobData.Client.Orgs.OrganizationLevel || null;
+      this.selectedOrganizationId =  this.jobData.OrganizationID;
+      this.selectedClientId = this.jobData.Client?.ClientID || null;
+
       // this.selectedDataRecipientTypeId = this.jobData.DataRecipient?.RecipientTypeID || null;
-      console.log( jobData?.DataRecipient?.RecipientTypeID)
+      console.log( 'Job Data ID', this.jobData)
+      console.log('get org id',this.jobData.Client?.ClientID)
 
       if (this.isViewOnly) {
         // Set the selected template when in view-only mode
-       
+
         console.log(this.selectedTemplates);
       }
-     
+
 
 
     });

@@ -39,7 +39,7 @@
 
           <div class="form-item">
             <mat-form-field class="full-width">
-              <mat-select [disabled]="!selectedOrganizationId || isViewOnly" placeholder="Select Client"
+              <mat-select [disabled]="isViewOnly" placeholder="Select Client"
                 [(ngModel)]="selectedClientId" name="clientName" required>
                 <mat-option *ngFor="let client of organizationClients" [value]="client.clientID">{{ client.clientName
                   }}</mat-option>
