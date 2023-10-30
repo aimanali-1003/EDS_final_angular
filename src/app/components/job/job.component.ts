@@ -88,11 +88,17 @@ export class JobComponent implements OnInit {
     });
   }
 
-
   private updateDisplayedJobs(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.displayedJob = this.jobs.slice(startIndex, endIndex);
+    this.displayedJob = this.jobs
+    .slice(0)
+    .sort((a,b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateB - dateA;
+    })
+    .slice(startIndex, endIndex);
   }
 
   fetchJobs() {

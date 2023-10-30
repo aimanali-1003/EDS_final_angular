@@ -113,7 +113,6 @@ export class CreateJobComponent implements OnInit {
       this.jobData = jobData;
       this.extractionFrequency = jobData?.Frequency?.FrequencyType || null;
       this.selectedTemplates = this.jobData.Template?.TemplateID;
-      console.log('Template: ',this.selectedTemplates);
       this.fileFormatstore = this.jobData.FileFormat?.FileFormatName || null;
       this.selectedDataRecipientTypeId = jobData?.DataRecipient?.RecipientTypeID || null;
       this.jobData.OrganizationID = jobData.Client.Orgs.OrganizationID || null;
@@ -122,8 +121,6 @@ export class CreateJobComponent implements OnInit {
       this.selectedClientId = this.jobData.Client?.ClientID || null;
 
       // this.selectedDataRecipientTypeId = this.jobData.DataRecipient?.RecipientTypeID || null;
-      console.log( 'Job Data ID', this.jobData)
-      console.log('get org id',this.jobData.Client?.ClientID)
 
       if (this.isViewOnly) {
         // Set the selected template when in view-only mode
@@ -198,6 +195,7 @@ export class CreateJobComponent implements OnInit {
   createUpdatejob() {
 
     this.jobData.templateID = this.selectedTemplates.templateID;
+    console.log(this.jobData)
     this.jobData.orgsOrganizationID = this.selectedOrganizationId;
     this.jobData.clientId = this.selectedClientId;
     this.jobData.RecipientTypeID = this.selectedDataRecipientTypeId;
