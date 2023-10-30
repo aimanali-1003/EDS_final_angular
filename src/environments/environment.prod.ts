@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  baseApiUrl: 'https://smappqa.mysodexo.com/site1'
 };

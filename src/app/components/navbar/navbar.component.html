@@ -36,29 +36,29 @@
 			<div class="submenu" [ngClass]="{expanded: showSubmenu, 'not-expanded': !showSubmenu }" *ngIf="isShowing || isExpanded">
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon">supervisor_account</mat-icon>
-					<a class="sub-heading" mat-list-item href="/clients" >Client Management</a>
+					<a class="sub-heading" mat-list-item [routerLink]="['/clients']" >Client Management</a>
 				</mat-list-item>
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon"> business</mat-icon>
-					<a class="sub-heading" mat-list-item href="/orgs">Organization Management</a>
+					<a class="sub-heading" mat-list-item [routerLink]="['/orgs']">Organization Management</a>
 				</mat-list-item>
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon">device_hub</mat-icon>
-					<a class="sub-heading" mat-list-item href="/category">Category Management</a>
+					<a class="sub-heading" mat-list-item [routerLink]="['/category']">Category Management</a>
 				</mat-list-item>
 				<mat-list-item class="menu-item">
 					<mat-icon class="sub-heading-icon">work</mat-icon>
-					<a class="sub-heading" mat-list-item href="/joblog">Job Log Management</a>
+					<a class="sub-heading" mat-list-item [routerLink]="['/joblog']">Job Log Management</a>
 				</mat-list-item>
 			</div>
 
 			<mat-list-item class="parent" >
 				<mat-icon class="heading-icon">notes</mat-icon>
-				<a class="heading-text" *ngIf="isExpanded || isShowing" href="dataTemplate">Template</a>
+				<a class="heading-text" *ngIf="isExpanded || isShowing" [routerLink]="['/dataTemplate']">Template</a>
 			</mat-list-item>
 			<mat-list-item class="parent" >
 				<mat-icon class="heading-icon">speaker_notes</mat-icon>
-				<a class="heading-text" *ngIf="isExpanded || isShowing" href="jobs">Jobs</a>
+				<a class="heading-text" *ngIf="isExpanded || isShowing" [routerLink]="['jobs']">Jobs</a>
 			</mat-list-item>
 
 			<mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
