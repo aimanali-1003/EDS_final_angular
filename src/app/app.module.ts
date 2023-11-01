@@ -31,7 +31,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatOptionModule } from '@angular/material/core';
 import { OrgManagementComponent } from './components/org-management/org-management.component'; 
 import { ClientFilterComponent } from './components/client-filter/client-filter.component';
-import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
@@ -46,10 +46,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatStepperModule} from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { CreateClientComponent } from './components/create-client/create-client.component';
-import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
+import { CreateClientComponent } from './components/create-client/create-client.component'; 
 import { SearchComponent } from './search/search.component';   
-import { OrgDetailsComponent } from './components/org-details/org-details.component'; 
+import { OrgDetailsComponent } from './components/org-details/org-details.component';
+import { ViewCategoryComponent } from './components/view-category/view-category.component'; 
 
 @NgModule({
   declarations: [
@@ -66,10 +66,9 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     CategoryComponent,
     CreateTemplateComponent,
     CreateJobComponent,
-    CreateClientComponent,
-    CreateCategoryComponent, 
+    CreateClientComponent, 
     SearchComponent,   
-    OrgDetailsComponent, 
+    OrgDetailsComponent, ViewCategoryComponent, 
     
   ],
   imports: [

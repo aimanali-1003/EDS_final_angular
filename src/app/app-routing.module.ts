@@ -8,8 +8,8 @@ import { OrgManagementComponent } from './components/org-management/org-manageme
 import { CreateTemplateComponent } from './components/create-template/create-template.component';
 import { CreateJobComponent } from './components/create-job/create-job.component';
 import { CategoryComponent } from './components/category/category.component';
-import { CreateClientComponent } from './components/create-client/create-client.component';
-import { CreateCategoryComponent } from './components/create-category/create-category.component';   
+import { CreateClientComponent } from './components/create-client/create-client.component'; 
+import { ViewCategoryComponent } from './components/view-category/view-category.component';
 import { OrgDetailsComponent } from './components/org-details/org-details.component';
 
 const routes: Routes = [
@@ -30,16 +30,11 @@ const routes: Routes = [
   { path: 'category', component: CategoryComponent },
   { path:'createClient',component:CreateClientComponent}, 
   { path:'editClient/:clientId',component:CreateClientComponent},
-  { path:'viewClient/:clientId/:isViewOnly',component:CreateClientComponent},
-  {
-    path: 'editCategory/:id',
-    component: CreateCategoryComponent 
-  }, 
-  { path:'viewCategory/:id/:isViewOnly',component:CreateCategoryComponent},
+  { path:'viewClient/:clientId/:isViewOnly',component:CreateClientComponent}, 
+  { path:'viewCategory/:id/:isViewOnly',component:ViewCategoryComponent},
   { path: 'createJob', component: CreateJobComponent },
   { path:'viewJob/:jobId/:isViewOnly',component: CreateJobComponent},
-  { path:'editJob/:jobId',component:CreateJobComponent},
-  {path:'createCategory',component:CreateCategoryComponent},  
+  { path:'editJob/:jobId',component:CreateJobComponent}, 
   { path: 'org-details/:id', component: OrgDetailsComponent }, 
 ];
 

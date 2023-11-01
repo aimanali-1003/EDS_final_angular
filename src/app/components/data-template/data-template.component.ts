@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/services/category.service';
 import { ActivatedRoute } from '@angular/router';

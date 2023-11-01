@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: 'https://localhost:44327'
-  // baseApiUrl: 'https://smappqa.mysodexo.com/site1'
+   baseApiUrl: 'https://localhost:44327'
+  //  baseApiUrl: 'https://smappqa.mysodexo.com/site1'
 };
 
 /*

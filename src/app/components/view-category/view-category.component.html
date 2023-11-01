@@ -1,0 +1,22 @@
+<div class="client">
+    <div class="client-content">
+        <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+            View Category</h2>
+
+        <form class="form-grid">
+            <div class="form-row">
+                <mat-form-field class="form-item">
+                    <input [disabled]="isViewOnly" matInput placeholder="Category Name"
+                        [(ngModel)]="categoryData.categoryName" name="categoryName" required>
+                </mat-form-field>
+            </div>
+
+            <div class="form-row">
+                <mat-form-field class="form-item">
+                    <input [disabled]="isViewOnly" matInput placeholder="Category Code"
+                        [(ngModel)]="categoryData.categoryCode" name="categoryCode" required>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>

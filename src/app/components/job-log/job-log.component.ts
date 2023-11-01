@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoggingService } from 'src/app/services/logging.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 import { Router } from '@angular/router';
 
 @Component({

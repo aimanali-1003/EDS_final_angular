@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'; 
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
+import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JobService } from 'src/app/services/job.service';
 import { Router } from '@angular/router';

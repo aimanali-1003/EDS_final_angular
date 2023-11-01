@@ -4,6 +4,7 @@ export class clientDataModel{
     public clientCode :string;
     public organizationId: string;
     public active:boolean;
+    public isDelete:boolean;
 
     constructor(){
         this.clientID = null;
@@ -11,5 +12,6 @@ export class clientDataModel{
         this.clientCode = "";
         this.organizationId = "";
         this.active = false;
+        this.isDelete = false;
     }
 }

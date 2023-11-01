@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.component';
+import { Router, ActivatedRoute } from '@angular/router'; 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -12,20 +9,15 @@ import { DeleteDialogComponent } from 'src/app/delete-dialog/delete-dialog.compo
 export class CategoryComponent implements OnInit {
   showCategoryForm: boolean = false;
   category: any[] = [];
-  displayedCategory: any[] = []; 
-  isEditing = false;
+  displayedCategory: any[] = [];  
   categoryIdToEdit: string | null = null;
   categoryName: string = '';
-  pageSize: number = 10;
-  isViewingCategory: boolean = false;
+  pageSize: number = 10; 
   categoryData: any;
   categorySearchQuery: string = '';
 
   constructor(
-    private categoryService: CategoryService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute, 
+    private categoryService: CategoryService, 
     private router: Router,
   ) { }
 
@@ -34,89 +26,26 @@ export class CategoryComponent implements OnInit {
   }
 
   ViewCategory(category: any): void {
-    this.categoryData = category;
-    this.isViewingCategory = true;
+    this.categoryData = category; 
     this.router.navigate(['/viewCategory/' + category.categoryID+'/'+true]);
   } 
-  
-  openModalForEdit(category?: any): void {
-    if (category && category.categoryID) {
-      const categoryID = category.categoryID;
-      this.router.navigate(['/editCategory', categoryID]);
-    }
-  }
-
-  deleteCategory(category: any): void {
-    const categoryId = category;
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {
-        message: 'Are you sure you want to delete this category?',
-        buttonText: {
-          ok: 'Delete',
-          cancel: 'Cancel'
-        }
-      }
-    });
-  
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.categoryService.deleteCategory(categoryId).subscribe(() => {
-          this.category = this.category.filter(c => c.categoryId !== categoryId);
-          this.fetchCategories(); // Refresh the categories after deletion
-          this.snackBar.open('Category successfully deleted', 'Close', {
-            duration: 2000,
-          });
-        }, (error) => {
-          console.error('Error deleting category:', error);
-          this.snackBar.open('Error deleting category', 'Close', {
-            duration: 2000,
-          });
-        });
-      }
-    });
-  }
-  
-
+   
   fetchCategories() {
     this.categoryService.getCategory().subscribe((category: any[]) => {
       this.category = category;
       this.displayedCategory=category; 
       this.updateDisplayedCategory(1);
     });
-  }
-
-  CreateCategory(){
-    this.router.navigate(['/createCategory']);
-  }
+  } 
 
   onPageChange(pageNumber: number) {
     this.updateDisplayedCategory(pageNumber);
-  }
-
-  saveClient() {
-    if (this.isEditing && this.categoryIdToEdit) { 
-      this.categoryService.updateCategory(this.categoryIdToEdit, { name: this.categoryName }).subscribe(() => {
-        this.showCategoryForm = false;
-        this.fetchCategories();
-      });
-    } else { 
-      this.categoryService.createCategory({ name: this.categoryName }).subscribe(() => {
-        this.showCategoryForm = false;
-        this.fetchCategories();
-      });
-    }
-  }
-
-  cancelEdit() {
-    this.showCategoryForm = false;
-  }
-
+  } 
 
   performCategorySearch(query: string) {
     if (query) {
       this.displayedCategory = this.filterCategories(query);
-    } else {
-      // If the search query is empty, reset the displayed data to the original data.
+    } else { 
       this.displayedCategory = this.category;
     }
   }
