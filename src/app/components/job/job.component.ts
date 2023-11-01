@@ -49,7 +49,7 @@ export class JobComponent implements OnInit {
  
 
   openJobModalForEdit(jobData?: any): void {
-    console.log(this.jobData)
+    // console.log(this.jobData)
     if (jobData && jobData.jobID) {
       const jobId = jobData.jobID;
       
@@ -73,7 +73,7 @@ export class JobComponent implements OnInit {
       if (confirmed) {
         this.jobService.deleteJob(jobId).subscribe(() => {
           this.jobs = this.jobs.filter(c => c.jobID !== jobId);
-          console.log(jobId);
+          // console.log(jobId);
           this.updateDisplayedJobs(1);
           this.snackBar.open('Job successfully deleted', 'Close', {
             duration: 2000,
@@ -104,7 +104,7 @@ export class JobComponent implements OnInit {
   fetchJobs() {
     this.jobService.getJobs().subscribe((jobs: any[]) => {
       this.jobs = jobs;
-      console.log(jobs);
+      // console.log(jobs);
       this.updateDisplayedJobs(1);
     });
   }

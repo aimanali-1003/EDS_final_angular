@@ -15,7 +15,6 @@ import { FrequencyService } from 'src/app/services/frequency.service';
 import { FrequencyDataModel } from 'src/app/model/Frequency.model';
 import { FileFormatDataModel } from 'src/app/model/FileFormat.model';
 import { FileFormatService } from 'src/app/services/file-format.service';
-
 @Component({
   selector: 'app-create-job',
   templateUrl: './create-job.component.html',
@@ -43,22 +42,24 @@ export class CreateJobComponent implements OnInit {
   
   selectedDataRecipientTypeId: number | null = null;
   extractionFrequency: string | null = null;
+  startTime: string | null = null;
+// Use the correct data type (e.g., Time) instead of string
+
+  // selectedDate: Date | null = null;
 
   dataRecipientTypes: RecipientTypeDataModel[] = [];
   frequenciesData: FrequencyDataModel[] = [];
-  startDate!: Date; // You can initialize it with a default date if needed
-  endDate!: Date;
   frequencies: any[] = [];
   fileFormat: any[] = [];
   fileFormatJobs: FileFormatDataModel[] = [];
+  ClientData: clientDataModel[] = [];
   fileFormatstore: string | null = null;
   showDateFields: boolean = false;
-  startTime!: string;
-  endTime!: string;
   
   templateId: string = '';
 
   columns: string[] = [];
+  selectedDate: string | null = null;
 
 
   constructor(
@@ -88,10 +89,15 @@ export class CreateJobComponent implements OnInit {
       this.fileFormatJobs = fileFormat;
     });
 
+    this.clientService.getClients().subscribe((clients: any) => {
+      this.ClientData = clients;
+      console.log(this.ClientData)
+    })
+
 
 
     this.loadTemplatesDropDown();
-    this.loadOrganizations();
+    // this.loadOrganizations();
 
     this.route.params.subscribe((params) => {
       this.jobId = params['jobId'];
@@ -102,42 +108,42 @@ export class CreateJobComponent implements OnInit {
         this.isEdit = true;
         this.loadJobData();
       }
-
-
-
     })
   }
 
   loadJobData(): void {
     this.jobService.getJob(this.jobId).subscribe((jobData: any) => {
       this.jobData = jobData;
+    
+
       this.extractionFrequency = jobData?.Frequency?.FrequencyType || null;
       this.selectedTemplates = this.jobData.Template?.TemplateID;
       this.fileFormatstore = this.jobData.FileFormat?.FileFormatName || null;
       this.selectedDataRecipientTypeId = jobData?.DataRecipient?.RecipientTypeID || null;
-      this.jobData.OrganizationID = jobData.Client.Orgs.OrganizationID || null;
-      this.jobData.OrganizationLevel = jobData.Client.Orgs.OrganizationLevel || null;
-      this.selectedOrganizationId =  this.jobData.OrganizationID;
-      this.selectedClientId = this.jobData.Client?.ClientID || null;
 
-      // this.selectedDataRecipientTypeId = this.jobData.DataRecipient?.RecipientTypeID || null;
-
-      if (this.isViewOnly) {
-        // Set the selected template when in view-only mode
-
-        console.log(this.selectedTemplates);
+      console.log('Start date print',this.jobData.StartDate)
+      if (jobData.StartDate) {
+        const startDate = new Date(jobData.StartDate);
+        this.selectedDate = startDate.toISOString().split('T')[0];
       }
 
+      this.selectedOrganizationId =  this.jobData.OrganizationID;
+
+      this.selectedClientId = this.jobData.Client?.ClientID || null;
+      // console.log(this.selectedClientId);
 
 
+      if (this.isViewOnly) {
+
+      }
     });
   }
 
-  onOrganizationSelected(organizationId: number) {
-    this.clients = [];
-    this.organizations.organizationID = organizationId;
-    this.loadOrganizationClients(organizationId);
-  }
+  // onOrganizationSelected(organizationId: number) {
+  //   this.clients = [];
+  //   this.organizations.organizationID = organizationId;
+  //   this.loadOrganizationClients(organizationId);
+  // }
 
 
   loadTemplatesDropDown(): void {
@@ -147,37 +153,35 @@ export class CreateJobComponent implements OnInit {
   }
 
   loadTemplates(templateId: string) {
+    
     this.templateId = templateId;
     this.dataService.getTemplate(templateId).subscribe((template: any) => {
       this.template = template;
-      console.log(this.template.templateName);
-      console.log(this.template.categoryID);
       this.viewTemplateColumns();
     });
   }
   viewTemplateColumns() {
     this.dataService.getColumnsOfTemplate(this.templateId).subscribe((column: string[]) => {
       this.columns = column;
-      console.log("Columns", this.columns);
     });
   }
 
 
-  loadOrganizations(): void {
-    this.clientService.getOrgs().subscribe((orgs: any[]) => {
-      this.orgs = orgs;
-    });
-  }
+  // loadOrganizations(): void {
+  //   this.clientService.getOrgs().subscribe((orgs: any[]) => {
+  //     this.orgs = orgs;
+  //   });
+  // }
 
-  loadOrganizationClients(organizationId: number): void {
+  // loadOrganizationClients(organizationId: number): void {
 
-    if (organizationId !== null) {
-      this.orgService.getClientsForOrganization(organizationId)
-        .subscribe((clients: clientDataModel[]) => {
-          this.organizationClients = clients;
-        });
-    }
-  }
+  //   if (organizationId !== null) {
+  //     this.orgService.getClientsForOrganization(organizationId)
+  //       .subscribe((clients: clientDataModel[]) => {
+  //         this.organizationClients = clients;
+  //       });
+  //   }
+  // }
 
   goToJobScreen() {
     this.router.navigate(['/jobs']);
@@ -191,16 +195,46 @@ export class CreateJobComponent implements OnInit {
       return;
     }
   }
-
   createUpdatejob() {
 
-    this.jobData.templateID = this.selectedTemplates.templateID;
-    console.log(this.jobData)
-    this.jobData.orgsOrganizationID = this.selectedOrganizationId;
+    // console.log(this.jobData)
+    // if (this.jobData.StartTime) {
+    //   this.startTime = this.jobData.StartTime;
+    //   console.log(this.startTime)
+    // } else {
+    //   this.startTime = null;
+    // }
+    // if (this.selectedDate && this.startTime) {
+    //   const startDate = new Date(this.selectedDate);
+    //   const timeParts = this.startTime.split(':');
+    //   if (timeParts.length === 2) {
+    //     const hours = parseInt(timeParts[0]);
+    //     const minutes = parseInt(timeParts[1]);
+    //     startDate.setHours(hours, minutes);
+    //     this.jobData.StartDate = startDate;
+    //     console.log(this.jobData);
+    //   }
+    // }
+    console.log('selected Date', this.selectedDate)
+    console.log('Start Time', this.jobData.StartTime)
+    if (this.selectedDate && this.jobData.StartTime) {
+      const combinedDateTime = new Date(this.selectedDate);
+      const timeParts = this.jobData.StartTime.split(':');
+      combinedDateTime.setHours(+timeParts[0]);
+      combinedDateTime.setMinutes(+timeParts[1]);
+      this.jobData.StartDate = combinedDateTime;
+    }
+    console.log(this.jobData);
+    this.jobData.templateID = this.selectedTemplates;
+    // this.jobData.orgsOrganizationID = this.selectedOrganizationId;
     this.jobData.clientId = this.selectedClientId;
     this.jobData.RecipientTypeID = this.selectedDataRecipientTypeId;
     this.jobData.frequencyType = this.extractionFrequency;
     this.jobData.fileFormatType = this.fileFormatstore;
+    // this.jobData.startDate = this.startDate;
+  
+    // console.log('Start Date:', this.jobData.startDate);
+  
 
     if (this.isEdit) {
 
@@ -219,8 +253,6 @@ export class CreateJobComponent implements OnInit {
         }
       );
     } else {
-
-      console.log(this.jobData);
       this.jobService.createJob(this.jobData).subscribe((response: any) => {
 
         this.snackBar.open('Job created successfully', 'Close', {
