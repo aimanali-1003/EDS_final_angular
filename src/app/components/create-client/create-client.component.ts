@@ -107,7 +107,7 @@ export class CreateClientComponent implements OnInit {
           this.router.navigate(['/clients']);
         },
         (error: any) => {
-          this.snackBar.open('Error updating client' + error.error, 'Close', {
+          this.snackBar.open('Error updating ' + error.error, 'Close', {
             duration: 2000,
           });
         }

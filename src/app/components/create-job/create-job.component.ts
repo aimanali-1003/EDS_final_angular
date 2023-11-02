@@ -6,7 +6,7 @@ import { JobDataModel } from 'src/app/model/JobModel';
 import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 import { ClientService } from 'src/app/services/client.service';
 import { clientDataModel } from 'src/app/model/ClientModel';
-import { OrgService } from 'src/app/services/org.service';
+// import { OrgService } from 'src/app/services/org.service';
 import { DataService } from 'src/app/services/data.service';
 import { OrgDataModel } from 'src/app/model/OrgDataModel';
 import { DataRecipientService } from 'src/app/services/data-recipient.service';
@@ -15,6 +15,7 @@ import { FrequencyService } from 'src/app/services/frequency.service';
 import { FrequencyDataModel } from 'src/app/model/Frequency.model';
 import { FileFormatDataModel } from 'src/app/model/FileFormat.model';
 import { FileFormatService } from 'src/app/services/file-format.service';
+
 @Component({
   selector: 'app-create-job',
   templateUrl: './create-job.component.html',
@@ -22,7 +23,8 @@ import { FileFormatService } from 'src/app/services/file-format.service';
 })
 export class CreateJobComponent implements OnInit {
 
-  selectedDays: { [key: string]: boolean } = {}; // Initialize selectedDays object
+  selectedTime!: Date;
+  // selectedDays: { [key: string]: boolean } = {}; // Initialize selectedDays object
   isViewOnly: boolean = false;
   jobId: string = '';
   isEdit: boolean = false;
@@ -42,7 +44,7 @@ export class CreateJobComponent implements OnInit {
   
   selectedDataRecipientTypeId: number | null = null;
   extractionFrequency: string | null = null;
-  startTime: string | null = null;
+  
 // Use the correct data type (e.g., Time) instead of string
 
   // selectedDate: Date | null = null;
@@ -55,11 +57,13 @@ export class CreateJobComponent implements OnInit {
   ClientData: clientDataModel[] = [];
   fileFormatstore: string | null = null;
   showDateFields: boolean = false;
-  
+  combinedDateTime!: string;
+  // selectedDay!: string;
   templateId: string = '';
 
   columns: string[] = [];
   selectedDate: string | null = null;
+  selectedDay: string | null = null; 
 
 
   constructor(
@@ -69,10 +73,13 @@ export class CreateJobComponent implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     private clientService: ClientService,
-    private orgService: OrgService,
+    // private orgService: OrgService,
     private dataRecipientService: DataRecipientService,
     private frequencyService: FrequencyService,
-    private fileformatService: FileFormatService) { }
+    private fileformatService: FileFormatService
+    ) {
+     
+     }
 
 
   ngOnInit(): void {
@@ -97,7 +104,6 @@ export class CreateJobComponent implements OnInit {
 
 
     this.loadTemplatesDropDown();
-    // this.loadOrganizations();
 
     this.route.params.subscribe((params) => {
       this.jobId = params['jobId'];
@@ -114,6 +120,7 @@ export class CreateJobComponent implements OnInit {
   loadJobData(): void {
     this.jobService.getJob(this.jobId).subscribe((jobData: any) => {
       this.jobData = jobData;
+      console.log('load JOb Data', this.jobData)
     
 
       this.extractionFrequency = jobData?.Frequency?.FrequencyType || null;
@@ -130,9 +137,6 @@ export class CreateJobComponent implements OnInit {
       this.selectedOrganizationId =  this.jobData.OrganizationID;
 
       this.selectedClientId = this.jobData.Client?.ClientID || null;
-      // console.log(this.selectedClientId);
-
-
       if (this.isViewOnly) {
 
       }
@@ -197,26 +201,6 @@ export class CreateJobComponent implements OnInit {
   }
   createUpdatejob() {
 
-    // console.log(this.jobData)
-    // if (this.jobData.StartTime) {
-    //   this.startTime = this.jobData.StartTime;
-    //   console.log(this.startTime)
-    // } else {
-    //   this.startTime = null;
-    // }
-    // if (this.selectedDate && this.startTime) {
-    //   const startDate = new Date(this.selectedDate);
-    //   const timeParts = this.startTime.split(':');
-    //   if (timeParts.length === 2) {
-    //     const hours = parseInt(timeParts[0]);
-    //     const minutes = parseInt(timeParts[1]);
-    //     startDate.setHours(hours, minutes);
-    //     this.jobData.StartDate = startDate;
-    //     console.log(this.jobData);
-    //   }
-    // }
-    console.log('selected Date', this.selectedDate)
-    console.log('Start Time', this.jobData.StartTime)
     if (this.selectedDate && this.jobData.StartTime) {
       const combinedDateTime = new Date(this.selectedDate);
       const timeParts = this.jobData.StartTime.split(':');
@@ -224,21 +208,24 @@ export class CreateJobComponent implements OnInit {
       combinedDateTime.setMinutes(+timeParts[1]);
       this.jobData.StartDate = combinedDateTime;
     }
-    console.log(this.jobData);
+
     this.jobData.templateID = this.selectedTemplates;
     // this.jobData.orgsOrganizationID = this.selectedOrganizationId;
     this.jobData.clientId = this.selectedClientId;
     this.jobData.RecipientTypeID = this.selectedDataRecipientTypeId;
     this.jobData.frequencyType = this.extractionFrequency;
     this.jobData.fileFormatType = this.fileFormatstore;
-    // this.jobData.startDate = this.startDate;
-  
-    // console.log('Start Date:', this.jobData.startDate);
-  
 
+
+    console.log('Updating Job',this.jobData)
     if (this.isEdit) {
+      const Data = {
+        JobID: 1, // Specify the ID of the job you want to update
+        // Other properties that need to be updated
+      };
+      console.log('updating job data', this.jobId)
 
-      this.jobService.updateJob(this.jobId, this.jobData).subscribe(
+      this.jobService.updateJob(this.jobId, Data).subscribe(
         (response: any) => {
           this.snackBar.open('Job updated successfully', 'Close', {
             duration: 2000,
@@ -272,5 +259,4 @@ export class CreateJobComponent implements OnInit {
     }
 
   }
-
 }

@@ -49,7 +49,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateClientComponent } from './components/create-client/create-client.component'; 
 import { SearchComponent } from './search/search.component';   
 import { OrgDetailsComponent } from './components/org-details/org-details.component';
-import { ViewCategoryComponent } from './components/view-category/view-category.component'; 
+import { ViewCategoryComponent } from './components/view-category/view-category.component';   
+import { DragDropModule } from '@angular/cdk/drag-drop'; 
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,7 @@ import { ViewCategoryComponent } from './components/view-category/view-category.
   ],
   imports: [
     BrowserModule,
+    MatTreeModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
@@ -114,7 +117,8 @@ import { ViewCategoryComponent } from './components/view-category/view-category.
     MatCheckboxModule,
     MatDividerModule, 
     MatSlideToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule, 
+    DragDropModule
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent], 

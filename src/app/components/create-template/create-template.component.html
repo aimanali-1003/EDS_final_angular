@@ -46,6 +46,13 @@
     </div>
   </div>
 
+  <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let columnName of template.columnNames | keyvalue" cdkDrag>
+      {{ columnName.key }}
+       <button (click)="deleteColumn(columnName.key)" class="btn btn-sm btn-danger">X</button>
+    </div>
+  </div>
+
   <div *ngIf="isEdit && !isViewOnly">
     <div class="roww">
       <mat-label>Select Columns</mat-label>

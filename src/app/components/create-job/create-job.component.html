@@ -25,6 +25,7 @@
           </div>
 
         </div>
+        
 
         <div class="form-row">
           <!-- <div class="form-item">
@@ -59,6 +60,14 @@
             </mat-form-field>
           </div>
 
+          <!-- <div class="form-row">
+            <div class="form-item">
+              <mat-form-field class="full-width">
+                <input [disabled]="isViewOnly" matInput placeholder="Date and Time" [(ngModel)]="combinedDateTime" name="combinedDateTime" required>
+              </mat-form-field>
+            </div>
+          </div>
+ -->
 
           <div class="form-item">
             <mat-form-field class="full-width">
@@ -75,28 +84,28 @@
 
         <div *ngIf="extractionFrequency === 'Once'">
           <mat-form-field class="full-width">
-            <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date"
-              required>
+            <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date" required>
           </mat-form-field>
-
+        
           <mat-form-field class="full-width">
-            <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
-              required>
+            <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time" required>
           </mat-form-field>
-
+        
+          <!-- Hidden input to store the combined date and time -->
+          <input type="hidden" [(ngModel)]="combinedDateTime" name="CombinedDateTime">
         </div>
 
         <div *ngIf="extractionFrequency === 'Daily'">
           <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
+            <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
               required>
           </mat-form-field>
         </div>
 
-        <div *ngIf="extractionFrequency === 'Weekly'">
-          <mat-form-field class="full-width">
-            <mat-label>Select Days of the Week</mat-label>
-            <mat-select [(ngModel)]="selectedDays" name="selectedDays" multiple>
+        <div *ngIf="extractionFrequency === 'Weekly'" >
+          <mat-form-field class="full-width" >
+            <mat-label>Select Day of the Week</mat-label>
+            <mat-select [(ngModel)]="jobData.DayofWeek_Lkp" name="selectedDay" [disabled]="isViewOnly">
               <mat-option value="Monday">Monday</mat-option>
               <mat-option value="Tuesday">Tuesday</mat-option>
               <mat-option value="Wednesday">Wednesday</mat-option>
@@ -106,12 +115,13 @@
               <mat-option value="Sunday">Sunday</mat-option>
             </mat-select>
           </mat-form-field>
-
+          
+        
           <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
-              required>
+            <input matInput type="time" [(ngModel)]="jobData.StartTime" [disabled]="isViewOnly" name="StartTime" placeholder="Start Time" required>
           </mat-form-field>
         </div>
+        
 
         <div *ngIf="extractionFrequency === 'Monthly'">
           <mat-form-field class="full-width">

@@ -3,8 +3,7 @@ import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
-import { FormGroup } from '@angular/forms';
-
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-create-template',
   templateUrl: './create-template.component.html',
@@ -25,6 +24,10 @@ export class CreateTemplateComponent implements OnInit {
   templateId: string = '';
   columnNames: string[] = [];
   selectedcolumnsForUpdate: { [key: number]: boolean } = {};
+  selectedColumns: string[] = [];
+  checkedColumns: string[] = [];
+  sortedColumnNames: string[] = [];
+
 
   constructor( 
     private templateService: DataService,
@@ -48,6 +51,13 @@ export class CreateTemplateComponent implements OnInit {
       }
     });
   }
+
+   drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(this.template.columnNames, event.previousIndex, event.currentIndex);
+    } 
+  }
+  
 
   fetchColumnsByCategory(categoryId: number) {
     this.templateService.getColumnsByCategory(categoryId).subscribe((columns: string[]) => {
@@ -75,17 +85,28 @@ export class CreateTemplateComponent implements OnInit {
       this.viewColumns = viewColumns;
       this.isViewingColumns = true;
     });
+  
+  }
+
+  updateFilteredColumns() {
+    this.sortedColumnNames = Object.keys(this.template.columnNames);
+  }
+
+  updateSortedColumnNames() {
+    this.sortedColumnNames = this.columns.filter((column) =>
+      this.checkedColumns.includes(column.columnName)
+    );
+  }
+  
+
+  isChecked(columnName: string): boolean {
+    return this.checkedColumns.includes(columnName);
   }
 
   updateColumns(categoryId: number) {
     this.columns = [];
     this.template.categoryID = categoryId;
     this.fetchColumnsByCategory(categoryId);
-  }
-
-  updateFilteredColumns() {
-    const searchText = this.columnSearch.toLowerCase();
-    this.filteredColumns = this.columns.filter((column: any) => column.toLowerCase().includes(searchText));
   }
 
   goToTemplateScreen() {
@@ -146,4 +167,20 @@ export class CreateTemplateComponent implements OnInit {
       );
     }
   }
+
+  deleteColumn(columnName: string) {
+    // Loop through the keys (column names) of the object
+    for (const key in this.template.columnNames) {
+      if (this.template.columnNames.hasOwnProperty(key)) {
+        if (key === columnName) {
+          // Remove the column by deleting the key from the object
+          delete this.template.columnNames[key];
+          break; // Exit the loop after deleting the column
+        }
+      }
+    }
+  }
+  
+  
+  
 }

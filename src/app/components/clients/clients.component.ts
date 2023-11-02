@@ -40,35 +40,35 @@ export class ClientsComponent implements OnInit {
     this.router.navigate(['/viewClient/'+clientId+'/'+true]);    
   }
 
-  deleteClient(client: any): void {
-    const clientId = client.clientID;
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: {
-        message: 'Are you sure you want to delete this client?',
-        buttonText: {
-          ok: 'Delete',
-          cancel: 'Cancel'
-        }
-      }
-    });
+  // deleteClient(client: any): void {
+  //   const clientId = client.clientID;
+  //   const dialogRef = this.dialog.open(DeleteDialogComponent, {
+  //     data: {
+  //       message: 'Are you sure you want to delete this client?',
+  //       buttonText: {
+  //         ok: 'Delete',
+  //         cancel: 'Cancel'
+  //       }
+  //     }
+  //   });
   
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.clientService.deleteClient(clientId).subscribe(() => {
-          this.clients = this.clients.filter(c => c.clientID !== clientId);
-          this.updateDisplayedClients(1);
-          this.snackBar.open('Client successfully deleted', 'Close', {
-            duration: 2000,
-          });
-        }, (error) => {
-          console.error('Error deleting client:', error);
-          this.snackBar.open('Error deleting client', 'Close', {
-            duration: 2000,
-          });
-        });
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+  //     if (confirmed) {
+  //       this.clientService.deleteClient(clientId).subscribe(() => {
+  //         this.clients = this.clients.filter(c => c.clientID !== clientId);
+  //         this.updateDisplayedClients(1);
+  //         this.snackBar.open('Client successfully deleted', 'Close', {
+  //           duration: 2000,
+  //         });
+  //       }, (error) => {
+  //         console.error('Error deleting client:', error);
+  //         this.snackBar.open('Error deleting client', 'Close', {
+  //           duration: 2000,
+  //         });
+  //       });
+  //     }
+  //   });
+  // }
 
   private updateDisplayedClients(pageNumber: number) {
     const startIndex = (pageNumber - 1) * this.pageSize;
