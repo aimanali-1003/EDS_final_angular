@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-row">
-          <div class="form-item">
+          <!-- <div class="form-item">
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="Organization Level" [(ngModel)]="selectedOrganizationId"
                 (selectionChange)="onOrganizationSelected($event.value)" name="OrganizationName" required>
@@ -35,13 +35,13 @@
                   }}</mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
+          </div> -->
 
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="Select Client"
                 [(ngModel)]="selectedClientId" name="clientName" required>
-                <mat-option *ngFor="let client of organizationClients" [value]="client.clientID">{{ client.clientName
+                <mat-option *ngFor="let client of ClientData" [value]="client.clientID">{{ client.clientName
                   }}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -75,28 +75,21 @@
 
         <div *ngIf="extractionFrequency === 'Once'">
           <mat-form-field class="full-width">
-            <input matInput type="date" [(ngModel)]="jobData.startDate" name="startDate" placeholder="Start Date"
+            <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date"
               required>
           </mat-form-field>
 
           <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.startTime" name="startTime" placeholder="Start Time"
+            <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
               required>
           </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.endTime" name="endTime" placeholder="End Time" required>
-          </mat-form-field>
         </div>
 
         <div *ngIf="extractionFrequency === 'Daily'">
           <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.startTime" name="startTime" placeholder="Start Time"
+            <input matInput type="time" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
               required>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.endTime" name="endTime" placeholder="End Time" required>
           </mat-form-field>
         </div>
 
@@ -115,32 +108,20 @@
           </mat-form-field>
 
           <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.startTime" name="startTime" placeholder="Start Time"
+            <input matInput type="time" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
               required>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.endTime" name="endTime" placeholder="End Time" required>
           </mat-form-field>
         </div>
 
         <div *ngIf="extractionFrequency === 'Monthly'">
           <mat-form-field class="full-width">
-            <input matInput type="date" [(ngModel)]="jobData.startDate" name="startDate" placeholder="Start Date"
+            <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date"
               required>
           </mat-form-field>
 
           <mat-form-field class="full-width">
-            <input matInput type="date" [(ngModel)]="jobData.endDate" name="endDate" placeholder="End Date" required>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.startTime" name="startTime" placeholder="Start Time"
+            <input matInput type="time" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
               required>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.endTime" name="endTime" placeholder="End Time" required>
           </mat-form-field>
         </div>
 
@@ -170,7 +151,7 @@
     </div>
 
   </div>
-  <div class="template-container" *ngIf="selectedTemplates">
+  <!-- <div class="template-container" *ngIf="selectedTemplates">
     <div class="job-content">
       <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
         Template Details</h2>
@@ -191,6 +172,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   
 </div>

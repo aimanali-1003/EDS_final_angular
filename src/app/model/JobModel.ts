@@ -2,7 +2,7 @@ import { Time } from "@angular/common";
 
 export class JobDataModel {
     public JobType: string;
-    public startDate: Date | null;
+    public StartDate: Date | null;
     public endDate: Date | null;
     public active: boolean;
     public clientId: number | null;
@@ -13,7 +13,7 @@ export class JobDataModel {
     public RecipientTypeName: string | null; // New property for RecipientTypeName
     public frequencyType:  string | null;
     public fileFormatType:  string | null;
-    public startTime: Time | null;
+    public StartTime: string | null; // Change the type to string
     public endTime: Time | null;
     public Frequency: { FrequencyID: number | null, FrequencyType: string | null } | null; // Include 'frequency' property
     public Template: { TemplateID: number | null, TemplateName: string | null } | null; // Include 'template' property
@@ -24,7 +24,7 @@ export class JobDataModel {
   
     constructor() {
       this.JobType = "";
-      this.startDate = null;
+      this.StartDate = null;
       this.endDate = null;
       this.active = true;
       this.clientId = null;
@@ -34,7 +34,7 @@ export class JobDataModel {
       this.RecipientTypeName = null; // Initialize the new property
       this.frequencyType = "";
       this.fileFormatType = "";
-      this.startTime = null;
+      this.StartTime = null;
       this.endTime = null;
       this.orgsOrganizationID = null;
       this.Frequency = { FrequencyID: null, FrequencyType: null }; // Initialize the 'frequency' property

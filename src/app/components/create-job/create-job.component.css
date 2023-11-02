@@ -62,7 +62,7 @@
 }
 
 .create-job-button {
-  background-color: #4CAF50;
+  background-color: #4CAF50 !important;
   color:#fcfbfa;
   font-weight: medium;
   box-shadow: none;
