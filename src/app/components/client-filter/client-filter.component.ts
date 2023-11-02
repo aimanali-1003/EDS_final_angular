@@ -20,7 +20,7 @@ export class ClientFilterComponent implements OnInit {
   isPopupVisible: boolean = false;
   jsonData: any;
   startDate: string = '';
-  endDate: string = '';
+
   isDropdownVisible: boolean = false; // Initialize it as false
 
   constructor() {

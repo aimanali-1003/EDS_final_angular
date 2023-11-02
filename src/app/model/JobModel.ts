@@ -3,7 +3,6 @@ import { Time } from "@angular/common";
 export class JobDataModel {
     public JobType: string;
     public StartDate: Date | null;
-    public endDate: Date | null;
     public active: boolean;
     public clientId: number | null;
     public client: { orgsOrganizationID: number | null };  
@@ -21,11 +20,11 @@ export class JobDataModel {
     public Client: { ClientID: number | null, ClientName: string | null } | null;
     public OrganizationID: number | null;
     public OrganizationLevel: string | null;
+    public DayofWeek_Lkp: string | null;
   
     constructor() {
       this.JobType = "";
       this.StartDate = null;
-      this.endDate = null;
       this.active = true;
       this.clientId = null;
       this.client = { orgsOrganizationID: null }; // Initialize the 'client' property
@@ -43,6 +42,7 @@ export class JobDataModel {
       this.Client = { ClientID: null, ClientName: null };
       this.OrganizationID = null;
       this.OrganizationLevel = null;
+      this.DayofWeek_Lkp = null;
       
     }
   }

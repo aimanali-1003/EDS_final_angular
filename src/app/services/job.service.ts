@@ -26,7 +26,7 @@ export class JobService {
   }
 
   updateJob(jobId: string, jobData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/job/${jobId}`, jobData);
+    return this.http.put<any>(`${this.apiUrl}/api/Jobs/${jobId}`, jobData);
   }
 
   deleteJob(jobId: string): Observable<any> {

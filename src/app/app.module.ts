@@ -50,6 +50,9 @@ import { CreateClientComponent } from './components/create-client/create-client.
 import { CreateCategoryComponent } from './components/create-category/create-category.component'; 
 import { SearchComponent } from './search/search.component';   
 import { OrgDetailsComponent } from './components/org-details/org-details.component'; 
+import { DateTimePickerModule } from "@syncfusion/ej2-angular-calendars";
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 @NgModule({
   declarations: [
@@ -115,7 +118,9 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
     MatCheckboxModule,
     MatDividerModule, 
     MatSlideToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    DateTimePickerModule,
+    DragDropModule
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent], 
