@@ -193,3 +193,17 @@ color: #999;
 .parent-org-details {
   list-style: none;
 }
+
+.client-item {
+  display: flex;
+  align-items: center;
+  margin-left: 10px; /* Adjust the margin as needed */
+}
+
+.client-item button {
+  margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.parent-org-details {
+  margin-left: 20px; /* Adjust the margin as needed */
+}

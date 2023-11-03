@@ -1,4 +1,3 @@
-
 // org-management.component.ts
 import { Component, OnInit } from '@angular/core';
 import { OrgService } from 'src/app/services/org.service';
@@ -13,6 +12,42 @@ import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree'
   styleUrls: ['./org-management.component.css'],
 })
 export class OrgManagementComponent implements OnInit {
+  dummyDataSource: MatTreeFlatDataSource<any, any>;
+  dummyTreeControl: FlatTreeControl<any>; // Adjust the type as needed
+  dummyOrgs = [
+    // Example structure of dummyOrgs data to match the structure of orgs data
+    {
+      organizationCode: 'DummyOrg1',
+      organizationLevel: 'Level 1',
+      parentOrganizationCode: null,
+      showParentOrgDetails: false,
+      children: [
+        {
+          organizationCode: 'DummyChild1',
+          organizationLevel: 'Level 2',
+          parentOrganizationCode: 'DummyOrg1',
+          showParentOrgDetails: false,
+          children: [
+            {
+              organizationCode: 'DummyGrandChild1',
+              organizationLevel: 'Level 3',
+              parentOrganizationCode: 'DummyChild1',
+              showParentOrgDetails: false,
+              children: []
+            }
+          ]
+        },
+        {
+          organizationCode: 'DummyChild2',
+          organizationLevel: 'Level 2',
+          parentOrganizationCode: 'DummyOrg1',
+          showParentOrgDetails: false,
+          children: []
+        }
+      ]
+    }
+  ];
+ 
   treeControl: FlatTreeControl<OrgNode>;
   treeFlattener: MatTreeFlattener<any, any>;
   dataSource: MatTreeFlatDataSource<any, any>;
@@ -24,19 +59,23 @@ export class OrgManagementComponent implements OnInit {
   parentOrgsMap: { [key: string]: string } = {};
 
   constructor(
-    private orgService: OrgService,
-    private dialog: MatDialog,
+    private orgService: OrgService, 
     private router: Router,
   ) {
     this.treeControl = new FlatTreeControl<OrgNode>(node => node.level, node => node.expandable);
     this.treeFlattener = new MatTreeFlattener(this.transformer, node => node.level, node => node.expandable, node => node.children);
 
-    // Initialize the data source for the tree
+    // Initialize the data source for the main tree
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+    // Initialize the data source for the dummy tree
+    this.dummyTreeControl = new FlatTreeControl<any>(node => node.level, node => node.expandable);
+    this.dummyDataSource = new MatTreeFlatDataSource(this.dummyTreeControl, this.treeFlattener);
   }
 
   ngOnInit() {
     this.fetchOrgs();
+    this.buildDummyDataSource();
   }
   transformer = (node: any, level: number) => {
     return {
@@ -67,7 +106,30 @@ export class OrgManagementComponent implements OnInit {
 
     this.dataSource.data = tree;
   }
-
+  buildDummyDataSource() {
+    const dummyTree: any[] = [];
+    const dummyMap: any = {};
+    
+    this.dummyOrgs.forEach((org) => {
+      const orgCode = org['organizationCode'];
+      const parentOrgCode = org['parentOrganizationCode'];
+      dummyMap[orgCode] = { ...org, children: [] };
+      const parentOrg = parentOrgCode ? dummyMap[parentOrgCode] : null;
+      if (parentOrg) {
+        if (!parentOrg.children) {
+          parentOrg.children = [];
+        }
+        parentOrg.children.push(dummyMap[orgCode]);
+      } else {
+        dummyTree.push(dummyMap[orgCode]);
+      }
+    });
+  
+    this.dummyDataSource.data = dummyTree;
+    this.dummyTreeControl.dataNodes = dummyTree;
+    this.dummyTreeControl.expandAll();
+  }
+  
 
   fetchOrgs() {
     this.orgService.getOrgs().subscribe((orgs: any[]) => {
@@ -76,7 +138,12 @@ export class OrgManagementComponent implements OnInit {
       this.updateDisplayedOrgs(1);
     });
   }
- 
+  toggleDummyParentOrgDetailsByCode(parentOrganizationCode: string) {
+    const orgIndex = this.dummyOrgs.findIndex(org => org['organizationCode'] === parentOrganizationCode);
+    if (orgIndex > -1) {
+      this.dummyOrgs[orgIndex].showParentOrgDetails = !this.dummyOrgs[orgIndex].showParentOrgDetails;
+    }
+  }
 
   onParentOrgChange(event: any, parentOrgCode: string) {
     const target = event.target as HTMLSelectElement;
@@ -146,4 +213,3 @@ interface OrgNode {
   data: any;
   children?: OrgNode[];
 }
-

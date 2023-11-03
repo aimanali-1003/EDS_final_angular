@@ -28,5 +28,7 @@ export class OrgService {
     const url = `${this.apiUrl}/api/Organizations/${orgId}/clients`;
     return this.http.get<any[]>(url);
   }
-
+  getChildOrgs(orgId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/${orgId}/childOrganizations`);
+  }
 }

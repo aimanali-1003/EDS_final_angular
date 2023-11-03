@@ -12,20 +12,47 @@
   ></app-search>
 
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-      <li>
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [ngStyle]="{ 'margin-left.px': node.level * 20 }">
+      <li style="list-style-type: none;">
         <div class="client-item">
-          <span>{{ node.name }}</span>
           <button mat-icon-button (click)="toggleParentOrgDetailsByCode(node.data.organizationCode)">
             <mat-icon>{{ node.data.showParentOrgDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
           </button>
+          <span>{{ node.name }} -  {{ node.data.organizationLevel }}</span>
         </div>
-        <ul [class.parent-org-details]="node.data.showParentOrgDetails">
-          <ng-container *ngTemplateOutlet="parentOrgDetailsTemplate; context: { orgCode: node.data.parentOrganizationCode }"></ng-container>
-        </ul>
+        <div class="child-orgs-container" *ngIf="node.data.showParentOrgDetails">
+          <ul class="child-org-list" style="list-style-type: none; padding: 0;">
+            <ng-container *ngFor="let child of node.data.children">
+              <li class="child-org-item" style="margin-bottom: 5px;">{{ child.name }} - Level {{ child.organizationLevel }}</li>
+            </ng-container>
+          </ul>
+        </div>
       </li>
     </mat-tree-node>
   </mat-tree>
+  
+  
+
+  <mat-tree [dataSource]="dummyDataSource" [treeControl]="dummyTreeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [ngStyle]="{ 'margin-left.px': node.level * 20 }">
+      <li style="list-style-type: none;">
+        <div class="client-item">
+          <button mat-icon-button (click)="toggleDummyParentOrgDetailsByCode(node.data.organizationCode)">
+            <mat-icon>{{ node.data.showParentOrgDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
+          </button>                  
+          <span>{{ node.name }} -  {{ node.data.organizationLevel }}</span>
+        </div>
+        <div class="child-orgs-container" *ngIf="node.data.showParentOrgDetails">
+          <ul class="child-org-list" style="list-style-type: none; padding: 0;">
+            <ng-container *ngFor="let child of node.data.children">
+              <li class="child-org-item" style="margin-bottom: 5px;">{{ child.name }} - Level {{ child.organizationLevel }}</li>
+            </ng-container>
+          </ul>
+        </div>
+      </li>
+    </mat-tree-node>
+  </mat-tree>
+  
 
   <div *ngIf="!displayedOrganization.length" class="no-data-message">
     No data found.
