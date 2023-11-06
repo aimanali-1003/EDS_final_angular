@@ -5,7 +5,7 @@
   position: absolute;
   top: 7%;
   left: 4%;
-  width: 60%;
+ width: 60%; 
 }
 
 .job {
@@ -108,6 +108,14 @@
   margin-bottom: 10px; /* Add spacing between rows */
   box-sizing: border-box; /* Include padding and border in the width calculation */
 }
+
+/* Add this CSS to create a single row layout */
+.row-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 
 
 

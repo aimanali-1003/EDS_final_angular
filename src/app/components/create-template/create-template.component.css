@@ -4,12 +4,26 @@
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  width: 60%;
-  margin: 0 auto;
-  position: absolute;
-  top: 6.5%;
-  left: 4%;
+  width: 48%; /* Set the desired width for each card */
+  margin: 10px; /* Add margin to separate the cards */
+  float: left; /* Make cards float left to display them side by side */
+  position: relative; /* Use relative positioning if needed */
 }
+
+.card-container::after {
+  content: "";
+  display: table;
+  clear: both; /* Clear the float to prevent issues with the following content */
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between; /* Adjust this property to control the space between the cards */
+  align-items: flex-start; /* Adjust this property to vertically align the cards as needed */
+}
+
+/* Your existing styling for mat-card can be retained. */
+
 
 .flexible-field {
   flex: 1; /* Allow fields to flex and take available space evenly */
@@ -142,5 +156,15 @@ mat-form-field {
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Modify the size of the "X" button */
+.btn-danger {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 2px 5px; /* Adjust the padding to control the size */
+  margin-left: 10px;
+  font-size: 12px; /* Adjust the font size as needed */
 }
 

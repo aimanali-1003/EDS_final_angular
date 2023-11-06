@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+
+interface ColumnNames {
+  [key: string]: any; // Define the structure of your columnNames object here.
+}
 @Component({
   selector: 'app-create-template',
   templateUrl: './create-template.component.html',
@@ -27,6 +31,9 @@ export class CreateTemplateComponent implements OnInit {
   selectedColumns: string[] = [];
   checkedColumns: string[] = [];
   sortedColumnNames: string[] = [];
+  hasSelectedColumns: boolean = false;
+  // template: DataTemplateModel = new DataTemplateModel();
+  // columnNames: ColumnNames = {};
 
 
   constructor( 
@@ -52,11 +59,44 @@ export class CreateTemplateComponent implements OnInit {
     });
   }
 
-   drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(this.template.columnNames, event.previousIndex, event.currentIndex);
-    } 
+  //  drop(event: CdkDragDrop<string[]>) {
+  //   if (event.previousContainer === event.container) {
+  //     moveItemInArray(this.template.columnNames, event.previousIndex, event.currentIndex);
+  //   } 
+  // }
+
+  // interface ColumnNames {
+  //   [key: string]: any; // You can replace 'any' with the actual type of the values in your object if needed.
+  // }
+  
+  // ...
+  
+  drop(event: CdkDragDrop<string[]>) {
+    const columnKeys = Object.keys(this.template.columnNames);
+    const columnName = columnKeys[event.previousIndex];
+
+    console.log(columnKeys)
+    console.log(columnName)
+  
+    // Move the item in the array to reflect the new order
+    moveItemInArray(columnKeys, event.previousIndex, event.currentIndex);
+  
+    // Reconstruct the columnNames object with the updated order
+    const updatedColumnNames: string[] = [];
+  for (const key of this.columnNames) {
+    updatedColumnNames.push(key);
   }
+  
+    // You can now use the columnName for your desired logic
+    console.log(`Dropped column: ${columnName} from index ${event.previousIndex} to index ${event.currentIndex}`);
+  }
+  
+  checkSelectedColumns() {
+    console.log('clicked on check selected cols')
+    // Check if there are any selected columns
+    this.hasSelectedColumns = Object.values(this.template.columnNames).some(value => value);
+  }
+  
   
 
   fetchColumnsByCategory(categoryId: number) {

@@ -17,9 +17,8 @@
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="selectedTemplates"
-                (selectionChange)="loadTemplates(selectedTemplates)" name="TemplateName" required>
-                <mat-option *ngFor="let template of templates" [value]="template.templateID">{{ template.templateName
-                  }}</mat-option>
+                 name="TemplateName" required>
+                <mat-option *ngFor="let template of templates" [value]="template.templateID">{{ template.templateName }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -28,6 +27,7 @@
         
 
         <div class="form-row">
+
           <!-- <div class="form-item">
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="Organization Level" [(ngModel)]="selectedOrganizationId"
@@ -47,9 +47,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-        </div>
 
-        <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="Recipient Type" [(ngModel)]="selectedDataRecipientTypeId"
@@ -59,6 +57,16 @@
               </mat-select>
             </mat-form-field>
           </div>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field class="form-item">
+            <mat-select [disabled]="isViewOnly" placeholder="File Format: " [(ngModel)]="fileFormatstore"
+              name="fileFormat" required>
+              <mat-option *ngFor="let fileformat of fileFormatJobs" [value]="fileformat.fileFormatName">{{
+                fileformat.fileFormatName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <!-- <div class="form-row">
             <div class="form-item">
@@ -82,18 +90,21 @@
 
         </div>
 
-        <div *ngIf="extractionFrequency === 'Once'">
+        <div *ngIf="extractionFrequency === 'Once'" class="form-row">
+          <div class="form-item">
           <mat-form-field class="full-width">
             <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date" required>
           </mat-form-field>
-        
+        </div>
+        <div class="form-item">
           <mat-form-field class="full-width">
             <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time" required>
           </mat-form-field>
-        
+        </div>
           <!-- Hidden input to store the combined date and time -->
           <input type="hidden" [(ngModel)]="combinedDateTime" name="CombinedDateTime">
         </div>
+        
 
         <div *ngIf="extractionFrequency === 'Daily'">
           <mat-form-field class="full-width">
@@ -102,7 +113,8 @@
           </mat-form-field>
         </div>
 
-        <div *ngIf="extractionFrequency === 'Weekly'" >
+        <div *ngIf="extractionFrequency === 'Weekly'" class="form-row">
+          <div class="form-item">
           <mat-form-field class="full-width" >
             <mat-label>Select Day of the Week</mat-label>
             <mat-select [(ngModel)]="jobData.DayofWeek_Lkp" name="selectedDay" [disabled]="isViewOnly">
@@ -116,65 +128,65 @@
             </mat-select>
           </mat-form-field>
           
-        
+        </div>
+        <div class="form-item">
           <mat-form-field class="full-width">
             <input matInput type="time" [(ngModel)]="jobData.StartTime" [disabled]="isViewOnly" name="StartTime" placeholder="Start Time" required>
           </mat-form-field>
         </div>
-        
+      </div>
 
-        <div *ngIf="extractionFrequency === 'Monthly'">
+        <div *ngIf="extractionFrequency === 'Monthly'" class="form-row">
+          <div class="form-item">
           <mat-form-field class="full-width">
             <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date"
               required>
           </mat-form-field>
+        </div>
 
+        <div class="form-item">
           <mat-form-field class="full-width">
             <input matInput type="time" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
               required>
           </mat-form-field>
         </div>
-
-        <div class="form-row">
-          <mat-form-field class="form-item">
-            <mat-select [disabled]="isViewOnly" placeholder="File Format: " [(ngModel)]="fileFormatstore"
-              name="fileFormat" required>
-              <mat-option *ngFor="let fileformat of fileFormatJobs" [value]="fileformat.fileFormatName">{{
-                fileformat.fileFormatName }}</mat-option>
-            </mat-select>
-          </mat-form-field>
         </div>
 
         <div class="form-row">
-          <div class="form-item">
+          
+        </div>
+
+        <div class="form-row">
+        
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="Notification Check" [(ngModel)]="jobData.NotificationCheck" name="NotificationCheck">
                 <mat-option [value]="true">Yes</mat-option>
                 <mat-option [value]="false">No</mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
+                
+        </div>
+        
+        <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
               <input [disabled]="isViewOnly" matInput placeholder="Min Record Count Alarm" [(ngModel)]="jobData.MinRecordCountAlarm" name="MinRecordCountAlarm">
             </mat-form-field>
           </div>
-        </div>
-        
-        <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
               <input [disabled]="isViewOnly" matInput placeholder="Max Record Count Alarm" [(ngModel)]="jobData.MaxRecordCountAlarm" name="MaxRecordCountAlarm">
             </mat-form-field>
           </div>
+        
+        </div>
+        
+        <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
               <input [disabled]="isViewOnly" matInput placeholder="Min Run Duration Alarm" [(ngModel)]="jobData.MinRunDurationAlarm" name="MinRunDurationAlarm">
             </mat-form-field>
           </div>
-        </div>
-        
-        <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
               <input [disabled]="isViewOnly" matInput placeholder="Max Run Duration Alarm" [(ngModel)]="jobData.MaxRunDurationAlarm" name="MaxRunDurationAlarm">
@@ -190,7 +202,7 @@
           <button *ngIf="isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()"> <span
               class="icon">&#10006;</span> Cancel</button>
 
-          <button *ngIf="isEdit" mat-raised-button class="create-client-button" (click)="createUpdatejob()">
+          <button *ngIf="isEdit" mat-raised-button class="create-job-button" (click)="createUpdatejob()">
             <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
           </button>
         </div>

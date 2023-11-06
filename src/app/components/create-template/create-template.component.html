@@ -1,3 +1,4 @@
+<div class="card-container">
 <mat-card class="luxury-card">
   <mat-card-header>
     <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
@@ -43,13 +44,6 @@
           No columns found.
         </div>
       </ng-template>
-    </div>
-  </div>
-
-  <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let columnName of template.columnNames | keyvalue" cdkDrag>
-      {{ columnName.key }}
-       <button (click)="deleteColumn(columnName.key)" class="btn btn-sm btn-danger">X</button>
     </div>
   </div>
 
@@ -110,3 +104,16 @@
     </button>
   </mat-card-actions>
 </mat-card>
+
+<mat-card class="luxury-card">
+  <!-- ... Content for the second card ... -->
+  <div class="cdkDropList-container">
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let columnName of template.columnNames | keyvalue" cdkDrag>
+        {{ columnName.key }}
+        <button (click)="deleteColumn(columnName.key)" class="btn btn-sm btn-danger">X</button>
+      </div>
+    </div>
+  </div>
+</mat-card>
+</div>
