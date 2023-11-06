@@ -69,7 +69,7 @@
 }
 
 .create-job-button:hover {
-  background-color: #75b777;
+  background-color: #75b777 !important;
   color:#f3eeeb;
   font-weight: medium;
 }

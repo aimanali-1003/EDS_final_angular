@@ -21,6 +21,11 @@ export class JobDataModel {
     public OrganizationID: number | null;
     public OrganizationLevel: string | null;
     public DayofWeek_Lkp: string | null;
+    public NotificationCheck: boolean | null;
+    public MinRecordCountAlarm: number | null;
+    public MaxRecordCountAlarm: number | null;
+    public MinRunDurationAlarm: number | null;
+    public MaxRunDurationAlarm: number | null;
   
     constructor() {
       this.JobType = "";
@@ -43,6 +48,11 @@ export class JobDataModel {
       this.OrganizationID = null;
       this.OrganizationLevel = null;
       this.DayofWeek_Lkp = null;
+      this.NotificationCheck= null;
+      this.MinRecordCountAlarm= null;
+      this.MaxRecordCountAlarm= null;
+      this.MinRunDurationAlarm= null;
+      this.MaxRunDurationAlarm= null;
       
     }
   }

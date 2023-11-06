@@ -16,6 +16,7 @@ import { FrequencyDataModel } from 'src/app/model/Frequency.model';
 import { FileFormatDataModel } from 'src/app/model/FileFormat.model';
 import { FileFormatService } from 'src/app/services/file-format.service';
 
+
 @Component({
   selector: 'app-create-job',
   templateUrl: './create-job.component.html',
@@ -44,6 +45,7 @@ export class CreateJobComponent implements OnInit {
   
   selectedDataRecipientTypeId: number | null = null;
   extractionFrequency: string | null = null;
+
   
 // Use the correct data type (e.g., Time) instead of string
 
@@ -219,13 +221,9 @@ export class CreateJobComponent implements OnInit {
 
     console.log('Updating Job',this.jobData)
     if (this.isEdit) {
-      const Data = {
-        JobID: 1, // Specify the ID of the job you want to update
-        // Other properties that need to be updated
-      };
       console.log('updating job data', this.jobId)
 
-      this.jobService.updateJob(this.jobId, Data).subscribe(
+      this.jobService.updateJob(this.jobId, this.jobData).subscribe(
         (response: any) => {
           this.snackBar.open('Job updated successfully', 'Close', {
             duration: 2000,

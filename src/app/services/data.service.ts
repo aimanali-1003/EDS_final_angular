@@ -66,9 +66,4 @@ export class DataService {
   getColumnsByCategory(categoryId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/api/columns/byCategory/${categoryId}`);
   }
-
-   
-
-
-
 }
