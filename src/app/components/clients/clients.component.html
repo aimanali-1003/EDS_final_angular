@@ -1,26 +1,32 @@
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Clients Management</h2>
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Clients
+      Management</h2>
     <div class="form-outline search-box mb-4">
-      <button mat-raised-button class="custom-button"  (click)="CreateClients()">
+      <button mat-raised-button class="custom-button" (click)="CreateClients()">
         <span class="circle">+</span> Create Client
       </button>
     </div>
   </div>
-    
 
-  <app-search [placeholderText]="'Search Client by Name & Code'"
-                  (searchQueryChanged)="performClientSearch($event)"
-                  (filterChanged)="applyClientFilter($event)">
-  </app-search>
+
+  <div style="display: flex; align-items: center;">
+    <div style="flex: 1;">
+      <app-search [placeholderText]="'Search Client by Name & Code'" (searchQueryChanged)="performClientSearch($event)" (filterChanged)="applyClientFilter($event)"></app-search>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <app-client-filter (filterChanged)="applyClientFilter($event)"></app-client-filter>
+    </div>
+  </div>
+  
 
   <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
-    
+
     <thead>
       <tr>
         <th>Client Code</th>
-        <th>Client Name </th> 
-        <th>Created At</th>
+        <th>Client Name </th>
+        <!-- <th>Created At</th> -->
         <th>Status</th>
         <th>Actions</th>
       </tr>
@@ -29,40 +35,39 @@
       <tr *ngFor="let client of displayedClients" class="client-item">
         <td>{{ client.clientCode }}</td>
         <td>{{ client.clientName }}</td>
-        
-        <td class="created-info-cell">
+
+        <!-- <td class="created-info-cell">
           <div class="created-at">{{ client.createdAt | date:'medium' }}</div>
           <div class="created-by">
             <span class="created-by-label">Created By: </span>
             <span class="created-by-cell">{{ client.createdBy }}</span>
           </div>
-        </td> 
+        </td>  -->
         <td [style.color]="client.Active ? '#4cf0a1;' : 'red'">
-          <ng-container *ngIf="client.active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
+          <ng-container *ngIf="client.active; else inactive"><span class="making-active-attractive">{{ 'Active'
+              }}</span></ng-container>
           <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
         </td>
-        <td class="action-cell"> 
+        <td class="action-cell">
           <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewClient(client)">
             <mat-icon>visibility</mat-icon>
           </button>
-          
+
           <button mat-icon-button [style.color]="'#0091EA'" (click)="openClientModalForEdit(client)">
             <mat-icon>edit</mat-icon>
           </button>
           <!-- <button mat-icon-button [style.color]="'#D84315'" (click)="deleteClient(client)">
             <mat-icon>delete</mat-icon>
           </button> -->
-        </td> 
+        </td>
       </tr>
     </tbody>
   </table>
 
   <div *ngIf="displayedClients.length === 0" class="no-data-message">
     No data found.
-  </div> 
-  
+  </div>
+
   <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="clients.length"
     (pageChange)="onPageChange($event)"></app-pagination>
 </div>
-
-

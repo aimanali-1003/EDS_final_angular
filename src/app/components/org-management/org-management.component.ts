@@ -1,7 +1,5 @@
-// org-management.component.ts
 import { Component, OnInit } from '@angular/core';
 import { OrgService } from 'src/app/services/org.service';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
@@ -12,42 +10,92 @@ import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree'
   styleUrls: ['./org-management.component.css'],
 })
 export class OrgManagementComponent implements OnInit {
-  dummyDataSource: MatTreeFlatDataSource<any, any>;
-  dummyTreeControl: FlatTreeControl<any>; // Adjust the type as needed
-  dummyOrgs = [
-    // Example structure of dummyOrgs data to match the structure of orgs data
-    {
-      organizationCode: 'DummyOrg1',
-      organizationLevel: 'Level 1',
-      parentOrganizationCode: null,
-      showParentOrgDetails: false,
-      children: [
-        {
-          organizationCode: 'DummyChild1',
-          organizationLevel: 'Level 2',
-          parentOrganizationCode: 'DummyOrg1',
-          showParentOrgDetails: false,
-          children: [
-            {
-              organizationCode: 'DummyGrandChild1',
-              organizationLevel: 'Level 3',
-              parentOrganizationCode: 'DummyChild1',
-              showParentOrgDetails: false,
-              children: []
-            }
-          ]
-        },
-        {
-          organizationCode: 'DummyChild2',
-          organizationLevel: 'Level 2',
-          parentOrganizationCode: 'DummyOrg1',
-          showParentOrgDetails: false,
-          children: []
-        }
-      ]
-    }
-  ];
- 
+  // dummyDataSource: MatTreeFlatDataSource<any, any>;
+  // dummyTreeControl: FlatTreeControl<any>; // Adjust the type as needed
+  // dummyOrgs = [
+  //   {
+  //     active: false,
+  //     clients: null,
+  //     createdAt: "1900-01-01T00:00:00",
+  //     createdBy: "Zamaan",
+  //     isDeleted: false,
+  //     levels: null,
+  //     organizationCode: "CompanyA",
+  //     organizationID: 1,
+  //     organizationLevel: "Headquarters",
+  //     parentOrganizationCode: null,
+  //     parentOrganizationLevel: "",
+  //     showParentOrgDetails: false,
+  //     updatedAt: null,
+  //     updatedBy: null
+  //   },
+  //   {
+  //     active: false,
+  //     clients: null,
+  //     createdAt: "1900-01-01T00:00:00",
+  //     createdBy: "Zamaan",
+  //     isDeleted: false,
+  //     levels: null,
+  //     organizationCode: "DivisionA",
+  //     organizationID: 2,
+  //     organizationLevel: "Division",
+  //     parentOrganizationCode: "CompanyA",
+  //     parentOrganizationLevel: "Headquarters",
+  //     showParentOrgDetails: false,
+  //     updatedAt: null,
+  //     updatedBy: null
+  //   },
+  //   {
+  //     active: false,
+  //     clients: null,
+  //     createdAt: "1900-01-01T00:00:00",
+  //     createdBy: "Zamaan",
+  //     isDeleted: false,
+  //     levels: null,
+  //     organizationCode: "DepartmentA",
+  //     organizationID: 3,
+  //     organizationLevel: "Department",
+  //     parentOrganizationCode: "DivisionA",
+  //     parentOrganizationLevel: "Division",
+  //     showParentOrgDetails: false,
+  //     updatedAt: null,
+  //     updatedBy: null
+  //   },
+  //   {
+  //     active: false,
+  //     clients: null,
+  //     createdAt: "1900-01-01T00:00:00",
+  //     createdBy: "Zamaan",
+  //     isDeleted: false,
+  //     levels: null,
+  //     organizationCode: "DepartmentB",
+  //     organizationID: 4,
+  //     organizationLevel: "Department",
+  //     parentOrganizationCode: "DivisionA",
+  //     parentOrganizationLevel: "Division",
+  //     showParentOrgDetails: false,
+  //     updatedAt: null,
+  //     updatedBy: null
+  //   },
+  //   {
+  //     active: false,
+  //     clients: null,
+  //     createdAt: "1900-01-01T00:00:00",
+  //     createdBy: "Zamaan",
+  //     isDeleted: false,
+  //     levels: null,
+  //     organizationCode: "DepartmentC",
+  //     organizationID: 5,
+  //     organizationLevel: "Department",
+  //     parentOrganizationCode: "DepartmentB",
+  //     parentOrganizationLevel: "Department",
+  //     showParentOrgDetails: false,
+  //     updatedAt: null,
+  //     updatedBy: null
+  //   }
+  // ];
+
+
   treeControl: FlatTreeControl<OrgNode>;
   treeFlattener: MatTreeFlattener<any, any>;
   dataSource: MatTreeFlatDataSource<any, any>;
@@ -69,14 +117,15 @@ export class OrgManagementComponent implements OnInit {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
     // Initialize the data source for the dummy tree
-    this.dummyTreeControl = new FlatTreeControl<any>(node => node.level, node => node.expandable);
-    this.dummyDataSource = new MatTreeFlatDataSource(this.dummyTreeControl, this.treeFlattener);
+    //this.dummyTreeControl = new FlatTreeControl<any>(node => node.level, node => node.expandable);
+    //this.dummyDataSource = new MatTreeFlatDataSource(this.dummyTreeControl, this.treeFlattener);
   }
 
   ngOnInit() {
     this.fetchOrgs();
-    this.buildDummyDataSource();
+    //this.buildDummyDataSource();
   }
+
   transformer = (node: any, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -85,6 +134,7 @@ export class OrgManagementComponent implements OnInit {
       data: node,
     };
   };
+
   buildParentOrgsMap() {
     const tree: any[] = [];
     const map: any = {};
@@ -106,44 +156,45 @@ export class OrgManagementComponent implements OnInit {
 
     this.dataSource.data = tree;
   }
-  buildDummyDataSource() {
-    const dummyTree: any[] = [];
-    const dummyMap: any = {};
-    
-    this.dummyOrgs.forEach((org) => {
-      const orgCode = org['organizationCode'];
-      const parentOrgCode = org['parentOrganizationCode'];
-      dummyMap[orgCode] = { ...org, children: [] };
-      const parentOrg = parentOrgCode ? dummyMap[parentOrgCode] : null;
-      if (parentOrg) {
-        if (!parentOrg.children) {
-          parentOrg.children = [];
-        }
-        parentOrg.children.push(dummyMap[orgCode]);
-      } else {
-        dummyTree.push(dummyMap[orgCode]);
-      }
-    });
-  
-    this.dummyDataSource.data = dummyTree;
-    this.dummyTreeControl.dataNodes = dummyTree;
-    this.dummyTreeControl.expandAll();
-  }
-  
 
+  // buildDummyDataSource() {
+  //   const dummyTree: any[] = [];
+  //   const dummyMap: any = {};
+    
+  //   this.dummyOrgs.forEach((org) => {
+  //     const orgCode = org['organizationCode'];
+  //     const parentOrgCode = org['parentOrganizationCode'];
+  //     dummyMap[orgCode] = { ...org, children: [] };
+  //     const parentOrg = parentOrgCode ? dummyMap[parentOrgCode] : null;
+  //     if (parentOrg) {
+  //       if (!parentOrg.children) {
+  //         parentOrg.children = [];
+  //       }
+  //       parentOrg.children.push(dummyMap[orgCode]);
+  //     } else {
+  //       dummyTree.push(dummyMap[orgCode]);
+  //     }
+  //   });
+  
+  //   this.dummyDataSource.data = dummyTree;
+  //   this.dummyTreeControl.dataNodes = dummyTree;
+  //   this.dummyTreeControl.expandAll();
+  // }
+ 
   fetchOrgs() {
     this.orgService.getOrgs().subscribe((orgs: any[]) => {
       this.orgs = orgs.map(org => ({...org, showParentOrgDetails: false}));
+      console.log(this.orgs)
       this.buildParentOrgsMap();
       this.updateDisplayedOrgs(1);
     });
   }
-  toggleDummyParentOrgDetailsByCode(parentOrganizationCode: string) {
-    const orgIndex = this.dummyOrgs.findIndex(org => org['organizationCode'] === parentOrganizationCode);
-    if (orgIndex > -1) {
-      this.dummyOrgs[orgIndex].showParentOrgDetails = !this.dummyOrgs[orgIndex].showParentOrgDetails;
-    }
-  }
+  // toggleDummyParentOrgDetailsByCode(parentOrganizationCode: string) {
+  //   const orgIndex = this.dummyOrgs.findIndex(org => org['organizationCode'] === parentOrganizationCode);
+  //   if (orgIndex > -1) {
+  //     this.dummyOrgs[orgIndex].showParentOrgDetails = !this.dummyOrgs[orgIndex].showParentOrgDetails;
+  //   }
+  // }  
 
   onParentOrgChange(event: any, parentOrgCode: string) {
     const target = event.target as HTMLSelectElement;
@@ -168,6 +219,7 @@ export class OrgManagementComponent implements OnInit {
       this.orgs[orgIndex].showParentOrgDetails = !this.orgs[orgIndex].showParentOrgDetails;
     }
   }
+  
 
   getParentOrgDetails(parentOrganizationCode: string) {
     const parentOrg = this.orgs.find(org => org['organizationCode'] === parentOrganizationCode);

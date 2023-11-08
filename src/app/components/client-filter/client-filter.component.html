@@ -1,25 +1,21 @@
- 
+<div class="container">
+  <div class="filter-icon" (click)="toggleFilter()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-filter"
+      viewBox="0 0 16 16">
+      <path
+        d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+    </svg>
+  </div>
 
-
-
-    <div class="container">
-      <div class="filter-icon" (click)="toggleFilter()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-filter"
-          viewBox="0 0 16 16">
-          <path
-          d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
-        </svg>
+  <div class="custom-sidebar" [ngClass]="{ 'open': isFilterVisible }">
+    <div class="sidebar-content">
+      <div class="popup-header">
+        <h2 style="font-weight: lighter;">Filter Options</h2>
+        <button class="close-button" (click)="toggleFilter()">&times;</button>
       </div>
-  
-      <div class="custom-sidebar" [ngClass]="{ 'open': isFilterVisible }">
-        <div class="sidebar-content">
-          <div class="popup-header">
-            <h2 style="font-weight: lighter;">Filter Options</h2>
-            <button class="close-button" (click)="toggleFilter()">&times;</button>
-          </div>
-          <div class="filter-fields"> 
-          <div class="filter-row">
-            <mat-form-field class="filter-dropdown">
+      <div class="filter-fields">
+        <div class="filter-row">
+          <!-- <mat-form-field class="filter-dropdown">
               <mat-label>Client Name</mat-label>
               <mat-select [(ngModel)]="selectedFields.ClientName">
                 <mat-option value="enabled">Enabled</mat-option>
@@ -32,30 +28,29 @@
                 <mat-option value="enabled">Enabled</mat-option>
                 <mat-option value="disabled">Disabled</mat-option>
               </mat-select>
-            </mat-form-field>
-          </div>
-          <!-- Add other filter rows here -->
-          <div class="filter-row">
-            <mat-form-field class="filter-dropdown">
-              <mat-label>Status</mat-label>
-              <mat-select [(ngModel)]="selectedFields.Status">
-                <mat-option value="enabled">Enabled</mat-option>
-                <mat-option value="disabled">Disabled</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <!-- Apply and Cancel Buttons -->
-          <div class="filter-buttons">
-            <button class="cancel-button" (click)="toggleFilter()">
-              <span class="icon">&#10006;</span> Cancel
-            </button>
-            <button class="apply-button" (click)="applyFilters()">
-              <span class="icon">&#10004;</span> Apply
-            </button>
-          </div>
-          
+            </mat-form-field> -->
         </div>
+        <!-- Add other filter rows here -->
+        <div class="filter-row">
+          <mat-form-field class="filter-dropdown">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="selectedFields.Status">
+              <mat-option value="enabled">Active</mat-option>
+              <mat-option value="disabled">Inactive</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Apply and Cancel Buttons -->
+        <div class="filter-buttons">
+          <button class="cancel-button" (click)="toggleFilter()">
+            <span class="icon">&#10006;</span> Cancel
+          </button>
+          <button class="apply-button" (click)="applyFilters()">
+            <span class="icon">&#10004;</span> Apply
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
-  
+</div>

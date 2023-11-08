@@ -108,7 +108,7 @@ export class CreateClientComponent implements OnInit {
         },
         (error: any) => {
           this.snackBar.open('Error updating ' + error.error, 'Close', {
-            duration: 2000,
+            duration: 6000,
           });
         }
       );

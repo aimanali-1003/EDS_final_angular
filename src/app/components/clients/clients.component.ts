@@ -118,8 +118,11 @@ export class ClientsComponent implements OnInit {
 
   applyClientFilter(filterData: any) {
     this.displayedClients = this.clients.filter((client) => {
-      return true; 
+      if (filterData.active !== undefined) {
+        return client.active === filterData.active;
+      }
+      return true; // If no filter is selected, return all clients
     });
-  } 
+  }
 }
  

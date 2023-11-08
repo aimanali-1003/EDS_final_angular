@@ -18,5 +18,16 @@
                 </mat-form-field>
             </div>
         </form>
+        <div>
+            <h4 class="client-title" style="font-weight: lighter; font-family: 'Quicksand', sans-serif; font-size: 18px;">
+                {{categoryData.categoryName}} columns</h4>
+            <div class="scrollable-column">
+              <div class="column-checkbox" *ngFor="let column of columns">
+                <mat-checkbox [disabled]="isViewOnly" [checked]="true" [ngClass]="{'checked-checkbox': true}">
+                  {{ column.columnName }}
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
     </div>
 </div>

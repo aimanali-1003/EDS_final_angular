@@ -16,7 +16,7 @@
 
           <div class="form-item">
             <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="selectedTemplates"
+              <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="selectedTemplates" (selectionChange)="loadTemplates(selectedTemplates)"
                  name="TemplateName" required>
                 <mat-option *ngFor="let template of templates" [value]="template.templateID">{{ template.templateName }}</mat-option>
               </mat-select>
@@ -209,28 +209,33 @@
       </form>
     </div>
 
-  </div>
-  <!-- <div class="template-container" *ngIf="selectedTemplates">
-    <div class="job-content">
-      <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
-        Template Details</h2>
-      <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-        <p><strong>Template Name:</strong> {{ template.templateName }}</p>
-      </div>
-      <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-        <p><strong>Category ID:</strong> {{ template.categoryID }}</p>
-      </div>
-      <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-        <p><strong>Columns:</strong></p>
-      </div>
-      <div class="scrollable-column">
-        <div class="column-checkbox" *ngFor="let column of columns" style="font-family: 'Quicksand', sans-serif;">
-          <mat-checkbox [disabled]="true" [checked]="true" [ngClass]="{'checked-checkbox': true}">
-            {{ column }}
-          </mat-checkbox>
+  </div> 
+    <div class="template-container" *ngIf="selectedTemplates && !isViewOnly && !isEdit ">
+      <div class="job-content">
+        <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+          Template Details</h2>
+        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
+          <p><strong>Template Name:</strong> {{ template.templateName }}</p>
+        </div>
+        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
+          <p><strong>Category ID:</strong> {{ template.categoryID }}</p>
+        </div>
+        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
+          <p><strong>Columns:</strong></p>
+        </div>
+        <div class="scrollable-column">
+          <div class="column-checkbox" *ngFor="let column of columns" style="font-family: 'Quicksand', sans-serif;">
+            <mat-checkbox [disabled]="true" [checked]="true" [ngClass]="{'checked-checkbox': true}">
+              {{ column }}
+            </mat-checkbox>
+          </div>
         </div>
       </div>
+    </div> 
+
+    <div class="template-container-no-shadow" *ngIf="isEdit || isViewOnly">
+      
     </div>
-  </div> -->
+ 
   
 </div>

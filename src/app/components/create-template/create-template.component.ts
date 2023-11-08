@@ -3,7 +3,7 @@ import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
-import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 
 interface ColumnNames {
   [key: string]: any; // Define the structure of your columnNames object here.
@@ -13,7 +13,7 @@ interface ColumnNames {
   templateUrl: './create-template.component.html',
   styleUrls: ['./create-template.component.css']
 })
-export class CreateTemplateComponent implements OnInit { 
+export class CreateTemplateComponent implements OnInit {
   template: DataTemplateModel = new DataTemplateModel();
   columnSearch: string = '';
   filteredColumns: string[] = [];
@@ -36,12 +36,12 @@ export class CreateTemplateComponent implements OnInit {
   // columnNames: ColumnNames = {};
 
 
-  constructor( 
+  constructor(
     private templateService: DataService,
     private router: Router,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.templateService.getCategories().subscribe((categories: any[]) => {
@@ -68,36 +68,42 @@ export class CreateTemplateComponent implements OnInit {
   // interface ColumnNames {
   //   [key: string]: any; // You can replace 'any' with the actual type of the values in your object if needed.
   // }
-  
+
   // ...
-  
+
   drop(event: CdkDragDrop<string[]>) {
     const columnKeys = Object.keys(this.template.columnNames);
     const columnName = columnKeys[event.previousIndex];
-
-    console.log(columnKeys)
-    console.log(columnName)
   
     // Move the item in the array to reflect the new order
     moveItemInArray(columnKeys, event.previousIndex, event.currentIndex);
   
     // Reconstruct the columnNames object with the updated order
-    const updatedColumnNames: string[] = [];
-  for (const key of this.columnNames) {
-    updatedColumnNames.push(key);
-  }
+    const updatedColumnNames: { [key: string]: boolean } = {};
+    for (const key of columnKeys) {
+      const columnValue = this.template.columnNames[key as keyof typeof this.template.columnNames];
+      if (typeof columnValue === 'boolean') {
+        updatedColumnNames[key] = columnValue;
+      }
+    }
+  
+    // Update the template's columnNames with the newly ordered object
+    this.template.columnNames = updatedColumnNames as any; // Adjust the type as needed
   
     // You can now use the columnName for your desired logic
     console.log(`Dropped column: ${columnName} from index ${event.previousIndex} to index ${event.currentIndex}`);
   }
   
+
+
+
   checkSelectedColumns() {
     console.log('clicked on check selected cols')
     // Check if there are any selected columns
     this.hasSelectedColumns = Object.values(this.template.columnNames).some(value => value);
   }
-  
-  
+
+
 
   fetchColumnsByCategory(categoryId: number) {
     this.templateService.getColumnsByCategory(categoryId).subscribe((columns: string[]) => {
@@ -125,7 +131,7 @@ export class CreateTemplateComponent implements OnInit {
       this.viewColumns = viewColumns;
       this.isViewingColumns = true;
     });
-  
+
   }
 
   updateFilteredColumns() {
@@ -137,7 +143,7 @@ export class CreateTemplateComponent implements OnInit {
       this.checkedColumns.includes(column.columnName)
     );
   }
-  
+
 
   isChecked(columnName: string): boolean {
     return this.checkedColumns.includes(columnName);
@@ -153,7 +159,7 @@ export class CreateTemplateComponent implements OnInit {
     this.router.navigate(['/dataTemplate']);
   }
 
-  createTemplate() {
+  createUpdateTemplate() {
     if (!this.isEdit) {
       const selectedColumnIds = Object.keys(this.template.columnNames)
         .filter((columnName: string) => this.template.columnNames[columnName as keyof typeof this.template.columnNames])
@@ -177,19 +183,19 @@ export class CreateTemplateComponent implements OnInit {
         });
 
         this.router.navigate(['/dataTemplate']);
-      }); 
-    } else { 
+      });
+    } else {
       const selectedColumnIds = Object.keys(this.selectedcolumnsForUpdate)
         .filter((key) => this.selectedcolumnsForUpdate[parseInt(key)])
         .map((key) => parseInt(key));
 
 
-        if (!selectedColumnIds || selectedColumnIds.length === 0) {
-          this.snackBar.open('Please select at least one column to update.', 'Close', {
-            duration: 3000,
-          });
-          return;
-        }
+      if (!selectedColumnIds || selectedColumnIds.length === 0) {
+        this.snackBar.open('Please select at least one column to update.', 'Close', {
+          duration: 3000,
+        });
+        return;
+      }
       this.template.columnsId = selectedColumnIds;
       this.templateService.updateDataTemplate(this.templateId, this.template).subscribe(
         (response: any) => {
@@ -219,8 +225,5 @@ export class CreateTemplateComponent implements OnInit {
         }
       }
     }
-  }
-  
-  
-  
+  } 
 }

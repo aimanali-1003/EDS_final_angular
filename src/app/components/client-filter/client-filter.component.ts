@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-client-filter',
@@ -6,14 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./client-filter.component.css']
 })
 export class ClientFilterComponent implements OnInit {
-  selectedFields: { ClientName: boolean; id: boolean; CreatedAt: boolean; CreatedBy: boolean; UpdatedAt: boolean; UpdatedBy: boolean; Status: boolean } = {
+  @Output() filterChanged: EventEmitter<any> = new EventEmitter<any>();
+
+  selectedFields: { ClientName: boolean; id: boolean; CreatedAt: boolean; CreatedBy: boolean; UpdatedAt: boolean; UpdatedBy: boolean; Status: string } = {
     ClientName: false,
     id: false,
     CreatedAt: false,
     CreatedBy: false,
     UpdatedAt: false,
     UpdatedBy: false,
-    Status: false,
+    Status: "",
   };
 
 
@@ -54,5 +56,10 @@ export class ClientFilterComponent implements OnInit {
     // This method should contain logic to apply the selected filters
     // You can access filter values and apply them to your data here
     // For example, emit an event or update a service with filter values
+    const filters = {
+      active: this.selectedFields.Status === 'enabled', // Assuming 'enabled' means active and 'disabled' means inactive
+    };
+
+    this.filterChanged.emit(filters);
   }
 }

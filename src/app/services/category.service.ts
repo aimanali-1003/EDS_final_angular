@@ -31,5 +31,9 @@ export class CategoryService {
     // Make an HTTP GET request to your backend to fetch the organization ID based on the category ID.
     return this.http.get<string>(`/api/organization?categoryId=${categoryId}`);
   } 
+
+  getColumnsByCategory(categoryId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/api/columns/byCategory/${categoryId}`);
+  }
 }
 

@@ -159,16 +159,18 @@ export class CreateJobComponent implements OnInit {
   }
 
   loadTemplates(templateId: string) {
-    
+    console.log('Template ID selected:', templateId);
     this.templateId = templateId;
     this.dataService.getTemplate(templateId).subscribe((template: any) => {
       this.template = template;
       this.viewTemplateColumns();
     });
   }
+  
   viewTemplateColumns() {
     this.dataService.getColumnsOfTemplate(this.templateId).subscribe((column: string[]) => {
       this.columns = column;
+      console.log(this.columns);
     });
   }
 

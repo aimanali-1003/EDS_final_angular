@@ -55,3 +55,20 @@
     color: #c93232;
     background-color: rgb(243, 227, 227);
 }
+.scrollable-column {
+    max-height: 270px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; /* Align items to the left */
+    
+}
+
+.column-checkbox {
+    flex-basis: calc(33.33% - 10px);
+    margin-bottom: 10px;
+    box-sizing: border-box; 
+}
+

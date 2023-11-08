@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { categoryDataModel } from 'src/app/model/CategoryModel';
-import { CategoryService } from 'src/app/services/category.service';
+import { CategoryService } from 'src/app/services/category.service'; 
 
 @Component({
   selector: 'app-view-category',
@@ -12,6 +12,7 @@ export class ViewCategoryComponent implements OnInit {
   categoryName: string = '';
   categoryCode: string = '';
   categoryId: string = '';
+  columns:any=[];
   currentDatetime = new Date();
   categoryData: categoryDataModel = new categoryDataModel();
   isViewOnly: boolean = false;
@@ -35,8 +36,12 @@ export class ViewCategoryComponent implements OnInit {
   loadCategoryData(): void {
     this.categoryService.getCategoryById(this.categoryId).subscribe((categoryData: any) => {
       this.categoryData = categoryData;
-    })
-  }
+    }) 
+    this.categoryService.getColumnsByCategory(this.categoryId).subscribe((columns: any) => {
+      this.columns= columns;
+      console.log(this.columns)
+  })
+}
 
   goToCategoryScreen() {
     this.router.navigate(['/category']);
