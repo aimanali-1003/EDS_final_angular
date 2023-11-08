@@ -111,11 +111,12 @@
     <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
     <div class="cdkDropList-container">
       <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let columnName of template.columnNames | keyvalue" cdkDrag>
-          {{ columnName.key }}
-          <button (click)="deleteColumn(columnName.key)" class="btn btn-sm btn-danger">X</button>
+        <div class="example-box" *ngFor="let columnName of testing" cdkDrag>
+          {{ columnName }}
+          <button (click)="deleteColumn(columnName)" class="btn btn-sm btn-danger">X</button>
         </div>
       </div>
     </div>
-  </mat-card>
+    <button *ngIf="!showColumnsOrder" mat-button (click)="showOrder()">Show Order</button>
+  </mat-card>  
 </div>

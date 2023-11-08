@@ -32,6 +32,8 @@ export class CreateTemplateComponent implements OnInit {
   checkedColumns: string[] = [];
   sortedColumnNames: string[] = [];
   hasSelectedColumns: boolean = false;
+  testing:string[]=[];
+  showColumnsOrder: boolean = false;
   // template: DataTemplateModel = new DataTemplateModel();
   // columnNames: ColumnNames = {};
 
@@ -71,29 +73,34 @@ export class CreateTemplateComponent implements OnInit {
 
   // ...
 
+  // drop(event: CdkDragDrop<string[]>) {
+  //   const columnKeys = Object.keys(this.template.columnNames);
+  //   const columnName = columnKeys[event.previousIndex];
+
+  //   // Move the item in the array to reflect the new order
+  //   moveItemInArray(columnKeys, event.previousIndex, event.currentIndex);
+
+  //   // Reconstruct the columnNames object with the updated order
+  //   const updatedColumnNames: { [key: string]: boolean } = {};
+  //   for (const key of columnKeys) {
+  //     const columnValue = this.template.columnNames[key as keyof typeof this.template.columnNames];
+  //     if (typeof columnValue === 'boolean') {
+  //       updatedColumnNames[key] = columnValue;
+  //     }
+  //   }
+
+  //   // Update the template's columnNames with the newly ordered object
+  //   this.template.columnNames = updatedColumnNames as any; // Adjust the type as needed
+
+  //   // You can now use the columnName for your desired logic
+  //   console.log(`Dropped column: ${columnName} from index ${event.previousIndex} to index ${event.currentIndex}`);
+  // }
+
   drop(event: CdkDragDrop<string[]>) {
-    const columnKeys = Object.keys(this.template.columnNames);
-    const columnName = columnKeys[event.previousIndex];
-  
-    // Move the item in the array to reflect the new order
-    moveItemInArray(columnKeys, event.previousIndex, event.currentIndex);
-  
-    // Reconstruct the columnNames object with the updated order
-    const updatedColumnNames: { [key: string]: boolean } = {};
-    for (const key of columnKeys) {
-      const columnValue = this.template.columnNames[key as keyof typeof this.template.columnNames];
-      if (typeof columnValue === 'boolean') {
-        updatedColumnNames[key] = columnValue;
-      }
-    }
-  
-    // Update the template's columnNames with the newly ordered object
-    this.template.columnNames = updatedColumnNames as any; // Adjust the type as needed
-  
-    // You can now use the columnName for your desired logic
-    console.log(`Dropped column: ${columnName} from index ${event.previousIndex} to index ${event.currentIndex}`);
+    moveItemInArray(this.testing, event.previousIndex, event.currentIndex);
+    console.log(`Dropped column from index ${event.previousIndex} to index ${event.currentIndex}`);
   }
-  
+
 
 
 
@@ -106,6 +113,8 @@ export class CreateTemplateComponent implements OnInit {
 
 
   fetchColumnsByCategory(categoryId: number) {
+    this.testing=[];
+    this.showColumnsOrder=false;
     this.templateService.getColumnsByCategory(categoryId).subscribe((columns: string[]) => {
       this.columns = columns;
       this.initializeSelectedColumnsForUpdate();
@@ -159,16 +168,29 @@ export class CreateTemplateComponent implements OnInit {
     this.router.navigate(['/dataTemplate']);
   }
 
+
+  showOrder(){
+    const selectedColumnNames = Object.keys(this.template.columnNames)
+        .filter((columnName: string) => this.template.columnNames[columnName as keyof typeof this.template.columnNames])
+        .map((columnName: string) => {
+          const foundColumn = this.columns.find((c: any) => c.columnName === columnName);
+          return foundColumn ? foundColumn.columnName : null;
+        })
+        .filter((columnId: any) => columnId !== null);  
+
+        this.testing=selectedColumnNames;
+        this.showColumnsOrder = true;
+  }
   createUpdateTemplate() {
-    if (!this.isEdit) {
+    if (!this.isEdit) { 
       const selectedColumnIds = Object.keys(this.template.columnNames)
         .filter((columnName: string) => this.template.columnNames[columnName as keyof typeof this.template.columnNames])
         .map((columnName: string) => {
           const foundColumn = this.columns.find((c: any) => c.columnName === columnName);
           return foundColumn ? foundColumn.columnID : null;
         })
-        .filter((columnId: any) => columnId !== null);
-
+        .filter((columnId: any) => columnId !== null); 
+       
       if (!this.template.templateName || this.template.categoryID === 0 || selectedColumnIds.length === 0) {
         this.snackBar.open('Template Name, Category, and Columns are required.', 'Close', {
           duration: 3000,
@@ -215,15 +237,10 @@ export class CreateTemplateComponent implements OnInit {
   }
 
   deleteColumn(columnName: string) {
-    // Loop through the keys (column names) of the object
-    for (const key in this.template.columnNames) {
-      if (this.template.columnNames.hasOwnProperty(key)) {
-        if (key === columnName) {
-          // Remove the column by deleting the key from the object
-          delete this.template.columnNames[key];
-          break; // Exit the loop after deleting the column
-        }
-      }
+    const index = this.testing.indexOf(columnName);
+    if (index !== -1) {
+      this.testing.splice(index, 1);
     }
-  } 
+  }
+  
 }
