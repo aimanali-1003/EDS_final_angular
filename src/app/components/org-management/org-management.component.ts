@@ -250,14 +250,62 @@ export class OrgManagementComponent implements OnInit {
     if (!searchTerm) {
       this.updateDisplayedOrgs(1);
     } else {
-      this.displayedOrganization = this.orgs.filter(
+      const filteredOrgs = this.orgs.filter(
         (org) =>
           org['organizationLevel'].toLowerCase().includes(searchTerm.toLowerCase()) ||
-          org['organizationCode'].toString().toLowerCase().includes(searchTerm.toLowerCase())
+          org['organizationCode'].toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (org['parentOrganizationCode'] && org['parentOrganizationCode'].toLowerCase().includes(searchTerm.toLowerCase()))
       );
+  
+      this.displayedOrganization = filteredOrgs;
+  
+      // Expand nodes in the tree to show the path to the searched organization
+      filteredOrgs.forEach((org) => {
+        this.expandParents(org);
+      });
     }
   }
-}
+  
+  expandParents(org: any) {
+    const parentCode = org['parentOrganizationCode'];
+  
+    // Expand the immediate parent if it exists
+    if (parentCode) {
+      const parentNode = this.treeControl.dataNodes.find((node) => node.data['organizationCode'] === parentCode);
+      if (parentNode && !this.treeControl.isExpanded(parentNode)) {
+        this.treeControl.expand(parentNode);
+      }
+    }
+  
+    // Expand the current node
+    const currentNode = this.treeControl.dataNodes.find((node) => node.data['organizationCode'] === org['organizationCode']);
+    if (currentNode && !this.treeControl.isExpanded(currentNode)) {
+      this.treeControl.expand(currentNode);
+    }
+  
+    // Expand the immediate children
+    if (org['children'] && org['children'].length > 0) {
+      (org['children'] as any[]).forEach((child: any) => {
+        const childNode = this.treeControl.dataNodes.find((node) => node.data['organizationCode'] === child['organizationCode']);
+        if (childNode && !this.treeControl.isExpanded(childNode)) {
+          this.treeControl.expand(childNode);
+        }
+      });
+    }
+  }
+  
+  
+  
+  buildPathToNode(org: any, pathToNode: string[]) {
+    pathToNode.push(org['organizationCode']);
+    if (org['parentOrganizationCode']) {
+      const parent = this.orgs.find((o) => o['organizationCode'] === org['parentOrganizationCode']);
+      if (parent) {
+        this.buildPathToNode(parent, pathToNode);
+      }
+    }
+  }
+}  
 interface OrgNode {
   expandable: boolean;
   name: string;

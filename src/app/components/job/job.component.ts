@@ -22,6 +22,7 @@ export class JobComponent implements OnInit {
   dataRecipients: any[] = [];
   notificationRecipients: any[] = [];
   jobData: any;
+  jobSearchQuery: string="";
 
 
 
@@ -113,14 +114,21 @@ export class JobComponent implements OnInit {
     this.updateDisplayedJobs(pageNumber);
   }
 
-  performClientSearch(query: string) {
-    // Implement the search logic specific to the 'clients' component
-    // Update your displayedCategory based on the query
-  }
+  // performClientSearch(query: string) {
+  //   // Implement the search logic specific to the 'clients' component
+  //   // Update your displayedCategory based on the query
+  // }
   
-  applyClientFilter(filterData: any) {
-    // Implement the filter logic specific to the 'clients' component
-    // Update your displayedCategory based on the filter data
+  // applyClientFilter(filterData: any) {
+  //   // Implement the filter logic specific to the 'clients' component
+  //   // Update your displayedCategory based on the filter data
+  // }
+
+  performJobSearch(searchTerm: string) {
+    this.jobSearchQuery = searchTerm;
+    this.displayedJob = this.displayedJob.filter(job =>
+      job.jobType.toLowerCase().includes(searchTerm.toLowerCase()) 
+    );
   }
 }
  

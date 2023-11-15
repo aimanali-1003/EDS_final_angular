@@ -61,5 +61,6 @@ export class ClientFilterComponent implements OnInit {
     };
 
     this.filterChanged.emit(filters);
+    this.toggleFilter();
   }
 }

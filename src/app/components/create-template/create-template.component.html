@@ -1,4 +1,4 @@
-<div class="card-container">
+<div class="card-container" style="padding: 40px;">
   <mat-card class="luxury-card">
     <mat-card-header>
       <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
@@ -21,23 +21,15 @@
 
     </div>
     <div *ngIf="!isViewOnly && !isEdit">
-      <div class="roww">
-        <mat-label>Select Columns</mat-label>
-        <div class="search-container">
-          <mat-form-field>
-            <mat-icon matPrefix>search</mat-icon>
-            <input matInput placeholder="Search Columns" [(ngModel)]="columnSearch"
-              (ngModelChange)="updateFilteredColumns()">
-
-          </mat-form-field>
-        </div>
+      <div class="roww"> 
         <div *ngIf="columns.length > 0; else noColumnsFound">
           <div class="scrollable-column">
             <div class="column-checkbox" *ngFor="let column of columns">
               <mat-checkbox [(ngModel)]="template.columnNames[column.columnName]"
-                [color]="template.columnNames[column.columnName] ? 'primary' : 'warn'"
-                [ngClass]="{'checked-checkbox': template.columnNames[column.columnName]}">{{ column.columnName
-                }}</mat-checkbox>
+                [color]="isChecked(column.columnName) ? 'primary' : 'warn'"
+                [ngClass]="{'checked-checkbox': isChecked(column.columnName)}">
+                {{ column.columnName }}
+              </mat-checkbox>
             </div>
           </div>
         </div>
@@ -50,14 +42,7 @@
     </div>
 
     <div *ngIf="isEdit && !isViewOnly">
-      <div class="roww">
-        <mat-label>Select Columns</mat-label>
-        <div class="search-container">
-          <mat-form-field>
-            <mat-icon matPrefix>search</mat-icon>
-            <input matInput placeholder="Search Columns">
-          </mat-form-field>
-        </div>
+      <div class="roww"> 
         <div *ngIf="columns.length > 0; else noColumnsFound">
           <div class="scrollable-column">
             <div class="column-checkbox" *ngFor="let column of columns">
@@ -107,16 +92,30 @@
     </mat-card-actions>
   </mat-card>
 
-  <mat-card class="luxury-card">
+  <mat-card class="luxury-card" *ngIf="!isEdit">
     <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
-    <div class="cdkDropList-container">
-      <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let columnName of testing" cdkDrag>
-          {{ columnName }}
-          <button (click)="deleteColumn(columnName)" class="btn btn-sm btn-danger">X</button>
-        </div>
+    <h3 *ngIf="!isViewOnly"  style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Drag and drop to reorder</h3>
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let columnName of testing; let i = index" cdkDrag [cdkDragDisabled]="isViewOnly">
+        {{ i + 1 }}. {{ columnName }}
+        <button *ngIf="!isViewOnly" (click)="deleteColumn(columnName)" class="btn btn-sm btn-danger">X</button>
       </div>
     </div>
-    <button *ngIf="!showColumnsOrder" mat-button (click)="showOrder()">Show Order</button>
-  </mat-card>  
+    <!-- <button *ngIf="!showColumnsOrder" mat-button (click)="showOrder()">Show Order</button> -->
+  </mat-card>
+
+  <mat-card class="luxury-card" *ngIf="isEdit">
+    <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
+    <h3 *ngIf="!isViewOnly" style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Drag and drop to reorder</h3>
+
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let columnName of testing; let i = index" cdkDrag [cdkDragDisabled]="isViewOnly">
+        {{ i + 1 }}. {{ columnName }}
+        <button *ngIf="!isViewOnly" (click)="deleteColumn(columnName)" class="btn btn-sm btn-danger">X</button>
+      </div>
+    </div>
+    <!-- <button *ngIf="!showColumnsOrder" mat-button (click)="showOrderEditMode()">Show Order</button> -->
+  </mat-card>
+
+
 </div>

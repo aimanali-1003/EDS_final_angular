@@ -5,9 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 
-interface ColumnNames {
-  [key: string]: any; // Define the structure of your columnNames object here.
-}
 @Component({
   selector: 'app-create-template',
   templateUrl: './create-template.component.html',
@@ -32,10 +29,8 @@ export class CreateTemplateComponent implements OnInit {
   checkedColumns: string[] = [];
   sortedColumnNames: string[] = [];
   hasSelectedColumns: boolean = false;
-  testing:string[]=[];
-  showColumnsOrder: boolean = false;
-  // template: DataTemplateModel = new DataTemplateModel();
-  // columnNames: ColumnNames = {};
+  testing: string[] = [];
+  showColumnsOrder: boolean = false; 
 
 
   constructor(
@@ -61,60 +56,27 @@ export class CreateTemplateComponent implements OnInit {
     });
   }
 
-  //  drop(event: CdkDragDrop<string[]>) {
-  //   if (event.previousContainer === event.container) {
-  //     moveItemInArray(this.template.columnNames, event.previousIndex, event.currentIndex);
-  //   } 
-  // }
-
-  // interface ColumnNames {
-  //   [key: string]: any; // You can replace 'any' with the actual type of the values in your object if needed.
-  // }
-
-  // ...
-
-  // drop(event: CdkDragDrop<string[]>) {
-  //   const columnKeys = Object.keys(this.template.columnNames);
-  //   const columnName = columnKeys[event.previousIndex];
-
-  //   // Move the item in the array to reflect the new order
-  //   moveItemInArray(columnKeys, event.previousIndex, event.currentIndex);
-
-  //   // Reconstruct the columnNames object with the updated order
-  //   const updatedColumnNames: { [key: string]: boolean } = {};
-  //   for (const key of columnKeys) {
-  //     const columnValue = this.template.columnNames[key as keyof typeof this.template.columnNames];
-  //     if (typeof columnValue === 'boolean') {
-  //       updatedColumnNames[key] = columnValue;
-  //     }
-  //   }
-
-  //   // Update the template's columnNames with the newly ordered object
-  //   this.template.columnNames = updatedColumnNames as any; // Adjust the type as needed
-
-  //   // You can now use the columnName for your desired logic
-  //   console.log(`Dropped column: ${columnName} from index ${event.previousIndex} to index ${event.currentIndex}`);
-  // }
-
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.testing, event.previousIndex, event.currentIndex);
     console.log(`Dropped column from index ${event.previousIndex} to index ${event.currentIndex}`);
+    this.updateColumnOrder();
   }
-
-
+  updateColumnOrder() {
+    const updatedColumnOrder = this.testing.map((columnName) => {
+      const column = this.columns.find((c) => c.columnName === columnName);
+      return { columnId: column.columnID, columnName: column.columnName };
+    });
+    console.log('Updated Column Order:', updatedColumnOrder);
+  }
 
 
   checkSelectedColumns() {
     console.log('clicked on check selected cols')
-    // Check if there are any selected columns
     this.hasSelectedColumns = Object.values(this.template.columnNames).some(value => value);
-  }
-
-
+  } 
 
   fetchColumnsByCategory(categoryId: number) {
-    this.testing=[];
-    this.showColumnsOrder=false;
+    this.testing = [];
     this.templateService.getColumnsByCategory(categoryId).subscribe((columns: string[]) => {
       this.columns = columns;
       this.initializeSelectedColumnsForUpdate();
@@ -123,24 +85,28 @@ export class CreateTemplateComponent implements OnInit {
 
   initializeSelectedColumnsForUpdate() {
     this.selectedcolumnsForUpdate = {};
+    this.testing = this.viewColumns.slice();
+  
     for (let column of this.columns) {
-      this.selectedcolumnsForUpdate[column.columnID] = this.viewColumns.includes(column.columnName);
+      const isSelected = this.viewColumns.includes(column.columnName);
+      this.selectedcolumnsForUpdate[column.columnID] = isSelected;
     }
-  }
+  } 
 
   loadTemplates() {
     this.templateService.getTemplate(this.templateId).subscribe((template: any) => {
       this.template = template;
+      console.log(this.template)
       this.fetchColumnsByCategory(this.template.categoryID);
     });
   }
 
   viewTemplateColumns() {
     this.templateService.getColumnsOfTemplate(this.templateId).subscribe((viewColumns: string[]) => {
-      this.viewColumns = viewColumns;
+      this.viewColumns = viewColumns; 
+      this.testing = this.viewColumns;   
       this.isViewingColumns = true;
     });
-
   }
 
   updateFilteredColumns() {
@@ -153,52 +119,62 @@ export class CreateTemplateComponent implements OnInit {
     );
   }
 
-
   isChecked(columnName: string): boolean {
-    return this.checkedColumns.includes(columnName);
-  }
+    if (!this.isEdit) {
+      const isChecked = this.template.columnNames[columnName as keyof typeof this.template.columnNames];
+  
+      if (isChecked) {
+        if (!this.testing.includes(columnName)) {
+          this.testing = [...this.testing, columnName];
+        }
+      } else {
+        this.testing = this.testing.filter((col) => col !== columnName);
+      }
+  
+      return !!isChecked;
+    } else {
+      const isSelectedForUpdate = this.selectedcolumnsForUpdate[columnName as any];
+      if (isSelectedForUpdate) {
+        if (!this.testing.includes(columnName)) {
+          this.testing = [...this.testing, columnName];
+        }
+      } else {
+        this.testing = this.testing.filter((col) => col !== columnName);
+      }
+  
+      return !!isSelectedForUpdate;
+    }
+  } 
 
   updateColumns(categoryId: number) {
     this.columns = [];
     this.template.categoryID = categoryId;
     this.fetchColumnsByCategory(categoryId);
+    this.initializeSelectedColumnsForUpdate();
   }
+
 
   goToTemplateScreen() {
     this.router.navigate(['/dataTemplate']);
   }
-
-
-  showOrder(){
-    const selectedColumnNames = Object.keys(this.template.columnNames)
-        .filter((columnName: string) => this.template.columnNames[columnName as keyof typeof this.template.columnNames])
-        .map((columnName: string) => {
-          const foundColumn = this.columns.find((c: any) => c.columnName === columnName);
-          return foundColumn ? foundColumn.columnName : null;
-        })
-        .filter((columnId: any) => columnId !== null);  
-
-        this.testing=selectedColumnNames;
-        this.showColumnsOrder = true;
-  }
+ 
   createUpdateTemplate() {
-    if (!this.isEdit) { 
-      const selectedColumnIds = Object.keys(this.template.columnNames)
-        .filter((columnName: string) => this.template.columnNames[columnName as keyof typeof this.template.columnNames])
-        .map((columnName: string) => {
-          const foundColumn = this.columns.find((c: any) => c.columnName === columnName);
-          return foundColumn ? foundColumn.columnID : null;
-        })
-        .filter((columnId: any) => columnId !== null); 
-       
-      if (!this.template.templateName || this.template.categoryID === 0 || selectedColumnIds.length === 0) {
+    if (!this.isEdit) {
+
+      const updatedColumnIds = this.testing.map((columnName) => {
+        const column = this.columns.find((c) => c.columnName === columnName);
+        return column.columnID;
+      }); 
+
+      if (!this.template.templateName || this.template.categoryID === 0 || updatedColumnIds.length === 0) {
         this.snackBar.open('Template Name, Category, and Columns are required.', 'Close', {
           duration: 3000,
         });
         return;
       }
 
-      this.template.columnsId = selectedColumnIds;
+      this.template.columnsId = updatedColumnIds;
+      this.updateColumnOrder();
       this.templateService.createDataTemplate(this.template).subscribe(() => {
         this.snackBar.open('Template created successfully', 'Close', {
           duration: 3000,
@@ -211,14 +187,17 @@ export class CreateTemplateComponent implements OnInit {
         .filter((key) => this.selectedcolumnsForUpdate[parseInt(key)])
         .map((key) => parseInt(key));
 
-
-      if (!selectedColumnIds || selectedColumnIds.length === 0) {
+      const updatedColumnIds = this.testing.map((columnName) => {
+        const column = this.columns.find((c) => c.columnName === columnName);
+        return column.columnID;
+      });
+      if (selectedColumnIds.length === 0) {
         this.snackBar.open('Please select at least one column to update.', 'Close', {
           duration: 3000,
         });
         return;
       }
-      this.template.columnsId = selectedColumnIds;
+      this.template.columnsId = updatedColumnIds;
       this.templateService.updateDataTemplate(this.templateId, this.template).subscribe(
         (response: any) => {
           this.snackBar.open('Template updated successfully', 'Close', {
@@ -228,7 +207,7 @@ export class CreateTemplateComponent implements OnInit {
           this.router.navigate(['/dataTemplate']);
         },
         (error: any) => {
-          this.snackBar.open('Error updating template' + error.error, 'Close', {
+          this.snackBar.open('Error updating template Template cannot be deactivated as it is present in the active job', 'Close', {
             duration: 8000,
           });
         }
@@ -239,8 +218,19 @@ export class CreateTemplateComponent implements OnInit {
   deleteColumn(columnName: string) {
     const index = this.testing.indexOf(columnName);
     if (index !== -1) {
-      this.testing.splice(index, 1);
+      this.testing.splice(index, 1); 
+      if (this.isEdit) {
+        const column = this.columns.find((c) => c.columnName === columnName);
+        if (column) {
+          delete this.selectedcolumnsForUpdate[column.columnID];
+        }
+      } else {
+        const column = this.columns.find((c) => c.columnName === columnName);
+        if (column) {
+          delete this.template.columnNames[column.columnName];
+        }
+      }
     }
   }
-  
+
 }

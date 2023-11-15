@@ -8,10 +8,11 @@
     </div>
   </div>
     
-  <app-search [placeholderText]="'Search Job by Name & Code'"
-                  (searchQueryChanged)="performClientSearch($event)"
-                  (filterChanged)="applyClientFilter($event)">
-  </app-search>
+  <app-search 
+  [placeholderText]="'Search Job by Name'"
+  [searchQuery]="jobSearchQuery"
+  (searchQueryChanged)="performJobSearch($event)">
+</app-search>
 
   <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
     
