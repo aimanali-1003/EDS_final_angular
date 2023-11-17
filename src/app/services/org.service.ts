@@ -31,4 +31,12 @@ export class OrgService {
   getChildOrgs(orgId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/${orgId}/childOrganizations`);
   }
+  searchOrgs(searchTerm: string): Observable<any[]> {
+    // Ensure the searchTerm is properly encoded
+    const encodedSearchTerm = encodeURIComponent(searchTerm);
+    
+    // Use template string to format the URL with the encoded search term
+    return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/search/${encodedSearchTerm}`);
+  }
+  
 }

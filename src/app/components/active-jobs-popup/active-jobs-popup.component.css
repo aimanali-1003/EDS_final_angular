@@ -1,0 +1,41 @@
+
+  
+  .header {
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+  }
+  
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .column-cell {
+    padding: 8px; /* Adjust the padding as needed */
+  }
+  .center-content {
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+  }
+  .show-more-row {
+    cursor: pointer;
+    color: blue;
+    font-weight: bold;
+  }
+
+  /* active-jobs-popup.component.css */
+
+.active-jobs-popup {
+    /* Your existing styles */
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.button-container {
+    /* Adjust margin or padding as needed */
+    margin-right: 20px;
+}

@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ActiveJobsPopupComponent } from '../active-jobs-popup/active-jobs-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-template',
@@ -30,7 +32,8 @@ export class CreateTemplateComponent implements OnInit {
   sortedColumnNames: string[] = [];
   hasSelectedColumns: boolean = false;
   testing: string[] = [];
-  showColumnsOrder: boolean = false; 
+  showColumnsOrder: boolean = false;
+
 
 
   constructor(
@@ -38,6 +41,7 @@ export class CreateTemplateComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -73,7 +77,7 @@ export class CreateTemplateComponent implements OnInit {
   checkSelectedColumns() {
     console.log('clicked on check selected cols')
     this.hasSelectedColumns = Object.values(this.template.columnNames).some(value => value);
-  } 
+  }
 
   fetchColumnsByCategory(categoryId: number) {
     this.testing = [];
@@ -86,12 +90,12 @@ export class CreateTemplateComponent implements OnInit {
   initializeSelectedColumnsForUpdate() {
     this.selectedcolumnsForUpdate = {};
     this.testing = this.viewColumns.slice();
-  
+
     for (let column of this.columns) {
       const isSelected = this.viewColumns.includes(column.columnName);
       this.selectedcolumnsForUpdate[column.columnID] = isSelected;
     }
-  } 
+  }
 
   loadTemplates() {
     this.templateService.getTemplate(this.templateId).subscribe((template: any) => {
@@ -103,8 +107,8 @@ export class CreateTemplateComponent implements OnInit {
 
   viewTemplateColumns() {
     this.templateService.getColumnsOfTemplate(this.templateId).subscribe((viewColumns: string[]) => {
-      this.viewColumns = viewColumns; 
-      this.testing = this.viewColumns;   
+      this.viewColumns = viewColumns;
+      this.testing = this.viewColumns;
       this.isViewingColumns = true;
     });
   }
@@ -122,7 +126,7 @@ export class CreateTemplateComponent implements OnInit {
   isChecked(columnName: string): boolean {
     if (!this.isEdit) {
       const isChecked = this.template.columnNames[columnName as keyof typeof this.template.columnNames];
-  
+
       if (isChecked) {
         if (!this.testing.includes(columnName)) {
           this.testing = [...this.testing, columnName];
@@ -130,7 +134,7 @@ export class CreateTemplateComponent implements OnInit {
       } else {
         this.testing = this.testing.filter((col) => col !== columnName);
       }
-  
+
       return !!isChecked;
     } else {
       const isSelectedForUpdate = this.selectedcolumnsForUpdate[columnName as any];
@@ -141,10 +145,10 @@ export class CreateTemplateComponent implements OnInit {
       } else {
         this.testing = this.testing.filter((col) => col !== columnName);
       }
-  
+
       return !!isSelectedForUpdate;
     }
-  } 
+  }
 
   updateColumns(categoryId: number) {
     this.columns = [];
@@ -157,14 +161,14 @@ export class CreateTemplateComponent implements OnInit {
   goToTemplateScreen() {
     this.router.navigate(['/dataTemplate']);
   }
- 
+
   createUpdateTemplate() {
     if (!this.isEdit) {
 
       const updatedColumnIds = this.testing.map((columnName) => {
         const column = this.columns.find((c) => c.columnName === columnName);
         return column.columnID;
-      }); 
+      });
 
       if (!this.template.templateName || this.template.categoryID === 0 || updatedColumnIds.length === 0) {
         this.snackBar.open('Template Name, Category, and Columns are required.', 'Close', {
@@ -200,25 +204,37 @@ export class CreateTemplateComponent implements OnInit {
       this.template.columnsId = updatedColumnIds;
       this.templateService.updateDataTemplate(this.templateId, this.template).subscribe(
         (response: any) => {
-          this.snackBar.open('Template updated successfully', 'Close', {
-            duration: 2000,
-          });
-
-          this.router.navigate(['/dataTemplate']);
+          if (response.activeJobs) {
+            console.log(response.activeJobs)
+            const dialogRef = this.dialog.open(ActiveJobsPopupComponent, {
+              data: { activeJobs: response.activeJobs }
+            });
+      
+            dialogRef.afterClosed().subscribe(result => {
+              console.log('The dialog was closed');
+            });
+          } else {
+            this.snackBar.open('Template updated successfully', 'Close', {
+              duration: 2000,
+            });
+      
+            this.router.navigate(['/dataTemplate']);
+          }
         },
         (error: any) => {
-          this.snackBar.open('Error updating template Template cannot be deactivated as it is present in the active job', 'Close', {
+          this.snackBar.open('Error updating template: ' + error.error, 'Close', {
             duration: 8000,
           });
         }
       );
+
     }
   }
 
   deleteColumn(columnName: string) {
     const index = this.testing.indexOf(columnName);
     if (index !== -1) {
-      this.testing.splice(index, 1); 
+      this.testing.splice(index, 1);
       if (this.isEdit) {
         const column = this.columns.find((c) => c.columnName === columnName);
         if (column) {

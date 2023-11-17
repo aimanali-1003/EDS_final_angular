@@ -32,32 +32,7 @@
     </mat-tree-node>
   </mat-tree>
   <hr style="margin-top: 20px; margin-bottom: 20px; border: 0.5px solid #ababab;">
-
-  <!-- <mat-tree [dataSource]="dummyDataSource" [treeControl]="dummyTreeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [ngStyle]="{ 'margin-left.px': node.level * 20 }">
-      <li style="list-style-type: none;">
-        <div class="client-item">
-          <button mat-icon-button (click)="toggleDummyParentOrgDetailsByCode(node.data.organizationCode)">
-            <mat-icon [style.transform]="node.data.showParentOrgDetails ? 'rotate(90deg)' : 'none'">
-              {{ node.data.showParentOrgDetails ? 'keyboard_arrow_right' : 'keyboard_arrow_down' }}
-            </mat-icon>
-          </button>
-          <span>{{ node.name }} - {{ node.data.organizationLevel }}</span>
-        </div>
-        <div class="child-orgs-container" *ngIf="node.data.showParentOrgDetails">
-          <ul class="child-org-list" style="list-style-type: none; padding: 0;">
-            <ng-container *ngFor="let child of node.data.children">
-              <li class="child-org-item" style="margin-bottom: 5px;">{{ child.name }} - Level {{ child.organizationLevel
-                }}</li>
-            </ng-container>
-          </ul>
-        </div>
-      </li>
-    </mat-tree-node>
-  </mat-tree> -->
-  
-
-
+ 
   <div *ngIf="!displayedOrganization.length" class="no-data-message">
     No data found.
   </div>

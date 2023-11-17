@@ -130,5 +130,14 @@ export class JobComponent implements OnInit {
       job.jobType.toLowerCase().includes(searchTerm.toLowerCase()) 
     );
   }
+
+  applyJobFilter(filterData: any) {
+    this.displayedJob = this.jobs.filter((job) => {
+      if (filterData.active !== undefined) {
+        return job.active === filterData.active;
+      }
+      return true; // If no filter is selected, return all clients
+    });
+  }
 }
  

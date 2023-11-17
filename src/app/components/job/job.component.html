@@ -8,17 +8,24 @@
     </div>
   </div>
     
-  <app-search 
-  [placeholderText]="'Search Job by Name'"
-  [searchQuery]="jobSearchQuery"
-  (searchQueryChanged)="performJobSearch($event)">
-</app-search>
+  <div style="display: flex; align-items: center;">
+    <div style="flex: 1;">
+      <app-search 
+      [placeholderText]="'Search Job by Name'"
+      [searchQuery]="jobSearchQuery"
+      (searchQueryChanged)="performJobSearch($event)">
+    </app-search>    </div>
+    <div style="margin-bottom: 20px;">
+      <app-client-filter (filterChanged)="applyJobFilter($event)"></app-client-filter>
+    </div>
+  </div>
+ 
 
   <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
     
     <thead>
       <tr>
-        <th>ID</th>
+        <!-- <th>ID</th> -->
         <th>Job Name</th> 
         <th>Created At</th>
         <th>Status</th>
@@ -27,7 +34,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let job of displayedJob" class="client-item">
-        <td>{{ job.jobID }}</td>
+        <!-- <td>{{ job.jobID }}</td> -->
         <td>{{ job.jobType }}</td>
         <td class="created-info-cell">
           <div class="created-at">{{ job.createdAt | date:'medium' }}</div>

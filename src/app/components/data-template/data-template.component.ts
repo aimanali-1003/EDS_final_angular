@@ -126,5 +126,14 @@ export class DataTemplateComponent implements OnInit {
       template.active.toString().toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
+
+  applyTemplateFilter(filterData: any) {
+    this.displayedTemplate = this.dataTemplates.filter((template) => {
+      if (filterData.active !== undefined) {
+        return template.active === filterData.active;
+      }
+      return true; // If no filter is selected, return all clients
+    });
+  }
   
 }

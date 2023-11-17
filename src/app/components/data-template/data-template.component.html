@@ -9,11 +9,19 @@
     </div>
   </div>
 
-  <app-search 
-  [placeholderText]="'Search Template by Name'"
-  [searchQuery]="templateSearchQuery"
-  (searchQueryChanged)="performTemplateSearch($event)">
-</app-search>
+  <div style="display: flex; align-items: center;">
+    <div style="flex: 1;">
+      <app-search 
+      [placeholderText]="'Search Template by Name'"
+      [searchQuery]="templateSearchQuery"
+      (searchQueryChanged)="performTemplateSearch($event)">
+    </app-search>    </div>
+    <div style="margin-bottom: 20px;">
+      <app-client-filter (filterChanged)="applyTemplateFilter($event)"></app-client-filter>
+    </div>
+  </div>
+
+  
 
   <div class="table-container">
     <table class="client-table" style="font-family: 'Quicksand', sans-serif;">

@@ -52,6 +52,7 @@ import { OrgDetailsComponent } from './components/org-details/org-details.compon
 import { ViewCategoryComponent } from './components/view-category/view-category.component';   
 import { DragDropModule } from '@angular/cdk/drag-drop'; 
 import { MatTreeModule } from '@angular/material/tree';
+import { ActiveJobsPopupComponent } from './components/active-jobs-popup/active-jobs-popup.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,7 @@ import { MatTreeModule } from '@angular/material/tree';
     CreateJobComponent,
     CreateClientComponent, 
     SearchComponent,   
-    OrgDetailsComponent, ViewCategoryComponent, 
+    OrgDetailsComponent, ViewCategoryComponent, ActiveJobsPopupComponent, 
     
   ],
   imports: [
