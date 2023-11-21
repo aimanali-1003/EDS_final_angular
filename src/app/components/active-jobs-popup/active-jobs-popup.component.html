@@ -1,14 +1,14 @@
 <div class="active-jobs-popup">
     <div class="header">
-      <h2 style="font-family: 'Quicksand', sans-serif; font-weight: bold;">Cannot deactivate this template</h2> 
+      <h2 style="font-family: 'Quicksand', sans-serif; font-weight: bold; color: #cc3300;">Cannot deactivate this template</h2> 
       <hr>
       <h4>This template is being used in the following job(s)</h4>
     </div>
     <div class="content">
-      <table mat-table [dataSource]="activeJobs">
+      <table mat-table [dataSource]="activeJobs.slice(0, 5)">>
         <!-- Job Type Column -->
         <ng-container matColumnDef="jobType">
-          <th mat-header-cell *matHeaderCellDef class="column-cell"> Job Type </th>
+          <th mat-header-cell *matHeaderCellDef class="column-cell"> Job Name </th>
           <td mat-cell *matCellDef="let job" class="column-cell center-content"> {{ job.jobType }} </td>
         </ng-container>
   
@@ -34,12 +34,12 @@
         </ng-container> -->
 
         <ng-container matColumnDef="maxRecordCountAlarm">
-            <th mat-header-cell *matHeaderCellDef class="column-cell"> maxRecordCountAlarm </th>
+            <th mat-header-cell *matHeaderCellDef class="column-cell"> Max Record Count Alarm </th>
             <td mat-cell *matCellDef="let job" class="column-cell center-content"> {{ job.maxRecordCountAlarm }} </td>
           </ng-container>
 
         <ng-container matColumnDef="minRecordCountAlarm">
-            <th mat-header-cell *matHeaderCellDef class="column-cell"> minRecordCountAlarm </th>
+            <th mat-header-cell *matHeaderCellDef class="column-cell"> Min Record Count Alarm </th>
             <td mat-cell *matCellDef="let job" class="column-cell center-content"> {{ job.minRecordCountAlarm }} </td>
           </ng-container>
   
@@ -53,10 +53,16 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+
+      <div style="margin-top: 5%;" *ngIf="(activeJobs.length -5) > 1" class="more-jobs">
+        <p style="text-align: center;">+ {{ activeJobs.length - 5 }} more jobs</p>
+      </div>
     </div>
     <div class="footer">
-        <div class="button-container">
-            <button mat-button (click)="closeDialog()">Close</button>
+        <div  >
+          <button  mat-button class="luxury-modal-button-cancel" (click)="closeDialog()">
+            <span class="icon">&#00000;</span> Close
+          </button>
         </div>
-    </div>
+    </div>   
 </div>

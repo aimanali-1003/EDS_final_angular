@@ -94,7 +94,7 @@
 
   <mat-card class="luxury-card" *ngIf="!isEdit">
     <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
-    <h3 *ngIf="!isViewOnly"  style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Drag and drop to reorder</h3>
+    <h3 *ngIf="!isViewOnly"  style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Please drag the columns  to reorder the template structure.</h3>
     <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let columnName of testing; let i = index" cdkDrag [cdkDragDisabled]="isViewOnly">
         {{ i + 1 }}. {{ columnName }}
@@ -106,7 +106,7 @@
 
   <mat-card class="luxury-card" *ngIf="isEdit">
     <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
-    <h3 *ngIf="!isViewOnly" style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Drag and drop to reorder</h3>
+    <h3 *ngIf="!isViewOnly" style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Please drag the columns  to reorder the template structure.</h3>
 
     <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let columnName of testing; let i = index" cdkDrag [cdkDragDisabled]="isViewOnly">

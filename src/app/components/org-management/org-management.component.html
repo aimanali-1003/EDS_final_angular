@@ -9,41 +9,48 @@
   <app-search [placeholderText]="'Search Organization by Name and code'" [searchQuery]="organizationSearchQuery"
     (searchQueryChanged)="performOrganizationSearch($event)"></app-search>
 
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [ngStyle]="{ 'margin-left.px': node.level * 20 }">
-      <li style="list-style-type: none;">
-        <div class="client-item">
-          <button mat-icon-button (click)="toggleParentOrgDetailsByCode(node.data.organizationCode)">
-            <mat-icon [style.transform]="node.data.showParentOrgDetails ? 'rotate(90deg)' : 'none'">
-              {{ node.data.showParentOrgDetails ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}
-            </mat-icon>
-          </button>
-          <span>{{ node.name }} - {{ node.data.organizationLevel }}</span>
-        </div>
-        <div class="child-orgs-container" *ngIf="node.data.showParentOrgDetails">
-          <ul class="child-org-list" style="list-style-type: none; padding: 0;">
-            <ng-container *ngFor="let child of node.data.children">
-              <li class="child-org-item" style="margin-bottom: 5px;">{{ child.name }} - Level {{ child.organizationLevel
-                }}</li>
-            </ng-container>
-          </ul>
-        </div>
-      </li>
-    </mat-tree-node>
-  </mat-tree>
-  <hr style="margin-top: 20px; margin-bottom: 20px; border: 0.5px solid #ababab;">
- 
-  <div *ngIf="!displayedOrganization.length" class="no-data-message">
-    No data found.
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [ngStyle]="{ 'margin-left.px': node.level * 20 }">
+        <li style="list-style-type: none;">
+          <div class="client-item">
+            <button mat-icon-button (click)="toggleParentOrgDetailsByCode(node.data.organizationCode)">
+              <mat-icon [style.transform]="node.data.showParentOrgDetails ? 'rotate(90deg)' : 'none'">
+                {{ node.data.showParentOrgDetails ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}
+              </mat-icon>
+            </button>
+            <span>{{ node.name }} - {{ node.data.organizationLevel }}</span>
+            <div class="path-to-parents" *ngIf="node.data.pathToParents">
+              Path to Parents: {{ node.data.pathToParents }}
+            </div>
+          </div>
+          <div class="child-orgs-container" *ngIf="node.data.showParentOrgDetails">
+            <ul class="child-org-list" style="list-style-type: none; padding: 0;">
+              <ng-container *ngFor="let child of node.data.children">
+                <li class="child-org-item" style="margin-bottom: 5px;">
+                  {{ child.name }} - Level {{ child.organizationLevel }}
+                  <div class="path-to-parents" *ngIf="child.pathToParents">
+                    Path to Parents: {{ child.pathToParents }}
+                  </div>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </li>
+      </mat-tree-node>
+    </mat-tree>
+    <hr style="margin-top: 20px; margin-bottom: 20px; border: 0.5px solid #ababab;">
+  
+    <div *ngIf="!displayedOrganization.length" class="no-data-message">
+      No data found.
+    </div>
+  
+    <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="orgs.length"
+      (pageChange)="onPageChange($event)"></app-pagination>
   </div>
-
-  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="orgs.length"
-    (pageChange)="onPageChange($event)"></app-pagination>
-</div>
-
-<ng-template #parentOrgDetailsTemplate let-orgCode="orgCode">
-  <ng-container *ngIf="parentOrgsMap[orgCode]">
-    <ng-container
-      *ngTemplateOutlet="parentOrgDetailsTemplate; context: { orgCode: parentOrgsMap[orgCode] }"></ng-container>
-  </ng-container>
-</ng-template>
+  
+  <ng-template #parentOrgDetailsTemplate let-orgCode="orgCode">
+    <ng-container *ngIf="parentOrgsMap[orgCode]">
+      <ng-container
+        *ngTemplateOutlet="parentOrgDetailsTemplate; context: { orgCode: parentOrgsMap[orgCode] }"></ng-container>
+    </ng-container>
+  </ng-template>

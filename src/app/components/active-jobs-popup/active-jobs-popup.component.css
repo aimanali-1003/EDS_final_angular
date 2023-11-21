@@ -13,7 +13,7 @@
     padding: 8px; /* Adjust the padding as needed */
   }
   .center-content {
-    text-align: center;
+    /* text-align: center; */
     font-family: 'Quicksand', sans-serif;
   }
   .show-more-row {
@@ -26,7 +26,7 @@
 
 .active-jobs-popup {
     /* Your existing styles */
-    display: flex;
+    display: flex; 
     flex-direction: column;
 }
 
@@ -38,4 +38,9 @@
 .button-container {
     /* Adjust margin or padding as needed */
     margin-right: 20px;
+}
+.luxury-modal-button-cancel {
+  color: #ffffff;
+  background-color: #c93232; 
+  box-shadow: none;
 }

@@ -160,7 +160,7 @@ mat-form-field {
 
 /* Modify the size of the "X" button */
 .btn-danger {
-  background-color: red;
+  background-color:#c93232;;
   color: white;
   border: none;
   padding: 2px 5px; /* Adjust the padding to control the size */

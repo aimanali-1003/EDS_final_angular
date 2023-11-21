@@ -42,6 +42,7 @@ export class OrgManagementComponent implements OnInit {
       name: node.organizationCode,
       level: level,
       data: node,
+      pathToParents: node.pathToParents // Include pathToParents in the tree node
     };
   };
 
@@ -130,6 +131,9 @@ export class OrgManagementComponent implements OnInit {
     this.organizationSearchQuery = searchTerm;
 
     if (!searchTerm) {
+      // If the search term is empty, reset the organizations
+      this.orgs = [];
+      this.buildParentOrgsMap();
       this.updateDisplayedOrgs(1);
     } else {
       // Assuming you have an API endpoint to search organizations based on the entered text
