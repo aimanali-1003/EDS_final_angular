@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let category of displayedCategory" class="client-item">
+        <tr *ngFor="let category of categories" class="client-item">
           <td>{{ category.categoryCode }}</td>
           <td>{{ category.categoryName }}</td>  
           <td class="action-cell">
@@ -34,7 +34,7 @@
         </tr>
       </tbody>
     </table> 
-    <div *ngIf="displayedCategory.length === 0" class="no-data-message">
+    <div *ngIf="categories.length === 0" class="no-data-message">
       No data found.
     </div> 
     <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="category.length"

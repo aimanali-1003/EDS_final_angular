@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { CommonService } from '../shared/config';
+import { ResponseViewModel } from '../model/ResponseViewModel';
+import { CategorySM } from '../model/CategoryModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,9 @@ export class CategoryService {
     this.apiUrl = this.commonService.getApiUrl();
   }
 
-  getCategory(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/Categories`);
+  getCategories(vm: any): Observable<ResponseViewModel<CategorySM[]>> {
+    const params = new HttpParams({ fromObject: vm });
+    return this.http.get<ResponseViewModel<CategorySM[]>>(`${this.apiUrl}/api/Category/GetCategories`, { params });
   }
 
   getActiveCategory(): Observable<any[]> {

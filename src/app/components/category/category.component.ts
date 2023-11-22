@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Router, ActivatedRoute } from '@angular/router'; 
+import { CategorySM } from 'src/app/model/CategoryModel';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -15,6 +16,9 @@ export class CategoryComponent implements OnInit {
   pageSize: number = 10; 
   categoryData: any;
   categorySearchQuery: string = '';
+  categories: CategorySM[] = [];
+  currentPage: number = 1; // Track current page
+  totalCategories = 0; 
 
   constructor(
     private categoryService: CategoryService, 
@@ -30,13 +34,35 @@ export class CategoryComponent implements OnInit {
     this.router.navigate(['/viewCategory/' + category.categoryID+'/'+true]);
   } 
    
-  fetchCategories() {
-    this.categoryService.getCategory().subscribe((category: any[]) => {
-      this.category = category;
-      this.displayedCategory=category; 
-      this.updateDisplayedCategory(1);
-    });
-  } 
+  // fetchCategories() {
+  //   this.categoryService.getCategory().subscribe((category: any[]) => {
+  //     this.category = category;
+  //     this.displayedCategory=category; 
+  //     this.updateDisplayedCategory(1);
+  //   });
+  // } 
+
+  fetchCategories(): void {
+    const params = {
+      page: this.currentPage.toString(),
+      pageSize: this.pageSize.toString()
+      // Add other parameters as required by your API
+    };
+  
+    this.categoryService.getCategories(params).subscribe(
+      (response) => {
+        if (response.code === 200 && response.itemList) {
+          this.categories = this.categories.concat(response.itemList);
+          this.totalCategories = +response.totalCount; // Convert totalCount to a number
+        }
+        // Handle if itemList doesn't exist or other scenarios
+      },
+      (error) => {
+        console.error('Error fetching Categories:', error);
+        // Handle error cases
+      }
+    );
+  }
 
   onPageChange(pageNumber: number) {
     this.updateDisplayedCategory(pageNumber);

@@ -4,6 +4,7 @@ import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-d
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JobService } from 'src/app/services/job.service';
 import { Router } from '@angular/router';
+import { JobVM } from 'src/app/model/JobModel';
 @Component({
   selector: 'app-job',
   templateUrl: './job.component.html',
@@ -23,6 +24,10 @@ export class JobComponent implements OnInit {
   notificationRecipients: any[] = [];
   jobData: any;
   jobSearchQuery: string="";
+  jobss: JobVM[] = [];
+  currentPage: number = 1; // Track current page
+  totalJobs = 0; // Track total job count
+  // pageSize = 10; // Define your page size
 
 
 
@@ -102,12 +107,34 @@ export class JobComponent implements OnInit {
     .slice(startIndex, endIndex);
   }
 
-  fetchJobs() {
-    this.jobService.getJobs().subscribe((jobs: any[]) => {
-      this.jobs = jobs;
-      // console.log(jobs);
-      this.updateDisplayedJobs(1);
-    });
+  fetchJobs(): void {
+    const params = {
+      page: this.currentPage.toString(),
+      pageSize: this.pageSize.toString()
+      // Add other parameters as required by your API
+    };
+  
+    this.jobService.getJobs(params).subscribe(
+      (response) => {
+        if (response.code === 200 && response.itemList) {
+          this.jobss = this.jobss.concat(response.itemList);
+          this.totalJobs = +response.totalCount; // Convert totalCount to a number
+        }
+        // Handle if itemList doesn't exist or other scenarios
+      },
+      (error) => {
+        console.error('Error fetching Jobs:', error);
+        // Handle error cases
+      }
+    );
+  }
+
+  loadMoreJobs(): void {
+    // Assuming there are more jobs available based on some condition (e.g., totalJobs > jobs.length)
+    if (this.totalJobs > this.jobs.length) {
+      this.currentPage++; // Increment current page
+      this.fetchJobs(); // Fetch more jobs for the next page
+    }
   }
 
   onPageChange(pageNumber: number) {
@@ -140,4 +167,3 @@ export class JobComponent implements OnInit {
     });
   }
 }
- 

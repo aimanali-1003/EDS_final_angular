@@ -1,8 +1,11 @@
 // data.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { CommonService } from '../shared/config';
+import { CategorySM } from '../model/CategoryModel';
+import { ResponseViewModel } from '../model/ResponseViewModel';
+import { TemplateVM } from '../model/DataTemplateModel';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +17,11 @@ export class DataService {
     this.apiUrl = this.commonService.getApiUrl();
   }
 
-  getCategories(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/Categories`);
-  }
+  // getCategories(): Observable<any[]> {
+  //   return this.http.get<any[]>(`${this.apiUrl}/api/Categories`);
+  // }
 
+  
   getColumns(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/columns`);
   }
@@ -26,10 +30,11 @@ export class DataService {
     return this.http.get<any[]>(`${this.apiUrl}/clients`);
   }
 
-  getDataTemplates(): Observable<any[]> {
-    
-    return this.http.get<any[]>(`${this.apiUrl}/api/Templates`);
+  getDataTemplates(vm: any): Observable<ResponseViewModel<TemplateVM[]>> {
+    const params = new HttpParams({ fromObject: vm });
+    return this.http.get<ResponseViewModel<TemplateVM[]>>(`${this.apiUrl}/api/Template/GetTemplates`, { params });
   }
+
   getTemplate(templateId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/Templates/${templateId}`);
   }

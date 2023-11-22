@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ClientService } from 'src/app/services/client.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
-import { clientDataModel } from 'src/app/model/ClientModel';
+import { ApiResponse,clientDataModel } from 'src/app/model/ClientModel';
+import { OrgService } from 'src/app/services/org.service';
+import { ClientVM } from 'src/app/model/ClientModel';
 
 @Component({
   selector: 'app-create-client',
@@ -19,22 +21,34 @@ export class CreateClientComponent implements OnInit {
   clientId: string = '';
   isEdit:boolean = false;
   isViewOnly:boolean = false;
-  clientData: clientDataModel = new clientDataModel();
+  clientData!: [];
   clientOrg: any[] = [];
   selectedOrganization: any; 
+  organizations: any[] = [];
+  clients: clientDataModel[] = [];
+  newClient: clientDataModel = {
+    id: 0,
+    name: '',
+    code: '',
+    organizationId: '',
+    // Add other properties as needed
+  };
+  
 
   
   constructor(
     private clientService: ClientService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private organizationService: OrgService,
   ) {
 
   }
 
   ngOnInit(): void { 
 
+    this.fetchOrganizations();
     this.clientService.getOrgs().subscribe((orgs: any[]) => {
       this.orgs = orgs;
     });
@@ -48,6 +62,28 @@ export class CreateClientComponent implements OnInit {
         this.loadClientOrganization();
         this.loadClientData();
       }
+    });
+  }
+
+  onCreateClientSubmit(): void {
+    this.clientService.createClient(this.newClient).subscribe((response: ApiResponse) => {
+      if (response.isSuccess) {
+        this.snackBar.open('Client created successfully', 'Close', {
+          duration: 2000,
+        });
+        // Optionally, you can navigate to the clients list component after creating a client
+      } else {
+        this.snackBar.open('Error creating client', 'Close', {
+          duration: 2000,
+        });
+      }
+    });
+  }
+
+  fetchOrganizations(): void {
+    this.organizationService.getOrgs().subscribe((organizations: any[]) => {
+      this.organizations = organizations;
+      console.log(this.organizations)
     });
   }
 
@@ -75,7 +111,7 @@ export class CreateClientComponent implements OnInit {
   }
 
   ValidateFormFields(){
-    if (!this.clientData.clientName) {
+    if (!this.clientData) {
       this.snackBar.open('Client Name is required.', 'Close', {
         duration: 3000,
       });
@@ -94,7 +130,7 @@ export class CreateClientComponent implements OnInit {
 
    this.ValidateFormFields();
 
-    this.clientData.organizationId = this.selectedOrganization.organizationID;
+    this.clientData = this.selectedOrganization.organizationID;
 
     if(this.isEdit){
 
@@ -112,24 +148,7 @@ export class CreateClientComponent implements OnInit {
           });
         }
       );
-    }else{
-      this.clientService.createClient(this.clientData).subscribe((response: any) => {
-        
-        this.snackBar.open('Client created successfully', 'Close', {
-          duration: 3000,
-        });
-
-        this.router.navigate(['/clients']);
-      },
-      (error) => {
-        console.error('Error creating client:', error);
-        this.snackBar.open('Error creating client: ' + error.error, 'Close', {
-          duration: 3000, // Duration in milliseconds
-        });
-      }
-      );
     }
-  
   }
   
 }

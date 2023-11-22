@@ -45,9 +45,9 @@ export class CreateTemplateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.templateService.getCategories().subscribe((categories: any[]) => {
-      this.categories = categories;
-    });
+    // this.templateService.getCategories().subscribe((categories: any[]) => {
+    //   this.categories = categories;
+    // });
 
     this.route.params.subscribe((params) => {
       this.templateId = params['id'];

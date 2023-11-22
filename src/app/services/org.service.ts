@@ -14,7 +14,7 @@ export class OrgService {
   }
 
   getOrgs(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/Organizations`);
+    return this.http.get<any[]>(`${this.apiUrl}/GetAllOrganizations`);
   }
 
   getOrgById(orgID:string): Observable<any[]> {

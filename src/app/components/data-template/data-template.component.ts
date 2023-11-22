@@ -7,6 +7,7 @@ import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-d
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/services/category.service';
 import { ActivatedRoute } from '@angular/router';
+import { TemplateVM } from 'src/app/model/DataTemplateModel';
 
 @Component({
   selector: 'app-data-template',
@@ -21,10 +22,13 @@ export class DataTemplateComponent implements OnInit {
   selectedColumns: string[] = [];
   displayedTemplate: any[] = [];
   categories: any[] = [];
-  currentPage: number = 1;
+  // currentPage: number = 1;
   templateSearchQuery: string = '';
   pageSize: number = 10;
   searchTerm: string = '';
+  templates: TemplateVM[] = [];
+  currentPage: number = 1; // Track current page
+  totalClients = 0; 
 
 
   selectedCategory: string[] = [];
@@ -80,6 +84,28 @@ export class DataTemplateComponent implements OnInit {
       }
     });
   } 
+
+  fetchTemplates(): void {
+    const params = {
+      page: this.currentPage.toString(),
+      pageSize: this.pageSize.toString()
+      // Add other parameters as required by your API
+    };
+  
+    this.dataService.getDataTemplates(params).subscribe(
+      (response) => {
+        if (response.code === 200 && response.itemList) {
+          this.templates = this.templates.concat(response.itemList);
+          this.totalClients = +response.totalCount; // Convert totalCount to a number
+        }
+        // Handle if itemList doesn't exist or other scenarios
+      },
+      (error) => {
+        console.error('Error fetching templates:', error);
+        // Handle error cases
+      }
+    );
+  }
   
   ngOnInit(): void { 
     this.fetchTemplates(); 
@@ -100,16 +126,6 @@ export class DataTemplateComponent implements OnInit {
     this.displayedTemplate = this.dataTemplates.slice(startIndex, endIndex);
   }
 
-  fetchTemplates() {
-    this.dataService.getDataTemplates().subscribe((dataTemplate: any[]) => {
-      this.dataTemplates = dataTemplate;
-      console.log(this.dataTemplates);
-      this.updateDisplayedTemplates();
-    });
-    this.categoryService.getCategory().subscribe((categories: any[]) => {
-      this.categories = categories; 
-    }); 
-  }  
 
   
 

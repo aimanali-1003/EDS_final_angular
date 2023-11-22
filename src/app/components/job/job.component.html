@@ -25,7 +25,6 @@
     
     <thead>
       <tr>
-        <!-- <th>ID</th> -->
         <th>Job Name</th> 
         <th>Created At</th>
         <th>Status</th>
@@ -42,10 +41,6 @@
             <span class="created-by-label">Created By: </span>
             <span class="created-by-cell">{{ job.createdBy }}</span>
           </div>
-        </td>
-        <td [style.color]="job.Active ? '#4cf0a1;' : 'red'">
-          <ng-container *ngIf="job.active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
-          <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
         </td>
       
         <td class="action-cell">

@@ -98,14 +98,14 @@ export class CreateJobComponent implements OnInit {
       this.fileFormatJobs = fileFormat;
     });
 
-    this.clientService.getClients().subscribe((clients: any) => {
-      this.ClientData = clients;
-      console.log(this.ClientData)
-    })
+    // this.clientService.getClients().subscribe((clients: any) => {
+    //   this.ClientData = clients;
+    //   console.log(this.ClientData)
+    // })
 
 
 
-    this.loadTemplatesDropDown();
+    // this.loadTemplatesDropDown();
 
     this.route.params.subscribe((params) => {
       this.jobId = params['jobId'];
@@ -152,11 +152,11 @@ export class CreateJobComponent implements OnInit {
   // }
 
 
-  loadTemplatesDropDown(): void {
-    this.dataService.getDataTemplates().subscribe((templates: any[]) => {
-      this.templates = templates;
-    });
-  }
+  // loadTemplatesDropDown(): void {
+  //   this.dataService.getDataTemplates().subscribe((templates: any[]) => {
+  //     this.templates = templates;
+  //   });
+  // }
 
   loadTemplates(templateId: string) {
     console.log('Template ID selected:', templateId);
