@@ -15,12 +15,17 @@ export class JobService {
     this.apiUrl = this.commonService.getApiUrl();
   }
 
-  getJob(jobId: string): Observable<string> { 
-    return this.http.get<any>(`${this.apiUrl}/api/Jobs/${jobId}`);
+  getJobs(vm: any): Observable<ResponseViewModel<JobVM[]>> {
+    const params = new HttpParams({ fromObject: vm });
+    return this.http.get<ResponseViewModel<JobVM[]>>(`${this.apiUrl}/api/Job/GetJobs`, { params });
   }
 
-  createJob(jobData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/api/Jobs`, jobData);
+  getJob(jobId: number): Observable<ResponseViewModel<JobVM>> {
+    return this.http.get<ResponseViewModel<JobVM>>(`${this.apiUrl}/api/Job/${jobId}`);
+  }
+
+  createJob(newJob: JobVM): Observable<ResponseViewModel<JobVM>> {
+    return this.http.post<ResponseViewModel<JobVM>>(`${this.apiUrl}/api/Job`, newJob);
   }
 
   updateJob(jobId: string, jobData: any): Observable<any> {
@@ -30,11 +35,5 @@ export class JobService {
   deleteJob(jobId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/api/jobs/${jobId}`);
   }
-
-  getJobs(vm: any): Observable<ResponseViewModel<JobVM[]>> {
-    const params = new HttpParams({ fromObject: vm });
-    return this.http.get<ResponseViewModel<JobVM[]>>(`${this.apiUrl}/GetJobs`, { params });
-  }
-
  
 }

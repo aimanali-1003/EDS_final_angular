@@ -292,3 +292,18 @@ color: #999;
   border: 1px solid #ddd; /* Optional border for styling */
   background-color: #f9f9f9; /* Optional background color for styling */
 }
+
+.active {
+  border-radius: 5px;
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.inactive {
+  border-radius: 5px;
+  color: #F44336;
+  font-weight: bold;
+  padding: 5px;
+  font-size: 14px;
+}

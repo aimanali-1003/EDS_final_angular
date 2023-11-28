@@ -19,9 +19,9 @@ export class ClientService {
   //   return this.http.get<ApiResponse>(`${this.apiUrl}/GetAllClients`);
   // }
 
-  createClient(newClient: clientDataModel): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/createClient`, newClient);
-  }
+  // createClient(newClient: ClientVM): Observable<ApiResponse<number>> {
+  //   return this.http.post<ApiResponse<number>>(`${this.apiUrl}/createClient`, newClient);
+  // }
 
   getOrgs(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/Organizations`);
@@ -31,6 +31,10 @@ export class ClientService {
   //   console.log(clientData)
   //   return this.http.post<any>(`${this.apiUrl}/api/Clients`, clientData);
   // }
+
+  createClient(newClient: ClientVM): Observable<ResponseViewModel<ClientVM>> {
+    return this.http.post<ResponseViewModel<ClientVM>>(`${this.apiUrl}/api/Client`, newClient);
+  }
 
   updateClient(clientId: string, clientData: any): Observable<any> { 
     console.log(clientId,clientData); 

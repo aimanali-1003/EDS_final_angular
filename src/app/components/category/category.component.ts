@@ -19,6 +19,7 @@ export class CategoryComponent implements OnInit {
   categories: CategorySM[] = [];
   currentPage: number = 1; // Track current page
   totalCategories = 0; 
+  categoryId!: number; 
 
   constructor(
     private categoryService: CategoryService, 
@@ -29,24 +30,31 @@ export class CategoryComponent implements OnInit {
     this.fetchCategories();   
   }
 
-  ViewCategory(category: any): void {
-    this.categoryData = category; 
-    this.router.navigate(['/viewCategory/' + category.categoryID+'/'+true]);
-  } 
-   
-  // fetchCategories() {
-  //   this.categoryService.getCategory().subscribe((category: any[]) => {
-  //     this.category = category;
-  //     this.displayedCategory=category; 
-  //     this.updateDisplayedCategory(1);
-  //   });
+  // ViewCategory(category: any): void {
+  //   this.categoryData = category; 
+  //   this.router.navigate(['/viewCategory/' + category.categoryID+'/'+true]);
   // } 
+
+  ViewCategory(categoryId: number): void {
+    this.categoryService.getCategoryById(categoryId).subscribe(
+      (response) => {
+        if (response.code === 200 && response.data) {
+          const category: CategorySM = response.data;
+          this.router.navigate(['/viewCategory/' + category.categoryId+'/'+true]);  // Routing to create-client component with client ID
+        } else {
+          console.error('No category found or unsuccessful response.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching client:', error);
+      }
+    );
+  }
 
   fetchCategories(): void {
     const params = {
       page: this.currentPage.toString(),
       pageSize: this.pageSize.toString()
-      // Add other parameters as required by your API
     };
   
     this.categoryService.getCategories(params).subscribe(
@@ -55,7 +63,6 @@ export class CategoryComponent implements OnInit {
           this.categories = this.categories.concat(response.itemList);
           this.totalCategories = +response.totalCount; // Convert totalCount to a number
         }
-        // Handle if itemList doesn't exist or other scenarios
       },
       (error) => {
         console.error('Error fetching Categories:', error);

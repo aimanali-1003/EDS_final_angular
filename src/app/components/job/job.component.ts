@@ -26,7 +26,7 @@ export class JobComponent implements OnInit {
   jobSearchQuery: string="";
   jobss: JobVM[] = [];
   currentPage: number = 1; // Track current page
-  totalJobs = 0; // Track total job count
+  totalJobs = 0; 
   // pageSize = 10; // Define your page size
 
 
@@ -48,9 +48,22 @@ export class JobComponent implements OnInit {
     this.router.navigate(['/createJob']);
   }
 
-  viewJob(jobData?: any): void {
-    const jobId = jobData.jobID;
-    this.router.navigate(['/viewJob/'+jobId+'/'+true]);    
+  viewJob(jobId: number): void {
+    this.jobService.getJob(jobId).subscribe(
+      (response) => {
+        if (response.code === 200 && response.data) {
+          const job: JobVM = response.data;
+          this.router.navigate(['/viewJob/'+jobId+'/'+true]);  // Routing to create-client component with client ID
+        } else {
+          console.error('No client found or unsuccessful response.');
+          // Handle error cases or no client found
+        }
+      },
+      (error) => {
+        console.error('Error fetching client:', error);
+        // Handle error cases
+      }
+    );   
   }
  
 
@@ -111,20 +124,17 @@ export class JobComponent implements OnInit {
     const params = {
       page: this.currentPage.toString(),
       pageSize: this.pageSize.toString()
-      // Add other parameters as required by your API
     };
   
     this.jobService.getJobs(params).subscribe(
       (response) => {
         if (response.code === 200 && response.itemList) {
           this.jobss = this.jobss.concat(response.itemList);
-          this.totalJobs = +response.totalCount; // Convert totalCount to a number
+          this.totalJobs = +response.totalCount;
         }
-        // Handle if itemList doesn't exist or other scenarios
       },
       (error) => {
         console.error('Error fetching Jobs:', error);
-        // Handle error cases
       }
     );
   }
@@ -163,7 +173,7 @@ export class JobComponent implements OnInit {
       if (filterData.active !== undefined) {
         return job.active === filterData.active;
       }
-      return true; // If no filter is selected, return all clients
+      return true;
     });
   }
 }

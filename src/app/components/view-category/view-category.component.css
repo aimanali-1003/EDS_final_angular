@@ -72,3 +72,13 @@
     box-sizing: border-box; 
 }
 
+/* Add these styles in your CSS file */
+.no-columns-message {
+    color: red; /* Change color to suit your design */
+    font-size: 16px;
+    margin-top: 10px; /* Adjust spacing as needed */
+    text-align: left; /* Align text to the left */
+}
+
+
+

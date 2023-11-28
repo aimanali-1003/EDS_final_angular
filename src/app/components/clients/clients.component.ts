@@ -57,20 +57,13 @@ export class ClientsComponent implements OnInit {
       }
     );
   }
-  
+
   viewClient(clientId: number): void {
     this.clientService.getClientById(clientId).subscribe(
       (response) => {
         if (response.code === 200 && response.data) {
-          const client: ClientVM = {
-            clientId: response.data.clientId,
-            clientName: response.data.clientName,
-            clientCode: response.data.clientCode,
-            isActive: response.data.isActive
-          };
-          // Handle the retrieved client data here
-          console.log(client); // Example: Log client details to the console
-          this.router.navigate(['/viewClient/'+clientId+'/'+true]);    
+          const client: ClientVM = response.data;
+          this.router.navigate(['/viewClient/'+clientId+'/'+true]);  // Routing to create-client component with client ID
         } else {
           console.error('No client found or unsuccessful response.');
           // Handle error cases or no client found
@@ -82,6 +75,7 @@ export class ClientsComponent implements OnInit {
       }
     );
   }
+  
   
   
 

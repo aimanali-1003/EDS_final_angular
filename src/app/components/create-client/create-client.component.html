@@ -7,40 +7,29 @@
     <form class="form-grid">
       <div class="form-row">
         <mat-form-field class="form-item">
-          <input [disabled]="isViewOnly" matInput placeholder="Client Name" [(ngModel)]="newClient.name" name="clientName" required>
+          <input [disabled]="isViewOnly" matInput placeholder="Client Name" [(ngModel)]="clientData.clientName" name="clientName" required>
         </mat-form-field>
       </div>
 
       <div class="form-row">
         <mat-form-field class="form-item">
-          <input [disabled]="isViewOnly" matInput placeholder="Client Code" [(ngModel)]="newClient.code" name="clientCode" required>
+          <input [disabled]="isViewOnly" matInput placeholder="Client Code" [(ngModel)]="clientData.clientCode" name="clientCode" required>
         </mat-form-field>
       </div>
 
-      <div class="form-row">
-        <mat-form-field class="form-item">
-          <mat-select [disabled]="isViewOnly" placeholder="Organization Level" [(ngModel)]="newClient.organizationId" name="organizationLevel" required>
-            <mat-option *ngFor="let organization of organizations" [value]="organization.id">{{ organization.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div *ngIf="isEdit"  class="form-row">
+        <mat-slide-toggle [color]="clientData.isActive ? 'primary' : 'warn'" [disabled]="isViewOnly" [(ngModel)]="clientData.isActive" name="active">Active</mat-slide-toggle>
       </div>
 
-
-      <!-- <div *ngIf="isEdit" class="form-row">
-        <mat-slide-toggle [color]="clientData.active ? 'primary' : 'warn'" [disabled]="isViewOnly" [(ngModel)]="clientData.active" name="active">Active</mat-slide-toggle>
-      </div> -->
-      
-
-      
       <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
         <button *ngIf="!isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()"> <span class="icon">&#10006;</span> Cancel</button>
         <button *ngIf="!isEdit"  mat-raised-button class="create-client-button" (click)="onCreateClientSubmit()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Client</button>
         <button *ngIf="isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()">
           <span class="icon">&#10006;</span> Cancel
         </button>
-        <button *ngIf="isEdit"  mat-raised-button class="create-client-button" (click)="createUpdateclient()">
+        <!-- <button *ngIf="isEdit"  mat-raised-button class="create-client-button" (click)="createUpdateclient()">
           <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
-        </button>
+        </button> -->
       </div>
     </form>
   </div>

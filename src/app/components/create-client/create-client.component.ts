@@ -18,24 +18,15 @@ export class CreateClientComponent implements OnInit {
   orgs: any[] = [];
   currentDatetime = new Date();
   clientCode: string = '';
-  clientId: string = '';
+  clientId!: number;
   isEdit:boolean = false;
   isViewOnly:boolean = false;
-  clientData!: [];
   clientOrg: any[] = [];
   selectedOrganization: any; 
   organizations: any[] = [];
   clients: clientDataModel[] = [];
-  newClient: clientDataModel = {
-    id: 0,
-    name: '',
-    code: '',
-    organizationId: '',
-    // Add other properties as needed
-  };
-  
+  clientData: ClientVM = new ClientVM()
 
-  
   constructor(
     private clientService: ClientService,
     private router: Router,
@@ -54,30 +45,48 @@ export class CreateClientComponent implements OnInit {
     });
 
     this.route.params.subscribe((params) => {
-      this.clientId = params['clientId'];
+      this.clientId = +params['clientId'];
       this.isViewOnly = params['isViewOnly'];
-
-      if(this.clientId != undefined && this.clientId != "" && this.clientId != null && this.clientId != ''){
-        this.isEdit = true;
-        this.loadClientOrganization();
-        this.loadClientData();
+      if (this.clientId) {
+        this.clientService.getClientById(this.clientId).subscribe(
+          (response) => {
+            if (response.code === 200 && response.data) {
+              this.clientData = response.data;
+              // Handle the retrieved client data here
+            } else {
+              console.error('No client found or unsuccessful response.');
+              // Handle error cases or no client found
+            }
+          },
+          (error) => {
+            console.error('Error fetching client:', error);
+            // Handle error cases
+          }
+        );
       }
+
+      // if(this.clientId != undefined && this.clientId != "" && this.clientId != null && this.clientId != ''){
+      //   this.isEdit = true;
+      //   this.loadClientOrganization();
+      //   this.loadClientData();
+      // }
     });
   }
 
   onCreateClientSubmit(): void {
-    this.clientService.createClient(this.newClient).subscribe((response: ApiResponse) => {
-      if (response.isSuccess) {
+    this.clientService.createClient(this.clientData).subscribe(
+      (response: any) => {
         this.snackBar.open('Client created successfully', 'Close', {
           duration: 2000,
         });
-        // Optionally, you can navigate to the clients list component after creating a client
-      } else {
-        this.snackBar.open('Error creating client', 'Close', {
-          duration: 2000,
+        this.router.navigate(['/clients']);
+      },
+      (error: any) => {
+        this.snackBar.open('Error creating client: ' + error.error.message, 'Close', {
+          duration: 3000,
         });
       }
-    });
+    );
   }
 
   fetchOrganizations(): void {
@@ -87,23 +96,16 @@ export class CreateClientComponent implements OnInit {
     });
   }
 
+  // loadClientOrganization(): void {
+  //   this.clientService.getOrgsForClient(this.clientId).subscribe((clientOrg: any[]) => {
+  //     this.clientOrg = clientOrg;
   
-  loadClientData(): void {
-    this.clientService.getClient(this.clientId).subscribe((clientData: any) => {
-      this.clientData = clientData;
-    });
-  }
-
-  loadClientOrganization(): void {
-    this.clientService.getOrgsForClient(this.clientId).subscribe((clientOrg: any[]) => {
-      this.clientOrg = clientOrg;
-  
-      if (this.clientOrg.length > 0) {
-        const organizationID = this.clientOrg[0].organizationID;
-        this.selectedOrganization = this.orgs.find(org => org.organizationID === organizationID);
-      }
-    });
-  }
+  //     if (this.clientOrg.length > 0) {
+  //       const organizationID = this.clientOrg[0].organizationID;
+  //       this.selectedOrganization = this.orgs.find(org => org.organizationID === organizationID);
+  //     }
+  //   });
+  // }
   
 
   goToClientScreen() { 
@@ -125,30 +127,4 @@ export class CreateClientComponent implements OnInit {
       return;
     }
   }
-
-  createUpdateclient() {
-
-   this.ValidateFormFields();
-
-    this.clientData = this.selectedOrganization.organizationID;
-
-    if(this.isEdit){
-
-      this.clientService.updateClient(this.clientId, this.clientData).subscribe(
-        (response: any) => {
-          this.snackBar.open('Client updated successfully', 'Close', {
-            duration: 2000,
-          });
-    
-          this.router.navigate(['/clients']);
-        },
-        (error: any) => {
-          this.snackBar.open('Error updating ' + error.error, 'Close', {
-            duration: 6000,
-          });
-        }
-      );
-    }
-  }
-  
 }

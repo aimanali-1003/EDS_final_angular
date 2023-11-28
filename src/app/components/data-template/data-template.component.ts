@@ -51,9 +51,26 @@ export class DataTemplateComponent implements OnInit {
   }  
   
 
-  viewTemplate(dataTemplates?: any): void {
-    const templateId = dataTemplates.templateID;
-    this.router.navigate(['/viewTemplate/' + templateId + '/' + true]);
+  // viewTemplate(dataTemplates?: any): void {
+  //   const templateId = dataTemplates.templateID;
+  //   this.router.navigate(['/viewTemplate/' + templateId + '/' + true]);
+  // }
+  viewTemplate(templateId: number): void {
+    this.dataService.getTemplate(templateId).subscribe(
+      (response) => {
+        if (response.code === 200 && response.data) {
+          const template: TemplateVM = response.data;
+          this.router.navigate(['/viewTemplate/'+templateId+'/'+true]);  // Routing to create-client component with client ID
+        } else {
+          console.error('No client found or unsuccessful response.');
+          // Handle error cases or no client found
+        }
+      },
+      (error) => {
+        console.error('Error fetching client:', error);
+        // Handle error cases
+      }
+    );
   }
 
   editTemplate(template: any) {

@@ -6,6 +6,7 @@ import { CommonService } from '../shared/config';
 import { CategorySM } from '../model/CategoryModel';
 import { ResponseViewModel } from '../model/ResponseViewModel';
 import { TemplateVM } from '../model/DataTemplateModel';
+import {MasterDataModel} from '../model/MasterDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -35,9 +36,14 @@ export class DataService {
     return this.http.get<ResponseViewModel<TemplateVM[]>>(`${this.apiUrl}/api/Template/GetTemplates`, { params });
   }
 
-  getTemplate(templateId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/api/Templates/${templateId}`);
+  // getTemplate(templateId: string): Observable<any[]> {
+  //   return this.http.get<any[]>(`${this.apiUrl}/api/Templates/${templateId}`);
+  // }
+
+  getTemplate(templateId: number): Observable<ResponseViewModel<TemplateVM>> {
+    return this.http.get<ResponseViewModel<TemplateVM>>(`${this.apiUrl}/api/Template/${templateId}`);
   }
+
 
   createDataTemplate(templateData: any): Observable<any> { 
     return this.http.post<any>(`${this.apiUrl}/api/Templates`, templateData);
@@ -70,5 +76,9 @@ export class DataService {
 
   getColumnsByCategory(categoryId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/api/columns/byCategory/${categoryId}`);
+  }
+
+  getAllGroupLookups(): Observable<MasterDataModel[]> {
+    return this.http.get<MasterDataModel[]>(`${this.apiUrl}/api/MasterData/GetAllGroupLookups`);
   }
 }

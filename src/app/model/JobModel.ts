@@ -29,6 +29,10 @@ export class JobDataModel {
     public MaxRecordCountAlarm: number | null;
     public MinRunDurationAlarm: number | null;
     public MaxRunDurationAlarm: number | null;
+    public FileFormatLkpValue: string | null;
+    public DataRecipientTypeLkpValue: string | null;
+    public FrequencyLkpValue: string | null;
+    public DayOfWeekLkpValue: string | null;
   
     constructor() {
       this.JobType = "";
@@ -56,6 +60,10 @@ export class JobDataModel {
       this.MaxRecordCountAlarm= null;
       this.MinRunDurationAlarm= null;
       this.MaxRunDurationAlarm= null;
+      this.FileFormatLkpValue = null;
+      this.DataRecipientTypeLkpValue = null;
+      this.FrequencyLkpValue = null;
+      this.DayOfWeekLkpValue = null;
       
     }
   }
@@ -70,6 +78,10 @@ export class JobVM {
   frequencyLkpId: number;
   dataRecipientTypeLkpId: number;
   dayOfWeekLkpId: number | null;
+  fileFormatLkpValue: string | null;
+  dataRecipientTypeLkpValue: string | null;
+  frequencyLkpValue: string | null;
+  dayOfWeekLkpValue: string | null;
   notificationCheck: boolean | null;
   minRecordCountAlarm: number | null;
   maxRecordCountAlarm: number | null;
@@ -80,7 +92,7 @@ export class JobVM {
   updatedBy: string | null;
   updatedAt: Date | null;
   isActive: boolean;
-  client: ClientVM | null;
+  client: ClientVM;
   template: TemplateVM;
 
   constructor(data?: any) {
@@ -88,12 +100,16 @@ export class JobVM {
       this.jobId = data.jobId || 0;
       this.jobName = data.jobName || '';
       this.startDate = data.startDate ? new Date(data.startDate) : null;
-      this.templateId = data.templateId || 0;
+      this.templateId = data.templateId || null;
       this.clientId = data.clientId || null;
-      this.fileFormatLkpId = data.fileFormatLkpId || 0;
+      this.fileFormatLkpId = data.fileFormatLkpId || null;
       this.frequencyLkpId = data.frequencyLkpId || 0;
-      this.dataRecipientTypeLkpId = data.dataRecipientTypeLkpId || 0;
+      this.dataRecipientTypeLkpId = data.dataRecipientTypeLkpId || null;
       this.dayOfWeekLkpId = data.dayOfWeekLkpId || null;
+      this.fileFormatLkpValue = null;
+      this.dataRecipientTypeLkpValue = null;
+      this.frequencyLkpValue = null;
+      this.dayOfWeekLkpValue = null;
       this.notificationCheck = data.notificationCheck || null;
       this.minRecordCountAlarm = data.minRecordCountAlarm || null;
       this.maxRecordCountAlarm = data.maxRecordCountAlarm || null;
@@ -104,7 +120,7 @@ export class JobVM {
       this.updatedBy = data.updatedBy || null;
       this.updatedAt = data.updatedAt ? new Date(data.updatedAt) : null;
       this.isActive = data.isActive || false;
-      this.client = data.client ? new ClientVM(data.client) : null;
+      this.client = data.client ? new ClientVM(data.client) : new ClientVM();
       this.template = data.template ? new TemplateVM(data.template) : new TemplateVM();
     } else {
       // Set default values if no data is provided
@@ -116,6 +132,10 @@ export class JobVM {
       this.fileFormatLkpId = 0;
       this.frequencyLkpId = 0;
       this.dataRecipientTypeLkpId = 0;
+      this.fileFormatLkpValue = null;
+      this.dataRecipientTypeLkpValue = null;
+      this.frequencyLkpValue = null;
+      this.dayOfWeekLkpValue = null;
       this.dayOfWeekLkpId = null;
       this.notificationCheck = null;
       this.minRecordCountAlarm = null;
@@ -127,7 +147,7 @@ export class JobVM {
       this.updatedBy = null;
       this.updatedAt = null;
       this.isActive = false;
-      this.client = null;
+      this.client = new ClientVM;
       this.template = new TemplateVM();
     }
   }
