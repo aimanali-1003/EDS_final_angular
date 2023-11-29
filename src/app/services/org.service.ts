@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { CommonService } from '../shared/config';
+import { ResponseViewModel } from '../model/ResponseViewModel';
+import { OrgDataModel } from '../model/OrgDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -31,12 +33,12 @@ export class OrgService {
   getChildOrgs(orgId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/${orgId}/childOrganizations`);
   }
-  searchOrgs(searchTerm: string): Observable<any[]> {
+  searchOrgs(searchTerm: string): Observable<ResponseViewModel<OrgDataModel[]>> {
     // Ensure the searchTerm is properly encoded
     const encodedSearchTerm = encodeURIComponent(searchTerm);
     
     // Use template string to format the URL with the encoded search term
-    return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/search/${encodedSearchTerm}`);
+    return this.http.get<ResponseViewModel<OrgDataModel[]>>(`${this.apiUrl}/api/Organization/search/${encodedSearchTerm}`);
   }
   
 }
