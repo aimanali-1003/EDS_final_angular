@@ -3,6 +3,7 @@ import { OrgService } from 'src/app/services/org.service';
 import { Router } from '@angular/router';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
+import { ApiResponse } from 'src/app/model/OrgDataModel';
 
 @Component({
   selector: 'app-org-management',
@@ -130,26 +131,33 @@ export class OrgManagementComponent implements OnInit {
   performOrganizationSearch(searchTerm: string) {
     this.organizationSearchQuery = searchTerm;
 
-    if (!searchTerm) {
-      // If the search term is empty, reset the organizations
+    if (!searchTerm) { 
       this.orgs = [];
       this.buildParentOrgsMap();
       this.updateDisplayedOrgs(1);
-    } else {
-      // Assuming you have an API endpoint to search organizations based on the entered text
-      this.orgService.searchOrgs(searchTerm).subscribe((filteredOrgs: any[]) => {
-        this.orgs = filteredOrgs.map(org => ({ ...org, showParentOrgDetails: false }));
-        console.log(this.orgs);
-        this.buildParentOrgsMap();
-        this.updateDisplayedOrgs(1);
-      });
+    } else { 
+      this.orgService.searchOrgs(searchTerm).subscribe(
+        (response) => {
+          if (response.code === 200 && response.itemList) { 
+      
+            // Process the response itemList
+            this.orgs = response.itemList.map(org => ({ ...org, showParentOrgDetails: false }));  
+
+            this.buildParentOrgsMap();
+            this.updateDisplayedOrgs(1);
+          } 
+        },
+        (error) => {
+          console.error('Error fetching organizations:', error); 
+        }
+      );
+      
     }
   }
   
   expandParents(org: any) {
     const parentCode = org['parentOrganizationCode'];
-  
-    // Expand the immediate parent if it exists
+   
     if (parentCode) {
       const parentNode = this.treeControl.dataNodes.find((node) => node.data['organizationCode'] === parentCode);
       if (parentNode && !this.treeControl.isExpanded(parentNode)) {

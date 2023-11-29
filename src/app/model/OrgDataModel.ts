@@ -1,4 +1,10 @@
-
+export interface ApiResponse {
+  isSuccess: boolean;
+  message: string;
+  itemList: OrgDataModel[]; // Assuming itemList is an array of Client objects
+  totalCount: number;
+  // Add other properties as needed
+}
 export class OrgDataModel {
     public organizationID: number | null;
     public organizationCode: string;
