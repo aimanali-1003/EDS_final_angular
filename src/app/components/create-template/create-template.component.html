@@ -2,146 +2,75 @@
   <mat-card class="luxury-card">
     <mat-card-header>
       <h2 class="client-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
-        {{ isViewOnly ? 'View Template' : (isEdit ? 'Edit Template' : 'Create New Template') }}</h2>
+        {{ isViewOnly ? 'View Template' : (isEdit ? 'Edit Template' : 'Create New Template') }}
+      </h2>
     </mat-card-header>
     <div class="row">
+
+      <!-- Template Name-->
       <mat-form-field class="flexible-field">
         <input matInput [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="templateData.templateName">
       </mat-form-field>
+<!-- 
+      <div class="form-item">
+        <div class="form-item">
+          <mat-form-field class="full-width">
+            <mat-label>Select Category</mat-label>
+            <mat-select
+              [disabled]="isViewOnly"
+              placeholder="Select Category"
+              [(ngModel)]="templateData.templateId" 
+              name="TemplateName"
+              required
+            >
+              <mat-option *ngFor="let template of templates" [value]="template.templateId">
+                {{ template.templateName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>          
+    </div> -->
 
+      <!-- Category Select -->
       <mat-form-field class="flexible-field">
         <mat-label>Select Category</mat-label>
-        <mat-select [disabled]="isViewOnly" [(ngModel)]="templateData.categoryId">
-          <mat-option *ngFor="let category of categories" [value]="category.categoryId">
-            {{ templateData.category?.categoryName }}
+        <mat-select [disabled]="isViewOnly" [(ngModel)]="templateData.categoryId" (selectionChange)="onCategorySelect($event.value)">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category?.categoryName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-
-      
-      
-      
-
-    </div>
-    <!-- <div *ngIf="!isViewOnly && !isEdit">
-      <div class="roww"> 
-        <div *ngIf="columns.length > 0; else noColumnsFound">
-          <div class="scrollable-column">
-            <div class="column-checkbox" *ngFor="let column of columns">
-              <mat-checkbox [(ngModel)]="templateData.columnNames[column.columnName]"
-                [color]="isChecked(column.columnName) ? 'primary' : 'warn'"
-                [ngClass]="{'checked-checkbox': isChecked(column.columnName)}">
-                {{ column.columnName }}
-              </mat-checkbox>
-            </div>
-          </div>
-        </div>
-        <ng-template #noColumnsFound>
-          <div class="no-columns-message">
-            No columns found.
-          </div>
-        </ng-template>
+      <!-- Column Select -->
+      <div *ngIf="selectedCategoryColumns.length > 0" class="selected-category-columns">
+        <h3>Selected Category Columns:</h3>
+        <ul>
+          <li *ngFor="let column of selectedCategoryColumns">
+            <mat-checkbox [(ngModel)]="column.isActive">
+              {{ column.columnName }}
+            </mat-checkbox>
+          </li>
+        </ul>
       </div>
-    </div> -->
-    <div *ngIf="templateData">
-      <h4>{{ templateData.templateName }} Columns</h4>
-      <div *ngIf="templateData.edsTemplateColumns && templateData.edsTemplateColumns.length > 0; else noColumns">
-        <div *ngFor="let column of templateData.edsTemplateColumns">
-          <label>
-            <input
-              type="checkbox"
-              [checked]="column.columns.isActive"
-              [disabled]="isViewOnly"
-              (change)="onColumnSelectionChange(column.columns)"
-            />
-            {{ column.columns.columnName }}
-          </label>
-        </div>
+      <div *ngIf="selectedCategoryColumns.length === 0" class="no-columns-message">
+        No Columns
       </div>
-      <ng-template #noColumns>
-        <p>No columns exist for this template.</p>
-      </ng-template>
-    </div>
-    
+</div>      
 
-    <!-- <div>{{ templateData.edsTemplateColumns[0].columns.columnName}}</div> -->
-
-    <div *ngIf="isEdit && !isViewOnly">
-      <div class="roww"> 
-        <div *ngIf="columns.length > 0; else noColumnsFound">
-          <div class="scrollable-column">
-            <div class="column-checkbox" *ngFor="let column of columns">
-              <mat-checkbox [(ngModel)]="selectedcolumnsForUpdate[column.columnID]"
-                [color]="selectedcolumnsForUpdate[column.columnID] ? 'primary' : 'warn'"
-                [ngClass]="{'checked-checkbox': columnNames.includes(column)}">
-                {{ column.columnName }}
-              </mat-checkbox>
-            </div>
-          </div>
-        </div>
-
-        <ng-template #noColumnsFound>
-          <div class="no-columns-message">
-            No columns found.
-          </div>
-        </ng-template>
-      </div>
-    </div>
-
-
-    <div *ngIf="isViewOnly && isViewingColumns && viewColumns && viewColumns.length > 0">
-      <div class="scrollable-column">
-        <div class="column-checkbox" *ngFor="let column of viewColumns">
-          <mat-checkbox [disabled]="isViewOnly" [checked]="true" [ngClass]="{'checked-checkbox': true}">
-            {{ column }}
-          </mat-checkbox>
-        </div>
-      </div>
-    </div>
-
-    <!-- <div *ngIf="isEdit" class="form-row">
-      <mat-slide-toggle [color]="template.active ? 'primary' : 'warn'" [disabled]="isViewOnly"
-        [(ngModel)]="template.active" name="active">Active</mat-slide-toggle>
-    </div>
-    <mat-card-actions *ngIf="!isViewOnly" class="button-container"> -->
+    <mat-card-actions *ngIf="!isViewOnly" class="button-container"> 
       <button *ngIf="!isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()"> <span
           class="icon">&#10006;</span> Cancel</button>
-      <!-- <button *ngIf="!isEdit" mat-raised-button class="create-job-button" (click)="createUpdateTemplate()"><mat-icon
+      <button *ngIf="!isEdit" mat-raised-button class="create-job-button" (click)="createUpdateTemplate()"><mat-icon
           style="margin-right: 8px;">done_all</mat-icon>Create Template</button>
       <button *ngIf="isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToTemplateScreen()">
         <span class="icon">&#10006;</span> Cancel
       </button>
       <button *ngIf="isEdit" mat-raised-button class="create-job-button" (click)="createUpdateTemplate()">
         <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
-      </button> -->
-    <!-- </mat-card-actions> -->
+      </button>
+    </mat-card-actions>
+    
+    
   </mat-card>
-
-  <mat-card class="luxury-card" *ngIf="!isEdit">
-    <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
-    <h3 *ngIf="!isViewOnly"  style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Please drag the columns  to reorder the template structure.</h3>
-    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let columnName of testing; let i = index" cdkDrag [cdkDragDisabled]="isViewOnly">
-        {{ i + 1 }}. {{ columnName }}
-        <!-- <button *ngIf="!isViewOnly" (click)="deleteColumn(columnName)" class="btn btn-sm btn-danger">X</button> -->
-      </div>
-    </div>
-    <!-- <button *ngIf="!showColumnsOrder" mat-button (click)="showOrder()">Show Order</button> -->
-  </mat-card>
-
-  <mat-card class="luxury-card" *ngIf="isEdit">
-    <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
-    <h3 *ngIf="!isViewOnly" style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Please drag the columns  to reorder the template structure.</h3>
-
-    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let columnName of testing; let i = index" cdkDrag [cdkDragDisabled]="isViewOnly">
-        {{ i + 1 }}. {{ columnName }}
-        <!-- <button *ngIf="!isViewOnly" (click)="deleteColumn(columnName)" class="btn btn-sm btn-danger">X</button> -->
-      </div>
-    </div>
-    <!-- <button *ngIf="!showColumnsOrder" mat-button (click)="showOrderEditMode()">Show Order</button> -->
-  </mat-card>
-
-
 </div>

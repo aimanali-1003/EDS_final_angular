@@ -7,6 +7,7 @@ import { CategorySM } from '../model/CategoryModel';
 import { ResponseViewModel } from '../model/ResponseViewModel';
 import { TemplateVM } from '../model/DataTemplateModel';
 import {MasterDataModel} from '../model/MasterDataModel';
+import { CreateTemplateVM } from '../model/CreateTemplateVM';
 
 @Injectable({
   providedIn: 'root'
@@ -36,17 +37,12 @@ export class DataService {
     return this.http.get<ResponseViewModel<TemplateVM[]>>(`${this.apiUrl}/api/Template/GetTemplates`, { params });
   }
 
-  // getTemplate(templateId: string): Observable<any[]> {
-  //   return this.http.get<any[]>(`${this.apiUrl}/api/Templates/${templateId}`);
-  // }
-
   getTemplate(templateId: number): Observable<ResponseViewModel<TemplateVM>> {
     return this.http.get<ResponseViewModel<TemplateVM>>(`${this.apiUrl}/api/Template/${templateId}`);
   }
 
-
-  createDataTemplate(templateData: any): Observable<any> { 
-    return this.http.post<any>(`${this.apiUrl}/api/Templates`, templateData);
+  createDataTemplate(newTemplate: CreateTemplateVM): Observable<ResponseViewModel<CreateTemplateVM>> { 
+    return this.http.post<ResponseViewModel<CreateTemplateVM>>(`${this.apiUrl}/api/Template`, newTemplate);
 }
 
   getLastCreatedTemplateId(): Observable<number> {

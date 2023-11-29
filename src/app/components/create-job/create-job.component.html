@@ -91,14 +91,14 @@
           <!-- Start Date Once -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date" required>
+              <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date">
             </mat-form-field>
           </div>
 
           <!-- Start Time Once -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time" required>
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time">
             </mat-form-field>
           </div>
           <!-- <button (click)="combineDateTime()">Combine Date and Time</button> -->
@@ -108,7 +108,7 @@
         <div *ngIf="selectedFrequencyTypeLookups === 'Daily'">
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time" required>
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time">
             </mat-form-field>
           </div>
           <!-- <button (click)="setDailyStartTime()">Set Start Time</button> -->
@@ -119,7 +119,7 @@
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-select [disabled]="isViewOnly" placeholder="DayofWeek" [(value)]="selectedDayOfWeekTypeLookups"
-                name="dayofweeklkp" required>
+                name="dayofweeklkp">
                 <mat-option *ngFor="let type of dayofWeekLookups" [value]="type.name">
                   {{ type.name }}
                 </mat-option>

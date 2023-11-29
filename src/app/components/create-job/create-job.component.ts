@@ -3,14 +3,9 @@ import { JobService } from 'src/app/services/job.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JobVM } from 'src/app/model/JobModel';
-import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
 import { ClientService } from 'src/app/services/client.service';
-import { clientDataModel } from 'src/app/model/ClientModel';
 import { DataService } from 'src/app/services/data.service';
-import { OrgDataModel } from 'src/app/model/OrgDataModel';
-import { RecipientTypeDataModel } from 'src/app/model/DataRecipientType.model';
 import { ClientVM } from 'src/app/model/ClientModel';
-import { MasterDataModel } from 'src/app/model/MasterDataModel';
 import { FilterModel } from 'src/app/model/MasterDataModel';
 
 @Component({
