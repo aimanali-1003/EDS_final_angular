@@ -1,31 +1,31 @@
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Job Management</h2>
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Job
+      Management</h2>
     <div class="form-outline search-box mb-4">
       <button mat-raised-button class="custom-button" (click)="CreateJobs()">
         <span class="circle">+</span> Create Job
       </button>
     </div>
   </div>
-    
+
   <div style="display: flex; align-items: center;">
     <div style="flex: 1;">
-      <app-search 
-      [placeholderText]="'Search Job by Name'"
-      [searchQuery]="jobSearchQuery"
-      (searchQueryChanged)="performJobSearch($event)">
-    </app-search>    </div>
+      <app-search [placeholderText]="'Search Job by Name'" [searchQuery]="jobSearchQuery"
+        (searchQueryChanged)="performJobSearch($event)">
+      </app-search>
+    </div>
     <div style="margin-bottom: 20px;">
       <app-client-filter (filterChanged)="applyJobFilter($event)"></app-client-filter>
     </div>
   </div>
- 
+
 
   <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
-    
+
     <thead>
       <tr>
-        <th>Job Name</th> 
+        <th>Job Name</th>
         <th>Created At</th>
         <th>Status</th>
         <th>Actions</th>
@@ -45,12 +45,12 @@
         <td [ngClass]="{ 'active': job.isActive, 'inactive': !job.isActive }">
           {{ job.isActive ? 'Active' : 'Inactive' }}
         </td>
-      
+
         <td class="action-cell">
           <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewJob(job.jobId)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button [style.color]="'#0091EA'" (click)="openJobModalForEdit(job)">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openJobModalForEdit(job.jobId)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button [style.color]="'#D84315'" (click)="deleteJob(job)">
@@ -60,7 +60,7 @@
       </tr>
     </tbody>
   </table>
- 
+
 
   <div *ngIf="jobss.length === 0" class="no-data-message">
     No data found.

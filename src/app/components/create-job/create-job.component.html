@@ -1,4 +1,4 @@
-<div class="container" [style.width]="selectedTemplates ? '100%' : '50%'">
+<div class="container" [style.width]="jobData.template ? '100%' : '50%'">
   <div class="job">
     <div class="job-content">
       <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
@@ -9,36 +9,28 @@
           <!-- Job Name -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Job Name" [(ngModel)]="jobData.jobName" name="jobType" required>
+              <input [disabled]="isViewOnly" matInput placeholder="Job Name" [(ngModel)]="jobData.jobName"
+                name="jobType" required>
             </mat-form-field>
           </div>
 
+          <!-- Select Template dropdown -->
           <div class="form-item">
-            <div class="form-item">
-              <mat-form-field class="full-width">
-                <mat-label>Template Name</mat-label>
-                <mat-select
-                  [disabled]="isViewOnly"
-                  placeholder="Select Template"
-                  [(ngModel)]="jobData.template.templateId" 
-                  name="TemplateName"
-                  required
-                >
-                  <mat-option *ngFor="let template of templates" [value]="template.templateId">
-                    {{ template.templateName }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>          
+            <mat-form-field class="full-width">
+              <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(value)]="selectedTemplate" name="TemplateName" required (selectionChange)="onTemplateSelectionChange()">
+                <mat-option *ngFor="let template of templates" [value]="template">{{ template.templateName }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-
+        
         <div class="form-row">
           <!-- Select client dropdown -->
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-label>Client Name</mat-label>
-              <mat-select [disabled]="isViewOnly" placeholder="Select Client" [(ngModel)]="jobData.client.clientId" name="TemplateName" required>
+              <mat-select [disabled]="isViewOnly" placeholder="Select Client" [(ngModel)]="jobData.client.clientId"
+                name="TemplateName" required>
                 <mat-option *ngFor="let client of clients" [value]="client.clientId">
                   {{ client.clientName }}
                 </mat-option>
@@ -46,17 +38,17 @@
             </mat-form-field>
           </div>
 
-             <!-- Select Recipient Type Dropdown -->
-             <div class="form-item">
-              <mat-form-field class="full-width">
-                <mat-label>Data Recipient Type</mat-label>
-                <mat-select [disabled]="isViewOnly" name="dataRecipientTypeDropdown" [(value)]="selectedRecipientType">
-                  <mat-option *ngFor="let type of dataRecipientTypeLookups" [value]="type.id">
-                    {{ type.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-           </div>
+          <!-- Select Recipient Type Dropdown -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <mat-label>Data Recipient Type</mat-label>
+              <mat-select [disabled]="isViewOnly" name="dataRecipientTypeDropdown" [(value)]="selectedRecipientType">
+                <mat-option *ngFor="let type of dataRecipientTypeLookups" [value]="type.id">
+                  {{ type.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
 
         <div class="form-row">
@@ -64,7 +56,7 @@
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-label>File Format Type</mat-label>
-              <mat-select  [disabled]="isViewOnly" name="fileFormatTypeDropdown" [(value)]="selectedFileFormatType">
+              <mat-select [disabled]="isViewOnly" name="fileFormatTypeDropdown" [(value)]="selectedFileFormatType">
                 <mat-option *ngFor="let type of fileFormatTypeLookups" [value]="type.id">
                   {{ type.name }}
                 </mat-option>
@@ -75,8 +67,8 @@
           <!-- Frequency Dropdown -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Frequency" 
-                name="frequency" [(value)]="selectedFrequencyTypeLookups" required>
+              <mat-select [disabled]="isViewOnly" placeholder="Frequency" name="frequency"
+                [(value)]="selectedFrequencyTypeLookups" required>
                 <mat-option *ngFor="let type of frequencyTypeLookups" [value]="type.name">
                   {{type.name }}
                 </mat-option>
@@ -85,20 +77,22 @@
           </div>
         </div>
 
-         <!-- Frequency Type Once -->
-         <div *ngIf="selectedFrequencyTypeLookups === 'Once'" class="form-row">
+        <!-- Frequency Type Once -->
+        <div *ngIf="selectedFrequencyTypeLookups === 'Once'" class="form-row">
 
           <!-- Start Date Once -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date">
+              <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate"
+                placeholder="Start Date" required>
             </mat-form-field>
           </div>
 
           <!-- Start Time Once -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
             </mat-form-field>
           </div>
           <!-- <button (click)="combineDateTime()">Combine Date and Time</button> -->
@@ -108,7 +102,8 @@
         <div *ngIf="selectedFrequencyTypeLookups === 'Daily'">
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
             </mat-form-field>
           </div>
           <!-- <button (click)="setDailyStartTime()">Set Start Time</button> -->
@@ -125,78 +120,86 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            </div>
+          </div>
 
-            <div class="form-item">
-              <mat-form-field class="full-width">
-                <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time" required>
-              </mat-form-field>
-            </div>
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
+            </mat-form-field>
+          </div>
         </div>
 
         <!-- Frequency Type Monthly -->
         <div *ngIf="selectedFrequencyTypeLookups === 'Monthly'" class="form-row">
           <!-- Start Date Monthly -->
-           <div class="form-item">
-             <mat-form-field class="full-width">
-               <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date" required>
-             </mat-form-field>
-           </div>
- 
-         <!-- Start Time Monthly -->
-           <div class="form-item">
-             <mat-form-field class="full-width">
-               <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime" placeholder="Start Time" required>
-             </mat-form-field>
-           </div>
-         </div>
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate"
+                placeholder="Start Date" required>
+            </mat-form-field>
+          </div>
 
-      <!-- Notification Check -->
+          <!-- Start Time Monthly -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Notification Check -->
         <div class="form-row">
           <mat-form-field class="full-width">
-            <mat-select [disabled]="isViewOnly" placeholder="Notification Check" [(ngModel)]="jobData.notificationCheck" name="NotificationCheck">
+            <mat-select [disabled]="isViewOnly" placeholder="Notification Check" [(ngModel)]="jobData.notificationCheck"
+              name="NotificationCheck">
               <mat-option [value]="true">Yes</mat-option>
               <mat-option [value]="false">No</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-       <!-- MinMax record count alaram -->
+        <!-- MinMax record count alaram -->
         <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Min Record Count Alarm" [(ngModel)]="jobData.minRecordCountAlarm" name="MinRecordCountAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Min Record Count Alarm"
+                [(ngModel)]="jobData.minRecordCountAlarm" name="MinRecordCountAlarm">
             </mat-form-field>
           </div>
 
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Max Record Count Alarm" [(ngModel)]="jobData.maxRecordCountAlarm" name="MaxRecordCountAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Max Record Count Alarm"
+                [(ngModel)]="jobData.maxRecordCountAlarm" name="MaxRecordCountAlarm">
             </mat-form-field>
           </div>
         </div>
 
-      <!-- MinMax Run Duration Alarm -->
+        <!-- MinMax Run Duration Alarm -->
         <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Min Run Duration Alarm" [(ngModel)]="jobData.minRunDurationAlarm" name="MinRunDurationAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Min Run Duration Alarm"
+                [(ngModel)]="jobData.minRunDurationAlarm" name="MinRunDurationAlarm">
             </mat-form-field>
           </div>
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Max Run Duration Alarm" [(ngModel)]="jobData.maxRunDurationAlarm" name="MaxRunDurationAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Max Run Duration Alarm"
+                [(ngModel)]="jobData.maxRunDurationAlarm" name="MaxRunDurationAlarm">
             </mat-form-field>
           </div>
         </div>
 
         <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
           <button *ngIf="!isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()"> <span
-            class="icon">&#10006;</span> Cancel</button>
+              class="icon">&#10006;</span> Cancel</button>
           <button *ngIf="!isEdit" mat-raised-button class="create-job-button" type="submit"
             (click)="createUpdatejob()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Job</button>
           <button *ngIf="isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()"> <span
-            class="icon">&#10006;</span> Cancel</button>
+              class="icon">&#10006;</span> Cancel</button>
           <button *ngIf="isEdit" mat-raised-button class="create-job-button" (click)="createUpdatejob()">
             <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
           </button>
@@ -205,27 +208,26 @@
     </div>
   </div>
 
-  <!-- Template Columns Display-->
-    <!-- <div class="template-container" *ngIf="selectedTemplates && !isViewOnly && !isEdit ">
-      <div class="job-content">
-        <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
-          Template Details</h2>
-        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-          <p><strong>Template Name:</strong> {{ template.templateName }}</p>
-        </div>
-        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-          <p><strong>Category ID:</strong> {{ template.categoryID }}</p>
-        </div>
-        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-          <p><strong>Columns:</strong></p>
-        </div>
-        <div class="scrollable-column">
-          <div class="column-checkbox" *ngFor="let column of columns" style="font-family: 'Quicksand', sans-serif;">
-            <mat-checkbox [disabled]="true" [checked]="true" [ngClass]="{'checked-checkbox': true}">
-              {{ column }}
-            </mat-checkbox>
-          </div>
+  <!-- Template Name and Columns Display-->
+  <div class="template-container" >
+    <div class="job-content" *ngIf="selectedTemplate">
+      <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+        Template Details</h2>
+      <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
+        <p><strong>Category Name:</strong> {{ associatedCategoryName }}</p>
+      </div>
+      <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
+        <p><strong>Columns:</strong></p>
+      </div>
+      <div class="scrollable-column" *ngIf="associatedColumns && associatedColumns.length">
+        <div class="column-checkbox" *ngFor="let column of associatedColumns"
+          style="font-family: 'Quicksand', sans-serif;">
+          <mat-checkbox [disabled]="true" [checked]="true" [ngClass]="{'checked-checkbox': true}">
+            {{ column.columnName }}
+          </mat-checkbox>
+          <p *ngIf="!associatedColumns || !associatedColumns.length">No columns found.</p>
         </div>
       </div>
-    </div> -->
+    </div>
+  </div>
 </div>

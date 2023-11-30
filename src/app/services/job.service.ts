@@ -28,12 +28,17 @@ export class JobService {
     return this.http.post<ResponseViewModel<JobVM>>(`${this.apiUrl}/api/Job`, newJob);
   }
 
+<<<<<<< Updated upstream
   // updateJob(jobId: string, jobData: any): Observable<any> {
   //   return this.http.put<any>(`${this.apiUrl}/api/Jobs/${jobId}`, jobData);
   // }
 
   updateJob(jobData: any): Observable<ResponseViewModel<JobVM>> {
     return this.http.post<ResponseViewModel<JobVM>>(`${this.apiUrl}/api/Job`, jobData);
+=======
+  updateJob( jobData: JobVM): Observable<ResponseViewModel<JobVM>> {
+    return this.http.put<ResponseViewModel<JobVM>>(`${this.apiUrl}/api/Job`, jobData);
+>>>>>>> Stashed changes
   }
 
   deleteJob(jobId: string): Observable<any> {

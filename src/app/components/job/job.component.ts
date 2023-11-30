@@ -67,11 +67,8 @@ export class JobComponent implements OnInit {
   }
  
 
-  openJobModalForEdit(jobData?: any): void {
-    // console.log(this.jobData)
-    if (jobData && jobData.jobID) {
-      const jobId = jobData.jobID;
-      
+  openJobModalForEdit(jobId:number): void { 
+    if (jobId) {  
       this.router.navigate(['/editJob', jobId]);
     }
   }
@@ -169,9 +166,9 @@ export class JobComponent implements OnInit {
   }
 
   applyJobFilter(filterData: any) {
-    this.displayedJob = this.jobs.filter((job) => {
+    this.jobss = this.jobss.filter((job) => {
       if (filterData.active !== undefined) {
-        return job.active === filterData.active;
+        return job.isActive === filterData.active;
       }
       return true;
     });
