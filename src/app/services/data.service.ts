@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { CommonService } from '../shared/config';
 import { CategorySM } from '../model/CategoryModel';
-import { ResponseViewModel } from '../model/ResponseViewModel';
+import { ResponseViewModel, BaseViewModel } from '../model/ResponseViewModel';
 import { TemplateVM } from '../model/DataTemplateModel';
 import {MasterDataModel} from '../model/MasterDataModel';
 import { CreateTemplateVM } from '../model/CreateTemplateVM';
@@ -41,8 +41,8 @@ export class DataService {
     return this.http.get<ResponseViewModel<TemplateVM>>(`${this.apiUrl}/api/Template/${templateId}`);
   }
 
-  createDataTemplate(newTemplate: CreateTemplateVM): Observable<ResponseViewModel<CreateTemplateVM>> { 
-    return this.http.post<ResponseViewModel<CreateTemplateVM>>(`${this.apiUrl}/api/Template`, newTemplate);
+  createDataTemplate(newTemplate: CreateTemplateVM): Observable<BaseViewModel<CreateTemplateVM>> { 
+    return this.http.post<BaseViewModel<CreateTemplateVM>>(`${this.apiUrl}/api/Template`, newTemplate);
 }
 
   getLastCreatedTemplateId(): Observable<number> {

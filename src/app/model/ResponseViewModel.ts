@@ -1,8 +1,9 @@
+
 export interface ResponseViewModel<ViewModel> {
   // status: Status;
   // navigation: Navigation;
   data: ViewModel;
-  itemList: any[]; // Adjust the type to match the actual type of itemList in your response
+  itemList: any[];
   code: number;
   totalCount: number;
 }
@@ -11,7 +12,7 @@ export interface Status {
   code: number;
   message: string;
   description: string;
-  totalCount: string; // Adjust this to the appropriate type based on your API response
+  totalCount: string;
 }
 
 export interface Navigation {
@@ -19,4 +20,12 @@ export interface Navigation {
   nextLink: string;
   totalPages: number;
   totalCount: number;
+}
+
+export interface BaseViewModel<ViewModel> {
+  isSuccess: boolean;
+  message: string;
+  code: number;
+  errorCode: string;
+  data: ViewModel; // Using the TemplateData interface
 }

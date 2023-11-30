@@ -24,11 +24,6 @@ export class CategoryService {
     return this.http.get<any[]>(`${this.apiUrl}/api/Categories/activeCategories`);
   }
 
-  // getCategoryById(categoryId: string): Observable<any> {
-  //   const url = `${this.apiUrl}/api/Categories/${categoryId}`; // Adjust the URL structure to match your API
-
-  //   return this.http.get(url);
-  // }
   getCategoryById(categoryId: number): Observable<ResponseViewModel<CategorySM>> {
     return this.http.get<ResponseViewModel<CategorySM>>(`${this.apiUrl}/api/Category/${categoryId}`);
   }
