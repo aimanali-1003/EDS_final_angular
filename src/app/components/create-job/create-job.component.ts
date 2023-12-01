@@ -44,6 +44,8 @@ export class CreateJobComponent implements OnInit {
   associatedColumns: any[] = [];
 
   selectedTemplateId!: number;
+  columnName!: string | null;
+  columnCode!: string;
 
   constructor(
     private jobService: JobService,
@@ -52,39 +54,9 @@ export class CreateJobComponent implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     private clientService: ClientService,
+    
   ) { }
 
-  // ngOnInit(): void {
-  //   this.fetchTemplates();
-  //   this.fetchClients();
-  //   this.loadLookupData();
-
-  //   this.route.params.subscribe((params) => {
-  //     this.jobId = +params['jobId'];
-  //     this.isViewOnly = params['isViewOnly'];
-  //     if (this.jobId) {
-  //       this.isEdit=true;
-  //       this.jobService.getJob(this.jobId).subscribe(
-  //         (response) => {
-  //           if (response.code === 200 && response.data) {
-  //             this.jobData = response.data;
-  //             this.selectedTemplate = this.templates.find(template => template.templateId === this.jobData.template.templateId);
-
-  //             this.selectedRecipientType = this.jobData.dataRecipientTypeLkpId;
-  //             this.selectedFileFormatType = this.jobData.fileFormatLkpId;
-  //             this.selectedFrequencyTypeLookups = response.data.frequencyLkpValue;
-
-  //           } else {
-  //             console.error('No client found or unsuccessful response.');
-  //           }
-  //         },
-  //         (error) => {
-  //           console.error('Error fetching client:', error);
-  //         }
-  //       );
-  //     }
-  //   })
-  // }
   ngOnInit(): void {
     this.fetchTemplates();
     this.fetchClients();
@@ -99,14 +71,29 @@ export class CreateJobComponent implements OnInit {
           (response) => {
             if (response.code === 200 && response.data) {
               this.jobData = response.data;
-              this.selectedTemplate = this.templates.find(template => template.templateId === this.jobData.template.templateId);
+              this.selectedTemplate = this.jobData.template.templateId;
   
               this.selectedRecipientType = this.jobData.dataRecipientTypeLkpId;
               this.selectedFileFormatType = this.jobData.fileFormatLkpId;
               this.selectedFrequencyTypeLookups = response.data.frequencyLkpValue;
-  
-              this.onTemplateSelectionChange(); // Call the method here
-  
+              this.selectedDayOfWeekTypeLookups = response.data.dayOfWeekLkpValue;
+              const template = response.data.template;
+              if (template && template.edsTemplateColumns) {
+                this.associatedColumns = template.edsTemplateColumns.map((column: any) => column.columnName);
+              }
+
+              if (template && template.category) {
+                this.associatedCategoryName = template.category.categoryName || null;
+              }
+
+              const startDate = response.data.startDate;
+
+              if (startDate) {
+                const startDateTime = new Date(startDate);
+                this.selectedDate = startDateTime.toISOString().split('T')[0];
+                this.selectedTime = startDateTime.toTimeString().split(' ')[0];
+              }
+
             } else {
               console.error('No client found or unsuccessful response.');
             }
@@ -141,23 +128,22 @@ export class CreateJobComponent implements OnInit {
     );
   }
 
-  onTemplateSelectionChange(): void {
-    console.log("Inside on Template selection change")
-    if (this.selectedTemplate) {
-      this.associatedCategoryName = this.selectedTemplate.category?.categoryName || null;
-      this.associatedColumns = this.selectedTemplate.category.edsColumns || [];
-    }
-    console.log(this.selectedTemplate,"    ",this.associatedCategoryName,"    ",this.associatedColumns);
-  }
+onTemplateSelectionChange(event: any): void {
+  const selectedTemplateId = event.value;
+  const selectedTemplate = this.templates.find(template => template.templateId === selectedTemplateId);
 
-  onTempSelectionChange(): void {
-    console.log("Inside on Template selection change in edit and view mode")
-    if (this.selectedTemplate) {
-      this.associatedCategoryName = this.selectedTemplate.category?.categoryName || null;
-      this.associatedColumns = this.selectedTemplate.category.edsColumns || [];
-    }
-    console.log(this.selectedTemplate,"    ",this.associatedCategoryName,"    ",this.associatedColumns);
-  }
+  if (selectedTemplate) {
+    this.selectedTemplate = selectedTemplate.templateId;
+    this.associatedCategoryName = selectedTemplate.category?.categoryName || null;
+
+    this.associatedColumns = selectedTemplate.edsTemplateColumns
+      .map((column: any) => column.columns?.columnName)
+      .filter((columnName: any) => columnName !== null && columnName !== undefined) as string[];
+  } 
+  console.log(this.selectedTemplate, "    ", this.associatedCategoryName, "    ", this.associatedColumns);
+}
+
+
 
   fetchClients(): void {
     const params = {
@@ -206,17 +192,40 @@ export class CreateJobComponent implements OnInit {
 
   async createUpdatejob(): Promise<void> {
 
-    this.jobData.template.templateId = this.selectedTemplate.templateId;
+    this.jobData.template.templateId = this.selectedTemplate;
     this.jobData.dataRecipientTypeLkpId = this.selectedRecipientType;
     this.jobData.fileFormatLkpId = this.selectedFileFormatType;
-    this.jobData.templateId = this.selectedTemplate.templateId;
+    this.jobData.templateId = this.selectedTemplate;
     this.jobData.clientId = this.jobData.client.clientId;
+    const selectedDayofWeek = this.dayofWeekLookups.find(type => type.name === this.selectedDayOfWeekTypeLookups);
+    if(selectedDayofWeek){
+      this.jobData.dayOfWeekLkpId = selectedDayofWeek?.id;
+    } else {
+
+    }
     const selectedFrequency = this.frequencyTypeLookups.find(type => type.name === this.selectedFrequencyTypeLookups);
 
     if (selectedFrequency) {
       this.jobData.frequencyLkpId = selectedFrequency?.id;
     } else {
       console.error('Selected frequency type not found');
+    }
+
+    if (this.selectedTime) {
+      const currentTime = new Date();
+      const [hours, minutes] = this.selectedTime.split(':').map(Number);
+      currentTime.setHours(hours, minutes);
+  
+      if (!this.selectedDate) {
+        // If startTime is present and startDate is absent, assign startTime as startDate
+        this.jobData.startDate = currentTime;
+      } else {
+        // If both startDate and startTime are available
+        const startDateTime = new Date(this.selectedDate);
+        startDateTime.setHours(hours, minutes);
+  
+        this.jobData.startDate = startDateTime;
+      }
     }
     
     if (this.isEdit) {

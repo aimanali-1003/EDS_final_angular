@@ -17,8 +17,8 @@
           <!-- Select Template dropdown -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(value)]="selectedTemplate" name="TemplateName" required (selectionChange)="onTemplateSelectionChange()">
-                <mat-option *ngFor="let template of templates" [value]="template">{{ template.templateName }}</mat-option>
+              <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(value)]="selectedTemplate" name="TemplateName" required (selectionChange)="onTemplateSelectionChange($event)">
+                <mat-option *ngFor="let template of templates" [value]="template.templateId">{{ template.templateName }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -210,7 +210,7 @@
 
   <!-- Template Name and Columns Display-->
   <div class="template-container" >
-    <div class="job-content" *ngIf="selectedTemplate">
+    <div class="job-content" *ngIf="selectedTemplate" >
       <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
         Template Details</h2>
       <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
@@ -220,12 +220,10 @@
         <p><strong>Columns:</strong></p>
       </div>
       <div class="scrollable-column" *ngIf="associatedColumns && associatedColumns.length">
-        <div class="column-checkbox" *ngFor="let column of associatedColumns"
-          style="font-family: 'Quicksand', sans-serif;">
+        <div class="column-checkbox" *ngFor="let columnName of associatedColumns" style="font-family: 'Quicksand', sans-serif;">
           <mat-checkbox [disabled]="true" [checked]="true" [ngClass]="{'checked-checkbox': true}">
-            {{ column.columnName }}
+            {{ columnName }}
           </mat-checkbox>
-          <p *ngIf="!associatedColumns || !associatedColumns.length">No columns found.</p>
         </div>
       </div>
     </div>

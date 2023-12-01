@@ -17,7 +17,7 @@ export class JobComponent implements OnInit {
   isEditing = false;
   categoryIdToEdit: string | null = null;
   jobName: string = '';
-  pageSize: number = 10; // Adjust as needed
+  pageSize: number = 20; // Adjust as needed
   searchTerm: string = '';
   selectedJob: any = {};
   dataRecipients: any[] = [];
@@ -27,7 +27,7 @@ export class JobComponent implements OnInit {
   jobss: JobVM[] = [];
   currentPage: number = 1; // Track current page
   totalJobs = 0; 
-  // pageSize = 10; // Define your page size
+
 
 
 
