@@ -190,27 +190,26 @@ onTemplateSelectionChange(event: any): void {
     this.router.navigate(['/jobs']);
   }
 
-  async createUpdatejob(): Promise<void> {
-
+  createUpdatejob(): void {
     this.jobData.template.templateId = this.selectedTemplate;
     this.jobData.dataRecipientTypeLkpId = this.selectedRecipientType;
     this.jobData.fileFormatLkpId = this.selectedFileFormatType;
     this.jobData.templateId = this.selectedTemplate;
     this.jobData.clientId = this.jobData.client.clientId;
+    
     const selectedDayofWeek = this.dayofWeekLookups.find(type => type.name === this.selectedDayOfWeekTypeLookups);
     if(selectedDayofWeek){
       this.jobData.dayOfWeekLkpId = selectedDayofWeek?.id;
-    } else {
-
     }
+    
     const selectedFrequency = this.frequencyTypeLookups.find(type => type.name === this.selectedFrequencyTypeLookups);
-
     if (selectedFrequency) {
       this.jobData.frequencyLkpId = selectedFrequency?.id;
     } else {
       console.error('Selected frequency type not found');
+      return;
     }
-
+  
     if (this.selectedTime) {
       const currentTime = new Date();
       const [hours, minutes] = this.selectedTime.split(':').map(Number);
@@ -223,32 +222,43 @@ onTemplateSelectionChange(event: any): void {
         // If both startDate and startTime are available
         const startDateTime = new Date(this.selectedDate);
         startDateTime.setHours(hours, minutes);
-  
         this.jobData.startDate = startDateTime;
       }
     }
     
     if (this.isEdit) {
       console.log('updating job data', this.jobId);
-      const response = await this.jobService.updateJob(this.jobData).toPromise();
-      this.snackBar.open('Job edited successfully', 'Close', {
-        duration: 3000,
-      });
-      this.router.navigate(['/jobs']);
+      this.jobService.updateJob(this.jobData)
+        .subscribe(
+          () => {
+            this.snackBar.open('Job edited successfully', 'Close', {
+              duration: 3000,
+            });
+            this.router.navigate(['/jobs']);
+          },
+          (error) => {
+            console.error('Error updating job:', error);
+            this.snackBar.open('Error updating job: ' + error, 'Close', {
+              duration: 3000,
+            });
+          }
+        );
     } else {
-      try {
-
-        const response = await this.jobService.createJob(this.jobData).toPromise();
-        this.snackBar.open('Job created successfully', 'Close', {
-          duration: 3000,
-        });
-        this.router.navigate(['/jobs']);
-      } catch (error) {
-        console.error('Error creating job:', error);
-        this.snackBar.open('Error creating job: ' + error, 'Close', {
-          duration: 3000,
-        });
-      }
+      this.jobService.createJob(this.jobData)
+        .subscribe(
+          () => {
+            this.snackBar.open('Job created successfully', 'Close', {
+              duration: 3000,
+            });
+            this.router.navigate(['/jobs']);
+          },
+          (error) => {
+            console.error('Error creating job:', error);
+            this.snackBar.open('Error creating job: ' + error, 'Close', {
+              duration: 3000,
+            });
+          }
+        );
     }
   }
 }

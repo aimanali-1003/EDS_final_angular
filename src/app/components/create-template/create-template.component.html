@@ -12,7 +12,7 @@
         <input matInput [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="templateData.templateName">
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field *ngIf="!isEdit && !isViewOnly">
         <mat-label>Select Category</mat-label>
         <mat-select [(value)]="selectedCategory" (selectionChange)="onCategorySelectionChange()">
           <mat-option *ngFor="let category of categories" [value]="category.categoryId">
@@ -21,12 +21,20 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field *ngIf="templateData.category && isViewOnly">
+        <ng-container >
+          <input matInput [disabled]="isViewOnly" placeholder="Category Name" [(ngModel)]="templateData.category.categoryName">
+        </ng-container>
+      </mat-form-field>
+      
+      
+
       <!-- Column Select -->
       <div *ngIf="selectedCategoryColumns.length > 0" class="selected-category-columns">
         <h3>Selected Category Columns:</h3>
         <ul>
           <li *ngFor="let column of selectedCategoryColumns">
-            <mat-checkbox [(ngModel)]="column.isActive">
+            <mat-checkbox [(ngModel)]="column.isActive" (change)="onCheckboxChange(column)">
               {{ column.columnName }}
             </mat-checkbox>
           </li>
@@ -57,12 +65,25 @@
       Please drag the columns to reorder the template structure.
     </h3>
     <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let column of getCheckedColumns(); let i = index" cdkDrag
+      <div class="example-box" *ngFor="let column of getCheckedColumnsForDragDrop(); let i = index" cdkDrag
         [cdkDragDisabled]="isViewOnly">
         {{ i + 1 }}. {{ column.columnName }}
-         <button *ngIf="!isViewOnly" (click)="deleteColumn(column.columnName)" class="btn btn-sm btn-danger">X</button>
+        <button *ngIf="!isViewOnly" (click)="deleteColumn(column.columnName)" class="btn btn-sm btn-danger">X</button>
       </div>
     </div>
   </mat-card>
+
+
+  <mat-card class="luxury-card" *ngIf="isViewOnly">
+    <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
+    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let column of select; let i = index" cdkDrag
+        [cdkDragDisabled]="isViewOnly">
+        {{ i + 1 }}. {{ column }}
+        <button [disabled]="isViewOnly" (click)="deleteColumn(column.columnName)" class="btn btn-sm btn-danger">X</button>
+      </div>
+    </div>
+  </mat-card>
+  
   
 </div>

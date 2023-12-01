@@ -1,4 +1,6 @@
 import { CategorySM } from "./CategoryModel";
+import { ColumnsVM } from "./ColumnDataModel";
+import { TemplateColumnModelVM } from "./CreateTemplateVM";
 import { TemplateColumnVM } from "./TemplateColumnDataModel"; // Assuming TemplateColumnVM model is defined
 
 export class DataTemplateModel { 
@@ -8,6 +10,8 @@ export class DataTemplateModel {
     public columnNames: string[];
     public columnsId: number[]; // Rename from 'columnsID' to 'columnsId'
     public active: boolean;
+    templateColumns: TemplateColumnModelVM[];
+
   
     constructor() { 
         this.templateId=0;
@@ -16,6 +20,7 @@ export class DataTemplateModel {
       this.columnNames = [];
       this.columnsId = [];
       this.active = true;
+      this.templateColumns = [];
     }
   }
   
@@ -29,8 +34,9 @@ export class DataTemplateModel {
     updatedBy: string | null;
     updatedAt: Date | null;
     isActive: boolean;
-    category: CategorySM | null;
-    edsTemplateColumns: TemplateColumnVM[];
+    category: CategorySM | null; 
+    edsTemplateColumns: ColumnsVM[];
+    templateColumns!: TemplateColumnModelVM[];
   
     constructor(data?: any) {
       if (data) {
@@ -58,6 +64,7 @@ export class DataTemplateModel {
         this.isActive = false;
         this.category = null;
         this.edsTemplateColumns = [];
+        this.templateColumns = [];
       }
     }
   }

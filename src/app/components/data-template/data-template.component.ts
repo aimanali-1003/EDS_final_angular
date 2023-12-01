@@ -24,7 +24,7 @@ export class DataTemplateComponent implements OnInit {
   categories: any[] = [];
   // currentPage: number = 1;
   templateSearchQuery: string = '';
-  pageSize: number = 10;
+  pageSize: number = 30;
   searchTerm: string = '';
   templates: TemplateVM[] = [];
   currentPage: number = 1; // Track current page

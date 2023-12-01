@@ -1,9 +1,13 @@
+import { ColumnsVM } from "./ColumnDataModel";
+import { TemplateColumnVM } from "./TemplateColumnDataModel";
+
 export class CreateTemplateVM {
     templateId: number;
     templateName: string;
     categoryId: number;
     isActive: boolean;
     templateColumns: TemplateColumnModelVM[];
+    edsTemplateColumns!: ColumnsVM[];
   
     constructor() {
       this.templateId = 0;
