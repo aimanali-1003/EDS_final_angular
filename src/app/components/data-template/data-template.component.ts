@@ -73,8 +73,8 @@ export class DataTemplateComponent implements OnInit {
     );
   }
 
-  editTemplate(template: any) {
-    this.router.navigate(['/editTemplate/' + template.templateID]);
+  editTemplate(templateId: number) {
+    this.router.navigate(['/editTemplate/' + templateId]);
   }
 
   deleteTemplate(template: any): void {

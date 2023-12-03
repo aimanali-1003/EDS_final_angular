@@ -7,7 +7,7 @@ export class CreateTemplateVM {
     categoryId: number;
     isActive: boolean;
     templateColumns: TemplateColumnModelVM[];
-    edsTemplateColumns!: ColumnsVM[];
+    edsTemplateColumns!: TemplateColumnVM[];
   
     constructor() {
       this.templateId = 0;

@@ -35,7 +35,7 @@ export class DataTemplateModel {
     updatedAt: Date | null;
     isActive: boolean;
     category: CategorySM | null; 
-    edsTemplateColumns: ColumnsVM[];
+    edsTemplateColumns: TemplateColumnVM[];
     templateColumns!: TemplateColumnModelVM[];
   
     constructor(data?: any) {

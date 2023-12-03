@@ -7,6 +7,7 @@ export class ColumnsVM {
   categoryId: number;
   isActive: boolean;
   category: CategorySM | null;
+  serialNumber!: number;
 
   constructor(data?: any) {
     if (data) {

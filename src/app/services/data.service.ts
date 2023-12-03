@@ -54,11 +54,11 @@ export class DataService {
   }
 
   createTemplateColumns(columnsId: string[]): Observable<any> { 
-    return this.http.post<any>(`${this.apiUrl}/api/Templates`,columnsId);
+    return this.http.post<any>(`${this.apiUrl}/api/Template`,columnsId);
   }
   
-  updateDataTemplate(templateId: string, templateData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/api/Templates/${templateId}`, templateData);
+  updateDataTemplate( templateData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/api/Template/`, templateData);
   }
 
   deleteDataTemplate(templateId: string): Observable<any> { 
@@ -76,5 +76,16 @@ export class DataService {
 
   getAllGroupLookups(): Observable<MasterDataModel[]> {
     return this.http.get<MasterDataModel[]>(`${this.apiUrl}/api/MasterData/GetAllGroupLookups`);
+  }
+
+
+  getJobs(templateId: number): Observable<any> {
+    const params = {
+      pageSize: 10,
+      pageNumber: 1,
+      templateId: templateId
+    };
+
+    return this.http.get<any>(`${this.apiUrl}/api/Job/GetJobs`, { params });
   }
 }
