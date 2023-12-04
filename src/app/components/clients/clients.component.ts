@@ -24,7 +24,7 @@ export class ClientsComponent implements OnInit {
   clientss: ClientVM[] = [];
   pageNumber: number = 1;
   totalClients = 0; 
-  clientId!: number; // Assuming you retrieve the ID from the route or somewhere else
+  clientId!: number;
   client!: ClientVM;
 
   constructor(
@@ -43,7 +43,7 @@ export class ClientsComponent implements OnInit {
     this.clientService.getClients({ pageSize: this.pageSize, pageNumber: this.pageNumber }).subscribe(
       (response) => {
         if (response.code === 200 && response.itemList) {
-          this.clientss = this.clientss.concat(response.itemList);
+          this.clientss = response.itemList;
           this.totalClients = +response.totalCount;
           this.updateDisplayedClients(this.pageNumber);
         }
@@ -71,24 +71,17 @@ export class ClientsComponent implements OnInit {
       (response) => {
         if (response.code === 200 && response.data) {
           const client: ClientVM = response.data;
-          this.router.navigate(['/viewClient/'+clientId+'/'+true]);  // Routing to create-client component with client ID
+          this.router.navigate(['/viewClient/'+clientId+'/'+true]);
         } else {
           console.error('No client found or unsuccessful response.');
-          // Handle error cases or no client found
         }
       },
       (error) => {
         console.error('Error fetching client:', error);
-        // Handle error cases
       }
     );
   }
-  
-  
-  
 
- 
- 
   CreateClients() {
     this.router.navigate(['/createClient']);
   }
@@ -98,12 +91,6 @@ export class ClientsComponent implements OnInit {
       this.router.navigate(['/editClient', clientId]);
     }
   }
-  
-  // viewClient(clientData?: any): void {
-  //   const clientId = clientData.clientID;
-  //   this.router.navigate(['/viewClient/'+clientId+'/'+true]);    
-  // }
-
 
   deleteClient(client: any): void {
     const clientId = client.clientID;
@@ -121,7 +108,6 @@ export class ClientsComponent implements OnInit {
       if (confirmed) {
         this.clientService.deleteClient(clientId).subscribe(() => {
           this.clients = this.clients.filter(c => c.clientID !== clientId);
-          // this.updateDisplayedClients(1);
           this.snackBar.open('Client successfully deleted', 'Close', {
             duration: 2000,
           });
@@ -134,53 +120,5 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
-
-  // private updateDisplayedClients(pageNumber: number) {
-  //   const startIndex = (pageNumber - 1) * this.pageSize;
-  //   const endIndex = startIndex + this.pageSize;
-  //   this.displayedClients = this.clients
-     
-  // }
-
-
-  // onPageChange(pageNumber: number) {
-  //   this.updateDisplayedClients(pageNumber);
-  // }
-
-  // onPageSizeChange(event: any) {
-  //   this.pageSize = event.target.value;
-  //   this.updateDisplayedClients(1);  
-  // }
-
-  // fetchClients() {
-  //   this.clientService.getClients().subscribe((clients: any[]) => {
-  //     this.clients = clients;  
-  //     console.log(this.clients)
-  //     this.updateDisplayedClients(1);
-  //   });
-  // }
-
-  
-
-  // performClientSearch(query: string) {
-  //   this.displayedClients = this.filterClients(this.clients, query);
-  // }
-  
-  // filterClients(clients: any[], query: string): any[] {
-  //   return clients.filter(client =>
-  //     client.clientName.toLowerCase().includes(query.toLowerCase()) ||
-  //     client.clientCode.toLowerCase().includes(query.toLowerCase()) ||
-  //     (client.Active ? 'Active' : 'Inactive').toLowerCase().includes(query.toLowerCase())
-  //   );
-  // }
-
-  // applyClientFilter(filterData: any) {
-  //   this.displayedClients = this.clients.filter((client) => {
-  //     if (filterData.active !== undefined) {
-  //       return client.active === filterData.active;
-  //     }
-  //     return true; // If no filter is selected, return all clients
-  //   });
-  // }
 }
  

@@ -6,11 +6,11 @@
     </h2>
   </div>
 
-    <app-search 
+    <!-- <app-search 
     [placeholderText]="'Search Category by Name or Code'"
     [searchQuery]="categorySearchQuery"
     (searchQueryChanged)="performCategorySearch($event)">
-    </app-search>
+    </app-search> -->
 
   
     <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
@@ -37,6 +37,12 @@
     <div *ngIf="categories.length === 0" class="no-data-message">
       No data found.
     </div> 
-    <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="category.length"
-      (pageChange)="onPageChange($event)"></app-pagination>
+    <mat-paginator
+    [length]="totalCategories"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    (page)="onPageChange($event)"
+    #paginatorRef
+  >
+  </mat-paginator>
   </div>

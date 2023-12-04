@@ -8,6 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/services/category.service';
 import { ActivatedRoute } from '@angular/router';
 import { TemplateVM } from 'src/app/model/DataTemplateModel';
+import { ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-data-template',
@@ -15,20 +17,21 @@ import { TemplateVM } from 'src/app/model/DataTemplateModel';
   styleUrls: ['./data-template.component.css'],
 })
 export class DataTemplateComponent implements OnInit {
+  @ViewChild('paginatorRef') paginator!: MatPaginator;
+
   dataTemplates: any[] = [];
   showForm = false;
   editingTemplate = false;
   template: any[]=[];
   selectedColumns: string[] = [];
-  displayedTemplate: any[] = [];
+  displayedTemplate: TemplateVM[] = [];
   categories: any[] = [];
-  // currentPage: number = 1;
   templateSearchQuery: string = '';
-  pageSize: number = 30;
+  pageSize: number = 10;
   searchTerm: string = '';
   templates: TemplateVM[] = [];
-  currentPage: number = 1; // Track current page
-  totalClients = 0; 
+  pageNumber: number = 1;
+  totalTemplates = 0; 
 
 
   selectedCategory: string[] = [];
@@ -49,26 +52,19 @@ export class DataTemplateComponent implements OnInit {
   createNewTemplate() {
     this.router.navigate(['/createTemplate']);
   }  
-  
 
-  // viewTemplate(dataTemplates?: any): void {
-  //   const templateId = dataTemplates.templateID;
-  //   this.router.navigate(['/viewTemplate/' + templateId + '/' + true]);
-  // }
   viewTemplate(templateId: number): void {
     this.dataService.getTemplate(templateId).subscribe(
       (response) => {
         if (response.code === 200 && response.data) {
           const template: TemplateVM = response.data;
-          this.router.navigate(['/viewTemplate/'+templateId+'/'+true]);  // Routing to create-client component with client ID
+          this.router.navigate(['/viewTemplate/'+templateId+'/'+true]);
         } else {
           console.error('No client found or unsuccessful response.');
-          // Handle error cases or no client found
         }
       },
       (error) => {
         console.error('Error fetching client:', error);
-        // Handle error cases
       }
     );
   }
@@ -93,7 +89,7 @@ export class DataTemplateComponent implements OnInit {
       if (confirmed) {
         this.dataService.deleteDataTemplate(templateId).subscribe(() => {
           this.dataTemplates = this.dataTemplates.filter((t) => t.templateID !== templateId);
-          this.updateDisplayedTemplates();
+          // this.updateDisplayedTemplates();
           this.snackBar.open('Template successfully deleted', 'Close', {
             duration: 2000,
           });
@@ -103,48 +99,37 @@ export class DataTemplateComponent implements OnInit {
   } 
 
   fetchTemplates(): void {
-    const params = {
-      page: this.currentPage.toString(),
-      pageSize: this.pageSize.toString()
-      // Add other parameters as required by your API
-    };
-  
-    this.dataService.getDataTemplates(params).subscribe(
+
+    this.dataService.getDataTemplates({ pageSize: this.pageSize, pageNumber: this.pageNumber }).subscribe(
       (response) => {
         if (response.code === 200 && response.itemList) {
-          this.templates = this.templates.concat(response.itemList);
-          this.totalClients = +response.totalCount; // Convert totalCount to a number
+          this.templates = response.itemList;
+          this.totalTemplates = +response.totalCount;
+          this.updateDisplayedTemplates(this.pageNumber);
         }
-        // Handle if itemList doesn't exist or other scenarios
       },
       (error) => {
         console.error('Error fetching templates:', error);
-        // Handle error cases
       }
     );
+  }
+
+  
+  updateDisplayedTemplates(pageNumber: number) {
+    const startIndex = (pageNumber - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedTemplate = this.templates.slice(startIndex, endIndex);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.fetchTemplates();
   }
   
   ngOnInit(): void { 
     this.fetchTemplates(); 
   }
-  
-  onPageChange(pageNumber: number) {
-    this.currentPage = pageNumber;
-    this.updateDisplayedTemplates();
-  }
-  onPageSizeChange(event: any) {
-    this.pageSize = event.target.value;
-    this.updateDisplayedTemplates();
-  
-  }  
-  private updateDisplayedTemplates() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = Math.min(startIndex + this.pageSize, this.dataTemplates.length);
-    this.displayedTemplate = this.dataTemplates.slice(startIndex, endIndex);
-  }
-
-
-  
 
   getMatchingCategoryInfo(template: any): { categoryCode: string, categoryName: string } {
     const matchingCategory = this.categories.find(category => category.categoryID === template.categoryID);
@@ -165,7 +150,7 @@ export class DataTemplateComponent implements OnInit {
       if (filterData.active !== undefined) {
         return template.active === filterData.active;
       }
-      return true; // If no filter is selected, return all clients
+      return true;
     });
   }
   

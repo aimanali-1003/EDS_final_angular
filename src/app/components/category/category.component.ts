@@ -2,22 +2,27 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Router, ActivatedRoute } from '@angular/router'; 
 import { CategorySM } from 'src/app/model/CategoryModel';
+import { ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
+
+  @ViewChild('paginatorRef') paginator!: MatPaginator;
+
   showCategoryForm: boolean = false;
   category: any[] = [];
-  displayedCategory: any[] = [];  
+  displayedCategory: CategorySM[] = [];  
   categoryIdToEdit: string | null = null;
   categoryName: string = '';
   pageSize: number = 10; 
   categoryData: any;
   categorySearchQuery: string = '';
   categories: CategorySM[] = [];
-  currentPage: number = 1; // Track current page
+  pageNumber: number = 1;
   totalCategories = 0; 
   categoryId!: number; 
 
@@ -30,17 +35,12 @@ export class CategoryComponent implements OnInit {
     this.fetchCategories();   
   }
 
-  // ViewCategory(category: any): void {
-  //   this.categoryData = category; 
-  //   this.router.navigate(['/viewCategory/' + category.categoryID+'/'+true]);
-  // } 
-
   ViewCategory(categoryId: number): void {
     this.categoryService.getCategoryById(categoryId).subscribe(
       (response) => {
         if (response.code === 200 && response.data) {
           const category: CategorySM = response.data;
-          this.router.navigate(['/viewCategory/' + category.categoryId+'/'+true]);  // Routing to create-client component with client ID
+          this.router.navigate(['/viewCategory/' + category.categoryId+'/'+true]);
         } else {
           console.error('No category found or unsuccessful response.');
         }
@@ -52,37 +52,33 @@ export class CategoryComponent implements OnInit {
   }
 
   fetchCategories(): void {
-    const params = {
-      page: this.currentPage.toString(),
-      pageSize: this.pageSize.toString()
-    };
-  
-    this.categoryService.getCategories(params).subscribe(
+
+    this.categoryService.getCategories({ pageSize: this.pageSize, pageNumber: this.pageNumber }).subscribe(
       (response) => {
         if (response.code === 200 && response.itemList) {
-          this.categories = this.categories.concat(response.itemList);
-          this.totalCategories = +response.totalCount; // Convert totalCount to a number
+          this.categories = response.itemList;
+          this.totalCategories = +response.totalCount;
+          this.updateDisplayedCategories(this.pageNumber);
         }
       },
       (error) => {
         console.error('Error fetching Categories:', error);
-        // Handle error cases
       }
     );
   }
 
-  onPageChange(pageNumber: number) {
-    this.updateDisplayedCategory(pageNumber);
-  } 
-
-  performCategorySearch(query: string) {
-    if (query) {
-      this.displayedCategory = this.filterCategories(query);
-    } else { 
-      this.displayedCategory = this.category;
-    }
+  updateDisplayedCategories(pageNumber: number) {
+    const startIndex = (pageNumber - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedCategory = this.categories.slice(startIndex, endIndex);
   }
-  
+
+  onPageChange(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.fetchCategories();
+  }
+
   filterCategories(query: string): any[] {
     return this.category.filter((category) =>
       category.categoryName.toLowerCase().includes(query.toLowerCase()) ||
@@ -95,18 +91,5 @@ export class CategoryComponent implements OnInit {
       return true;
     });
   }
-  
-  private updateDisplayedCategory(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedCategory = this.category
-    .slice(0)
-    .sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
-      return dateB - dateA; // Sort in descending order
-    })
-    .slice(startIndex, endIndex);
-  } 
 }
  
