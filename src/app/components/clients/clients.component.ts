@@ -4,22 +4,25 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ApiResponse } from 'src/app/model/ClientModel';
 import { ClientVM } from 'src/app/model/ClientModel';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css']
 })
 export class ClientsComponent implements OnInit {
+  @ViewChild('paginatorRef') paginator!: MatPaginator;
+
   clients: any[] = [];
-  displayedClients: any[] = [];
-  pageSize: number = 20; 
+  displayedClients: ClientVM[] = [];
+  pageSize: number = 10; 
   isViewingClient: boolean = false;
   clientData: any;
   clientSearchQuery: string = '';
   clientss: ClientVM[] = [];
-  currentPage: number = 1; // Track current page
+  pageNumber: number = 1;
   totalClients = 0; 
   clientId!: number; // Assuming you retrieve the ID from the route or somewhere else
   client!: ClientVM;
@@ -37,25 +40,30 @@ export class ClientsComponent implements OnInit {
   }
 
   fetchClients(): void {
-    const params = {
-      page: this.currentPage.toString(),
-      pageSize: this.pageSize.toString()
-      // Add other parameters as required by your API
-    };
-  
-    this.clientService.getClients(params).subscribe(
+    this.clientService.getClients({ pageSize: this.pageSize, pageNumber: this.pageNumber }).subscribe(
       (response) => {
         if (response.code === 200 && response.itemList) {
           this.clientss = this.clientss.concat(response.itemList);
-          this.totalClients = +response.totalCount; // Convert totalCount to a number
+          this.totalClients = +response.totalCount;
+          this.updateDisplayedClients(this.pageNumber);
         }
-        // Handle if itemList doesn't exist or other scenarios
       },
       (error) => {
         console.error('Error fetching clients:', error);
-        // Handle error cases
       }
     );
+  }
+
+  updateDisplayedClients(pageNumber: number) {
+    const startIndex = (pageNumber - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedClients = this.clientss.slice(startIndex, endIndex);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.fetchClients();
   }
 
   viewClient(clientId: number): void {
