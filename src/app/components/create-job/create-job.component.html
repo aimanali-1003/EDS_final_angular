@@ -191,7 +191,14 @@
                 [(ngModel)]="jobData.maxRunDurationAlarm" name="MaxRunDurationAlarm">
             </mat-form-field>
           </div>
+
+          <div *ngIf="isEdit"  class="form-row">
+            <mat-slide-toggle [color]="jobData.isActive ? 'primary' : 'warn'" [disabled]="isViewOnly" [(ngModel)]="jobData.isActive" name="active">Active</mat-slide-toggle>
+          </div>
+
         </div>
+
+        
 
         <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
           <button *ngIf="!isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()"> <span

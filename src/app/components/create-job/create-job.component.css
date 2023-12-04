@@ -100,33 +100,22 @@
 .template-details-container {
   text-align: left;
 }
-.scrollable-column{
-  max-height: 270px; /* Set the maximum height for the scrollable column */
-  overflow-y: scroll; /* Enable vertical scrolling */
-  border: 1px solid #ccc; /* Add a border for better separation */
-  padding: 10px; /* Add padding for better appearance */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* Distribute columns evenly */
-}
-.column-checkbox {
-  flex-basis: calc(33.33% - 10px); /* Display 3 columns per row with some spacing */
-  margin-bottom: 10px; /* Add spacing between rows */
-  box-sizing: border-box; /* Include padding and border in the width calculation */
-}
 
-/* Add this CSS to create a single row layout */
 .row-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.scrollable-column {
+  display: flex;
+  flex-direction: column;
+}
 
-
-
-
-
-
-
+.column-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-family: 'Quicksand', sans-serif;
+}
  

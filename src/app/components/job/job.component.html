@@ -33,7 +33,6 @@
     </thead>
     <tbody>
       <tr *ngFor="let job of jobss" class="client-item">
-        <!-- <td>{{ job.jobID }}</td> -->
         <td>{{ job.jobName}}</td>
         <td class="created-info-cell">
           <div class="created-at">{{ job.createdAt | date:'medium' }}</div>

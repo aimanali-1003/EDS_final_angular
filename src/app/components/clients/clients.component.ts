@@ -14,7 +14,7 @@ import { ClientVM } from 'src/app/model/ClientModel';
 export class ClientsComponent implements OnInit {
   clients: any[] = [];
   displayedClients: any[] = [];
-  pageSize: number = 10; 
+  pageSize: number = 20; 
   isViewingClient: boolean = false;
   clientData: any;
   clientSearchQuery: string = '';
