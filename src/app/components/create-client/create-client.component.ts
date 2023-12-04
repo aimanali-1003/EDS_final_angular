@@ -5,6 +5,9 @@ import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
 import { clientDataModel } from 'src/app/model/ClientModel';
 import { OrgService } from 'src/app/services/org.service';
 import { ClientVM } from 'src/app/model/ClientModel';
+import { MatDialog } from '@angular/material/dialog';
+import { DataService } from 'src/app/services/data.service';
+import { ActiveJobsPopupComponent } from '../active-jobs-popup/active-jobs-popup.component';
 
 @Component({
   selector: 'app-create-client',
@@ -25,7 +28,8 @@ export class CreateClientComponent implements OnInit {
   selectedOrganization: any; 
   organizations: any[] = [];
   clients: clientDataModel[] = [];
-  clientData: ClientVM = new ClientVM()
+  clientData: ClientVM = new ClientVM();
+  setDisable: boolean = false;
 
   constructor(
     private clientService: ClientService,
@@ -33,6 +37,7 @@ export class CreateClientComponent implements OnInit {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private organizationService: OrgService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void { 
@@ -98,6 +103,31 @@ export class CreateClientComponent implements OnInit {
             }
         );
     }
+}
+
+toggleActiveStatus(): void {
+  if (this.clientData && this.clientData.clientId) {
+    this.clientService.getJobs(this.clientData.clientId).subscribe(
+      (response: any) => {
+        console.log("Data is", response);
+        if (response.itemList.length > 0) {
+          this.setDisable = true
+          const dialogRef = this.dialog.open(ActiveJobsPopupComponent, {
+            data: { activeJobs: response.itemList }
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed'); 
+          });
+        } else {
+          console.error('No itemList found in response data.');
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching jobs:', error); 
+      }
+    );
+  }
 }
 
   ValidateFormFields(){

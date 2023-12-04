@@ -54,5 +54,15 @@ export class ClientService {
     const params = new HttpParams({ fromObject: vm });
     return this.http.get<ResponseViewModel<ClientVM[]>>(`${this.apiUrl}/api/Client/GetClients`, { params });
   }
+
+  getJobs(clientId: number): Observable<any> {
+    const params = {
+      pageSize: 10,
+      pageNumber: 1,
+      clientId: clientId
+    };
+
+    return this.http.get<any>(`${this.apiUrl}/api/Job/GetJobs`, { params });
+  }
   
 }
