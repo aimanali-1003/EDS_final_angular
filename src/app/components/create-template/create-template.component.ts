@@ -22,36 +22,24 @@ export class CreateTemplateComponent implements OnInit {
   currentPage: number = 1;
   totalCategories = 0;
   pageSize: number = 10;
-  categories: CategorySM[] = [];
-
+  categories: CategorySM[] = []; 
   templates: TemplateVM[] = [];
-  templateData: TemplateVM = new TemplateVM()
-
+  templateData: TemplateVM = new TemplateVM() 
   isEdit: boolean = false;
   isViewOnly: boolean = false;
-  templateId!: number;
-
+  templateId!: number; 
   selectedCategoryColumns: ColumnsVM[] = [];
-  selectedTemplateColumns: TemplateColumnModelVM[] = [];
-
-  select: ColumnsVM[] = [];
-
+  selectedTemplateColumns: TemplateColumnModelVM[] = []; 
+  select: ColumnsVM[] = []; 
   selectedColumn: number = 0;
-  selectedCategory: number = 0;
-
+  selectedCategory: number = 0; 
   selectedColumns: ColumnsVM[] = [];
   displayedColumns: ColumnsVM[] = [];
-  checkedColumnsArray: any[] = [];
-
-  templateDataa: TemplateVM[] = [];
-
-  selectedTemplateId: number = 0;
-  // Add a variable to store columns for drag and drop in edit mode
+  checkedColumnsArray: any[] = []; 
+  templateDataa: TemplateVM[] = []; 
+  selectedTemplateId: number = 0; 
   editModeCheckedColumns: any[] = [];
-  setDisable: boolean = false;;
-
-
-
+  setDisable: boolean = false;
 
   constructor(
     private templateService: DataService,
@@ -68,19 +56,19 @@ export class CreateTemplateComponent implements OnInit {
       this.templateId = +params['id'];
       this.isViewOnly = params['isViewOnly'];
       if (this.templateId) {
-        this.isEdit = !this.isViewOnly; // Set isEdit based on isViewOnly
+        this.isEdit = !this.isViewOnly; 
         this.selectedTemplateId = this.templateId;
         this.getTemplateData(this.templateId);
       }
     });
   }
+
   getColumnsInCorrectOrder(): TemplateColumnVM[] {
     if (this.templateData?.edsTemplateColumns?.length > 0) {
       return this.templateData.edsTemplateColumns.sort((a, b) => a.serialNumber - b.serialNumber);
     }
     return [];
-  }
-
+  } 
 
   getTemplateData(templateId: number): void {
     this.templateService.getTemplate(templateId).subscribe(
@@ -115,9 +103,7 @@ export class CreateTemplateComponent implements OnInit {
         console.error('Error fetching template:', error);
       }
     );
-  }
-
-
+  } 
 
   toggleActiveStatus(): void {
     if (this.templateData && this.templateData.templateId) {
@@ -158,8 +144,7 @@ export class CreateTemplateComponent implements OnInit {
         this.selectedCategoryColumns = [];  
       }
     }
-  }
-
+  } 
 
   fetchCategoryColumnsAndMarkSelected(): void {
     const selectedCategoryId = this.templateData.category?.categoryId;
@@ -189,14 +174,12 @@ export class CreateTemplateComponent implements OnInit {
         }
       );
     }
-  }
-
+  } 
 
   getColumnBySerialNumber(serialNumber: number): string | undefined {
     const foundColumn = this.templateData?.edsTemplateColumns.find(column => column.serialNumber === serialNumber);
     return foundColumn?.columns?.columnName;
-  }
-
+  } 
 
   fetchCategories(): void {
     const params = {
@@ -215,14 +198,10 @@ export class CreateTemplateComponent implements OnInit {
         console.error('Error fetching clients:', error);
       }
     );
-  }
+  } 
 
-
-  onCategorySelectionChange(event: any): void {
-
-    const selectedCategoryId = event.value;
-
-    // Update the selected category in the component
+  onCategorySelectionChange(event: any): void { 
+    const selectedCategoryId = event.value; 
     this.selectedCategory = selectedCategoryId;
 
     if (this.isEdit) {
@@ -237,8 +216,7 @@ export class CreateTemplateComponent implements OnInit {
         isActive: false,
       }));
     }
-  }
-
+  } 
 
   onCheckboxChange(column: ColumnsVM) {
     if (column.isActive) { 
@@ -262,8 +240,7 @@ export class CreateTemplateComponent implements OnInit {
       }
     } 
     this.updateTemplateData();
-  }
-
+  } 
 
   updateTemplateData() { 
     if (this.selectedTemplateId && this.checkedColumnsArray.length > 0) {
@@ -294,14 +271,11 @@ export class CreateTemplateComponent implements OnInit {
       console.log(`Dropped column from index ${event.previousIndex} to index ${event.currentIndex}`);
       this.displayedColumns = JSON.parse(JSON.stringify(this.checkedColumnsArray));
     }
-  }
-
+  }  
 
   getCheckedColumns(): ColumnsVM[] {
     return this.selectedCategoryColumns.filter(column => column.isActive);
-  }
-
-
+  }  
 
   deleteColumn(columnName: string) {
     const index = this.checkedColumnsArray.findIndex(column => column.columnName === columnName);
@@ -315,8 +289,7 @@ export class CreateTemplateComponent implements OnInit {
       if (displayedColumnIndex !== -1) {
         this.displayedColumns.splice(displayedColumnIndex, 1);
       }
-    }
-    // Update the templateData to reflect the changes
+    } 
     this.updateTemplateData();
   }
 
@@ -324,40 +297,26 @@ export class CreateTemplateComponent implements OnInit {
     const index = this.editModeCheckedColumns.findIndex(column => column.columnName === columnName);
     if (index !== -1) {
       const deletedColumn = this.editModeCheckedColumns.splice(index, 1)[0];
-      deletedColumn.isActive = false;
-  
-      // Find and uncheck the column in selectedCategoryColumns array
+      deletedColumn.isActive = false; 
       const selectedCategoryColumnIndex = this.selectedCategoryColumns.findIndex(column => column.columnName === columnName);
       if (selectedCategoryColumnIndex !== -1) {
         this.selectedCategoryColumns[selectedCategoryColumnIndex].isActive = false;
-      }
-  
-      // Update the displayedColumns array
+      } 
       const displayedColumnIndex = this.displayedColumns.findIndex(column => column.columnName === columnName);
       if (displayedColumnIndex !== -1) {
         this.displayedColumns.splice(displayedColumnIndex, 1);
-      }
-      
-      // Update the templateData to reflect the changes
+      } 
       this.updateTemplateData();
     }
-  }
-  
-  
-
-
+  } 
 
   goToTemplateScreen() {
     this.router.navigate(['/dataTemplate']);
   }
 
-  createUpdateTemplate() {
-
-
-    if (!this.isEdit) {
-
-      this.templateData.categoryId = this.selectedCategory;
-
+  createUpdateTemplate() { 
+    if (!this.isEdit) { 
+      this.templateData.categoryId = this.selectedCategory; 
       if (this.checkedColumnsArray.length > 0) { 
         const checkedColumnIds = this.checkedColumnsArray.map(column => column.columnsId); 
         const updatedTemplateColumns: TemplateColumnModelVM[] = checkedColumnIds.map((columnId, index) => ({
@@ -365,10 +324,8 @@ export class CreateTemplateComponent implements OnInit {
           serialNumber: index + 1,
         })); 
         this.templateData.templateColumns = updatedTemplateColumns;
-        this.templateData.edsTemplateColumns = this.checkedColumnsArray;
-
-      }
- 
+        this.templateData.edsTemplateColumns = this.checkedColumnsArray; 
+      } 
       this.templateService.createDataTemplate(this.templateData).subscribe(
         (response: any) => {
           this.snackBar.open('Template created successfully', 'Close', {
@@ -387,16 +344,14 @@ export class CreateTemplateComponent implements OnInit {
       const updatedTemplateColumns: TemplateColumnModelVM[] = this.editModeCheckedColumns.map((column, index) => ({
         columnId: column.columnsId,
         serialNumber: index + 1,
-      }));
-
+      })); 
       const updatedTemplateData = {
         templateId: this.templateData.templateId,
         templateName: this.templateData.templateName,
         categoryId: this.selectedCategory,
         isActive: this.templateData.isActive,
         templateColumns: updatedTemplateColumns,
-      };
-
+      }; 
       console.log("updatedTemplateData", updatedTemplateData)
       this.templateService.updateDataTemplate(updatedTemplateData).subscribe(
         (response: any) => {
@@ -412,6 +367,5 @@ export class CreateTemplateComponent implements OnInit {
         }
       );
     }
-  }
-
+  } 
 }

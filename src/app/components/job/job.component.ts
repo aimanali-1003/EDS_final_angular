@@ -21,7 +21,7 @@ export class JobComponent implements OnInit {
   isEditing = false;
   categoryIdToEdit: string | null = null;
   jobName: string = '';
-  pageSize: number = 10;
+  pageSize: number = 3;
   searchTerm: string = '';
   selectedJob: any = {};
   dataRecipients: any[] = [];
@@ -137,5 +137,22 @@ export class JobComponent implements OnInit {
       }
       return true;
     });
+  }
+
+  performJobSearch(searchText: string): void {
+    this.jobSearchQuery = searchText.trim().toLowerCase();
+    this.filterJobsByName();
+  }
+  
+  filterJobsByName(): void {
+    if (this.jobSearchQuery) {
+      this.jobss = this.jobs.filter(job =>
+        job.jobName.toLowerCase().includes(this.jobSearchQuery)
+      );
+      this.totalJobs = this.jobss.length;
+      this.updateDisplayedJobs(1);
+    } else {
+      this.fetchJobs();  
+    }
   }
 }
