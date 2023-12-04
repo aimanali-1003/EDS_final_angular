@@ -320,6 +320,31 @@ export class CreateTemplateComponent implements OnInit {
     this.updateTemplateData();
   }
 
+  deleteColumnInEditMode(columnName: string) {
+    const index = this.editModeCheckedColumns.findIndex(column => column.columnName === columnName);
+    if (index !== -1) {
+      const deletedColumn = this.editModeCheckedColumns.splice(index, 1)[0];
+      deletedColumn.isActive = false;
+  
+      // Find and uncheck the column in selectedCategoryColumns array
+      const selectedCategoryColumnIndex = this.selectedCategoryColumns.findIndex(column => column.columnName === columnName);
+      if (selectedCategoryColumnIndex !== -1) {
+        this.selectedCategoryColumns[selectedCategoryColumnIndex].isActive = false;
+      }
+  
+      // Update the displayedColumns array
+      const displayedColumnIndex = this.displayedColumns.findIndex(column => column.columnName === columnName);
+      if (displayedColumnIndex !== -1) {
+        this.displayedColumns.splice(displayedColumnIndex, 1);
+      }
+      
+      // Update the templateData to reflect the changes
+      this.updateTemplateData();
+    }
+  }
+  
+  
+
 
 
   goToTemplateScreen() {

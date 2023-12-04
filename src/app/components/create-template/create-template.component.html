@@ -135,15 +135,15 @@
   </mat-card>
 
  
-  <mat-card class="luxury-card" *ngIf="isEdit">
-    <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3>
+  <mat-card class="luxury-card" *ngIf="isEdit"> 
     <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let column of editModeCheckedColumns; let i = index" cdkDrag
         [cdkDragDisabled]="isViewOnly">
         {{ i + 1 }}. {{ column.columnName }}
-        <button [disabled]="isViewOnly" (click)="deleteColumn(column.columnName)"
+        <button [disabled]="isViewOnly" (click)="deleteColumnInEditMode(column.columnName)"
           class="btn btn-sm btn-danger">X</button>
       </div>
     </div>
-  </mat-card> 
+  </mat-card>
+  
 </div>
