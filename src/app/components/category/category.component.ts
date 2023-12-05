@@ -58,19 +58,12 @@ export class CategoryComponent implements OnInit {
         if (response.code === 200 && response.itemList) {
           this.categories = response.itemList;
           this.totalCategories = +response.totalCount;
-          this.updateDisplayedCategories(this.pageNumber);
         }
       },
       (error) => {
         console.error('Error fetching Categories:', error);
       }
     );
-  }
-
-  updateDisplayedCategories(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedCategory = this.categories.slice(startIndex, endIndex);
   }
 
   onPageChange(event: PageEvent) {

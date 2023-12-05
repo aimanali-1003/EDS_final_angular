@@ -21,7 +21,7 @@ export class JobComponent implements OnInit {
   isEditing = false;
   categoryIdToEdit: string | null = null;
   jobName: string = '';
-  pageSize: number = 3;
+  pageSize: number = 5;
   searchTerm: string = '';
   selectedJob: any = {};
   dataRecipients: any[] = [];
@@ -87,8 +87,7 @@ export class JobComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.jobService.deleteJob(jobId).subscribe(() => {
-          this.jobs = this.jobs.filter(c => c.jobID !== jobId);
-          this.updateDisplayedJobs(1);
+          this.jobs = this.jobs.filter(c => c.jobID !== jobId); 
           this.snackBar.open('Job successfully deleted', 'Close', {
             duration: 2000,
           });
@@ -109,19 +108,12 @@ export class JobComponent implements OnInit {
           if (response.code === 200 && response.itemList) {
             this.jobss = response.itemList;
             this.totalJobs = +response.totalCount;
-            this.updateDisplayedJobs(this.pageNumber);
           }
         },
         (error) => {
           console.error('Error fetching Jobs:', error);
         }
       );
-  }
-
-  updateDisplayedJobs(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedJob = this.jobss.slice(startIndex, endIndex);
   }
 
   onPageChange(event: PageEvent) {
@@ -138,21 +130,32 @@ export class JobComponent implements OnInit {
       return true;
     });
   }
+ 
 
   performJobSearch(searchText: string): void {
-    this.jobSearchQuery = searchText.trim().toLowerCase();
-    this.filterJobsByName();
+    this.jobSearchQuery = searchText.trim();
+    this.fetchJobsByName();
   }
-  
-  filterJobsByName(): void {
-    if (this.jobSearchQuery) {
-      this.jobss = this.jobs.filter(job =>
-        job.jobName.toLowerCase().includes(this.jobSearchQuery)
+
+  fetchJobsByName(): void {
+    const vm = {
+      pageSize: this.pageSize,
+      pageNumber: this.pageNumber,
+      searchText: this.jobSearchQuery // Pass the search query
+    };
+
+    this.jobService.getJobs(vm)
+      .subscribe(
+        (response: any) => {
+          if (response.code === 200 && response.itemList) {
+            this.jobss = response.itemList;
+            console.log("eilwcbicbrcj",this.jobss)
+            this.totalJobs = +response.totalCount;
+          }
+        },
+        (error) => {
+          console.error('Error fetching Jobs by name:', error);
+        }
       );
-      this.totalJobs = this.jobss.length;
-      this.updateDisplayedJobs(1);
-    } else {
-      this.fetchJobs();  
-    }
   }
 }

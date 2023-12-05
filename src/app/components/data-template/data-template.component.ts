@@ -27,7 +27,7 @@ export class DataTemplateComponent implements OnInit {
   displayedTemplate: TemplateVM[] = [];
   categories: any[] = [];
   templateSearchQuery: string = '';
-  pageSize: number = 10;
+  pageSize: number = 5;
   searchTerm: string = '';
   templates: TemplateVM[] = [];
   pageNumber: number = 1;
@@ -105,20 +105,12 @@ export class DataTemplateComponent implements OnInit {
         if (response.code === 200 && response.itemList) {
           this.templates = response.itemList;
           this.totalTemplates = +response.totalCount;
-          this.updateDisplayedTemplates(this.pageNumber);
         }
       },
       (error) => {
         console.error('Error fetching templates:', error);
       }
     );
-  }
-
-  
-  updateDisplayedTemplates(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedTemplate = this.templates.slice(startIndex, endIndex);
   }
 
   onPageChange(event: PageEvent) {

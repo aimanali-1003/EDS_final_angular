@@ -223,9 +223,9 @@
       </div>
       <div class="scrollable-column" *ngIf="associatedColumns && associatedColumns.length">
         <div class="column-checkbox" *ngFor="let columnName of associatedColumns" style="font-family: 'Quicksand', sans-serif;">
-          <mat-checkbox [disabled]="true" [checked]="true" [ngClass]="{'checked-checkbox': true}">
+          <li [ngClass]="{'checked-checkbox': true}">
             {{ columnName }}
-          </mat-checkbox>
+          </li>
         </div>
       </div>
     </div>

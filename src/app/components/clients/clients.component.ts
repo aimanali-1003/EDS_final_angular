@@ -44,8 +44,7 @@ export class ClientsComponent implements OnInit {
       (response) => {
         if (response.code === 200 && response.itemList) {
           this.clientss = response.itemList;
-          this.totalClients = +response.totalCount;
-          this.updateDisplayedClients(this.pageNumber);
+          this.totalClients = +response.totalCount; 
         }
       },
       (error) => {
@@ -54,12 +53,7 @@ export class ClientsComponent implements OnInit {
     );
   }
 
-  updateDisplayedClients(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedClients = this.clientss.slice(startIndex, endIndex);
-  }
-
+ 
   onPageChange(event: PageEvent) {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;

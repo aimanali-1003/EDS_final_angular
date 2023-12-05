@@ -46,11 +46,11 @@
         <div *ngIf="selectedCategoryColumns.length > 0" class="selected-category-columns">
           <h3>Selected Category Columns:</h3>
           <ul>
-            <li *ngFor="let column of selectedCategoryColumns">
+            <div *ngFor="let column of selectedCategoryColumns">
               <mat-checkbox [(ngModel)]="column.isActive" (change)="onCheckboxChange(column)">
                 {{ column.columnName }}
               </mat-checkbox>
-            </li>
+            </div>
           </ul>
         </div>
         <div *ngIf="selectedCategoryColumns.length === 0" class="no-columns-message">
@@ -62,11 +62,11 @@
         <div *ngIf="selectedCategoryColumns.length > 0" class="selected-category-columns">
           <h3>Selected Category Columns:</h3>
           <ul>
-            <li *ngFor="let column of selectedCategoryColumns">
+            <div *ngFor="let column of selectedCategoryColumns">
               <mat-checkbox [(ngModel)]="column.isActive" (change)="onCheckboxChange(column)">
                 {{ column.columnName }}
               </mat-checkbox>
-            </li>
+            </div>
           </ul>
         </div>
         <div *ngIf="selectedCategoryColumns.length === 0" class="no-columns-message">
@@ -79,11 +79,11 @@
       <div *ngIf="isViewOnly">
         <h3>Selected Category Columns:</h3>
         <ul>
-          <li *ngFor="let column of templateData?.edsTemplateColumns">
+          <div *ngFor="let column of templateData?.edsTemplateColumns">
             <mat-checkbox [disabled]="isViewOnly" [(ngModel)]="column.isActive">
               {{ column.columns.columnName }}
             </mat-checkbox>
-          </li>
+          </div>
         </ul>
       </div>
     </div>
@@ -136,6 +136,10 @@
 
  
   <mat-card class="luxury-card" *ngIf="isEdit"> 
+    <h3 style="font-size: 17px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Columns Order</h3> 
+    <h3 *ngIf="!isViewOnly" style="font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+      Please drag the columns to reorder the template structure.
+    </h3>
     <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
       <div class="example-box" *ngFor="let column of editModeCheckedColumns; let i = index" cdkDrag
         [cdkDragDisabled]="isViewOnly">

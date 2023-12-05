@@ -23,9 +23,9 @@
                 {{categoryData.categoryName}} columns</h4>
             <div class="scrollable-column" *ngIf="categoryData.edsColumns && categoryData.edsColumns.length > 0; else noColumns">
               <div class="column-checkbox" *ngFor="let column of categoryData.edsColumns">
-                <mat-checkbox [disabled]="isViewOnly" [checked]="true" [ngClass]="{'checked-checkbox': true}">
+                <li [ngClass]="{'checked-checkbox': true}">
                   {{ column.columnName }}
-                </mat-checkbox>
+                </li>
               </div>
               
             </div>
