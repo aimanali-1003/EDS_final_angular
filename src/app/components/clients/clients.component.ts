@@ -17,7 +17,7 @@ export class ClientsComponent implements OnInit {
 
   clients: any[] = [];
   displayedClients: ClientVM[] = [];
-  pageSize: number = 10; 
+  pageSize: number = 7; 
   isViewingClient: boolean = false;
   clientData: any;
   clientSearchQuery: string = '';
