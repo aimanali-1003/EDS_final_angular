@@ -1,7 +1,7 @@
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Template
-      Management</h2>
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+      Template Management</h2>
     <div class="form-outline search-box mb-4">
       <button mat-raised-button class="custom-button" (click)="createNewTemplate()">
         <span class="circle">+</span> Create Template
@@ -21,8 +21,6 @@
       <app-client-filter (filterChanged)="applyTemplateFilter($event)"></app-client-filter>
     </div>
   </div>
-
-  
 
   <div class="table-container">
     <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
@@ -71,11 +69,9 @@
       </tbody>
     </table>
 
-
     <div *ngIf="templates.length === 0" class="no-data-message">
       No data found.
     </div>
-
   </div>
 
   <mat-paginator
@@ -83,8 +79,7 @@
   [pageSize]="pageSize"
   [pageSizeOptions]="[10, 25, 50, 100]"
   (page)="onPageChange($event)"
-  #paginatorRef
->
+  #paginatorRef>
 </mat-paginator>
 
 </div>

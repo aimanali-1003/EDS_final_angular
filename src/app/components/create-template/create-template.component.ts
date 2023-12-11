@@ -105,13 +105,21 @@ export class CreateTemplateComponent implements OnInit {
     );
   }
 
+  disableToggleButton(disable: boolean): void {
+    const toggleButton = document.getElementById('toggleButton') as HTMLInputElement;
+    if (toggleButton) {
+      toggleButton.disabled = disable;
+    }
+  }
+
   toggleActiveStatus(): void {
     if (this.templateData && this.templateData.templateId) {
       this.templateService.getJobs(this.templateData.templateId).subscribe(
         (response: any) => {
           console.log("Data is", response);
           if (response.itemList.length > 0) {
-            this.setDisable = true
+            this.templateData.isActive = true;
+            this.disableToggleButton(true);
             const dialogRef = this.dialog.open(ActiveJobsPopupComponent, {
               data: { activeJobs: response.itemList }
             });
@@ -120,7 +128,7 @@ export class CreateTemplateComponent implements OnInit {
               console.log('The dialog was closed');
             });
           } else {
-            console.error('No itemList found in response data.');
+            this.disableToggleButton(false);
           }
         },
         (error: any) => {
