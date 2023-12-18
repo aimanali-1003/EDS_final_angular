@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { CommonService } from '../shared/config';
 import { ResponseViewModel } from '../model/ResponseViewModel';
 import { OrgDataModel } from '../model/OrgDataModel';
+import { OrganizationSearchSM } from '../model/OrganizationSearch.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,11 +35,28 @@ export class OrgService {
     return this.http.get<any[]>(`${this.apiUrl}/api/Organizations/${orgId}/childOrganizations`);
   }
   searchOrgs(searchTerm: string): Observable<ResponseViewModel<OrgDataModel[]>> {
-    // Ensure the searchTerm is properly encoded
     const encodedSearchTerm = encodeURIComponent(searchTerm);
-    
-    // Use template string to format the URL with the encoded search term
     return this.http.get<ResponseViewModel<OrgDataModel[]>>(`${this.apiUrl}/api/Organization/search/${encodedSearchTerm}`);
   }
+
+  getOrganizationLevels(searchParams: OrganizationSearchSM): Observable<ResponseViewModel<OrgDataModel[]>> {
+    const { PageNumber, PageSize, ParentCode, ReqGridLevel } = searchParams;
+    let params = new HttpParams()
+      .set('PageNumber', PageNumber.toString())
+      .set('PageSize', PageSize.toString());
   
+    // Conditionally add optional parameters if they exist
+    if (ParentCode) {
+      params = params.set('ParentCode', ParentCode);
+    }
+    if (ReqGridLevel) {
+      params = params.set('ReqGridLevel', ReqGridLevel);
+    }
+  
+    return this.http.get<ResponseViewModel<OrgDataModel[]>>(
+      `${this.apiUrl}/api/Organization/GetOrganizationLevels`, { params }
+    );
+  }
+  
+
 }

@@ -53,6 +53,10 @@ import { ViewCategoryComponent } from './components/view-category/view-category.
 import { DragDropModule } from '@angular/cdk/drag-drop'; 
 import { MatTreeModule } from '@angular/material/tree';
 import { ActiveJobsPopupComponent } from './components/active-jobs-popup/active-jobs-popup.component';
+import { TreeListModule } from '@progress/kendo-angular-treelist'; 
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import {CdkTreeModule} from '@angular/cdk/tree';
+
 
 @NgModule({
   declarations: [
@@ -119,7 +123,10 @@ import { ActiveJobsPopupComponent } from './components/active-jobs-popup/active-
     MatDividerModule, 
     MatSlideToggleModule,
     MatPaginatorModule, 
-    DragDropModule
+    DragDropModule,
+    TreeListModule,
+    InputsModule,
+    CdkTreeModule
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent], 

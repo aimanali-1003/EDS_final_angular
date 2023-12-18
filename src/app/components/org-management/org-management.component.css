@@ -1,209 +1,171 @@
+/* Adjust dropdowns to open in a hierarchical structure */
 
-.clients {
-  padding: 20px;
-  text-align: center;  
+/* Set the table layout to display like a tree */
+.example-tree {
+  display: table;
+  width: 100%;
 }
 
-.title-container {
+/* Style table rows to represent tree nodes */
+.example-tree tr {
+  display: table-row;
+}
+
+/* Hide child nodes by default */
+.example-tree tr.child-node {
+  display: none;
+}
+
+/* Show child nodes when parent node is expanded */
+.example-tree tr.parent-node.expanded + tr.child-node {
+  display: table-row;
+}
+
+
+
+/* Adjust dropdowns to open in a hierarchical structure */
+
+/* Set the display and layout for tree structure */
+.mat-tree {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Arrange items in a column */
+}
+
+/* Ensure nodes display as block elements */
+.mat-tree-node {
+  display: block;
+}
+
+/* Style the toggle button */
+.mat-tree-node button.mat-icon-button {
+  margin-left: -20px; /* Adjust the button's position */
+}
+
+/* Adjust spacing between nodes if needed */
+.mat-tree-node {
+  margin-bottom: 5px; /* Adjust as necessary for spacing between nodes */
+}
+
+/* Styles for the header */
+.header {
+  display: flex;
   align-items: center;
-
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
 }
 
-.title {
-  font-size: 20.667px;
-font-weight: bold;
-font-family: 'Quicksand', sans-serif;
-display: inline-block;
-margin-right: auto;
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
 }
 
-.title-container button {
-  margin-right: 70%;
-  background-color: #dfceb5;
-  transition: background-color 0.3s, color 0.3s; 
+.header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
 }
 
-.title-container button:hover {
-  background-color: #ebe6df;  
+/* Style for the icon */
+.header button mat-icon {
+  font-size: 24px;
+  color: #333;
 }
 
-.client-table {
+
+/* Styles to cover the entire screen with an overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+  z-index: 999; /* Ensure it's above other content */
+  display: none; /* Initially hidden */
+}
+
+/* Updated styles for the sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Initially off-screen */
+  width: 400px;
+  height: 100%;
+  background-color: #fff; /* Sidebar background color */
+  z-index: 1000; /* Ensure it's above the overlay */
+  transition: right 0.3s ease-out; /* Animate the slide-in/out */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional: Add box shadow for depth */
+  padding: 20px; /* Add padding for content within the sidebar */
+  box-sizing: border-box; /* Include padding and border in width */
+  border-left: 1px solid #ddd; /* Optional: Add a left border for separation */
+}
+
+/* Center the main content */
+.main-content {
+  margin: 0 auto; /* Center the content horizontally */
+  max-width: 1200px; /* Set a maximum width if needed */
+  padding: 20px; /* Add padding to the content */
+}
+
+
+
+.sidebar.open {
+  right: 0; /* Slide in when open */
+}
+
+input[type="text"] {
+  width: calc(100% - 40px); /* Adjust the width with padding */
+  padding: 10px 15px; /* Padding for text boxes */
+  margin: 10px 0; /* Margin between text boxes */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 4px; /* Border radius */
+  box-sizing: border-box; /* Include padding and border in width */
+  font-size: 14px; /* Font size */
+  margin-left: 10px; /* Adjust left margin for text boxes */
+}
+
+h2{
+  margin-left: 10px;
+}
+
+.tree-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px auto; 
 }
 
-.client-table th,
-.client-table td {
-  text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+.tree-table th,
+.tree-table td {
+  border: 1px solid #ddd;
+  padding: 18px;
 }
 
-.client-table th {
+.tree-table th {
   background-color: #f2f2f2;
+  font-weight: bold;
 }
 
-
-.client-item {
-  transition: background-color 0.3s; 
+.tree-table tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-.client-item:hover {
-  background-color: #dfceb5;  
+/* Adjustments for toggle buttons or other elements if needed */
+.mat-button-submit {
+  background-color: #75b777; /* Set the desired background color for the Submit button */
+  color: white; /* Text color for the Submit button */
+  margin-right: 10px;
 }
 
-.action-cell {
-  text-align: center; 
+.mat-button-close {
+  background-color: rgb(243, 227, 227);/* Set the desired background color for the Close button */
+  color: #c93232; /* Text color for the Close button */
+
+
 }
-  
-.title {
-font-size: 20.667px;
-font-weight: bold;
-font-family: 'Quicksand', sans-serif;
-margin: 0;
-}
-
-.title-container .create-button-container .custom-button{
-margin: 0px;
-}
-
-.button-container{
-display: flex;
-align-items: center;
-}
-
-.create-button-container { 
-margin-right: 10px;  
-display: flex; 
-align-items: center;
-}
-
-.custom-button {
-background-color: #007bff; 
-color: #fff;  
-font-weight: bold;
-}
-
-.circle {
-font-size: 24px;
-margin-right: 8px;
-}
-
-.button-text {
-font-size: 16px; 
-}
-
-
-.title-container button {
-margin-right: 0px;
-background-color: #F06105;
-transition: background-color 0.3s, color 0.3s;
-margin-top: 20px;
-margin-right: 20px;
-/* Add smooth transition effects */
-}
-
-.title-container button:hover {
-background-color: #ebe6df;
-color: black;
-/* Darker blue background color on hover */
-}
-
-.client-table {
-width: 100%;
-border-collapse: collapse;
-margin: 20px auto;
-text-align: center; 
-}
-
-
-.client-table th,
-.client-table td {
-text-align: center; 
-padding: 8px;
-border-bottom: 1px solid #ddd;
-}
-
-.client-table th {
-background-color: #f2f2f2;
-}
-
-
-.client-item {
-transition: background-color 0.3s; 
-}
-
-.client-item:hover {
-background-color: #ebe6df; 
-}
-
-.action-cell {
-text-align: center; 
-}
- 
-
-.search-icon {
-position: absolute;
-left: 10px;  
-right: 20px;  
-color: #999;
-cursor: pointer;
-}
-
-
-mat-input {
-font-size: 16px; 
-width: 100%; 
-}
-
-.form-outline input:focus {
-outline: none;
-}
-
-.custom-fab-button {
-width: 32px;
-height: 32px;
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: #ebe6df;
-}
-
-.custom-fab-button mat-icon {
-font-size: 20px;  
-} 
-
-.search-input::placeholder {
-color: #999; 
-}
- 
-.no-data-message {
-  font-size: 16px;
-  color: #555;  
-  margin-top: 10px;
-  text-align: center;
-  padding: 10px;
-  border: 1px solid #ddd;  
-  background-color: #f9f9f9;  
-}
- 
-.parent-org-details {
-  list-style: none;
-}
-
-.client-item {
-  display: flex;
-  align-items: center;
-  margin-left: 10px; /* Adjust the margin as needed */
-}
-
-.client-item button {
-  margin-right: 10px; /* Adjust the margin as needed */
-}
-
-.parent-org-details {
-  margin-left: 20px; /* Adjust the margin as needed */
-}  
