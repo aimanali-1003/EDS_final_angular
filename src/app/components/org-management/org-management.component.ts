@@ -42,72 +42,46 @@ export class OrgManagementComponent implements OnInit {
   organizationLevels: OrgDataModel[] = [];
   selectedNode: any;
   nodeHierarchy: any[] = [];
+  consolidatedCode: string = '';
+  rollupCode: string = '';
+  gpoCode: string = '';
+  groupCode: string = '';
+  unitCode: string = '';
   searchParams: OrganizationSearchSM = {
     PageNumber: 1,
     PageSize: 10,
-    ParentCode: ''
+    ParentCode: '',
+    ConsolidatedCode: this.consolidatedCode,
+    RollupCode: this.rollupCode,
+    GPOCode: this.gpoCode,
+    GroupCode: this.groupCode,
+    UnitCode: this.unitCode,
   };
-  // At the top of your component class
-// sidebarOpen: boolean = false;
 
-// Inside your component class
+
 toggleSidebar(): void {
   this.sidebarOpen = !this.sidebarOpen;
 }
 
 submitFilters(): void {
-  const consolidatedCode = (document.querySelector(
-    'input[placeholder="Enter Consolidated Code or Name"]'
-  ) as HTMLInputElement).value;
-
-  const rollupCode = (document.querySelector(
-    'input[placeholder="Enter Rollup Code or Name"]'
-  ) as HTMLInputElement).value;
-
-  const gpoCode = (document.querySelector(
-    'input[placeholder="Enter GPO Code or Name"]'
-  ) as HTMLInputElement).value;
-
-  const groupCode = (document.querySelector(
-    'input[placeholder="Enter Group Code or Name"]'
-  ) as HTMLInputElement).value;
-
-  const unitCode = (document.querySelector(
-    'input[placeholder="Enter Unit Code or Name"]'
-  ) as HTMLInputElement).value;
-
-  // Update the searchParams only if the input fields have values
   const updatedSearchParams: OrganizationSearchSM = {
     PageNumber: 1,
     PageSize: 10,
+    ConsolidatedCode: this.consolidatedCode,
+    RollupCode: this.rollupCode,
+    GPOCode: this.gpoCode,
+    GroupCode: this.groupCode,
+    UnitCode: this.unitCode,
   };
 
-  if (consolidatedCode) {
-    updatedSearchParams.ConsolidatedCode = consolidatedCode;
-  }
-
-  if (rollupCode) {
-    updatedSearchParams.RollupCode = rollupCode;
-  }
-
-  if (gpoCode) {
-    updatedSearchParams.GPOCode = gpoCode;
-  }
-
-  if (groupCode) {
-    updatedSearchParams.GroupCode = groupCode;
-  }
-
-  if (unitCode) {
-    updatedSearchParams.UnitCode = unitCode;
-  }
-
-  // Make the API call with the updated searchParams
+  console.log(updatedSearchParams);
   this.orgService.getOrganizationLevels(updatedSearchParams)
-    .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
-      this.organizationLevels = response.itemList;
-      console.log('Response from API:', this.organizationLevels);
-    });
+  .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+    this.organizationLevels = response.itemList;
+  }, (error) => {
+    console.error('Error:', error);
+  });
+
 }
 
 

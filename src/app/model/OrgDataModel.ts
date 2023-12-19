@@ -27,6 +27,11 @@ export class OrgDataModel {
     public ParentCode: string;
     public Description: string;
     public LevelName: string;
+    public ConsolidatedCode: string;
+    public RollupCode: string;
+    public GPOCode: string;
+    public GroupCode: string;
+    public UnitCode: string;
   
     constructor() {
       this.Id = 0;
@@ -34,6 +39,11 @@ export class OrgDataModel {
       this.ParentCode = '';
       this.Description = '';
       this.LevelName = '';
+      this.ConsolidatedCode = '';
+      this.RollupCode = '';
+      this.GPOCode = '';
+      this.GroupCode = '';
+      this.UnitCode = '';
     }
   }
   

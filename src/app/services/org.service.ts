@@ -40,7 +40,7 @@ export class OrgService {
   }
 
   getOrganizationLevels(searchParams: OrganizationSearchSM): Observable<ResponseViewModel<OrgDataModel[]>> {
-    const { PageNumber, PageSize, ParentCode, ReqGridLevel } = searchParams;
+    const { PageNumber, PageSize, ParentCode, ReqGridLevel, ConsolidatedCode, RollupCode, GPOCode, GroupCode, UnitCode } = searchParams;
     let params = new HttpParams()
       .set('PageNumber', PageNumber.toString())
       .set('PageSize', PageSize.toString());
@@ -52,11 +52,27 @@ export class OrgService {
     if (ReqGridLevel) {
       params = params.set('ReqGridLevel', ReqGridLevel);
     }
+    if (ConsolidatedCode) {
+      params = params.set('ConsolidatedCode', ConsolidatedCode);
+    }
+    if (RollupCode) {
+      params = params.set('RollupCode', RollupCode);
+    }
+    if (GPOCode) {
+      params = params.set('GPOCode', GPOCode);
+    }
+    if (GroupCode) {
+      params = params.set('GroupCode', GroupCode);
+    }
+    if (UnitCode) {
+      params = params.set('UnitCode', UnitCode);
+    }
   
     return this.http.get<ResponseViewModel<OrgDataModel[]>>(
       `${this.apiUrl}/api/Organization/GetOrganizationLevels`, { params }
     );
   }
+  
   
 
 }
