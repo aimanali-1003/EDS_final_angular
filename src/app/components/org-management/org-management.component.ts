@@ -78,6 +78,15 @@ submitFilters(): void {
   this.orgService.getOrganizationLevels(updatedSearchParams)
   .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
     this.organizationLevels = response.itemList;
+    const transformedData: OrganizationNode[] = this.organizationLevels.map(org => {
+      return {
+        code: org.code,
+        description: org.description,
+        levelName: org.levelName,
+        children: []
+      };
+    });
+    this.dataSource = new ArrayDataSource<OrganizationNode>(transformedData);
   }, (error) => {
     console.error('Error:', error);
   });
