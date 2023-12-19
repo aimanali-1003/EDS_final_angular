@@ -53,7 +53,7 @@ import { ViewCategoryComponent } from './components/view-category/view-category.
 import { DragDropModule } from '@angular/cdk/drag-drop'; 
 import { MatTreeModule } from '@angular/material/tree';
 import { ActiveJobsPopupComponent } from './components/active-jobs-popup/active-jobs-popup.component';
-import { TreeListModule } from '@progress/kendo-angular-treelist'; 
+
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import {CdkTreeModule} from '@angular/cdk/tree';
 
@@ -124,7 +124,6 @@ import {CdkTreeModule} from '@angular/cdk/tree';
     MatSlideToggleModule,
     MatPaginatorModule, 
     DragDropModule,
-    TreeListModule,
     InputsModule,
     CdkTreeModule
   ],

@@ -144,7 +144,7 @@ h2{
 .tree-table th,
 .tree-table td {
   border: 1px solid #ddd;
-  padding: 18px;
+  padding: 2px 25px;
 }
 
 .tree-table th {
