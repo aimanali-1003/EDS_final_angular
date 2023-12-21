@@ -1,56 +1,98 @@
-<div class="clients">
-  <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 class="title"
-      style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif; margin-top: 20px; margin-left: 10px; margin-bottom: 20px;">
-      Organization Management
-    </h2>
-  </div>
+<div class="header">
+  <h1>Organization Management</h1>
+  <button mat-icon-button (click)="toggleSidebar()">
+    <mat-icon>{{ sidebarOpen ? 'close' : 'menu' }}</mat-icon>
+  </button>
+</div>
 
-  <app-search [placeholderText]="'Search Organization by Name and code'" [searchQuery]="organizationSearchQuery"
-    (searchQueryChanged)="performOrganizationSearch($event)"></app-search>
+<div class="overlay" *ngIf="sidebarOpen" (click)="toggleSidebar()"></div>
+<div class="sidebar" [@slideInOut]="sidebarOpen ? 'in' : 'out'" [ngClass]="{ 'open': sidebarOpen }">
+  <h2>Search Filters</h2>
+  <input type="text" placeholder="Enter Consolidated Code or Name" [(ngModel)]="consolidatedCode">
+  <input type="text" placeholder="Enter Rollup Code or Name" [(ngModel)]="rollupCode">
+  <input type="text" placeholder="Enter GPO Code or Name" [(ngModel)]="gpoCode">
+  <input type="text" placeholder="Enter Group Code or Name" [(ngModel)]="groupCode">
+  <input type="text" placeholder="Enter Unit Code or Name" [(ngModel)]="unitCode">
+  <button mat-button class="mat-button-submit" (click)="submitFilters()">
+    <mat-icon style="margin-right: 8px;">done_all</mat-icon>Search
+  </button>
+  <button mat-button class="mat-button-close" (click)="toggleSidebar()">
+    <mat-icon style="margin-right: 8px;">cancel</mat-icon>Close
+  </button>
+</div>
 
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle [ngStyle]="{ 'margin-left.px': node.level * 20 }">
-        <li style="list-style-type: none;">
-          <div class="client-item">
-            <button mat-icon-button (click)="toggleParentOrgDetailsByCode(node.data.organizationCode)">
-              <mat-icon [style.transform]="node.data.showParentOrgDetails ? 'rotate(90deg)' : 'none'">
-                {{ node.data.showParentOrgDetails ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}
-              </mat-icon>
-            </button>
-            <span>{{ node.name }} - {{ node.data.organizationLevel }}</span>
-            <div class="path-to-parents" *ngIf="node.data.pathToParents">
-              Path to Parents: {{ node.data.pathToParents }}
-            </div>
-          </div>
-          <div class="child-orgs-container" *ngIf="node.data.showParentOrgDetails">
-            <ul class="child-org-list" style="list-style-type: none; padding: 0;">
-              <ng-container *ngFor="let child of node.data.children">
-                <li class="child-org-item" style="margin-bottom: 5px;">
-                  {{ child.name }} - Level {{ child.organizationLevel }}
-                  <div class="path-to-parents" *ngIf="child.pathToParents">
-                    Path to Parents: {{ child.pathToParents }}
-                  </div>
-                </li>
+<div class="main-content">
+  <ng-container *ngTemplateOutlet="recursiveTreeView; context: { nodes: dataSource, level: 0 }"></ng-container>
+</div>
+
+<mat-paginator
+  [length]="totalOrganizationLevels"
+  [pageSize]="PageSize"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  (page)="onPageChange($event)"
+></mat-paginator>
+
+<ng-template #recursiveTreeView let-nodes="nodes" let-level="level">
+  <mat-tree [dataSource]="nodes" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild">
+      <table class="tree-table">
+        <thead>
+          <tr>
+            <th> </th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Level Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <ng-container *ngIf="node.levelName !== 'UNIT'">
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.description"
+                  (click)="fetchChildNodes(node)">
+                  <mat-icon>{{ node.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                </button>
               </ng-container>
-            </ul>
-          </div>
-        </li>
-      </mat-tree-node>
-    </mat-tree>
-    <hr style="margin-top: 20px; margin-bottom: 20px; border: 0.5px solid #ababab;">
-  
-    <div *ngIf="!displayedOrganization.length" class="no-data-message">
-      No data found.
-    </div>
-  
-    <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="orgs.length"
-      (pageChange)="onPageChange($event)"></app-pagination>
-  </div>
-  
-  <ng-template #parentOrgDetailsTemplate let-orgCode="orgCode">
-    <ng-container *ngIf="parentOrgsMap[orgCode]">
-      <ng-container
-        *ngTemplateOutlet="parentOrgDetailsTemplate; context: { orgCode: parentOrgsMap[orgCode] }"></ng-container>
-    </ng-container>
-  </ng-template>
+            </td>
+            <td>{{ node.code }}</td>
+            <td>{{ node.description }}</td>
+            <td>{{ node.levelName }}</td>
+          </tr>
+          <tr *ngIf="treeControl.isExpanded(node)">
+            <td colspan="3">
+              <ng-container *ngTemplateOutlet="recursiveTreeView; context: { nodes: node.children, level: level + 1 }"></ng-container>
+              <mat-paginator
+                *ngIf="level === 0"
+                [length]="totalCount"
+                [pageSize]="PageSize"
+                [pageSizeOptions]="[10, 25, 50, 100]"
+                (page)="onPageChangeRollup($event)"
+              ></mat-paginator>
+              <mat-paginator
+              *ngIf="level === 1"
+              [length]="totalCount"
+              [pageSize]="PageSize"
+              [pageSizeOptions]="[10, 25, 50, 100]"
+              (page)="onPageChangeRollup($event)"
+            ></mat-paginator>
+            <mat-paginator
+            *ngIf="level === 2"
+            [length]="totalCount"
+            [pageSize]="PageSize"
+            [pageSizeOptions]="[10, 25, 50, 100]"
+            (page)="onPageChangeRollup($event)"
+          ></mat-paginator>
+          <mat-paginator
+          *ngIf="level === 3"
+          [length]="totalCount"
+          [pageSize]="PageSize"
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          (page)="onPageChangeRollup($event)"
+        ></mat-paginator>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-tree-node>
+  </mat-tree>
+</ng-template>

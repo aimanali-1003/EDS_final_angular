@@ -1,196 +1,197 @@
-<div class="container" [style.width]="selectedTemplates ? '100%' : '50%'">
+<div class="container" [style.width]="jobData.template ? '100%' : '50%'">
   <div class="job">
     <div class="job-content">
       <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
         {{ isViewOnly ? 'View Job' : (isEdit ? 'Edit Job' : 'Create New Job') }}</h2>
 
       <form class="form-grid">
-
         <div class="form-row">
+          <!-- Job Name -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Job Name" [(ngModel)]="jobData.JobType" name="jobType" required>
+              <input [disabled]="isViewOnly" matInput placeholder="Job Name" [(ngModel)]="jobData.jobName"
+                name="jobType" required>
             </mat-form-field>
           </div>
-          
 
+          <!-- Select Template dropdown -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(ngModel)]="selectedTemplates" (selectionChange)="loadTemplates(selectedTemplates)"
-                 name="TemplateName" required>
-                <mat-option *ngFor="let template of templates" [value]="template.templateID">{{ template.templateName }}</mat-option>
+              <mat-select [disabled]="isViewOnly" placeholder="Template Name" [(value)]="selectedTemplate" name="TemplateName" required (selectionChange)="onTemplateSelectionChange($event)">
+                <mat-option *ngFor="let template of templates" [value]="template.templateId">{{ template.templateName }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-
         </div>
         
-
         <div class="form-row">
-
-          <!-- <div class="form-item">
-            <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Organization Level" [(ngModel)]="selectedOrganizationId"
-                (selectionChange)="onOrganizationSelected($event.value)" name="OrganizationName" required>
-                <mat-option *ngFor="let org of orgs" [value]="org.organizationID">{{ org.organizationLevel
-                  }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div> -->
-
+          <!-- Select client dropdown -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Select Client"
-                [(ngModel)]="selectedClientId" name="clientName" required>
-                <mat-option *ngFor="let client of ClientData" [value]="client.clientID">{{ client.clientName
-                  }}</mat-option>
+              <mat-label>Client Name</mat-label>
+              <mat-select [disabled]="isViewOnly" placeholder="Select Client" [(ngModel)]="jobData.client.clientId"
+                name="TemplateName" required>
+                <mat-option *ngFor="let client of clients" [value]="client.clientId">
+                  {{ client.clientName }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
 
+          <!-- Select Recipient Type Dropdown -->
           <div class="form-item">
             <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Recipient Type" [(ngModel)]="selectedDataRecipientTypeId"
-                name="RecipientType" required>
-                <mat-option *ngFor="let type of dataRecipientTypes" [value]="type.recipientTypeID">{{ type.recipientType
-                  }}</mat-option>
+              <mat-label>Data Recipient Type</mat-label>
+              <mat-select [disabled]="isViewOnly" name="dataRecipientTypeDropdown" [(value)]="selectedRecipientType">
+                <mat-option *ngFor="let type of dataRecipientTypeLookups" [value]="type.id">
+                  {{ type.name }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
         </div>
 
         <div class="form-row">
-          <mat-form-field class="form-item">
-            <mat-select [disabled]="isViewOnly" placeholder="File Format: " [(ngModel)]="fileFormatstore"
-              name="fileFormat" required>
-              <mat-option *ngFor="let fileformat of fileFormatJobs" [value]="fileformat.fileFormatName">{{
-                fileformat.fileFormatName }}</mat-option>
+          <!-- FileFormat Dropdown -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <mat-label>File Format Type</mat-label>
+              <mat-select [disabled]="isViewOnly" name="fileFormatTypeDropdown" [(value)]="selectedFileFormatType">
+                <mat-option *ngFor="let type of fileFormatTypeLookups" [value]="type.id">
+                  {{ type.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Frequency Dropdown -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <mat-select [disabled]="isViewOnly" placeholder="Frequency" name="frequency"
+                [(value)]="selectedFrequencyTypeLookups" required>
+                <mat-option *ngFor="let type of frequencyTypeLookups" [value]="type.name">
+                  {{type.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Frequency Type Once -->
+        <div *ngIf="selectedFrequencyTypeLookups === 'Once'" class="form-row">
+
+          <!-- Start Date Once -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate"
+                placeholder="Start Date" required>
+            </mat-form-field>
+          </div>
+
+          <!-- Start Time Once -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Frequency Type Daily -->
+        <div *ngIf="selectedFrequencyTypeLookups === 'Daily'">
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Frequency Type Weekly -->
+        <div *ngIf="selectedFrequencyTypeLookups === 'Weekly'" class="form-row">
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <mat-select [disabled]="isViewOnly" placeholder="DayofWeek" [(value)]="selectedDayOfWeekTypeLookups"
+                name="dayofweeklkp">
+                <mat-option *ngFor="let type of dayofWeekLookups" [value]="type.name">
+                  {{ type.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Frequency Type Monthly -->
+        <div *ngIf="selectedFrequencyTypeLookups === 'Monthly'" class="form-row">
+          <!-- Start Date Monthly -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate"
+                placeholder="Start Date" required>
+            </mat-form-field>
+          </div>
+
+          <!-- Start Time Monthly -->
+          <div class="form-item">
+            <mat-form-field class="full-width">
+              <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="selectedTime" name="StartTime"
+                placeholder="Start Time" required>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Notification Check -->
+        <div class="form-row">
+          <mat-form-field class="full-width">
+            <mat-select [disabled]="isViewOnly" placeholder="Notification Check" [(ngModel)]="jobData.notificationCheck"
+              name="NotificationCheck">
+              <mat-option [value]="true">Yes</mat-option>
+              <mat-option [value]="false">No</mat-option>
             </mat-select>
           </mat-form-field>
-
-          <!-- <div class="form-row">
-            <div class="form-item">
-              <mat-form-field class="full-width">
-                <input [disabled]="isViewOnly" matInput placeholder="Date and Time" [(ngModel)]="combinedDateTime" name="combinedDateTime" required>
-              </mat-form-field>
-            </div>
-          </div>
- -->
-
-          <div class="form-item">
-            <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Frequency" [(ngModel)]="extractionFrequency"
-                name="frequency" required>
-                <mat-option *ngFor="let frequency of frequenciesData" [value]="frequency.frequencyType">{{
-                  frequency.frequencyType }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-
         </div>
 
-        <div *ngIf="extractionFrequency === 'Once'" class="form-row">
-          <div class="form-item">
-          <mat-form-field class="full-width">
-            <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date" required>
-          </mat-form-field>
-        </div>
-        <div class="form-item">
-          <mat-form-field class="full-width">
-            <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time" required>
-          </mat-form-field>
-        </div>
-          <!-- Hidden input to store the combined date and time -->
-          <input type="hidden" [(ngModel)]="combinedDateTime" name="CombinedDateTime">
-        </div>
-        
-
-        <div *ngIf="extractionFrequency === 'Daily'">
-          <mat-form-field class="full-width">
-            <input matInput type="time" [disabled]="isViewOnly" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
-              required>
-          </mat-form-field>
-        </div>
-
-        <div *ngIf="extractionFrequency === 'Weekly'" class="form-row">
-          <div class="form-item">
-          <mat-form-field class="full-width" >
-            <mat-label>Select Day of the Week</mat-label>
-            <mat-select [(ngModel)]="jobData.DayofWeek_Lkp" name="selectedDay" [disabled]="isViewOnly">
-              <mat-option value="Monday">Monday</mat-option>
-              <mat-option value="Tuesday">Tuesday</mat-option>
-              <mat-option value="Wednesday">Wednesday</mat-option>
-              <mat-option value="Thursday">Thursday</mat-option>
-              <mat-option value="Friday">Friday</mat-option>
-              <mat-option value="Saturday">Saturday</mat-option>
-              <mat-option value="Sunday">Sunday</mat-option>
-            </mat-select>
-          </mat-form-field>
-          
-        </div>
-        <div class="form-item">
-          <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.StartTime" [disabled]="isViewOnly" name="StartTime" placeholder="Start Time" required>
-          </mat-form-field>
-        </div>
-      </div>
-
-        <div *ngIf="extractionFrequency === 'Monthly'" class="form-row">
-          <div class="form-item">
-          <mat-form-field class="full-width">
-            <input matInput type="date" [disabled]="isViewOnly" [(ngModel)]="selectedDate" name="StartDate" placeholder="Start Date"
-              required>
-          </mat-form-field>
-        </div>
-
-        <div class="form-item">
-          <mat-form-field class="full-width">
-            <input matInput type="time" [(ngModel)]="jobData.StartTime" name="StartTime" placeholder="Start Time"
-              required>
-          </mat-form-field>
-        </div>
-        </div>
-
-        <div class="form-row">
-          
-        </div>
-
-        <div class="form-row">
-        
-            <mat-form-field class="full-width">
-              <mat-select [disabled]="isViewOnly" placeholder="Notification Check" [(ngModel)]="jobData.NotificationCheck" name="NotificationCheck">
-                <mat-option [value]="true">Yes</mat-option>
-                <mat-option [value]="false">No</mat-option>
-              </mat-select>
-            </mat-form-field>
-                
-        </div>
-        
+        <!-- MinMax record count alaram -->
         <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Min Record Count Alarm" [(ngModel)]="jobData.MinRecordCountAlarm" name="MinRecordCountAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Min Record Count Alarm"
+                [(ngModel)]="jobData.minRecordCountAlarm" name="MinRecordCountAlarm">
             </mat-form-field>
           </div>
+
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Max Record Count Alarm" [(ngModel)]="jobData.MaxRecordCountAlarm" name="MaxRecordCountAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Max Record Count Alarm"
+                [(ngModel)]="jobData.maxRecordCountAlarm" name="MaxRecordCountAlarm">
             </mat-form-field>
           </div>
-        
         </div>
-        
+
+        <!-- MinMax Run Duration Alarm -->
         <div class="form-row">
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Min Run Duration Alarm" [(ngModel)]="jobData.MinRunDurationAlarm" name="MinRunDurationAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Min Run Duration Alarm"
+                [(ngModel)]="jobData.minRunDurationAlarm" name="MinRunDurationAlarm">
             </mat-form-field>
           </div>
           <div class="form-item">
             <mat-form-field class="full-width">
-              <input [disabled]="isViewOnly" matInput placeholder="Max Run Duration Alarm" [(ngModel)]="jobData.MaxRunDurationAlarm" name="MaxRunDurationAlarm">
+              <input [disabled]="isViewOnly" matInput placeholder="Max Run Duration Alarm"
+                [(ngModel)]="jobData.maxRunDurationAlarm" name="MaxRunDurationAlarm">
             </mat-form-field>
+          </div>
+
+          <div *ngIf="isEdit"  class="form-row">
+            <mat-slide-toggle [color]="jobData.isActive ? 'primary' : 'warn'" [disabled]="isViewOnly" [(ngModel)]="jobData.isActive" name="active">Active</mat-slide-toggle>
           </div>
         </div>
 
@@ -201,41 +202,32 @@
             (click)="createUpdatejob()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Job</button>
           <button *ngIf="isEdit" mat-button class="luxury-modal-button-cancel" (click)="goToJobScreen()"> <span
               class="icon">&#10006;</span> Cancel</button>
-
           <button *ngIf="isEdit" mat-raised-button class="create-job-button" (click)="createUpdatejob()">
             <mat-icon style="margin-right: 8px;">done_all</mat-icon> Save Changes
           </button>
         </div>
       </form>
     </div>
+  </div>
 
-  </div> 
-    <div class="template-container" *ngIf="selectedTemplates && !isViewOnly && !isEdit ">
-      <div class="job-content">
-        <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
-          Template Details</h2>
-        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-          <p><strong>Template Name:</strong> {{ template.templateName }}</p>
-        </div>
-        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-          <p><strong>Category ID:</strong> {{ template.categoryID }}</p>
-        </div>
-        <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
-          <p><strong>Columns:</strong></p>
-        </div>
-        <div class="scrollable-column">
-          <div class="column-checkbox" *ngFor="let column of columns" style="font-family: 'Quicksand', sans-serif;">
-            <mat-checkbox [disabled]="true" [checked]="true" [ngClass]="{'checked-checkbox': true}">
-              {{ column }}
-            </mat-checkbox>
-          </div>
+  <!-- Template Name and Columns Display-->
+  <div class="template-container" >
+    <div class="job-content" *ngIf="selectedTemplate" >
+      <h2 class="job-title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+        Template Details</h2>
+      <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
+        <p><strong>Category Name:</strong> {{ associatedCategoryName }}</p>
+      </div>
+      <div class="form-row" style="font-family: 'Quicksand', sans-serif;">
+        <p><strong>Columns:</strong></p>
+      </div>
+      <div class="scrollable-column" *ngIf="associatedColumns && associatedColumns.length">
+        <div class="column-checkbox" *ngFor="let columnName of associatedColumns" style="font-family: 'Quicksand', sans-serif;">
+          <li [ngClass]="{'checked-checkbox': true}">
+            {{ columnName }}
+          </li>
         </div>
       </div>
-    </div> 
-
-    <div class="template-container-no-shadow" *ngIf="isEdit || isViewOnly">
-      
     </div>
- 
-  
+  </div>
 </div>

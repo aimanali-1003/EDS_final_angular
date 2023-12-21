@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-   baseApiUrl: 'https://localhost:44327'
+   baseApiUrl: 'http://localhost:5084'
   //  baseApiUrl: 'https://smappqa.mysodexo.com/site1'
 };
 

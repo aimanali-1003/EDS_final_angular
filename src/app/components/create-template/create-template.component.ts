@@ -2,10 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DataTemplateModel } from 'src/app/model/DataTemplateModel';
+import { TemplateVM } from 'src/app/model/DataTemplateModel';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActiveJobsPopupComponent } from '../active-jobs-popup/active-jobs-popup.component';
+import { CategoryService } from 'src/app/services/category.service';
+import { CategorySM } from 'src/app/model/CategoryModel';
+import { ColumnsVM } from 'src/app/model/ColumnDataModel';
+import { CreateTemplateVM, TemplateColumnModelVM } from 'src/app/model/CreateTemplateVM';
+import { TemplateColumnVM } from 'src/app/model/TemplateColumnDataModel';
 import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-create-template',
@@ -13,150 +19,306 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./create-template.component.css']
 })
 export class CreateTemplateComponent implements OnInit {
-  template: DataTemplateModel = new DataTemplateModel();
-  columnSearch: string = '';
-  filteredColumns: string[] = [];
-  categoryName: string = '';
-  categoriesWithColumns: any[] = [];
-  categories: any[] = [];
-  isViewingColumns: boolean = false;
-  columns: any[] = [];
-  viewColumns: any[] = [];
+  currentPage: number = 1;
+  totalCategories = 0;
+  pageSize: number = 10;
+  categories: CategorySM[] = [];
+  templates: TemplateVM[] = [];
+  templateData: TemplateVM = new TemplateVM()
   isEdit: boolean = false;
   isViewOnly: boolean = false;
-  templateId: string = '';
-  columnNames: string[] = [];
-  selectedcolumnsForUpdate: { [key: number]: boolean } = {};
-  selectedColumns: string[] = [];
-  checkedColumns: string[] = [];
-  sortedColumnNames: string[] = [];
-  hasSelectedColumns: boolean = false;
-  testing: string[] = [];
-  showColumnsOrder: boolean = false;
-
-
+  templateId!: number;
+  selectedCategoryColumns: ColumnsVM[] = [];
+  selectedTemplateColumns: TemplateColumnModelVM[] = [];
+  select: ColumnsVM[] = [];
+  selectedColumn: number = 0;
+  selectedCategory: number = 0;
+  selectedColumns: ColumnsVM[] = [];
+  displayedColumns: ColumnsVM[] = [];
+  checkedColumnsArray: any[] = [];
+  templateDataa: TemplateVM[] = [];
+  selectedTemplateId: number = 0;
+  editModeCheckedColumns: any[] = [];
+  setDisable: boolean = false;
 
   constructor(
     private templateService: DataService,
     private router: Router,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
+    private categoryService: CategoryService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    this.templateService.getCategories().subscribe((categories: any[]) => {
-      this.categories = categories;
-    });
-
+    this.fetchCategories();
     this.route.params.subscribe((params) => {
-      this.templateId = params['id'];
+      this.templateId = +params['id'];
       this.isViewOnly = params['isViewOnly'];
-      this.viewTemplateColumns();
-      if (this.templateId != undefined && this.templateId != "" && this.templateId != null && this.templateId != '') {
-        this.isEdit = true;
-        this.loadTemplates();
+      if (this.templateId) {
+        this.isEdit = !this.isViewOnly;
+        this.selectedTemplateId = this.templateId;
+        this.getTemplateData(this.templateId);
       }
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.testing, event.previousIndex, event.currentIndex);
-    console.log(`Dropped column from index ${event.previousIndex} to index ${event.currentIndex}`);
-    this.updateColumnOrder();
-  }
-  updateColumnOrder() {
-    const updatedColumnOrder = this.testing.map((columnName) => {
-      const column = this.columns.find((c) => c.columnName === columnName);
-      return { columnId: column.columnID, columnName: column.columnName };
-    });
-    console.log('Updated Column Order:', updatedColumnOrder);
-  }
-
-
-  checkSelectedColumns() {
-    console.log('clicked on check selected cols')
-    this.hasSelectedColumns = Object.values(this.template.columnNames).some(value => value);
-  }
-
-  fetchColumnsByCategory(categoryId: number) {
-    this.testing = [];
-    this.templateService.getColumnsByCategory(categoryId).subscribe((columns: string[]) => {
-      this.columns = columns;
-      this.initializeSelectedColumnsForUpdate();
-    });
-  }
-
-  initializeSelectedColumnsForUpdate() {
-    this.selectedcolumnsForUpdate = {};
-    this.testing = this.viewColumns.slice();
-
-    for (let column of this.columns) {
-      const isSelected = this.viewColumns.includes(column.columnName);
-      this.selectedcolumnsForUpdate[column.columnID] = isSelected;
+  getColumnsInCorrectOrder(): TemplateColumnVM[] {
+    if (this.templateData?.edsTemplateColumns?.length > 0) {
+      return this.templateData.edsTemplateColumns.sort((a, b) => a.serialNumber - b.serialNumber);
     }
+    return [];
   }
 
-  loadTemplates() {
-    this.templateService.getTemplate(this.templateId).subscribe((template: any) => {
-      this.template = template;
-      console.log(this.template)
-      this.fetchColumnsByCategory(this.template.categoryID);
-    });
-  }
+  getTemplateData(templateId: number): void {
+    this.templateService.getTemplate(templateId).subscribe(
+      (response) => {
+        if (response.code === 200 && response.data && response.data.edsTemplateColumns) {
+          this.templateData = response.data;
 
-  viewTemplateColumns() {
-    this.templateService.getColumnsOfTemplate(this.templateId).subscribe((viewColumns: string[]) => {
-      this.viewColumns = viewColumns;
-      this.testing = this.viewColumns;
-      this.isViewingColumns = true;
-    });
-  }
+          console.log("response.data.edsTemplateColumns", response.data.edsTemplateColumns)
 
-  updateFilteredColumns() {
-    this.sortedColumnNames = Object.keys(this.template.columnNames);
-  }
+          if (this.isEdit) {
+            this.fetchCategoryColumnsAndMarkSelected();
+            this.showCategory({ value: this.templateData.category?.categoryId });
+            this.selectedCategory = this.templateData.categoryId;
 
-  updateSortedColumnNames() {
-    this.sortedColumnNames = this.columns.filter((column) =>
-      this.checkedColumns.includes(column.columnName)
+            this.editModeCheckedColumns = this.templateData.edsTemplateColumns
+              .filter(column => column.isActive)
+              .map(column => ({
+                ...column,
+                columnName: column.columns?.columnName || '',
+                serialNumber: column.serialNumber
+              }));
+
+            this.editModeCheckedColumns.sort((a, b) => a.serialNumber - b.serialNumber);
+          }
+
+
+        } else {
+          console.error('No template found or unsuccessful response.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching template:', error);
+      }
     );
   }
 
-  isChecked(columnName: string): boolean {
-    if (!this.isEdit) {
-      const isChecked = this.template.columnNames[columnName as keyof typeof this.template.columnNames];
-
-      if (isChecked) {
-        if (!this.testing.includes(columnName)) {
-          this.testing = [...this.testing, columnName];
-        }
-      } else {
-        this.testing = this.testing.filter((col) => col !== columnName);
-      }
-
-      return !!isChecked;
-    } else {
-      const isSelectedForUpdate = this.selectedcolumnsForUpdate[columnName as any];
-      if (isSelectedForUpdate) {
-        if (!this.testing.includes(columnName)) {
-          this.testing = [...this.testing, columnName];
-        }
-      } else {
-        this.testing = this.testing.filter((col) => col !== columnName);
-      }
-
-      return !!isSelectedForUpdate;
+  disableToggleButton(disable: boolean): void {
+    const toggleButton = document.getElementById('toggleButton') as HTMLInputElement;
+    if (toggleButton) {
+      toggleButton.disabled = disable;
     }
   }
 
-  updateColumns(categoryId: number) {
-    this.columns = [];
-    this.template.categoryID = categoryId;
-    this.fetchColumnsByCategory(categoryId);
-    this.initializeSelectedColumnsForUpdate();
+  toggleActiveStatus(): void {
+    if (this.templateData && this.templateData.templateId) {
+      this.templateService.getJobs(this.templateData.templateId).subscribe(
+        (response: any) => {
+          console.log("Data is", response);
+          if (response.itemList.length > 0) {
+            this.templateData.isActive = true;
+            this.disableToggleButton(true);
+            const dialogRef = this.dialog.open(ActiveJobsPopupComponent, {
+              data: { activeJobs: response.itemList }
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+              console.log('The dialog was closed');
+            });
+          } else {
+            this.disableToggleButton(false);
+          }
+        },
+        (error: any) => {
+          console.error('Error fetching jobs:', error);
+        }
+      );
+    }
   }
 
+  showCategory(event: any): void {
+    const selectedCategoryId = event.value;
+
+    if (selectedCategoryId) {
+      const selectedCategoryObj = this.categories.find(category => category.categoryId === selectedCategoryId);
+      if (selectedCategoryObj && selectedCategoryObj.edsColumns) {
+        this.selectedCategoryColumns = selectedCategoryObj.edsColumns.map((column) => ({
+          ...column,
+          isActive: false,
+        }));
+      } else {
+        this.selectedCategoryColumns = [];
+      }
+    }
+  }
+
+  fetchCategoryColumnsAndMarkSelected(): void {
+    const selectedCategoryId = this.templateData.category?.categoryId;
+    if (selectedCategoryId) {
+      this.categoryService.getCategoryById(selectedCategoryId).subscribe(
+        (response) => {
+          if (response.code === 200 && response.data) {
+            const categoryData = response.data;
+
+            if (categoryData.edsColumns && Array.isArray(categoryData.edsColumns)) {
+              this.selectedCategoryColumns = categoryData.edsColumns.map((column: any) => {
+                const isColumnSelected = this.templateData.edsTemplateColumns.some(
+                  (templateColumn) => templateColumn.columnsId === column.columnsId
+                );
+                return {
+                  ...column,
+                  isActive: isColumnSelected,
+                };
+              });
+            } else {
+              console.error('Error: edsColumns is not present or is not an array');
+            }
+          }
+        },
+        (error) => {
+          console.error('Error fetching category columns:', error);
+        }
+      );
+    }
+  }
+
+  getColumnBySerialNumber(serialNumber: number): string | undefined {
+    const foundColumn = this.templateData?.edsTemplateColumns.find(column => column.serialNumber === serialNumber);
+    return foundColumn?.columns?.columnName;
+  }
+
+  fetchCategories(): void {
+    const params = {
+      page: this.currentPage.toString(),
+      pageSize: this.pageSize.toString()
+    };
+
+    this.categoryService.getCategories(params).subscribe(
+      (response) => {
+        if (response.code === 200 && response.itemList) {
+          this.categories = this.categories.concat(response.itemList);
+          this.totalCategories = +response.totalCount;
+        }
+      },
+      (error) => {
+        console.error('Error fetching clients:', error);
+      }
+    );
+  }
+
+  onCategorySelectionChange(event: any): void {
+    const selectedCategoryId = event.value;
+    this.selectedCategory = selectedCategoryId;
+    this.checkedColumnsArray = [];
+    if (this.isEdit) {
+      this.selectedCategoryColumns = [];
+      this.editModeCheckedColumns = [];
+    }
+
+
+
+    const selectedCategoryObj = this.categories.find(category => category.categoryId === selectedCategoryId);
+    if (selectedCategoryObj && selectedCategoryObj.edsColumns) {
+      this.selectedCategoryColumns = selectedCategoryObj.edsColumns.map((column) => ({
+        ...column,
+        isActive: false,
+      }));
+    }
+  }
+
+  onCheckboxChange(column: ColumnsVM) {
+    if (column.isActive) {
+      if (!this.checkedColumnsArray.find(col => col.columnsId === column.columnsId)) {
+        this.checkedColumnsArray.push(column);
+        this.editModeCheckedColumns.push(column);
+        this.displayedColumns.push(column);
+      }
+    } else {
+      const index = this.checkedColumnsArray.findIndex(col => col.columnsId === column.columnsId);
+      if (index !== -1) {
+        this.checkedColumnsArray.splice(index, 1);
+      }
+      const editModeIndex = this.editModeCheckedColumns.findIndex(col => col.columnsId === column.columnsId);
+      if (editModeIndex !== -1) {
+        this.editModeCheckedColumns.splice(editModeIndex, 1);
+      }
+      const displayedColumnIndex = this.displayedColumns.findIndex(col => col.columnsId === column.columnsId);
+      if (displayedColumnIndex !== -1) {
+        this.displayedColumns.splice(displayedColumnIndex, 1);
+      }
+    }
+    this.updateTemplateData();
+  }
+
+  updateTemplateData() {
+    if (this.selectedTemplateId && this.checkedColumnsArray.length > 0) {
+      const checkedColumnIds = this.checkedColumnsArray.map((column) => column.columnsId);
+      const updatedTemplateColumns: TemplateColumnModelVM[] = checkedColumnIds.map((columnId, index) => ({
+        columnId: columnId,
+        serialNumber: index + 1,
+      }));
+      this.templateData.templateColumns = updatedTemplateColumns;
+      this.templateData.edsTemplateColumns = this.checkedColumnsArray;
+    }
+  }
+  getCheckedColumnsForDragDrop(): TemplateColumnVM[] {
+    if (this.isEdit && this.templateData?.edsTemplateColumns?.length > 0) {
+      return this.templateData.edsTemplateColumns.filter(column => column.isActive);
+    } else {
+      return this.checkedColumnsArray.filter(column => column.isActive);
+    }
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (this.isEdit) {
+      moveItemInArray(this.editModeCheckedColumns, event.previousIndex, event.currentIndex);
+      console.log(`Dropped column from index ${event.previousIndex} to index ${event.currentIndex}`);
+      this.displayedColumns = JSON.parse(JSON.stringify(this.editModeCheckedColumns));
+    } else {
+      moveItemInArray(this.checkedColumnsArray, event.previousIndex, event.currentIndex);
+      console.log(`Dropped column from index ${event.previousIndex} to index ${event.currentIndex}`);
+      this.displayedColumns = JSON.parse(JSON.stringify(this.checkedColumnsArray));
+    }
+  }
+
+  getCheckedColumns(): ColumnsVM[] {
+    return this.selectedCategoryColumns.filter(column => column.isActive);
+  }
+
+  deleteColumn(columnName: string) {
+    const index = this.checkedColumnsArray.findIndex(column => column.columnName === columnName);
+    if (index !== -1) {
+      this.checkedColumnsArray.splice(index, 1);
+      const selectedCategoryColumnIndex = this.selectedCategoryColumns.findIndex(column => column.columnName === columnName);
+      if (selectedCategoryColumnIndex !== -1) {
+        this.selectedCategoryColumns[selectedCategoryColumnIndex].isActive = false;
+      }
+      const displayedColumnIndex = this.displayedColumns.findIndex(column => column.columnName === columnName);
+      if (displayedColumnIndex !== -1) {
+        this.displayedColumns.splice(displayedColumnIndex, 1);
+      }
+    }
+    this.updateTemplateData();
+  }
+
+  deleteColumnInEditMode(columnName: string) {
+    const index = this.editModeCheckedColumns.findIndex(column => column.columnName === columnName);
+    if (index !== -1) {
+      const deletedColumn = this.editModeCheckedColumns.splice(index, 1)[0];
+      deletedColumn.isActive = false;
+      const selectedCategoryColumnIndex = this.selectedCategoryColumns.findIndex(column => column.columnName === columnName);
+      if (selectedCategoryColumnIndex !== -1) {
+        this.selectedCategoryColumns[selectedCategoryColumnIndex].isActive = false;
+      }
+      const displayedColumnIndex = this.displayedColumns.findIndex(column => column.columnName === columnName);
+      if (displayedColumnIndex !== -1) {
+        this.displayedColumns.splice(displayedColumnIndex, 1);
+      }
+      this.updateTemplateData();
+    }
+  }
 
   goToTemplateScreen() {
     this.router.navigate(['/dataTemplate']);
@@ -164,89 +326,71 @@ export class CreateTemplateComponent implements OnInit {
 
   createUpdateTemplate() {
     if (!this.isEdit) {
-
-      const updatedColumnIds = this.testing.map((columnName) => {
-        const column = this.columns.find((c) => c.columnName === columnName);
-        return column.columnID;
-      });
-
-      if (!this.template.templateName || this.template.categoryID === 0 || updatedColumnIds.length === 0) {
-        this.snackBar.open('Template Name, Category, and Columns are required.', 'Close', {
-          duration: 3000,
-        });
-        return;
+      this.templateData.categoryId = this.selectedCategory;
+      if (this.checkedColumnsArray.length > 0) {
+        const checkedColumnIds = this.checkedColumnsArray.map(column => column.columnsId);
+        const updatedTemplateColumns: TemplateColumnModelVM[] = checkedColumnIds.map((columnId, index) => ({
+          columnId: columnId,
+          serialNumber: index + 1,
+        }));
+        this.templateData.templateColumns = updatedTemplateColumns;
+        this.templateData.edsTemplateColumns = this.checkedColumnsArray;
       }
-
-      this.template.columnsId = updatedColumnIds;
-      this.updateColumnOrder();
-      this.templateService.createDataTemplate(this.template).subscribe(() => {
-        this.snackBar.open('Template created successfully', 'Close', {
-          duration: 3000,
-        });
-
-        this.router.navigate(['/dataTemplate']);
-      });
-    } else {
-      const selectedColumnIds = Object.keys(this.selectedcolumnsForUpdate)
-        .filter((key) => this.selectedcolumnsForUpdate[parseInt(key)])
-        .map((key) => parseInt(key));
-
-      const updatedColumnIds = this.testing.map((columnName) => {
-        const column = this.columns.find((c) => c.columnName === columnName);
-        return column.columnID;
-      });
-      if (selectedColumnIds.length === 0) {
-        this.snackBar.open('Please select at least one column to update.', 'Close', {
-          duration: 3000,
-        });
-        return;
-      }
-      this.template.columnsId = updatedColumnIds;
-      this.templateService.updateDataTemplate(this.templateId, this.template).subscribe(
+      this.templateService.createDataTemplate(this.templateData).subscribe(
         (response: any) => {
-          if (response.activeJobs) {
-            console.log(response.activeJobs)
-            const dialogRef = this.dialog.open(ActiveJobsPopupComponent, {
-              data: { activeJobs: response.activeJobs }
-            });
-      
-            dialogRef.afterClosed().subscribe(result => {
-              console.log('The dialog was closed');
-            });
-          } else {
-            this.snackBar.open('Template updated successfully', 'Close', {
-              duration: 2000,
-            });
-      
-            this.router.navigate(['/dataTemplate']);
-          }
+          this.snackBar.open('Template created successfully', 'Close', {
+            duration: 2000,
+          });
+          this.router.navigate(['/dataTemplate']);
         },
         (error: any) => {
-          this.snackBar.open('Error updating template: ' + error.error, 'Close', {
-            duration: 8000,
+          this.snackBar.open('Error creating template: ' + error, 'Close', {
+            duration: 3000,
           });
         }
       );
-
     }
-  }
+    // Inside the else block where the template update logic is present
+    else {
+      // Check if template columns or template name are null or empty
+      const isInvalid = this.editModeCheckedColumns.length === 0 || !this.templateData.templateName;
 
-  deleteColumn(columnName: string) {
-    const index = this.testing.indexOf(columnName);
-    if (index !== -1) {
-      this.testing.splice(index, 1);
-      if (this.isEdit) {
-        const column = this.columns.find((c) => c.columnName === columnName);
-        if (column) {
-          delete this.selectedcolumnsForUpdate[column.columnID];
-        }
+      if (isInvalid) {
+        this.snackBar.open('Template name or columns cannot be empty', 'Close', {
+          duration: 3000,
+        });
       } else {
-        const column = this.columns.find((c) => c.columnName === columnName);
-        if (column) {
-          delete this.template.columnNames[column.columnName];
-        }
+        const updatedTemplateColumns: TemplateColumnModelVM[] = this.editModeCheckedColumns.map((column, index) => ({
+          columnId: column.columnsId,
+          serialNumber: index + 1,
+        }));
+
+        const updatedTemplateData = {
+          templateId: this.templateData.templateId,
+          templateName: this.templateData.templateName,
+          categoryId: this.selectedCategory,
+          isActive: this.templateData.isActive,
+          templateColumns: updatedTemplateColumns,
+        };
+
+        console.log("updatedTemplateData", updatedTemplateData);
+
+        // Proceed with template update if columns and template name are valid
+        this.templateService.updateDataTemplate(updatedTemplateData).subscribe(
+          (response: any) => {
+            this.snackBar.open('Template updated successfully', 'Close', {
+              duration: 2000,
+            });
+            this.router.navigate(['/dataTemplate']);
+          },
+          (error: any) => {
+            this.snackBar.open('Error updating template: ' + error, 'Close', {
+              duration: 3000,
+            });
+          }
+        );
       }
     }
-  }
 
+  }
 }

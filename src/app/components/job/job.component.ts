@@ -4,27 +4,33 @@ import { DeleteDialogComponent } from 'src/app/components/delete-dialog/delete-d
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JobService } from 'src/app/services/job.service';
 import { Router } from '@angular/router';
+import { JobVM } from 'src/app/model/JobModel';
+import { ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+
 @Component({
   selector: 'app-job',
   templateUrl: './job.component.html',
   styleUrls: ['./job.component.css']
 })
 export class JobComponent implements OnInit {
-  
+  @ViewChild('paginatorRef') paginator!: MatPaginator;
+
   jobs: any[] = [];
-  displayedJob: any[] = []; 
+  displayedJob: JobVM[] = [];
   isEditing = false;
   categoryIdToEdit: string | null = null;
   jobName: string = '';
-  pageSize: number = 10; // Adjust as needed
+  pageSize: number = 5;
   searchTerm: string = '';
   selectedJob: any = {};
   dataRecipients: any[] = [];
   notificationRecipients: any[] = [];
   jobData: any;
   jobSearchQuery: string="";
-
-
+  jobss: JobVM[] = [];
+  pageNumber: number = 1;
+  totalJobs = 0; 
 
   constructor(
     private jobService: JobService,
@@ -43,17 +49,25 @@ export class JobComponent implements OnInit {
     this.router.navigate(['/createJob']);
   }
 
-  viewJob(jobData?: any): void {
-    const jobId = jobData.jobID;
-    this.router.navigate(['/viewJob/'+jobId+'/'+true]);    
+  viewJob(jobId: number): void {
+    this.jobService.getJob(jobId).subscribe(
+      (response) => {
+        if (response.code === 200 && response.data) {
+          const job: JobVM = response.data;
+          this.router.navigate(['/viewJob/'+jobId+'/'+true]);
+        } else {
+          console.error('No client found or unsuccessful response.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching client:', error);
+      }
+    );   
   }
  
 
-  openJobModalForEdit(jobData?: any): void {
-    // console.log(this.jobData)
-    if (jobData && jobData.jobID) {
-      const jobId = jobData.jobID;
-      
+  openJobModalForEdit(jobId:number): void { 
+    if (jobId) {  
       this.router.navigate(['/editJob', jobId]);
     }
   }
@@ -73,9 +87,7 @@ export class JobComponent implements OnInit {
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.jobService.deleteJob(jobId).subscribe(() => {
-          this.jobs = this.jobs.filter(c => c.jobID !== jobId);
-          // console.log(jobId);
-          this.updateDisplayedJobs(1);
+          this.jobs = this.jobs.filter(c => c.jobID !== jobId); 
           this.snackBar.open('Job successfully deleted', 'Close', {
             duration: 2000,
           });
@@ -89,55 +101,61 @@ export class JobComponent implements OnInit {
     });
   }
 
-  private updateDisplayedJobs(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedJob = this.jobs
-    .slice(0)
-    .sort((a,b) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
-      return dateB - dateA;
-    })
-    .slice(startIndex, endIndex);
+  fetchJobs(): void {  
+    this.jobService.getJobs({ pageSize: this.pageSize, pageNumber: this.pageNumber })
+      .subscribe(
+        (response) => {
+          if (response.code === 200 && response.itemList) {
+            this.jobss = response.itemList;
+            this.totalJobs = +response.totalCount;
+          }
+        },
+        (error) => {
+          console.error('Error fetching Jobs:', error);
+        }
+      );
   }
 
-  fetchJobs() {
-    this.jobService.getJobs().subscribe((jobs: any[]) => {
-      this.jobs = jobs;
-      // console.log(jobs);
-      this.updateDisplayedJobs(1);
-    });
-  }
-
-  onPageChange(pageNumber: number) {
-    this.updateDisplayedJobs(pageNumber);
-  }
-
-  // performClientSearch(query: string) {
-  //   // Implement the search logic specific to the 'clients' component
-  //   // Update your displayedCategory based on the query
-  // }
-  
-  // applyClientFilter(filterData: any) {
-  //   // Implement the filter logic specific to the 'clients' component
-  //   // Update your displayedCategory based on the filter data
-  // }
-
-  performJobSearch(searchTerm: string) {
-    this.jobSearchQuery = searchTerm;
-    this.displayedJob = this.displayedJob.filter(job =>
-      job.jobType.toLowerCase().includes(searchTerm.toLowerCase()) 
-    );
+  onPageChange(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.fetchJobs();
   }
 
   applyJobFilter(filterData: any) {
-    this.displayedJob = this.jobs.filter((job) => {
+    this.jobss = this.jobss.filter((job) => {
       if (filterData.active !== undefined) {
-        return job.active === filterData.active;
+        return job.isActive === filterData.active;
       }
-      return true; // If no filter is selected, return all clients
+      return true;
     });
   }
-}
  
+
+  performJobSearch(searchText: string): void {
+    this.jobSearchQuery = searchText.trim();
+    this.fetchJobsByName();
+  }
+
+  fetchJobsByName(): void {
+    const vm = {
+      pageSize: this.pageSize,
+      pageNumber: this.pageNumber,
+      searchText: this.jobSearchQuery // Pass the search query
+    };
+
+    this.jobService.getJobs(vm)
+      .subscribe(
+        (response: any) => {
+          if (response.code === 200 && response.itemList) {
+            this.jobss = response.itemList;
+            console.log("eilwcbicbrcj",this.jobss)
+            this.totalJobs = +response.totalCount;
+          }
+        },
+        (error) => {
+          console.error('Error fetching Jobs by name:', error);
+        }
+      );
+  }
+}

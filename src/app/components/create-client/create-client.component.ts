@@ -3,6 +3,11 @@ import { ClientService } from 'src/app/services/client.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
 import { clientDataModel } from 'src/app/model/ClientModel';
+import { OrgService } from 'src/app/services/org.service';
+import { ClientVM } from 'src/app/model/ClientModel';
+import { MatDialog } from '@angular/material/dialog';
+import { DataService } from 'src/app/services/data.service';
+import { ActiveJobsPopupComponent } from '../active-jobs-popup/active-jobs-popup.component';
 
 @Component({
   selector: 'app-create-client',
@@ -16,66 +21,126 @@ export class CreateClientComponent implements OnInit {
   orgs: any[] = [];
   currentDatetime = new Date();
   clientCode: string = '';
-  clientId: string = '';
+  clientId!: number;
   isEdit:boolean = false;
   isViewOnly:boolean = false;
-  clientData: clientDataModel = new clientDataModel();
   clientOrg: any[] = [];
   selectedOrganization: any; 
+  organizations: any[] = [];
+  clients: clientDataModel[] = [];
+  clientData: ClientVM = new ClientVM();
+  setDisable: boolean = false;
 
-  
   constructor(
     private clientService: ClientService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
-  ) {
-
-  }
+    private route: ActivatedRoute,
+    private organizationService: OrgService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void { 
-
-    this.clientService.getOrgs().subscribe((orgs: any[]) => {
-      this.orgs = orgs;
-    });
-
     this.route.params.subscribe((params) => {
-      this.clientId = params['clientId'];
+      this.clientId = +params['clientId'];
       this.isViewOnly = params['isViewOnly'];
-
-      if(this.clientId != undefined && this.clientId != "" && this.clientId != null && this.clientId != ''){
+      if (this.clientId) {
         this.isEdit = true;
-        this.loadClientOrganization();
-        this.loadClientData();
+        this.clientService.getClientById(this.clientId).subscribe(
+          (response) => {
+            if (response.code === 200 && response.data) {
+              this.clientData = response.data;
+            } else {
+              console.error('No client found or unsuccessful response.');
+            }
+          },
+          (error) => {
+            console.error('Error fetching client:', error);
+          }
+        );
       }
     });
   }
 
-  
-  loadClientData(): void {
-    this.clientService.getClient(this.clientId).subscribe((clientData: any) => {
-      this.clientData = clientData;
-    });
-  }
-
-  loadClientOrganization(): void {
-    this.clientService.getOrgsForClient(this.clientId).subscribe((clientOrg: any[]) => {
-      this.clientOrg = clientOrg;
-  
-      if (this.clientOrg.length > 0) {
-        const organizationID = this.clientOrg[0].organizationID;
-        this.selectedOrganization = this.orgs.find(org => org.organizationID === organizationID);
+  onCreateClientSubmit(): void {
+    this.clientService.createClient(this.clientData).subscribe(
+      (response: any) => {
+        this.snackBar.open('Client created successfully', 'Close', {
+          duration: 2000,
+        });
+        this.router.navigate(['/clients']);
+      },
+      (error: any) => {
+        this.snackBar.open('Error creating client: ' + error.error.message, 'Close', {
+          duration: 3000,
+        });
       }
-    });
+    );
   }
-  
 
   goToClientScreen() { 
     this.router.navigate(['/clients']);
   }
 
+  createUpdateClient(): void {
+    this.isEdit = true;
+
+    if (this.isEdit) {
+        this.clientService.updateClient(this.clientData).subscribe(
+            (response) => {
+                this.snackBar.open('Client edited successfully', 'Close', {
+                    duration: 3000,
+                });
+                this.router.navigate(['/clients']);
+            },
+            (error) => {
+                const errorMessage = ((error as any)?.error?.message) || error.message || 'An error occurred while updating the client.';
+
+                console.error('Error updating job:', error);
+                this.snackBar.open('Error updating job: ' + errorMessage, 'Close', {
+                    duration: 3000,
+                });
+            }
+        );
+    }
+}
+
+disableToggleButton(disable: boolean): void {
+  const toggleButton = document.getElementById('toggleButton') as HTMLInputElement;
+  if (toggleButton) {
+    toggleButton.disabled = disable;
+  }
+}
+
+toggleActiveStatus(): void {
+  if (this.clientData && this.clientData.clientId) {
+    this.clientService.getJobs(this.clientData.clientId).subscribe(
+      (response: any) => {
+        console.log("Data is", response);
+        if (response.itemList.length > 0) {
+          this.clientData.isActive = true;
+          this.disableToggleButton(true);
+          const dialogRef = this.dialog.open(ActiveJobsPopupComponent, {
+            data: { activeJobs: response.itemList }
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+          });
+        } else {
+          this.disableToggleButton(false);
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching jobs:', error);
+      }
+    );
+  }
+}
+
+
   ValidateFormFields(){
-    if (!this.clientData.clientName) {
+    if (!this.clientData) {
       this.snackBar.open('Client Name is required.', 'Close', {
         duration: 3000,
       });
@@ -89,47 +154,4 @@ export class CreateClientComponent implements OnInit {
       return;
     }
   }
-
-  createUpdateclient() {
-
-   this.ValidateFormFields();
-
-    this.clientData.organizationId = this.selectedOrganization.organizationID;
-
-    if(this.isEdit){
-
-      this.clientService.updateClient(this.clientId, this.clientData).subscribe(
-        (response: any) => {
-          this.snackBar.open('Client updated successfully', 'Close', {
-            duration: 2000,
-          });
-    
-          this.router.navigate(['/clients']);
-        },
-        (error: any) => {
-          this.snackBar.open('Error updating ' + error.error, 'Close', {
-            duration: 6000,
-          });
-        }
-      );
-    }else{
-      this.clientService.createClient(this.clientData).subscribe((response: any) => {
-        
-        this.snackBar.open('Client created successfully', 'Close', {
-          duration: 3000,
-        });
-
-        this.router.navigate(['/clients']);
-      },
-      (error) => {
-        console.error('Error creating client:', error);
-        this.snackBar.open('Error creating client: ' + error.error, 'Close', {
-          duration: 3000, // Duration in milliseconds
-        });
-      }
-      );
-    }
-  
-  }
-  
 }

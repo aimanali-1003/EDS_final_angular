@@ -1,41 +1,39 @@
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Job Management</h2>
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Job
+      Management</h2>
     <div class="form-outline search-box mb-4">
       <button mat-raised-button class="custom-button" (click)="CreateJobs()">
         <span class="circle">+</span> Create Job
       </button>
     </div>
   </div>
-    
+
   <div style="display: flex; align-items: center;">
     <div style="flex: 1;">
-      <app-search 
-      [placeholderText]="'Search Job by Name'"
-      [searchQuery]="jobSearchQuery"
-      (searchQueryChanged)="performJobSearch($event)">
-    </app-search>    </div>
+      <app-search [placeholderText]="'Search Job by Name'" [searchQuery]="jobSearchQuery"
+                  (searchQueryChanged)="performJobSearch($event)">
+      </app-search>
+    </div>
     <div style="margin-bottom: 20px;">
       <app-client-filter (filterChanged)="applyJobFilter($event)"></app-client-filter>
     </div>
   </div>
- 
+
 
   <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
-    
+
     <thead>
       <tr>
-        <!-- <th>ID</th> -->
-        <th>Job Name</th> 
+        <th>Job Name</th>
         <th>Created At</th>
         <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let job of displayedJob" class="client-item">
-        <!-- <td>{{ job.jobID }}</td> -->
-        <td>{{ job.jobType }}</td>
+      <tr *ngFor="let job of jobss" class="client-item">
+        <td>{{ job.jobName}}</td>
         <td class="created-info-cell">
           <div class="created-at">{{ job.createdAt | date:'medium' }}</div>
           <div class="created-by">
@@ -43,31 +41,34 @@
             <span class="created-by-cell">{{ job.createdBy }}</span>
           </div>
         </td>
-        <td [style.color]="job.Active ? '#4cf0a1;' : 'red'">
-          <ng-container *ngIf="job.active; else inactive" ><span class="making-active-attractive">{{ 'Active' }}</span></ng-container>
-          <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
+        <td [ngClass]="{ 'active': job.isActive, 'inactive': !job.isActive }">
+          {{ job.isActive ? 'Active' : 'Inactive' }}
         </td>
-      
+
         <td class="action-cell">
-          <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewJob(job)">
+          <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewJob(job.jobId)">
             <mat-icon>visibility</mat-icon>
           </button>
-          <button mat-icon-button [style.color]="'#0091EA'" (click)="openJobModalForEdit(job)">
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openJobModalForEdit(job.jobId)">
             <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button [style.color]="'#D84315'" (click)="deleteJob(job)">
-            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </tr>
     </tbody>
   </table>
- 
 
-  <div *ngIf="displayedJob.length === 0" class="no-data-message">
+
+  <div *ngIf="jobss.length === 0" class="no-data-message">
     No data found.
   </div>
 
-  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="jobs.length"
-    (pageChange)="onPageChange($event)"></app-pagination>
+  <mat-paginator
+  [length]="totalJobs"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  (page)="onPageChange($event)"
+  #paginatorRef
+>
+</mat-paginator>
+
 </div>

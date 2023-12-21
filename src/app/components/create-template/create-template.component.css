@@ -63,6 +63,23 @@
   margin-top: 10px; /* Add spacing between the label and checkboxes */
 }
 
+/* Styling for the checkbox container */
+.selected-category-columns {
+  margin-top: 10px;
+}
+
+/* Styling for the checkboxes */
+mat-checkbox {
+  display: block; /* Display each checkbox in a new line */
+  margin-bottom: 8px; /* Space between checkboxes */
+  color: #333; /* Text color */
+}
+
+/* Styling for the checkbox label */
+.mat-checkbox-label {
+  margin-left: 5px; /* Space between the checkbox and label */
+}
+
 .column-checkboxes {
   margin-top: 5px; /* Add spacing between checkboxes */
 }
