@@ -58,11 +58,32 @@
               <ng-container *ngTemplateOutlet="recursiveTreeView; context: { nodes: node.children, level: level + 1 }"></ng-container>
               <mat-paginator
                 *ngIf="level === 0"
-                [length]="totalRollups"
+                [length]="totalCount"
                 [pageSize]="PageSize"
                 [pageSizeOptions]="[10, 25, 50, 100]"
                 (page)="onPageChangeRollup($event)"
               ></mat-paginator>
+              <mat-paginator
+              *ngIf="level === 1"
+              [length]="totalCount"
+              [pageSize]="PageSize"
+              [pageSizeOptions]="[10, 25, 50, 100]"
+              (page)="onPageChangeRollup($event)"
+            ></mat-paginator>
+            <mat-paginator
+            *ngIf="level === 2"
+            [length]="totalCount"
+            [pageSize]="PageSize"
+            [pageSizeOptions]="[10, 25, 50, 100]"
+            (page)="onPageChangeRollup($event)"
+          ></mat-paginator>
+          <mat-paginator
+          *ngIf="level === 3"
+          [length]="totalCount"
+          [pageSize]="PageSize"
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          (page)="onPageChangeRollup($event)"
+        ></mat-paginator>
             </td>
           </tr>
         </tbody>

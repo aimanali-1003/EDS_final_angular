@@ -43,7 +43,7 @@ export class OrgManagementComponent implements OnInit {
   nodeHierarchy: any[] = [];
   selectedNode!: OrganizationNode;
   totalOrganizationLevels = 0;
-  totalRollups = 0;
+  totalCount = 0;
   consolidatedCode: string = '';
   rollupCode: string = '';
   gpoCode: string = '';
@@ -95,8 +95,6 @@ export class OrgManagementComponent implements OnInit {
       GroupCode: this.groupCode,
       UnitCode: this.unitCode,
     };
-
-    console.log(updatedSearchParams);
     this.fetchLevelsAndUpdateDataSource(updatedSearchParams);
   }
 
@@ -152,7 +150,7 @@ export class OrgManagementComponent implements OnInit {
       this.orgService.getOrganizationLevels(params)
         .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
           if (response && response.itemList) {
-            this.totalRollups = +response.totalCount;
+            this.totalCount = +response.totalCount;
             const childNodes: OrganizationNode[] = this.createNodesFromResponse(response.itemList);
             this.updateNodeChildren(node, childNodes);
           } else {
