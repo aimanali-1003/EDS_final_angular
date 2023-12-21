@@ -5,15 +5,9 @@
   </button>
 </div>
 
-
 <div class="overlay" *ngIf="sidebarOpen" (click)="toggleSidebar()"></div>
 <div class="sidebar" [@slideInOut]="sidebarOpen ? 'in' : 'out'" [ngClass]="{ 'open': sidebarOpen }">
   <h2>Search Filters</h2>
-  <input type="text" placeholder="Enter Consolidated Code or Name" [(ngModel)]="consolidatedCode">
-  <input type="text" placeholder="Enter Rollup Code or Name" [(ngModel)]="rollupCode">
-  <input type="text" placeholder="Enter GPO Code or Name" [(ngModel)]="gpoCode">
-  <input type="text" placeholder="Enter Group Code or Name" [(ngModel)]="groupCode">
-  <input type="text" placeholder="Enter Unit Code or Name" [(ngModel)]="unitCode">
   <button mat-button class="mat-button-submit" (click)="submitFilters()">
     <mat-icon style="margin-right: 8px;">done_all</mat-icon>Search
   </button>
@@ -22,12 +16,21 @@
   </button>
 </div>
 
-
 <div class="main-content">
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <ng-container *ngTemplateOutlet="recursiveTreeView; context: { nodes: dataSource, level: 0 }"></ng-container>
+</div>
+
+<mat-paginator
+  [length]="totalOrganizationLevels"
+  [pageSize]="PageSize"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  (page)="onPageChange($event)"
+></mat-paginator>
+
+<ng-template #recursiveTreeView let-nodes="nodes" let-level="level">
+  <mat-tree [dataSource]="nodes" [treeControl]="treeControl">
     <mat-tree-node *matTreeNodeDef="let node; when: hasChild">
       <table class="tree-table">
-        <!-- Table headers -->
         <thead>
           <tr>
             <th> </th>
@@ -38,153 +41,32 @@
         </thead>
         <tbody>
           <tr>
-            <!-- Bind node data -->
-            <td> <button
-              mat-icon-button
-              matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.description"
-              (click)="fetchChildNodes(node)">
-              <mat-icon>{{ node.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
-            </button></td>
+            <td>
+              <ng-container *ngIf="node.levelName !== 'UNIT'">
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.description"
+                  (click)="fetchChildNodes(node)">
+                  <mat-icon>{{ node.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                </button>
+              </ng-container>
+            </td>
             <td>{{ node.code }}</td>
             <td>{{ node.description }}</td>
             <td>{{ node.levelName }}</td>
           </tr>
           <tr *ngIf="treeControl.isExpanded(node)">
             <td colspan="3">
-              <mat-tree [dataSource]="node.children" [treeControl]="treeControl">
-                <mat-tree-node *matTreeNodeDef="let childNode; when: hasChild">
-                  <table class="tree-table">
-                    <!-- Table headers -->
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>Code</th>
-                        <th>Description</th>
-                        <th>Level Name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <!-- Bind childNode data -->
-                        <td><button
-                          mat-icon-button
-                          matTreeNodeToggle
-                          [attr.aria-label]="'Toggle ' +  childNode.description"
-                          (click)="fetchSubChild(childNode)">
-                          <mat-icon>{{ childNode.isExpanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
-                        </button></td>
-                        <td>{{ childNode.code }}</td>
-                        <td>{{ childNode.description }}</td>
-                        <td>{{ childNode.levelName }}</td>
-                      </tr>
-                      <tr *ngIf="treeControl.isExpanded(childNode)">
-                        <td colspan="3">
-                          <mat-tree [dataSource]="childNode.children" [treeControl]="treeControl">
-                            <mat-tree-node *matTreeNodeDef="let subChildNode; when: hasChild">
-                              <table class="tree-table">
-                                <!-- Table headers -->
-                                <thead>
-                                  <tr>
-                                    <th></th>
-                                    <th>Code</th>
-                                    <th>Description</th>
-                                    <th>Level Name</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <!-- Bind subChildNode data -->
-                                    <td><button mat-icon-button matTreeNodeToggle
-                                      [attr.aria-label]="'Toggle ' + subChildNode.description"
-                                      (click)="fetchSubChild(subChildNode)">
-                                      <mat-icon>
-                                        {{ treeControl.isExpanded(subChildNode) ? 'expand_more' : 'chevron_right' }}
-                                      </mat-icon> </button> </td>
-                                    <td>{{ subChildNode.code }}</td>
-                                    <td>{{ subChildNode.description }}</td>
-                                    <td>{{ subChildNode.levelName }}</td>
-                                  </tr>
-                                  <tr *ngIf="treeControl.isExpanded(subChildNode)">
-                                    <td colspan="3">
-                                      <mat-tree [dataSource]="subChildNode.children" [treeControl]="treeControl">
-                                        <mat-tree-node *matTreeNodeDef="let subSubChildNode; when: hasChild">
-                                          <table class="tree-table">
-                                            <!-- Table headers -->
-                                            <thead>
-                                              <tr>
-                                                <th></th>
-                                                <th>Code</th>
-                                                <th>Description</th>
-                                                <th>Level Name</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr>
-                                                <!-- Bind subSubChildNode data -->
-                                                <td> <button mat-icon-button matTreeNodeToggle
-                                                  [attr.aria-label]="'Toggle ' + subSubChildNode.description"
-                                                  (click)="fetchSubChild(subSubChildNode)">
-                                                  <mat-icon>
-                                                    {{ treeControl.isExpanded(subSubChildNode) ? 'expand_more' : 'chevron_right' }}
-                                                  </mat-icon>
-                                                </button> </td>
-                                                <td>{{ subSubChildNode.code }}</td>
-                                                <td>{{ subSubChildNode.description }}</td>
-                                                <td>{{ subSubChildNode.levelName }}</td>
-                                              </tr>
-                                              <tr *ngIf="treeControl.isExpanded(subSubChildNode)">
-                                                <td colspan="3">
-                                                  <mat-tree [dataSource]="subSubChildNode.children" [treeControl]="treeControl">
-                                                    <mat-tree-node *matTreeNodeDef="let subSubSubChildNode; when: hasChild">
-                                                      <table class="tree-table">
-                                                        <!-- Table headers -->
-                                                        <thead>
-                                                          <tr>
-                                                            <th></th>
-                                                            <th>Code</th>
-                                                            <th>Description</th>
-                                                            <th>Level Name</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                          <tr>
-                                                            <!-- Bind subSubSubChildNode data -->
-                                                            <td>-</td>
-                                                            <td>{{ subSubSubChildNode.code }}</td>
-                                                            <td>{{ subSubSubChildNode.description }}</td>
-                                                            <td>{{ subSubSubChildNode.levelName }}</td>
-                                                          </tr>
-                                                          <!-- Further nesting if needed -->
-                                                        </tbody>
-                                                      </table>
-                                                    </mat-tree-node>
-                                                  </mat-tree>
-                                                </td>
-                                              </tr>
-                                              <!-- Further nesting if needed -->
-                                            </tbody>
-                                          </table>
-                                        </mat-tree-node>
-                                      </mat-tree>
-                                    </td>
-                                  </tr>
-                                  <!-- Further nesting if needed -->
-                                </tbody>
-                              </table>
-                            </mat-tree-node>
-                          </mat-tree>
-                        </td>
-                      </tr>
-                      <!-- Further nesting if needed -->
-                    </tbody>
-                  </table>
-                </mat-tree-node>
-              </mat-tree>
+              <ng-container *ngTemplateOutlet="recursiveTreeView; context: { nodes: node.children, level: level + 1 }"></ng-container>
+              <mat-paginator
+                *ngIf="level === 0"
+                [length]="totalRollups"
+                [pageSize]="PageSize"
+                [pageSizeOptions]="[10, 25, 50, 100]"
+                (page)="onPageChangeRollup($event)"
+              ></mat-paginator>
             </td>
           </tr>
         </tbody>
       </table>
     </mat-tree-node>
   </mat-tree>
-</div>
+</ng-template>
