@@ -56,6 +56,8 @@ import { ActiveJobsPopupComponent } from './components/active-jobs-popup/active-
 
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import {CdkTreeModule} from '@angular/cdk/tree';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -125,7 +127,9 @@ import {CdkTreeModule} from '@angular/cdk/tree';
     MatPaginatorModule, 
     DragDropModule,
     InputsModule,
-    CdkTreeModule
+    CdkTreeModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [DataService, ClientService, DatePipe, OrgService],
   bootstrap: [AppComponent], 

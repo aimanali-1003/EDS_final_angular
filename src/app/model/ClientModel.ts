@@ -5,6 +5,7 @@ export interface ApiResponse {
     totalCount: number;
     // Add other properties as needed
   }
+
   
   export interface clientDataModel {
     id: number;
@@ -13,26 +14,44 @@ export interface ApiResponse {
     organizationId: string;
     // Add other properties as needed
   }
-  
+
   export class ClientVM {
-    clientId: number;
-    clientName: string;
-    clientCode: string;
-    isActive: boolean;
+    clientId: number = 0;
+    clientName: string = '';
+    clientCode: string = '';
+    isActive: boolean = false;
+    edsClientOrgLevels: edsClientOrgLevels[] = [];
   
     constructor(data?: any) {
       if (data) {
-        this.clientId = data.clientId || 0;
-        this.clientName = data.clientName || '';
-        this.clientCode = data.clientCode || '';
-        this.isActive = data.isActive || false;
-      } else {
-        // Set default values if no data is provided
-        this.clientId = 0;
-        this.clientName = '';
-        this.clientCode = '';
-        this.isActive = false;
+        this.clientId = data.clientId ?? 0;
+        this.clientName = data.clientName ?? '';
+        this.clientCode = data.clientCode ?? '';
+        this.isActive = data.isActive ?? false;
+        this.edsClientOrgLevels = data.organizations
+          ? data.organizations.map((column: any) => new edsClientOrgLevels(column))
+          : [];
       }
     }
   }
+
+
+  export class edsClientOrgLevels {
+    clientOrgLevelId: number = 0;
+    clientId: number = 0;
+    organizationCode: string = ''
+    organizationLevel: string = ''
+    isActive: boolean = false
+    
+    constructor(data?: any) {
+      if (data) {
+        this.clientOrgLevelId = data.clientOrgLevelId ?? 0;
+        this.clientId = data.clientId ?? 0;
+        this.organizationCode = data.organizationCode ?? '';
+        this.organizationLevel = data.organizationLevel ?? '';
+        this.isActive = data.isActive ?? false;
+      }
+    }
+  }
+  
   
