@@ -16,6 +16,7 @@
       </div>
 
       <div class="form-row">
+
         <mat-form-field class="form-item-dropdown">
           <mat-label>Organization Level</mat-label>
           <mat-select [(ngModel)]="selectedOrganizationLevel" (ngModelChange)="onSelectedOrganizationLevelChange()" name="first" [disabled]="isViewOnly">
@@ -27,7 +28,7 @@
         
         <mat-form-field class="form-item-dropdown">
           <mat-label>Organization Description</mat-label>
-          <mat-select [disabled]="isViewOnly" [(ngModel)]="selectedOrganizationDescription" name="selectedOrganizationDescription">
+          <mat-select [disabled]="isViewOnly" [(ngModel)]="selectedOrgCode" name="selectedOrganizationDescription" (ngModelChange)="onOrgSelectChange($event)">
             <div class="search-container">
               <input #searchInput type="text" matInput [placeholder]="'Search organization description'" (keyup)="searchOrganizationDescription($event)" [disabled]="isViewOnly">
               <button mat-icon-button (click)="clearSearch(searchInput)">
@@ -35,11 +36,10 @@
               </button>
             </div>
             <mat-option *ngFor="let level of filteredOrganizationLevels" [value]="level.code">
-              {{ level.description }}
+              {{ level.code }} - {{ level.description }}
             </mat-option>
           </mat-select>
-        </mat-form-field>        
-        
+        </mat-form-field>
 
         <div class="add-icon" (click)="addFormRow()">
           <mat-icon>add_circle</mat-icon>
@@ -58,13 +58,13 @@
 
   <mat-form-field class="form-item-dropdown">
     <mat-label>Organization Description</mat-label>
-    <mat-select [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdown{{i}}" [disabled]="isViewOnly">
-      <mat-option *ngFor="let level of row.filteredOrganizationLevels" [value]="level.code">
-        {{ level.description }}
+    <mat-select [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}" [disabled]="isViewOnly">
+      <mat-option *ngFor="let level of row.filteredOrganizationLevels" [value]="level">
+       {{ level.code }} - {{ level.description }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-
+  
   <div class="delete-icon" (click)="removeFormRow(i)">
   <mat-icon class="delete-icon-content">delete</mat-icon>
 </div>
@@ -79,7 +79,7 @@
 
       <div *ngIf="!isViewOnly" class="button-container" style="padding-top: 10px;">
         <button *ngIf="!isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()"> <span class="icon">&#10006;</span> Cancel</button>
-        <button *ngIf="!isEdit"  mat-raised-button class="create-client-button" (click)="createUpdateClient()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Client</button>
+        <button *ngIf="!isEdit"  mat-raised-button class="create-client-button" (click)="onCreateClientSubmit()"><mat-icon style="margin-right: 8px;">done_all</mat-icon>Create Client</button>
         <button *ngIf="isEdit"  mat-button class="luxury-modal-button-cancel" (click)="goToClientScreen()">
           <span class="icon">&#10006;</span> Cancel
         </button>
