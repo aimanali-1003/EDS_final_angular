@@ -24,12 +24,14 @@ enum OrganizationLVL {
 interface FormRow {
   selectedOrgLevel: string;
   filteredOrganizationLevels?: OrganizationLevel[];
-  selectedSecondDropdownValue?: { code: any; description: any; } | string;
+  selectedSecondDropdownValue?: OrganizationLevel;
 }
 
 
 
 interface OrganizationLevel {
+  clientOrgLevelId: number;
+  clientId: number;
   code: string;
   description: string;
 }
@@ -60,7 +62,7 @@ export class CreateClientComponent implements OnInit {
  
 selectedOrganizationDescription: string = '';
   formGroup!: FormGroup;
-  PageSize: number = 5;
+  PageSize: number = 20;
   PageNumber: number = 1;
   searchParams: OrganizationSearchSM = {
     PageNumber: this.PageNumber,
@@ -107,17 +109,17 @@ selectedOrganizationDescription: string = '';
             if (response.code === 200 && response.data) {
 
             
-              this.clientData = response.data;
-              console.log(this.filteredOrganizationLevels)
-              this.selectedOrganizationLevel = this.clientData.edsClientOrgLevels[0].organizationLevel;
-              this.selectedOrgCode = this.clientData.edsClientOrgLevels[0].organizationCode;
-              const selectedLevel = this.selectedOrganizationLevel;
+               this.clientData = response.data;
+              // console.log(this.filteredOrganizationLevels)
+              // this.selectedOrganizationLevel = this.clientData.edsClientOrgLevels[0].organizationLevel;
+              // this.selectedOrgCode = this.clientData.edsClientOrgLevels[0].organizationCode;
+              // const selectedLevel = this.selectedOrganizationLevel;
               
-              if (this.clientData?.edsClientOrgLevels) {
-                this.filteredOrganizationLevels = this.clientData.edsClientOrgLevels
-                  .filter(level => level.organizationLevel === selectedLevel)
-                  .map(level => ({ code: level.organizationCode, description: level.description }));
-              }
+              // if (this.clientData?.edsClientOrgLevels) {
+              //   this.filteredOrganizationLevels = this.clientData.edsClientOrgLevels
+              //     .filter(level => level.organizationLevel === selectedLevel)
+              //     .map(level => ({ clientId:level.clientId, clientOrgLevelId:level.clientOrgLevelId, code: level.organizationCode, description: level.description }));
+              // }
 
               
 
@@ -135,38 +137,47 @@ selectedOrganizationDescription: string = '';
   }
 
   setDropdownOptions(orgLevels: any[]): void {
-    this.formRows = orgLevels.slice(1).map((org) => ({
+
+    this.formRows = orgLevels.slice(0).map((org) => ({
       selectedOrgLevel: org.organizationLevel,
-      selectedSecondDropdownValue: { code: org.organizationCode, description: org.description },
+      selectedSecondDropdownValue: { clientId:org.clientId, clientOrgLevelId:org.clientOrgLevelId, code: org.organizationCode, description: org.description , levelName:org.levelName, parentCode:''} as OrganizationLevel,
       filteredOrganizationLevels: [] as OrganizationLevel[] // Initialize filteredOrganizationLevels here
     }));
     
-
+    this.formRows?.forEach((row) => {
+      var orgLevel = { clientId:row.selectedSecondDropdownValue?.clientId, clientOrgLevelId:row.selectedSecondDropdownValue?.clientOrgLevelId, code: row.selectedSecondDropdownValue?.code, description: row.selectedSecondDropdownValue?.description, levelName:'CONSOLIDATED', parentCode:''} as OrganizationLevel; 
+      row.filteredOrganizationLevels?.push(orgLevel);
+    });
   }
 
-  searchOrganizationDescription(event: Event): void {
+  searchOrganizationDescription(event: Event, index:number): void {
     const searchValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
   
     if (searchValue.length >= 3) {
-      this.searchParams.ReqGridLevel = this.selectedOrganizationLevel.toUpperCase();
+      this.searchParams.ReqGridLevel = this.formRows[index].selectedOrgLevel.toUpperCase();
       this.searchParams.SearchText = searchValue;
       
       this.organizationService.getOrganizationLevels(this.searchParams)
         .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
           if (response) {
-            this.filteredOrganizationLevels = response.itemList;
+            console.log(this.filteredOrganizationLevels);
+            this.formRows[index].filteredOrganizationLevels = response.itemList;
+            this.searchParams.SearchText = "";
+            //this.filteredOrganizationLevels = response.itemList;
+            console.log('After Search filter');
+            console.log(this.filteredOrganizationLevels);
           }
         });
     } else {
-      this.filteredOrganizationLevels = [];
+      //this.filteredOrganizationLevels = [];
     }
   }
 
-  onOrgSelectChange(code: string) {
-    this.selectedOrgCode = code;
-  }
-  
-
+  // onOrgSelectChange(row: any, i:number) {
+  //   var selectedOrg = this.formRows[i].filteredOrganizationLevels?.find(x=>x.code === row.code)
+  //   var a = row.selectedSecondDropdownValue = selectedOrg;
+  // }
+ 
   addFormRow() {
     const newFormRow: FormRow = {
       selectedOrgLevel: ''
@@ -187,7 +198,7 @@ selectedOrganizationDescription: string = '';
 
   onSelectedOrganizationLevelChanged(selectedOrgLevel: string, rowIndex: number): void {
     this.formRows[rowIndex].selectedOrgLevel = selectedOrgLevel;
-    this.formRows[rowIndex].selectedSecondDropdownValue = '';
+    this.formRows[rowIndex].selectedSecondDropdownValue = {clientId:0, clientOrgLevelId:0,  code:'', description: ''};
   
     this.fetchEntriesFromBackendd(selectedOrgLevel, rowIndex);
   }
@@ -217,8 +228,29 @@ selectedOrganizationDescription: string = '';
       });
   }
 
-  clearSearch(inputField: HTMLInputElement): void {
+  onDropdownOpen(index: number):void{
+    this.searchParams.SearchText = "";
+    this.searchParams.ReqGridLevel = this.formRows[index].selectedOrgLevel.toUpperCase();
+    
+    this.organizationService.getOrganizationLevels(this.searchParams)
+      .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+        if (response) {
+          this.formRows[index].filteredOrganizationLevels = response.itemList;
+        }
+      });
+    
+  }
+  clearSearch(inputField: HTMLInputElement, index:number): void {
     inputField.value = '';
+    this.searchParams.SearchText = "";
+    this.searchParams.ReqGridLevel = this.formRows[index].selectedOrgLevel.toUpperCase();
+    
+    this.organizationService.getOrganizationLevels(this.searchParams)
+      .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+        if (response) {
+          this.formRows[index].filteredOrganizationLevels = response.itemList;
+        }
+      });
   }
 
   goToClientScreen() { 
@@ -228,10 +260,24 @@ selectedOrganizationDescription: string = '';
   createUpdateClient(): void {
   
     if (this.isEdit) {
+      this.clientData.edsClientOrgLevels = [];
+      this.formRows.forEach((row: any) => {
+        const updatedOrgLevel: edsClientOrgLevels = {
+          clientOrgLevelId: row.selectedSecondDropdownValue.clientOrgLevelId,
+          clientId: row.selectedSecondDropdownValue.clientId,
+          organizationCode: row.selectedSecondDropdownValue.code,
+          organizationLevel: row.selectedOrgLevel,
+          description: row.selectedSecondDropdownValue.description,
+          isActive: true
+        };
+    
+        this.clientData.edsClientOrgLevels.push(updatedOrgLevel);
+      });
+  
       this.clientService.updateClient(this.clientData).subscribe(
         (response) => {
           
-          this.snackBar.open('Client edited successfully', 'Close', {
+          this.snackBar.open('Client updated successfully', 'Close', {
             duration: 3000,
           });
           this.router.navigate(['/clients']);
@@ -279,26 +325,26 @@ selectedOrganizationDescription: string = '';
 
     console.log(this.clientData)
   
-    if (this.selectedOrganizationLevel) {
-      const selectedOrg = this.filteredOrganizationLevels.find(level => level.code === this.selectedOrgCode);
+    // if (this.selectedOrganizationLevel) {
+    //   const selectedOrg = this.filteredOrganizationLevels.find(level => level.code === this.selectedOrgCode);
   
-      if (selectedOrg) {
-        const orgs: edsClientOrgLevels = {
-          clientOrgLevelId: 0,
-          clientId: 0,
-          organizationCode: selectedOrg.code,
-          organizationLevel: this.organizationLevelsEnum.find(level => level.key === this.selectedOrganizationLevel)?.value || '',
-          description: selectedOrg.description,
-          isActive: true
-        };
+    //   if (selectedOrg) {
+    //     const orgs: edsClientOrgLevels = {
+    //       clientOrgLevelId: 0,
+    //       clientId: 0,
+    //       organizationCode: selectedOrg.code,
+    //       organizationLevel: this.organizationLevelsEnum.find(level => level.key === this.selectedOrganizationLevel)?.value || '',
+    //       description: selectedOrg.description,
+    //       isActive: true
+    //     };
   
-        this.clientData.edsClientOrgLevels.push(orgs);
+    //     this.clientData.edsClientOrgLevels.push(orgs);
 
-        console.log(this.clientData)
-      } else {
-        console.error('Selected organization not found.');
-      }
-    }
+    //     console.log(this.clientData)
+    //   } else {
+    //     console.error('Selected organization not found.');
+    //   }
+    // }
   
     this.clientService.createClient(this.clientData).subscribe(
       (response: any) => {

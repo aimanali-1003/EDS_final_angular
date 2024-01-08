@@ -17,7 +17,7 @@
 
       <div class="form-row">
 
-        <mat-form-field class="form-item-dropdown">
+        <!-- <mat-form-field class="form-item-dropdown">
           <mat-label>Organization Level</mat-label>
           <mat-select [(ngModel)]="selectedOrganizationLevel" (ngModelChange)="onSelectedOrganizationLevelChange()" name="first" [disabled]="isViewOnly">
             <mat-option *ngFor="let level of organizationLevelsEnum" [value]="level.key">
@@ -39,7 +39,7 @@
               {{ level.code }} - {{ level.description }}
             </mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <div class="add-icon" (click)="addFormRow()">
           <mat-icon>add_circle</mat-icon>
@@ -58,12 +58,31 @@
 
   <mat-form-field class="form-item-dropdown">
     <mat-label>Organization Description</mat-label>
-    <mat-select [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}" [disabled]="isViewOnly">
-      <mat-option *ngFor="let level of row.filteredOrganizationLevels" [value]="level">
-       {{ level.code }} - {{ level.description }}
+    <mat-select [disabled]="isViewOnly" [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}" (opened)="onDropdownOpen(i)">
+    <!-- (ngModelChange)="onOrgSelectChange($event,i)"> -->
+      <div class="search-container">
+        <input #searchInput name="searchInput{{i}}" type="text" matInput [placeholder]="'Search organization description'" (input)="searchOrganizationDescription($event, i)" [disabled]="isViewOnly">
+        <button mat-icon-button (click)="clearSearch(searchInput, i)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <mat-option *ngFor="let level of row.filteredOrganizationLevels" [value]="isEdit? row.selectedSecondDropdownValue:level">
+        {{ level.code }} - {{ level.description }}
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <!-- <mat-form-field class="form-item-dropdown">
+    <mat-label>Organization Description</mat-label>
+    <mat-select [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}" [disabled]="isViewOnly">
+      <!-- <mat-option [value]="row.selectedSecondDropdownValue">
+       {{  row.selectedSecondDropdownValue?.description }}
+      </mat-option> 
+      <mat-option *ngFor="let level of row.filteredOrganizationLevels; trackBy: trackByFunction" [value]="level">
+        {{ level.code }} - {{ level.description }}
+       </mat-option>
+    </mat-select>
+  </mat-form-field> -->
 
    <div class="delete-icon" (click)="removeFormRow(i)">
     <mat-icon class="delete-icon-content">remove_circle</mat-icon>
