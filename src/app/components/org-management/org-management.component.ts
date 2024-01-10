@@ -1,195 +1,250 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { OrgService } from 'src/app/services/org.service';
-import { Router } from '@angular/router';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
+import { OrgDataModel } from 'src/app/model/OrgDataModel';
+import { OrganizationSearchSM } from 'src/app/model/OrganizationSearch.model';
+import { ResponseViewModel } from 'src/app/model/ResponseViewModel';
+import { ArrayDataSource } from '@angular/cdk/collections';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+
+interface OrganizationNode {
+  code: string;
+  description?: string;
+  levelName?: string;
+  parentCode?: string | null;
+  children?: OrganizationNode[];
+  isExpanded?: boolean;
+}
 
 @Component({
   selector: 'app-org-management',
   templateUrl: './org-management.component.html',
   styleUrls: ['./org-management.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({
+        transform: 'translateX(0)'
+      })),
+      state('out', style({
+        transform: 'translateX(100%)'
+      })),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out'))
+    ])
+  ]
 })
-export class OrgManagementComponent implements OnInit { 
+export class OrgManagementComponent implements OnInit {
 
-  treeControl: FlatTreeControl<OrgNode>;
-  treeFlattener: MatTreeFlattener<any, any>;
-  dataSource: MatTreeFlatDataSource<any, any>;
+  @Input() sidebarOpen: boolean = false;
 
-  displayedOrganization: any[] = [];
-  orgs: { [key: string]: any; showParentOrgDetails?: boolean }[] = [];
-  pageSize: number = 10;
-  organizationSearchQuery: string = '';
-  parentOrgsMap: { [key: string]: string } = {};
+  organizationLevels: OrgDataModel[] = [];
+  displayedOrganizationLevels: OrgDataModel[] = [];
+  nodeHierarchy: any[] = [];
+  selectedNode!: OrganizationNode;
+  totalOrganizationLevels = 0;
+  totalCount = 0;
+  consolidatedCode: string = '';
+  rollupCode: string = '';
+  gpoCode: string = '';
+  groupCode: string = '';
+  unitCode: string = '';
+  PageSize: number = 10;
+  PageNumber: number = 1;
+  searchParams: OrganizationSearchSM = {
+    PageNumber: this.PageNumber,
+    PageSize: this.PageSize,
+    ParentCode: '',
+    ConsolidatedCode: this.consolidatedCode,
+    RollupCode: this.rollupCode,
+    GPOCode: this.gpoCode,
+    GroupCode: this.groupCode,
+    UnitCode: this.unitCode,
+  };
+  filters = [
+    { placeholder: 'Enter Consolidated Code or Name', value: '' },
+    { placeholder: 'Enter Rollup Code or Name', value: '' },
+    { placeholder: 'Enter GPO Code or Name', value: '' },
+    { placeholder: 'Enter Group Code or Name', value: '' },
+    { placeholder: 'Enter Unit Code or Name', value: '' },
+  ];
 
-  constructor(
-    private orgService: OrgService, 
-    private router: Router,
-  ) {
-    this.treeControl = new FlatTreeControl<OrgNode>(node => node.level, node => node.expandable);
-    this.treeFlattener = new MatTreeFlattener(this.transformer, node => node.level, node => node.expandable, node => node.children);
- 
-    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
- 
+  dataSource!: ArrayDataSource<OrganizationNode>;
+  treeControl = new NestedTreeControl<OrganizationNode>(node => node.children);
+  hasChild = (_: number, node: OrganizationNode) => !!node.children && node.children.length > 0;
+
+  constructor(private orgService: OrgService) {
+    this.dataSource = new ArrayDataSource([]);
   }
 
   ngOnInit() {
-    // this.fetchOrgs(); 
+    this.fetchOrganizationLevels();
   }
 
-  transformer = (node: any, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.organizationCode,
-      level: level,
-      data: node,
-      pathToParents: node.pathToParents // Include pathToParents in the tree node
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  submitFilters(): void {
+    const updatedSearchParams: OrganizationSearchSM = {
+      PageNumber: this.PageNumber,
+      PageSize: this.PageSize,
+      ConsolidatedCode: this.consolidatedCode,
+      RollupCode: this.rollupCode,
+      GPOCode: this.gpoCode,
+      GroupCode: this.groupCode,
+      UnitCode: this.unitCode,
     };
-  };
+    this.fetchLevelsAndUpdateDataSource(updatedSearchParams);
+  }
 
-  buildParentOrgsMap() {
-    const tree: any[] = [];
-    const map: any = {};
+  onPageChange(event: PageEvent) {
+    this.searchParams.PageNumber = event.pageIndex + 1;
+    this.searchParams.PageSize = event.pageSize;
+    this.fetchOrganizationLevels();
+  }
 
-    this.orgs.forEach(org => {
-      const orgCode = org['organizationCode'];
-      const parentOrgCode = org['parentOrganizationCode'];
-      map[orgCode] = { ...org, children: [] };
-      const parentOrg = map[parentOrgCode];
-      if (parentOrg) {
-        if (!parentOrg.children) {
-          parentOrg.children = [];
+  onPageChangeRollup(event: PageEvent): void {
+    this.PageNumber = event.pageIndex + 1;
+    this.PageSize = event.pageSize;
+    this.fetchChildNodes(this.selectedNode);
+  }
+
+  fetchOrganizationLevels(): void {
+    this.orgService.getOrganizationLevels(this.searchParams)
+      .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+        if (response) {
+          this.organizationLevels = response.itemList;
+          this.totalOrganizationLevels = +response.totalCount;
+          this.displayedOrganizationLevels = this.organizationLevels;
+          this.updateDataSource(this.organizationLevels);
         }
-        parentOrg.children.push(map[orgCode]);
-      } else {
-        tree.push(map[orgCode]);
-      }
-    });
-
-    this.dataSource.data = tree;
-  }
- 
-  // fetchOrgs() {
-  //   this.orgService.getOrgs().subscribe((orgs: any[]) => {
-  //     this.orgs = orgs.map(org => ({...org, showParentOrgDetails: false}));
-  //     console.log(this.orgs)
-  //     this.buildParentOrgsMap();
-  //     this.updateDisplayedOrgs(1);
-  //   });
-  // }
-   
-
-  onParentOrgChange(event: any, parentOrgCode: string) {
-    const target = event.target as HTMLSelectElement;
-    const value = target.value;
-    const parentOrgDetails = this.orgs.find((org) => org['organizationCode'] === parentOrgCode);
-    if (parentOrgDetails) {
-      console.log(parentOrgDetails); // Handle the fetched parent org details as required
-    }
-  
-    if (this.parentOrgsMap[parentOrgCode]) {
-      this.onParentOrgChange(event, this.parentOrgsMap[parentOrgCode]);
-    }
+      });
   }
 
-  toggleParentOrgDetails(index: number) {
-    this.orgs[index].showParentOrgDetails = !this.orgs[index].showParentOrgDetails;
-  }
-
-  toggleParentOrgDetailsByCode(parentOrganizationCode: string) {
-    const orgIndex = this.orgs.findIndex(org => org['organizationCode'] === parentOrganizationCode);
-    if (orgIndex > -1) {
-      this.orgs[orgIndex].showParentOrgDetails = !this.orgs[orgIndex].showParentOrgDetails;
-    }
-  }
-  
-
-  getParentOrgDetails(parentOrganizationCode: string) {
-    const parentOrg = this.orgs.find(org => org['organizationCode'] === parentOrganizationCode);
-    return parentOrg ? `${parentOrg['organizationLevel']} - ${parentOrg['organizationCode']}` : 'Parent organization details not found';
-  }
-
-  viewOrgDetails(org: any) {
-    this.router.navigate(['org-details', org['organizationID']]);
-  }
-
-  onPageChange(pageNumber: number) {
-    this.updateDisplayedOrgs(pageNumber);
-  }
-
-  onPageSizeChange(event: any) {
-    this.pageSize = event.target.value;
-    this.updateDisplayedOrgs(1);
-  }
-
-  private updateDisplayedOrgs(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedOrganization = this.orgs.slice(startIndex, endIndex);
-  }
-
-  performOrganizationSearch(searchTerm: string) {
-    this.organizationSearchQuery = searchTerm;
-
-    if (!searchTerm) {
-      // If the search term is empty, reset the organizations
-      this.orgs = [];
-      this.buildParentOrgsMap();
-      this.updateDisplayedOrgs(1);
+  toggleNode(node: OrganizationNode): void {
+    if (this.treeControl.isExpanded(node)) {
+      this.treeControl.collapse(node);
     } else {
-      // Assuming you have an API endpoint to search organizations based on the entered text
-      this.orgService.searchOrgs(searchTerm).subscribe((filteredOrgs: any[]) => {
-        this.orgs = filteredOrgs.map(org => ({ ...org, showParentOrgDetails: false }));
-        console.log(this.orgs);
-        this.buildParentOrgsMap();
-        this.updateDisplayedOrgs(1);
-      });
+      this.treeControl.expand(node);
     }
   }
-  
-  expandParents(org: any) {
-    const parentCode = org['parentOrganizationCode'];
-  
-    // Expand the immediate parent if it exists
-    if (parentCode) {
-      const parentNode = this.treeControl.dataNodes.find((node) => node.data['organizationCode'] === parentCode);
-      if (parentNode && !this.treeControl.isExpanded(parentNode)) {
-        this.treeControl.expand(parentNode);
+
+  fetchChildNodes(node: OrganizationNode): void {
+    this.selectedNode = node;
+    const levelName = this.getLevelName(node.levelName);
+
+    if (!levelName) {
+      console.error('GridLevel not determined for the node:', node);
+      return;
+    }
+
+    if (!node.children || node.children.length === 0 || node.children) {
+      const params: OrganizationSearchSM = {
+        PageNumber: this.PageNumber,
+        PageSize: this.PageSize,
+        ParentCode: node.code,
+        ReqGridLevel: levelName
+      };
+
+      this.orgService.getOrganizationLevels(params)
+        .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+          if (response && response.itemList) {
+            this.totalCount = +response.totalCount;
+            const childNodes: OrganizationNode[] = this.createNodesFromResponse(response.itemList);
+            this.updateNodeChildren(node, childNodes);
+          } else {
+            node.isExpanded = !node.isExpanded;
+          }
+        });
+    } else {
+      node.isExpanded = !node.isExpanded;
+      if (!node.isExpanded) {
+        node.children = [];
       }
     }
-  
-    // Expand the current node
-    const currentNode = this.treeControl.dataNodes.find((node) => node.data['organizationCode'] === org['organizationCode']);
-    if (currentNode && !this.treeControl.isExpanded(currentNode)) {
-      this.treeControl.expand(currentNode);
+  }
+
+  fetchSubChild(childNode: OrganizationNode): void {
+    if (!childNode.children || childNode.children.length === 0) {
+      const levelName = this.getLevelName(childNode.levelName);
+
+      if (!levelName) {
+        console.error('Sub-GridLevel not determined for the node:', childNode);
+        return;
+      }
+
+      const subParams: OrganizationSearchSM = {
+        PageNumber: 1,
+        PageSize: 10,
+        ParentCode: childNode.code,
+        ReqGridLevel: levelName
+      };
+
+      this.orgService.getOrganizationLevels(subParams)
+        .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+          if (response && response.itemList) {
+            const subChildNodes: OrganizationNode[] = this.createNodesFromResponse(response.itemList);
+            this.updateNodeChildren(childNode, subChildNodes);
+          }
+        });
+    } else {
+      childNode.isExpanded = !childNode.isExpanded;
+      if (!childNode.isExpanded) {
+        childNode.children = [];
+      }
     }
-  
-    // Expand the immediate children
-    if (org['children'] && org['children'].length > 0) {
-      (org['children'] as any[]).forEach((child: any) => {
-        const childNode = this.treeControl.dataNodes.find((node) => node.data['organizationCode'] === child['organizationCode']);
-        if (childNode && !this.treeControl.isExpanded(childNode)) {
-          this.treeControl.expand(childNode);
+  }
+
+  private fetchLevelsAndUpdateDataSource(params: OrganizationSearchSM): void {
+    this.orgService.getOrganizationLevels(params)
+      .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+        if (response) {
+          this.organizationLevels = response.itemList;
+          this.totalOrganizationLevels = +response.totalCount;
+          this.displayedOrganizationLevels = this.organizationLevels;
+          this.updateDataSource(this.organizationLevels);
         }
       });
+  }
+
+  private updateDataSource(data: OrgDataModel[]): void {
+    const transformedData: OrganizationNode[] = data.map(org => ({
+      code: org.code,
+      description: org.description,
+      levelName: org.levelName,
+      children: []
+    }));
+    this.dataSource = new ArrayDataSource<OrganizationNode>(transformedData);
+  }
+
+  private getLevelName(level: string | undefined): string {
+    switch (level) {
+      case 'CONSOLIDATED':
+        return 'ROLLUP';
+      case 'ROLLUP':
+        return 'GPO';
+      case 'GPO':
+        return 'GROUP';
+      case 'GROUP':
+        return 'UNIT';
+      default:
+        return '';
     }
   }
-  
-  
-  
-  buildPathToNode(org: any, pathToNode: string[]) {
-    pathToNode.push(org['organizationCode']);
-    if (org['parentOrganizationCode']) {
-      const parent = this.orgs.find((o) => o['organizationCode'] === org['parentOrganizationCode']);
-      if (parent) {
-        this.buildPathToNode(parent, pathToNode);
-      }
-    }
+
+  private createNodesFromResponse(data: OrgDataModel[]): OrganizationNode[] {
+    return data.map(child => ({
+      code: child.code,
+      description: child.description,
+      levelName: child.levelName,
+      children: [],
+      isExpanded: false
+    }));
   }
-}  
-interface OrgNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-  data: any;
-  children?: OrgNode[];
+
+  private updateNodeChildren(node: OrganizationNode, children: OrganizationNode[]): void {
+    node.children = children;
+    node.isExpanded = true;
+  }
 }

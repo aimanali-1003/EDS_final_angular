@@ -1,7 +1,7 @@
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">Template
-      Management</h2>
+    <h2 class="title" style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif;">
+      Template Management</h2>
     <div class="form-outline search-box mb-4">
       <button mat-raised-button class="custom-button" (click)="createNewTemplate()">
         <span class="circle">+</span> Create Template
@@ -12,16 +12,15 @@
   <div style="display: flex; align-items: center;">
     <div style="flex: 1;">
       <app-search 
-      [placeholderText]="'Search Template by Name'"
-      [searchQuery]="templateSearchQuery"
-      (searchQueryChanged)="performTemplateSearch($event)">
-    </app-search>    </div>
+  [placeholderText]="'Search Template by Name'"
+  [searchQuery]="templateSearchQuery"
+  (searchQueryChanged)="performTemplateSearch($event)">
+</app-search>
+    </div>
     <div style="margin-bottom: 20px;">
       <app-client-filter (filterChanged)="applyTemplateFilter($event)"></app-client-filter>
     </div>
   </div>
-
-  
 
   <div class="table-container">
     <table class="client-table" style="font-family: 'Quicksand', sans-serif;">
@@ -35,13 +34,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let template of displayedTemplate" class="template-item">
+        <tr *ngFor="let template of templates" class="template-item">
           <td>{{ template.templateName }}</td> 
           <td class="created-info-cell">
-            <div class="created-at">{{ getMatchingCategoryInfo(template).categoryName }}</div>
+            <div class="created-at">{{ template.category?.categoryName }}</div>
             <div class="created-by">
               <span class="created-by-label">Code : </span>
-              <span class="created-by-cell">{{ getMatchingCategoryInfo(template).categoryCode }}</span>
+              <span class="created-by-cell">{{ template.category?.categoryCode }}</span>
             </div>
           </td> 
           <td >
@@ -51,18 +50,15 @@
               <span class="created-by-cell">{{ template.createdBy }}</span>
             </div>
           </td>
-
-          <td [style.color]="template.Active ? '#4cf0a1' : 'red'">
-            <ng-container *ngIf="template.active; else inactive"><span class="making-active-attractive">{{ 'Active'
-                }}</span></ng-container>
-            <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
+          <td [ngClass]="{ 'active': template.isActive, 'inactive': !template.isActive }">
+            {{ template.isActive ? 'Active' : 'Inactive' }}
           </td>
           <td class="action-cell">
 
-            <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewTemplate(template)">
+            <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewTemplate(template.templateId)">
               <mat-icon>visibility</mat-icon>
             </button>
-            <button mat-icon-button [style.color]="'#0091EA'" (click)="editTemplate(template)">
+            <button mat-icon-button [style.color]="'#0091EA'" (click)="editTemplate(template.templateId)">
               <mat-icon>edit</mat-icon>
             </button>
             <!-- <button mat-icon-button [style.color]="'#D84315'" (click)="deleteTemplate(template.templateID)">
@@ -73,14 +69,17 @@
       </tbody>
     </table>
 
-
-    <div *ngIf="displayedTemplate.length === 0" class="no-data-message">
+    <div *ngIf="templates.length === 0" class="no-data-message">
       No data found.
     </div>
-
   </div>
 
-  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="dataTemplates.length"
-    (pageChange)="onPageChange($event)"></app-pagination>
+  <mat-paginator
+  [length]="totalTemplates"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  (page)="onPageChange($event)"
+  #paginatorRef>
+</mat-paginator>
 
 </div>

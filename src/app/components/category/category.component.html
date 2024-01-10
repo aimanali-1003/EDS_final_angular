@@ -1,16 +1,16 @@
 <div class="clients">
   <div class="title-container" fxLayout="row" fxLayoutAlign="space-between center">
     <h2 class="title"
-      style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif; margin-top: 20px; margin-left: 10px; margin-bottom: 20px;">
+      style="font-size: 20.667px; font-weight: bold; font-family: 'Quicksand', sans-serif; margin-top: 20px; margin-left: 30px; margin-bottom: 20px;">
       Category Management
     </h2>
   </div>
 
-    <app-search 
+    <!-- <app-search 
     [placeholderText]="'Search Category by Name or Code'"
     [searchQuery]="categorySearchQuery"
     (searchQueryChanged)="performCategorySearch($event)">
-    </app-search>
+    </app-search> -->
 
   
     <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
@@ -23,20 +23,26 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let category of displayedCategory" class="client-item">
+        <tr *ngFor="let category of categories" class="client-item">
           <td>{{ category.categoryCode }}</td>
           <td>{{ category.categoryName }}</td>  
           <td class="action-cell">
-            <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="ViewCategory(category)">
+            <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="ViewCategory(category.categoryId)">
               <mat-icon>visibility</mat-icon>
             </button>  
           </td>
         </tr>
       </tbody>
     </table> 
-    <div *ngIf="displayedCategory.length === 0" class="no-data-message">
+    <div *ngIf="categories.length === 0" class="no-data-message">
       No data found.
     </div> 
-    <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="category.length"
-      (pageChange)="onPageChange($event)"></app-pagination>
+    <mat-paginator
+    [length]="totalCategories"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    (page)="onPageChange($event)"
+    #paginatorRef
+  >
+  </mat-paginator>
   </div>

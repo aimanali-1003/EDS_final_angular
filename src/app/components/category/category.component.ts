@@ -1,20 +1,30 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Router, ActivatedRoute } from '@angular/router'; 
+import { CategorySM } from 'src/app/model/CategoryModel';
+import { ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
+
+  @ViewChild('paginatorRef') paginator!: MatPaginator;
+
   showCategoryForm: boolean = false;
   category: any[] = [];
-  displayedCategory: any[] = [];  
+  displayedCategory: CategorySM[] = [];  
   categoryIdToEdit: string | null = null;
   categoryName: string = '';
   pageSize: number = 10; 
   categoryData: any;
   categorySearchQuery: string = '';
+  categories: CategorySM[] = [];
+  pageNumber: number = 1;
+  totalCategories = 0; 
+  categoryId!: number; 
 
   constructor(
     private categoryService: CategoryService, 
@@ -25,31 +35,43 @@ export class CategoryComponent implements OnInit {
     this.fetchCategories();   
   }
 
-  ViewCategory(category: any): void {
-    this.categoryData = category; 
-    this.router.navigate(['/viewCategory/' + category.categoryID+'/'+true]);
-  } 
-   
-  fetchCategories() {
-    this.categoryService.getCategory().subscribe((category: any[]) => {
-      this.category = category;
-      this.displayedCategory=category; 
-      this.updateDisplayedCategory(1);
-    });
-  } 
-
-  onPageChange(pageNumber: number) {
-    this.updateDisplayedCategory(pageNumber);
-  } 
-
-  performCategorySearch(query: string) {
-    if (query) {
-      this.displayedCategory = this.filterCategories(query);
-    } else { 
-      this.displayedCategory = this.category;
-    }
+  ViewCategory(categoryId: number): void {
+    this.categoryService.getCategoryById(categoryId).subscribe(
+      (response) => {
+        if (response.code === 200 && response.data) {
+          const category: CategorySM = response.data;
+          this.router.navigate(['/viewCategory/' + category.categoryId+'/'+true]);
+        } else {
+          console.error('No category found or unsuccessful response.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching client:', error);
+      }
+    );
   }
-  
+
+  fetchCategories(): void {
+
+    this.categoryService.getCategories({ pageSize: this.pageSize, pageNumber: this.pageNumber }).subscribe(
+      (response) => {
+        if (response.code === 200 && response.itemList) {
+          this.categories = response.itemList;
+          this.totalCategories = +response.totalCount;
+        }
+      },
+      (error) => {
+        console.error('Error fetching Categories:', error);
+      }
+    );
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.fetchCategories();
+  }
+
   filterCategories(query: string): any[] {
     return this.category.filter((category) =>
       category.categoryName.toLowerCase().includes(query.toLowerCase()) ||
@@ -62,18 +84,5 @@ export class CategoryComponent implements OnInit {
       return true;
     });
   }
-  
-  private updateDisplayedCategory(pageNumber: number) {
-    const startIndex = (pageNumber - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.displayedCategory = this.category
-    .slice(0)
-    .sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
-      return dateB - dateA; // Sort in descending order
-    })
-    .slice(startIndex, endIndex);
-  } 
 }
  

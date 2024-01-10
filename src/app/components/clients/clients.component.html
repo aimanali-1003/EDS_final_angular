@@ -10,14 +10,14 @@
   </div>
 
 
-  <div style="display: flex; align-items: center;">
+  <!-- <div style="display: flex; align-items: center;">
     <div style="flex: 1;">
       <app-search [placeholderText]="'Search Client by Name & Code'" (searchQueryChanged)="performClientSearch($event)" (filterChanged)="applyClientFilter($event)"></app-search>
     </div>
     <div style="margin-bottom: 20px;">
       <app-client-filter (filterChanged)="applyClientFilter($event)"></app-client-filter>
     </div>
-  </div>
+  </div> -->
   
 
   <table class="client-table" style="font-family:'Quicksand', sans-serif ;">
@@ -26,37 +26,27 @@
       <tr>
         <th>Client Code</th>
         <th>Client Name </th>
-        <!-- <th>Created At</th> -->
         <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of displayedClients" class="client-item">
-        <td>{{ client.clientCode }}</td>
+      <tr *ngFor="let client of clientss" class="client-item">
         <td>{{ client.clientName }}</td>
-
-        <!-- <td class="created-info-cell">
-          <div class="created-at">{{ client.createdAt | date:'medium' }}</div>
-          <div class="created-by">
-            <span class="created-by-label">Created By: </span>
-            <span class="created-by-cell">{{ client.createdBy }}</span>
-          </div>
-        </td>  -->
-        <td [style.color]="client.Active ? '#4cf0a1;' : 'red'">
-          <ng-container *ngIf="client.active; else inactive"><span class="making-active-attractive">{{ 'Active'
-              }}</span></ng-container>
-          <ng-template #inactive><span class="making-inactive-attractive">Inactive</span></ng-template>
+        <td>{{ client.clientCode }}</td>
+        <td [ngClass]="{ 'active': client.isActive, 'inactive': !client.isActive }">
+          {{ client.isActive ? 'Active' : 'Inactive' }}
         </td>
         <td class="action-cell">
-          <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewClient(client)">
+          <button mat-icon-button style="border: none; background-color: whitesmoke" (click)="viewClient(client.clientId)">
             <mat-icon>visibility</mat-icon>
           </button>
 
-          <button mat-icon-button [style.color]="'#0091EA'" (click)="openClientModalForEdit(client)">
+
+          <button mat-icon-button [style.color]="'#0091EA'" (click)="openClientModalForEdit(client.clientId)">
             <mat-icon>edit</mat-icon>
           </button>
-          <!-- <button mat-icon-button [style.color]="'#D84315'" (click)="deleteClient(client)">
+           <!-- <button mat-icon-button [style.color]="'#D84315'" (click)="deleteClient(client)">
             <mat-icon>delete</mat-icon>
           </button> -->
         </td>
@@ -64,10 +54,15 @@
     </tbody>
   </table>
 
-  <div *ngIf="displayedClients.length === 0" class="no-data-message">
+  <div *ngIf="clientss.length === 0" class="no-data-message">
     No data found.
   </div>
-
-  <app-pagination [pageSizeOptions]="[10, 25, 50, 100]" [pageSize]="pageSize" [length]="clients.length"
-    (pageChange)="onPageChange($event)"></app-pagination>
+  <mat-paginator
+  [length]="totalClients"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[10, 25, 50, 100]"
+  (page)="onPageChange($event)"
+  #paginatorRef
+>
+</mat-paginator>
 </div>
