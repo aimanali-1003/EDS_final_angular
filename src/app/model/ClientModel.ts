@@ -41,8 +41,7 @@ export interface ApiResponse {
     clientId: number = 0;
     organizationCode: string = ''
     organizationLevel: string = ''
-    description: string = ''
-    isActive: boolean = false
+    description: string = '' 
     
     constructor(data?: any) {
       if (data) {
@@ -51,8 +50,7 @@ export interface ApiResponse {
         this.organizationCode = data.organizationCode ?? '';
         this.organizationLevel = data.organizationLevel ?? '';
         this.description = data.description ?? '';
-
-        this.isActive = data.isActive ?? false;
+ 
       }
     }
   }
