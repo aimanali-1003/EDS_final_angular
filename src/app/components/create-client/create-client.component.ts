@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ClientService } from 'src/app/services/client.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,7 +11,8 @@ import { OrganizationSearchSM } from 'src/app/model/OrganizationSearch.model';
 import { ResponseViewModel } from 'src/app/model/ResponseViewModel';
 import { OrgDataModel } from 'src/app/model/OrgDataModel';
 import { edsClientOrgLevels } from 'src/app/model/ClientModel';
-import { FormBuilder } from '@angular/forms'; 
+import { FormBuilder } from '@angular/forms';
+import { timeout } from 'rxjs';
 
 enum OrganizationLVL {
   CONSOLIDATED = 'CONSOLIDATED',
@@ -73,6 +74,7 @@ export class CreateClientComponent implements OnInit {
   selectedOrgCode: string = '';
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private clientService: ClientService,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -97,8 +99,6 @@ export class CreateClientComponent implements OnInit {
 
     });
 
-    this.addFormRow();
-
     this.route.params.subscribe((params) => {
       this.clientId = +params['clientId'];
       this.isViewOnly = params['isViewOnly'];
@@ -107,25 +107,10 @@ export class CreateClientComponent implements OnInit {
         this.clientService.getClientById(this.clientId).subscribe(
           (response) => {
             if (response.code === 200 && response.data) {
-
-
               this.clientData = response.data;
-              // console.log(this.filteredOrganizationLevels)
-              // this.selectedOrganizationLevel = this.clientData.edsClientOrgLevels[0].organizationLevel;
-              // this.selectedOrgCode = this.clientData.edsClientOrgLevels[0].organizationCode;
-              // const selectedLevel = this.selectedOrganizationLevel;
-
-              // if (this.clientData?.edsClientOrgLevels) {
-              //   this.filteredOrganizationLevels = this.clientData.edsClientOrgLevels
-              //     .filter(level => level.organizationLevel === selectedLevel)
-              //     .map(level => ({ clientId:level.clientId, clientOrgLevelId:level.clientOrgLevelId, code: level.organizationCode, description: level.description }));
-              // }
-
-
 
               this.setDropdownOptions(this.clientData.edsClientOrgLevels);
-              console.log("Client fetched from DB",this.clientData)
-              this.logSelectedSecondDropdownValue();
+              console.log("Client fetched from DB", this.clientData)
             } else {
               console.error('No client found or unsuccessful response.');
             }
@@ -135,42 +120,44 @@ export class CreateClientComponent implements OnInit {
           }
         );
       }
+      else {
+        this.addFormRow();
+      }
     });
   }
 
   setDropdownOptions(orgLevels: edsClientOrgLevels[]): void {
-    this.formRows = orgLevels.map((org) => ({
-      selectedOrgLevel: org.organizationLevel,
-      selectedSecondDropdownValue: {
+    orgLevels.forEach((org) => {
+      const filteredOrgs = [{
         clientId: org.clientId,
         clientOrgLevelId: org.clientOrgLevelId,
         organizationCode: org.organizationCode,
         description: org.description,
-         organizationLevel: org.organizationLevel,
         parentCode: '',
-      } ,
-      filteredOrganizationLevels: [] as edsClientOrgLevels[],
-    }));
+        organizationLevel: org.organizationLevel
+      } as edsClientOrgLevels];
 
-    this.formRows.forEach((row) => {
-      var orgLevel = {
-        clientId: row.selectedSecondDropdownValue?.clientId,
-        clientOrgLevelId: row.selectedSecondDropdownValue?.clientOrgLevelId,
-        organizationCode: row.selectedSecondDropdownValue?.organizationCode,
-        description: row.selectedSecondDropdownValue?.description, 
+      const selectedSecondDropdownValue = {
+        clientId: org.clientId,
+        clientOrgLevelId: org.clientOrgLevelId,
+        organizationCode: org.organizationCode,
+        description: org.description,
+        organizationLevel: org.organizationLevel,
         parentCode: '',
-        organizationLevel:row.selectedSecondDropdownValue?.organizationLevel
-      } as edsClientOrgLevels;
-      row.filteredOrganizationLevels?.push(orgLevel);
-      console.log("org level", row.filteredOrganizationLevels);
+      };
+
+      this.formRows.push({
+        selectedOrgLevel: org.organizationLevel,
+        selectedSecondDropdownValue,
+        filteredOrganizationLevels: filteredOrgs,
+      });
     });
+
+    // Trigger change detection 
+    this.cdr.detectChanges();
   }
 
-  logSelectedSecondDropdownValue(): void {
-    this.formRows.forEach((row, index) => {
-      console.log(`Row ${index} - selectedSecondDropdownValue.description:`, row.selectedSecondDropdownValue?.description);
-    });
-  }
+
 
 
   searchOrganizationDescription(event: Event, index: number): void {
@@ -184,11 +171,17 @@ export class CreateClientComponent implements OnInit {
         .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
           if (response) {
             console.log(this.filteredOrganizationLevels);
-            this.formRows[index].filteredOrganizationLevels = response.itemList;
+            this.formRows[index].filteredOrganizationLevels = response.itemList.map((org) => ({
+              clientId: 0,
+              clientOrgLevelId: 0,
+              organizationCode: org.code,
+              description: org.description,
+              organizationLevel: org.levelName,
+              parentCode: '',
+            }) as edsClientOrgLevels);;
             this.searchParams.SearchText = "";
             //this.filteredOrganizationLevels = response.itemList;
             console.log('After Search filter');
-            console.log(this.filteredOrganizationLevels);
           }
         });
     } else {
@@ -196,26 +189,27 @@ export class CreateClientComponent implements OnInit {
     }
   }
 
-  // onOrgSelectChange(row: any, i:number) {
-  //   var selectedOrg = this.formRows[i].filteredOrganizationLevels?.find(x=>x.code === row.code)
-  //   var a = row.selectedSecondDropdownValue = selectedOrg;
-  // }
+  onOrgSelectChange(row: any, i: number) {
+    var selectedOrg = this.formRows[i].filteredOrganizationLevels?.find(x => x.organizationCode === row.code)
+    var a = row.selectedSecondDropdownValue = selectedOrg;
+  }
 
+  onSelectedOrgChange(n: any, i: number) {
+
+  }
   addFormRow() {
     if (!this.isViewOnly) {
       const newFormRow: FormRow = {
         selectedOrgLevel: ''
       };
-    
       this.formRows.push(newFormRow);
     }
   }
-  
+
 
   removeFormRow(index: number) {
-    if(!this.isViewOnly)
-    {
-      this.formRows.splice(index, 1); 
+    if (!this.isViewOnly) {
+      this.formRows.splice(index, 1);
     }
   }
 
@@ -227,40 +221,40 @@ export class CreateClientComponent implements OnInit {
 
   onSelectedOrganizationLevelChanged(selectedOrgLevel: string, rowIndex: number): void {
     this.fetchEntriesFromBackendd(selectedOrgLevel, rowIndex);
-    this.formRows[rowIndex].selectedOrgLevel = selectedOrgLevel;  
+    this.formRows[rowIndex].selectedOrgLevel = selectedOrgLevel;
   }
-  
+
 
 
   fetchEntriesFromBackendd(selectedValue: string, rowIndex: number): void {
     this.searchParams.ReqGridLevel = selectedValue.toUpperCase();
-  
+
     this.organizationService.getOrganizationLevels(this.searchParams)
       .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
-        if (response) { 
-            this.formRows[rowIndex].filteredOrganizationLevels = response.itemList.map((org) => ({
+        if (response) {
+          this.formRows[rowIndex].filteredOrganizationLevels = response.itemList.map((org) => ({
             clientId: 0,
             clientOrgLevelId: 0,
             organizationCode: org.code,
             description: org.description,
             organizationLevel: org.levelName,
             parentCode: '',
-          }) as edsClientOrgLevels); 
- 
-          const fetchedOrgData: OrgDataModel = response.itemList[0];  
+          }) as edsClientOrgLevels);
+
+          const fetchedOrgData: OrgDataModel = response.itemList[0];
           this.formRows[rowIndex].selectedSecondDropdownValue = {
             clientId: 0,
             clientOrgLevelId: 0,
             organizationCode: fetchedOrgData.code,
             description: fetchedOrgData.description,
-            organizationLevel:fetchedOrgData.levelName
+            organizationLevel: fetchedOrgData.levelName
           };
 
         }
-      }); 
+      });
   }
-  
-  
+
+
 
 
 
@@ -282,11 +276,37 @@ export class CreateClientComponent implements OnInit {
     this.organizationService.getOrganizationLevels(this.searchParams)
       .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
         if (response) {
-          this.formRows[index].filteredOrganizationLevels = response.itemList;
-        }
-      });
+          this.formRows[index].filteredOrganizationLevels = response.itemList.map((org) => ({
+            clientId: 0,
+            clientOrgLevelId: 0,
+            organizationCode: org.code,
+            description: org.description,
+            organizationLevel: org.levelName,
+            parentCode: '',
+          }) as edsClientOrgLevels);;
 
+
+          // const fetchedOrgData: OrgDataModel = response.itemList[0];
+
+          // this.formRows[index].selectedSecondDropdownValue = {
+          //   clientId: 0,
+          //   clientOrgLevelId: 0,
+          //   organizationCode: fetchedOrgData.code,
+          //   description: fetchedOrgData.description,
+          //   organizationLevel: fetchedOrgData.levelName
+          // };
+        }
+
+
+      });
   }
+
+  onSelection(org: any) {
+    timeout(3000)
+    console.error("bcbecibrc")
+    console.log(org);
+  }
+
   clearSearch(inputField: HTMLInputElement, index: number): void {
     inputField.value = '';
     this.searchParams.SearchText = "";
@@ -315,7 +335,7 @@ export class CreateClientComponent implements OnInit {
           organizationCode: row.selectedSecondDropdownValue.organizationCode,
           organizationLevel: row.selectedOrgLevel,
           description: row.selectedSecondDropdownValue.description
-        }; 
+        };
 
         this.clientData.edsClientOrgLevels.push(updatedOrgLevel);
       });

@@ -49,6 +49,7 @@
       </div>
 
       <div *ngFor="let row of formRows; let i = index" class="form-row">
+        
         <mat-form-field class="form-item-dropdown">
           <mat-label>Organization Level</mat-label>
           <mat-select [(ngModel)]="row.selectedOrgLevel" name="selectedOrgLevel{{i}}"
@@ -58,11 +59,12 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+ 
 
         <mat-form-field class="form-item-dropdown">
-          <mat-label>Organization Description</mat-label>
-          <mat-select [disabled]="isViewOnly" [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}"
-           (opened)="onDropdownOpen(i)">
+          <mat-label>Organization Description</mat-label> 
+          <mat-select  [disabled]="isViewOnly" [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}" 
+           (opened)="onDropdownOpen(i)" >
 
             <!-- (ngModelChange)="onOrgSelectChange($event,i)"> -->
             <div class="search-container">
@@ -72,10 +74,12 @@
               <button mat-icon-button (click)="clearSearch(searchInput, i)">
                 <mat-icon>close</mat-icon>
               </button>
-            </div>
+            </div> 
+
             <mat-option *ngFor="let level of row.filteredOrganizationLevels" [value]="level">
               {{ level.organizationCode }} - {{ level.description }}
             </mat-option>
+            
           </mat-select>
         </mat-form-field>
 

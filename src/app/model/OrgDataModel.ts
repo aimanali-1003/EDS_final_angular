@@ -74,6 +74,6 @@ export interface ApiResponse {
     code: string;
     parentCode: string;
     description: string;
-    levelName: string;
+    levelName: string; 
     // Other properties...
   }
