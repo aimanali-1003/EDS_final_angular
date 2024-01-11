@@ -8,7 +8,6 @@ export interface ApiResponse {
 
   
   export interface clientDataModel {
-    id: number;
     name: string;
     code: string;
     organizationId: string;
@@ -39,7 +38,7 @@ export interface ApiResponse {
   export class edsClientOrgLevels {
     clientOrgLevelId: number = 0;
     clientId: number = 0;
-    organizationCode: string = ''
+    organizationCode: string = '' 
     organizationLevel: string = ''
     description: string = '' 
     

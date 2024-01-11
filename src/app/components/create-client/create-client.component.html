@@ -63,7 +63,7 @@
 
         <mat-form-field class="form-item-dropdown">
           <mat-label>Organization Description</mat-label> 
-          <mat-select  [disabled]="isViewOnly" [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}" 
+          <mat-select  [disabled]="isViewOnly" [(ngModel)]="row.selectedSecondDropdownValue.organizationCode" name="selectedSecondDropdownValue{{i}}" 
            (opened)="onDropdownOpen(i)" >
 
             <!-- (ngModelChange)="onOrgSelectChange($event,i)"> -->
@@ -76,7 +76,7 @@
               </button>
             </div> 
 
-            <mat-option *ngFor="let level of row.filteredOrganizationLevels" [value]="level">
+            <mat-option *ngFor="let level of row.filteredOrganizationLevels" [value]="level.organizationCode">
               {{ level.organizationCode }} - {{ level.description }}
             </mat-option>
             
@@ -86,7 +86,7 @@
         <!-- <mat-form-field class="form-item-dropdown">
     <mat-label>Organization Description</mat-label>
     <mat-select [(ngModel)]="row.selectedSecondDropdownValue" name="selectedSecondDropdownValue{{i}}" [disabled]="isViewOnly">
-      <!-- <mat-option [value]="row.selectedSecondDropdownValue">
+       <mat-option [value]="row.selectedSecondDropdownValue">
        {{  row.selectedSecondDropdownValue?.description }}
       </mat-option> 
       <mat-option *ngFor="let level of row.filteredOrganizationLevels; trackBy: trackByFunction" [value]="level">
