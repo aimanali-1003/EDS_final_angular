@@ -160,34 +160,29 @@ export class CreateClientComponent implements OnInit {
 
 
 
-  searchOrganizationDescription(event: Event, index: number): void {
-    const searchValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-
-    if (searchValue.length >= 3) {
-      this.searchParams.ReqGridLevel = this.formRows[index].selectedOrgLevel.toUpperCase();
-      this.searchParams.SearchText = searchValue;
-
-      this.organizationService.getOrganizationLevels(this.searchParams)
-        .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
-          if (response) {
-            console.log(this.filteredOrganizationLevels);
-            this.formRows[index].filteredOrganizationLevels = response.itemList.map((org) => ({
-              clientId: 0,
-              clientOrgLevelId: 0,
-              organizationCode: org.code,
-              description: org.description,
-              organizationLevel: org.levelName,
-              parentCode: '',
-            }) as edsClientOrgLevels);;
-            this.searchParams.SearchText = "";
-            //this.filteredOrganizationLevels = response.itemList;
-            console.log('After Search filter');
-          }
-        });
-    } else {
-      //this.filteredOrganizationLevels = [];
-    }
+  searchOrganizationDescription(event: string, index: number): void {
+    const searchValue = (event);
+  
+    this.searchParams.ReqGridLevel = this.formRows[index].selectedOrgLevel.toUpperCase();
+    this.searchParams.SearchText = searchValue;
+  
+    this.organizationService.getOrganizationLevels(this.searchParams)
+      .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
+        if (response) {
+          this.formRows[index].filteredOrganizationLevels = response.itemList.map((org) => ({
+            clientId: 0,
+            clientOrgLevelId: 0,
+            organizationCode: org.code,
+            description: org.description,
+            organizationLevel: org.levelName,
+            parentCode: '',
+          }) as edsClientOrgLevels);
+  
+          console.log('After Search filter');
+        }
+      });
   }
+  
 
   onOrgSelectChange(row: any, i: number) {
     var selectedOrg = this.formRows[i].filteredOrganizationLevels?.find(x => x.organizationCode === row.code)
@@ -275,13 +270,7 @@ export class CreateClientComponent implements OnInit {
 
 
       });
-  }
-
-  onSelection(org: any) {
-    timeout(3000)
-    console.error("bcbecibrc")
-    console.log(org);
-  }
+  } 
 
   clearSearch(inputField: HTMLInputElement, index: number): void {
     inputField.value = '';
@@ -291,8 +280,14 @@ export class CreateClientComponent implements OnInit {
     this.organizationService.getOrganizationLevels(this.searchParams)
       .subscribe((response: ResponseViewModel<OrgDataModel[]>) => {
         if (response) {
-          this.formRows[index].filteredOrganizationLevels = response.itemList;
-        }
+          this.formRows[index].filteredOrganizationLevels = response.itemList.map((org) => ({
+            clientId: 0,
+            clientOrgLevelId: 0,
+            organizationCode: org.code,
+            description: org.description,
+            organizationLevel: org.levelName,
+            parentCode: '',
+          }) as edsClientOrgLevels);        }
       });
   }
 

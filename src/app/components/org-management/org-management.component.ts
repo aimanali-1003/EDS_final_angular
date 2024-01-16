@@ -204,8 +204,11 @@ export class OrgManagementComponent implements OnInit {
           this.totalOrganizationLevels = +response.totalCount;
           this.displayedOrganizationLevels = this.organizationLevels;
           this.updateDataSource(this.organizationLevels);
+          console.log("response",response.itemList)
         }
       });
+       
+      console.log("params", params);
   }
 
   private updateDataSource(data: OrgDataModel[]): void {
