@@ -1,0 +1,33 @@
+<div>
+    <h2>{{ clientData.clientName }}</h2> 
+    <mat-form-field class="form-item">
+        <input matInput [disabled]="true" placeholder="Client Code" [(ngModel)]="clientData.clientCode"
+            name="clientCode">
+    </mat-form-field>  
+    <div *ngIf="clientData.edsClientOrgLevels && clientData.edsClientOrgLevels.length > 0">
+        <h3>Client Organization Levels:</h3>
+        <ul class="org-list">
+            <li *ngFor="let orgLevel of clientData.edsClientOrgLevels">
+                <mat-form-field class="form-item">
+                    <input matInput [disabled]="true" placeholder="Organization Level"
+                        [(ngModel)]="orgLevel.organizationLevel" name="organizationLevel">
+                </mat-form-field>
+
+                <mat-form-field class="form-item">
+                    <input matInput [disabled]="true" placeholder="Organization Code"
+                        [(ngModel)]="orgLevel.organizationCode" name="organizationCode">
+                </mat-form-field>
+
+                <mat-form-field class="form-item">
+                    <input matInput [disabled]="true" placeholder="Description" [(ngModel)]="orgLevel.description"
+                        name="description">
+                </mat-form-field>
+            </li>
+        </ul>
+    </div>
+    <div class="button-container">
+        <button mat-button class="luxury-modal-button-cancel" (click)="closeDialog()">
+            <span class="icon">&#10006;</span> Cancel
+        </button>
+    </div> 
+</div>

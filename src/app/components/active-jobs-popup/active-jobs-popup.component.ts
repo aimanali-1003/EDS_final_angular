@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ActiveJobsPopupComponent implements OnInit {
   activeJobs: any[] = [];
-  displayedColumns: string[] = ['jobType', 'jobID', 'startTime', 'maxRecordCountAlarm','minRecordCountAlarm', 'createdBy']; // Add more column names as needed
+  displayedColumns: string[] = ['jobType', 'jobID', 'startTime', 'maxRecordCountAlarm','minRecordCountAlarm', 'createdBy'];  
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { activeJobs: any[] },
@@ -19,8 +19,7 @@ export class ActiveJobsPopupComponent implements OnInit {
     this.activeJobs = data.activeJobs;
   }
 
-  ngOnInit(): void {
-    // Additional initialization logic if needed
+  ngOnInit(): void { 
   }
 
   closeDialog(): void {

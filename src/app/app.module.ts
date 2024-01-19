@@ -58,6 +58,7 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ClientInfoPopupComponent } from './components/client-info-popup/client-info-popup.component';
 
 
 @NgModule({
@@ -77,7 +78,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CreateJobComponent,
     CreateClientComponent, 
     SearchComponent,   
-    OrgDetailsComponent, ViewCategoryComponent, ActiveJobsPopupComponent, 
+    OrgDetailsComponent, ViewCategoryComponent, ActiveJobsPopupComponent, ClientInfoPopupComponent, 
     
   ],
   imports: [

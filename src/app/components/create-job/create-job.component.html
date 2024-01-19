@@ -29,8 +29,7 @@
           <div class="form-item">
             <mat-form-field class="full-width">
               <mat-label>Client Name</mat-label>
-              <mat-select [disabled]="isViewOnly" placeholder="Select Client" [(ngModel)]="jobData.client.clientId"
-                name="TemplateName" required>
+              <mat-select [disabled]="isViewOnly" placeholder="Select Client" [(ngModel)]="jobData.client.clientId" name="TemplateName" required (click)="showClientInfoDialog()">
                 <mat-option *ngFor="let client of clients" [value]="client.clientId">
                   {{ client.clientName }}
                 </mat-option>

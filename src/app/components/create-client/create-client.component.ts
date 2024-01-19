@@ -242,8 +242,7 @@ export class CreateClientComponent implements OnInit {
             organizationCode: fetchedOrgData.code,
             description: fetchedOrgData.description,
             organizationLevel: fetchedOrgData.levelName
-          };
-
+          }; 
         }
       });
   }
@@ -264,11 +263,8 @@ export class CreateClientComponent implements OnInit {
             description: org.description,
             organizationLevel: org.levelName,
             parentCode: '',
-          }) as edsClientOrgLevels);
-
-        }
-
-
+          }) as edsClientOrgLevels); 
+        } 
       });
   } 
 

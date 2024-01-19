@@ -7,7 +7,9 @@ import { ClientService } from 'src/app/services/client.service';
 import { DataService } from 'src/app/services/data.service';
 import { ClientVM } from 'src/app/model/ClientModel';
 import { FilterModel } from 'src/app/model/MasterDataModel';
+import { MatDialog } from '@angular/material/dialog';
 import { TemplateVM } from 'src/app/model/DataTemplateModel';
+import { ClientInfoPopupComponent } from '../client-info-popup/client-info-popup.component';
 
 @Component({
   selector: 'app-create-job',
@@ -54,7 +56,7 @@ export class CreateJobComponent implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     private clientService: ClientService,
-    
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -106,7 +108,15 @@ export class CreateJobComponent implements OnInit {
     });
   }
   
-
+  showClientInfoDialog(): void { 
+    const dialogRef = this.dialog.open(ClientInfoPopupComponent, {
+      width: '700px', 
+      data: { client: this.clients.find(c => c.clientId === this.jobData.client.clientId) }
+    }); 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
   fetchTemplates(): void {
     const params = {
