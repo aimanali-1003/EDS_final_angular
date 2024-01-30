@@ -244,7 +244,13 @@ export class CreateClientComponent implements OnInit {
             organizationLevel: fetchedOrgData.levelName
           }; 
         }
-      });
+
+      }
+      );
+  }
+
+  orgLevelSelected(){ 
+    this.searchParams.SearchText = "";
   }
 
 

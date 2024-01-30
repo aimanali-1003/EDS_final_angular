@@ -108,7 +108,7 @@ export class CreateJobComponent implements OnInit {
     });
   }
   
-  showClientInfoDialog(): void { 
+  showClientInfoDialog(): void {  
     const dialogRef = this.dialog.open(ClientInfoPopupComponent, {
       width: '700px', 
       data: { client: this.clients.find(c => c.clientId === this.jobData.client.clientId) }

@@ -13,21 +13,16 @@
                         [(ngModel)]="orgLevel.organizationLevel" name="organizationLevel">
                 </mat-form-field>
 
-                <mat-form-field class="form-item">
-                    <input matInput [disabled]="true" placeholder="Organization Code"
-                        [(ngModel)]="orgLevel.organizationCode" name="organizationCode">
-                </mat-form-field>
-
-                <mat-form-field class="form-item">
-                    <input matInput [disabled]="true" placeholder="Description" [(ngModel)]="orgLevel.description"
-                        name="description">
+                <mat-form-field class="combined-field">
+                    <input matInput [disabled]="true" placeholder="Organization"
+                        [value]="orgLevel.organizationCode + ' - ' + orgLevel.description">
                 </mat-form-field>
             </li>
         </ul>
     </div>
     <div class="button-container">
         <button mat-button class="luxury-modal-button-cancel" (click)="closeDialog()">
-            <span class="icon">&#10006;</span> Cancel
+            <span class="icon">&#10006;</span> Close
         </button>
     </div> 
 </div>
